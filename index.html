@@ -263,6 +263,9 @@
         .ia-status.offline {
             color: #ef4444;
         }
+        .ia-status.reconnecting {
+            color: #f59e0b;
+        }
         .typing::after {
             content: '...';
             animation: dots 1.5s steps(4, end) infinite;
@@ -352,38 +355,80 @@
     };
     
     let iaLocalActiva = false;
+    let reconnectInterval = null;
+    let ultimoStatusOk = false;
     
-    // Verificar conexión con el teléfono
+    // ============================================
+    // RECONEXIÓN AUTOMÁTICA AGRESIVA (cada 10 seg)
+    // ============================================
     async function verificarIA() {
         try {
-            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            
+            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, {
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            
             const data = await response.json();
-            iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
+            const nuevaActiva = (data.status === 'running' && data.ai?.isEnabled === true);
+            
             const statusDiv = document.getElementById('iaStatus');
-            if (iaLocalActiva) {
+            
+            if (nuevaActiva) {
+                iaLocalActiva = true;
+                ultimoStatusOk = true;
                 statusDiv.innerHTML = '✅ IA Local conectada · TinyLlama activo';
                 statusDiv.className = 'ia-status online';
+                console.log('🌙 Moon - IA Local CONECTADA');
             } else {
+                iaLocalActiva = false;
                 statusDiv.innerHTML = '⚠️ IA Local no disponible · Usando análisis automático';
                 statusDiv.className = 'ia-status offline';
+                console.log('🌙 Moon - IA Local no disponible');
             }
-            console.log('🌙 Moon - IA Local activa:', iaLocalActiva);
             return iaLocalActiva;
         } catch (error) {
             iaLocalActiva = false;
-            document.getElementById('iaStatus').innerHTML = '❌ No se pudo conectar al teléfono · Verifica AI Phone Server';
-            document.getElementById('iaStatus').className = 'ia-status offline';
-            console.log('🌙 Error conexión Moon:', error);
+            const statusDiv = document.getElementById('iaStatus');
+            statusDiv.innerHTML = '🔄 Intentando reconectar con IA local... (app puede estar caída)';
+            statusDiv.className = 'ia-status reconnecting';
+            console.log('🌙 Error conexión Moon - reintentando:', error.message);
             return false;
         }
     }
     
-    // Preguntar a la IA local sobre criptomonedas
+    // Reconexión automática cada 10 segundos (agresiva)
+    function iniciarReconexionIA() {
+        if (reconnectInterval) clearInterval(reconnectInterval);
+        
+        // Verificar inmediatamente
+        verificarIA();
+        
+        // Luego cada 10 segundos
+        reconnectInterval = setInterval(async () => {
+            const estabaActiva = iaLocalActiva;
+            await verificarIA();
+            
+            // Si acabamos de reconectar y antes no había IA, forzar actualización del análisis
+            if (!estabaActiva && iaLocalActiva && window.tokenDataActual) {
+                console.log('🌙 IA reconectada - actualizando análisis...');
+                const score = window.scoreActual || 50;
+                await mostrarAnalisis(window.tokenDataActual, score);
+            }
+        }, 10000);
+    }
+    
+    // Preguntar a la IA local sobre criptomonedas (con timeout)
     async function predecirCriptoConIA(moneda, precio, volumen, score) {
         if (!iaLocalActiva) return null;
         
         try {
             const prompt = `Eres un analista de criptomonedas. Analiza ${moneda} a ${precio} USD con volumen $${volumen}M y score ${score}/100. Da una predicción corta (COMPRA/VENTA/ESPERAR) y un consejo útil. Respuesta en español, máximo 2 oraciones:`;
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
             
             const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                 method: 'POST',
@@ -393,8 +438,10 @@
                     model: IA_CONFIG.modelo,
                     maxTokens: 150,
                     temperature: 0.7
-                })
+                }),
+                signal: controller.signal
             });
+            clearTimeout(timeoutId);
             
             if (!response.ok) return null;
             const data = await response.json();
@@ -406,11 +453,13 @@
     }
     
     // ============================================
-    // FUNCIONES ORIGINALES DE MOON (sin modificar)
+    // FUNCIONES ORIGINALES DE MOON
     // ============================================
     let currentToken = "POPCAT";
     let autoRefreshInterval;
     let isRefreshing = false;
+    let window.tokenDataActual = null;
+    let window.scoreActual = 50;
 
     async function fetchTokenData(tokenSymbol) {
         try {
@@ -519,6 +568,10 @@
     // Función para mostrar análisis con IA local o automático
     async function mostrarAnalisis(tokenData, score) {
         const sentimentSpan = document.getElementById('sentimentText');
+        
+        // Guardar datos actuales para reconexión
+        window.tokenDataActual = tokenData;
+        window.scoreActual = score;
         
         // Análisis base (siempre presente)
         let baseText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
@@ -633,8 +686,8 @@
         }
     });
     
-    // Inicializar: verificar IA y cargar datos
-    verificarIA();
+    // Inicializar: reconexión agresiva + datos
+    iniciarReconexionIA();
     updatePrediction("POPCAT");
     startAutoRefresh();
 </script>
