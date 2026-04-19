@@ -31,12 +31,14 @@
         .ia-status { font-size: 0.6rem; text-align: center; margin-top: 0.5rem; padding: 0.3rem; border-radius: 1rem; background: #1e293b; }
         .ia-status.online { color: #10b981; }
         .ia-status.offline { color: #ef4444; }
+        .ia-status.loading { color: #f59e0b; }
         .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
         .typing::after { content: '...'; animation: dots 1.5s steps(4,end) infinite; }
         @keyframes dots { 0%,20%{content:'';}40%{content:'.';}60%{content:'..';}80%,100%{content:'...';} }
         .success { color: #10b981; }
         .warning { color: #f59e0b; }
+        .retry-btn { background: #3b82f6; border: none; color: white; padding: 0.3rem 0.8rem; border-radius: 60px; font-size: 0.7rem; cursor: pointer; margin-left: 0.5rem; }
     </style>
 </head>
 <body>
@@ -85,48 +87,87 @@
 <script>
     const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005' };
     let iaLocalActiva = false;
+    let iaInicializando = true;
     let currentToken = "POPCAT";
     let autoRefreshInterval;
     let isRefreshing = false;
+    let reintentosIA = 0;
+    let warmupRealizado = false;
 
-    // Verificar IA
-    async function verificarIA() {
+    // Calentar la IA (hacer una petición ligera al inicio)
+    async function warmupIA() {
+        if (warmupRealizado) return;
+        warmupRealizado = true;
+        
+        try {
+            console.log('🌙 Calentando IA...');
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 5000);
+            
+            await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: "Hola" }),
+                signal: controller.signal
+            }).catch(() => {});
+            
+            clearTimeout(timeout);
+            console.log('🌙 IA calentada');
+        } catch(e) {}
+    }
+
+    // Verificar IA con reintentos automáticos
+    async function verificarIA(reintentar = true) {
         try {
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 2000);
+            const timeout = setTimeout(() => controller.abort(), 3000);
             const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, { signal: controller.signal });
             clearTimeout(timeout);
+            
             const data = await response.json();
             iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
+            iaInicializando = false;
+            reintentosIA = 0;
+            
             const statusDiv = document.getElementById('iaStatus');
             if (iaLocalActiva) {
                 statusDiv.innerHTML = '✅ IA Local conectada · TinyLlama activo';
                 statusDiv.className = 'ia-status online';
+                // Calentar IA silenciosamente
+                warmupIA();
             } else {
                 statusDiv.innerHTML = '⚠️ IA no disponible · usando análisis automático';
                 statusDiv.className = 'ia-status offline';
             }
             return iaLocalActiva;
         } catch (error) {
-            iaLocalActiva = false;
-            document.getElementById('iaStatus').innerHTML = '⚠️ IA no conectada · análisis automático';
-            document.getElementById('iaStatus').className = 'ia-status offline';
-            return false;
+            if (reintentar && reintentosIA < 5) {
+                reintentosIA++;
+                document.getElementById('iaStatus').innerHTML = `🔄 Iniciando IA... (intento ${reintentosIA}/5)`;
+                document.getElementById('iaStatus').className = 'ia-status loading';
+                await new Promise(r => setTimeout(r, 2000));
+                return verificarIA(true);
+            } else {
+                iaLocalActiva = false;
+                iaInicializando = false;
+                document.getElementById('iaStatus').innerHTML = '⚠️ IA no conectada · análisis automático';
+                document.getElementById('iaStatus').className = 'ia-status offline';
+                return false;
+            }
         }
     }
 
-    // Preguntar a TinyLlama - FORMATO CORREGIDO
-    async function preguntarIA(moneda, precio, volumen, score) {
-        if (!iaLocalActiva) return null;
+    // Preguntar a TinyLlama con reintentos
+    async function preguntarIA(moneda, precio, volumen, score, intento = 1) {
+        if (!iaLocalActiva && !iaInicializando) return null;
         
         try {
-            // Formato correcto para AI Phone Server
             const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Predicción corta (COMPRA/VENTA/ESPERAR):`;
             
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 10000);
+            const timeout = setTimeout(() => controller.abort(), 12000);
             
-            // INTENTO 1: Formato con "text"
+            // Probar diferentes formatos
             let response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -134,7 +175,6 @@
                 signal: controller.signal
             });
             
-            // INTENTO 2: Si falla, probar con "prompt"
             if (response.status === 400) {
                 response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                     method: 'POST',
@@ -147,7 +187,10 @@
             clearTimeout(timeout);
             
             if (!response.ok) {
-                console.log('Error IA:', response.status);
+                if (intento < 2) {
+                    await new Promise(r => setTimeout(r, 1000));
+                    return preguntarIA(moneda, precio, volumen, score, intento + 1);
+                }
                 return null;
             }
             
@@ -155,7 +198,10 @@
             return data.response || data.text || data.result || null;
             
         } catch (error) {
-            console.log('IA error:', error);
+            if (intento < 2) {
+                await new Promise(r => setTimeout(r, 1500));
+                return preguntarIA(moneda, precio, volumen, score, intento + 1);
+            }
             return null;
         }
     }
@@ -221,19 +267,25 @@
         else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado<br>";
         else baseText += "⚠️ Volumen bajo - precaución<br>";
         
+        // Esperar a que la IA termine de inicializar (máx 5 seg)
+        if (iaInicializando) {
+            sentimentSpan.innerHTML = baseText + '<span class="warning">🔄 Inicializando TinyLlama... (5-10 segundos)</span>';
+            return;
+        }
+        
         if (iaLocalActiva) {
-            sentimentSpan.innerHTML = '<span class="typing">🧠 Consultando TinyLlama en tu teléfono...</span>';
+            sentimentSpan.innerHTML = '<span class="typing">🧠 TinyLlama analizando en tu teléfono...</span>';
             const precio = tokenData.price.toFixed(6);
             const volumen = (tokenData.volume24h/1000000).toFixed(2);
             const respuestaIA = await preguntarIA(tokenData.symbol, precio, volumen, score);
             
             if (respuestaIA && respuestaIA.length > 0) {
-                sentimentSpan.innerHTML = baseText + `🔥 <strong class="success">TinyLlama dice:</strong> ${respuestaIA}`;
+                sentimentSpan.innerHTML = baseText + `🔥 <strong class="success">TinyLlama:</strong> ${respuestaIA}`;
             } else {
                 let fallback = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada progresiva" : 
                               (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo - monitorear volumen" : 
                               "⏳ RECOMENDACIÓN: Esperar confirmación de tendencia");
-                sentimentSpan.innerHTML = baseText + `<span class="warning">⚠️ IA no respondió (timeout)</span><br>${fallback}`;
+                sentimentSpan.innerHTML = baseText + `<span class="warning">⏳ TinyLlama está iniciando (puede tardar 10-15 segundos)</span><br>${fallback}`;
             }
         } else {
             let recomendacion = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada" : 
@@ -254,7 +306,7 @@
             const tokenData = await fetchTokenData(tokenToSearch);
             if (!tokenData) {
                 document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
-                document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado en DexScreener`;
+                document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado`;
                 isRefreshing = false;
                 return;
             }
@@ -276,21 +328,36 @@
             
         } catch (error) {
             console.error('Error:', error);
-            document.getElementById('tokenSymbol').innerHTML = '❌ Error de conexión';
+            document.getElementById('tokenSymbol').innerHTML = '❌ Error';
         }
         isRefreshing = false;
     }
 
-    // Inicializar
-    verificarIA();
-    updatePrediction("POPCAT");
-    autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
+    // Inicializar con manejo de espera
+    async function iniciar() {
+        // Mostrar mensaje de carga inicial
+        document.getElementById('iaStatus').innerHTML = '🔄 Iniciando TinyLlama en tu teléfono... (10-15 segundos)';
+        document.getElementById('iaStatus').className = 'ia-status loading';
+        
+        // Verificar IA (con reintentos)
+        await verificarIA(true);
+        
+        // Cargar datos
+        await updatePrediction("POPCAT");
+        
+        // Auto-refresh
+        autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
+    }
     
+    // Eventos
     document.getElementById('refreshBtn').onclick = () => updatePrediction();
     document.getElementById('searchBtn').onclick = () => {
         const val = document.getElementById('searchInput').value.trim().toUpperCase();
         if (val) updatePrediction(val);
     };
+    
+    // Iniciar
+    iniciar();
 </script>
 </body>
 </html>
