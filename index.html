@@ -2,465 +2,144 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="theme-color" content="#0a0f1e">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>NextMoon AI - Predictor Cripto con IA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NextMoon AI - Predictor Cripto</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
-            min-height: 100vh;
-            padding: 1rem;
-            color: #eef2ff;
-        }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        .badge {
-            display: inline-block;
-            background: rgba(59, 130, 246, 0.2);
-            border-radius: 100px;
-            padding: 0.3rem 1rem;
-            font-size: 0.7rem;
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            margin-bottom: 0.5rem;
-        }
-        h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #fff, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .search-section {
-            margin-bottom: 1rem;
-        }
-        .search-box {
-            display: flex;
-            gap: 0.5rem;
-            background: #1e293b;
-            border-radius: 3rem;
-            padding: 0.3rem;
-            border: 1px solid #3b82f640;
-        }
-        .search-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 0.7rem 1rem;
-            color: white;
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .search-input::placeholder {
-            color: #64748b;
-        }
-        .search-btn {
-            background: #3b82f6;
-            border: none;
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .card {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
-            backdrop-filter: blur(16px);
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            border: 1px solid rgba(96, 165, 250, 0.3);
-        }
-        .card-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #60a5fa;
-            margin-bottom: 1rem;
-        }
-        .main-token {
-            text-align: center;
-            padding: 0.5rem;
-        }
-        .token-symbol {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .token-price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 0.5rem 0;
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.6rem;
-            margin: 1rem 0;
-        }
-        .metric-item {
-            background: #0f172a;
-            border-radius: 0.8rem;
-            padding: 0.6rem;
-            text-align: center;
-        }
-        .metric-label {
-            font-size: 0.6rem;
-            color: #94a3b8;
-        }
-        .metric-value {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #60a5fa;
-        }
-        .whale-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .whale-item {
-            background: #0f172a;
-            border-radius: 0.8rem;
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            border-left: 3px solid #f97316;
-        }
-        .link-buttons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-        .crypto-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            background: rgba(0,0,0,0.4);
-            padding: 0.4rem 0.8rem;
-            border-radius: 60px;
-            text-decoration: none;
-            color: white;
-            font-size: 0.7rem;
-            transition: all 0.2s;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .crypto-link:hover {
-            transform: translateY(-2px);
-            background: #3b82f6;
-        }
-        button {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            border: none;
-            color: white;
-            font-weight: bold;
-            padding: 0.8rem;
-            border-radius: 60px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            margin-top: 1rem;
-        }
-        .spinner {
-            width: 25px;
-            height: 25px;
-            border: 3px solid #1e293b;
-            border-top-color: #60a5fa;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .sentiment-box {
-            background: #0f172a;
-            border-radius: 0.8rem;
-            padding: 0.8rem;
-            font-size: 0.7rem;
-            line-height: 1.5;
-            border-left: 3px solid #8b5cf6;
-        }
-        .ad-single {
-            margin: 1rem 0;
-            text-align: center;
-            background: rgba(30, 41, 59, 0.5);
-            padding: 0.8rem;
-            border-radius: 1rem;
-        }
-        .ad-label {
-            font-size: 0.55rem;
-            color: #64748b;
-            margin-bottom: 0.5rem;
-        }
-        footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding: 1rem;
-            font-size: 0.6rem;
-            color: #475569;
-        }
-        .auto-update {
-            font-size: 0.6rem;
-            color: #10b981;
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-        .smartlink-btn {
-            display: inline-block;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 60px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: 0.3s;
-            margin: 10px 0;
-        }
-        .smartlink-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
-        }
-        .ia-status {
-            font-size: 0.6rem;
-            text-align: center;
-            margin-top: 0.5rem;
-            padding: 0.3rem;
-            border-radius: 1rem;
-            background: #1e293b;
-        }
-        .ia-status.online {
-            color: #10b981;
-        }
-        .ia-status.offline {
-            color: #ef4444;
-        }
-        .ia-status.reconnecting {
-            color: #f59e0b;
-        }
-        .typing::after {
-            content: '...';
-            animation: dots 1.5s steps(4, end) infinite;
-        }
-        @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
+        body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 1.5rem; }
+        h1 { font-size: 1.8rem; background: linear-gradient(135deg, #fff, #60a5fa, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .badge { display: inline-block; background: rgba(59,130,246,0.2); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.7rem; margin-bottom: 0.5rem; }
+        .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
+        .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; }
+        .search-btn { background: #3b82f6; border: none; padding: 0.5rem 1.2rem; border-radius: 2rem; color: white; font-weight: bold; cursor: pointer; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        .card { background: rgba(30,41,59,0.8); backdrop-filter: blur(16px); border-radius: 1.5rem; padding: 1.2rem; border: 1px solid rgba(96,165,250,0.3); }
+        .card-title { font-size: 0.8rem; text-transform: uppercase; color: #60a5fa; margin-bottom: 1rem; }
+        .token-symbol { font-size: 2.5rem; font-weight: bold; text-align: center; background: linear-gradient(135deg, #FFD166, #FF6B6B, #4ECDC4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .token-price { font-size: 1.2rem; text-align: center; margin: 0.5rem 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.6rem; margin: 1rem 0; }
+        .metric-item { background: #0f172a; border-radius: 0.8rem; padding: 0.6rem; text-align: center; }
+        .metric-label { font-size: 0.6rem; color: #94a3b8; }
+        .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
+        button { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; }
+        .ia-status { font-size: 0.6rem; text-align: center; margin-top: 0.5rem; padding: 0.3rem; border-radius: 1rem; background: #1e293b; }
+        .ia-status.online { color: #10b981; }
+        .ia-status.offline { color: #ef4444; }
+        .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
+        footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
+        .typing::after { content: '...'; animation: dots 1.5s steps(4,end) infinite; }
+        @keyframes dots { 0%,20%{content:'';}40%{content:'.';}60%{content:'..';}80%,100%{content:'...';} }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <div class="badge">🚀 NextMoon AI • PREDICCIONES IA</div>
+        <div class="badge">🚀 NextMoon AI • IA LOCAL</div>
         <h1>🔮 NextMoon AI</h1>
-        <div style="font-size: 0.7rem; opacity: 0.8;">Datos en tiempo real + IA Local en tu teléfono</div>
+        <div style="font-size: 0.7rem;">Datos en tiempo real + TinyLlama en tu teléfono</div>
     </div>
 
-    <div class="search-section">
-        <div class="search-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar token (ej: POPCAT, DOGE, SHIB...)" value="POPCAT">
-            <button class="search-btn" id="searchBtn">Buscar</button>
-        </div>
+    <div class="search-box">
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar token (POPCAT, DOGE, SHIB...)" value="POPCAT">
+        <button class="search-btn" id="searchBtn">Buscar</button>
     </div>
 
     <div class="dashboard-grid">
         <div class="card">
-            <div class="card-title">🎯 PREDICCIÓN IA</div>
-            <div class="main-token">
-                <div class="token-symbol" id="tokenSymbol">---</div>
-                <div class="token-price" id="tokenPrice">---</div>
-                <div class="confidence-badge" id="confidence" style="background:#1e293b; display:inline-block; padding:0.2rem 0.8rem; border-radius:60px; font-size:0.7rem;">Calculando...</div>
-            </div>
+            <div class="card-title">🎯 DATOS DEL TOKEN</div>
+            <div class="token-symbol" id="tokenSymbol">---</div>
+            <div class="token-price" id="tokenPrice">---</div>
             <div class="metrics-grid">
                 <div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div>
                 <div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div>
                 <div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div>
                 <div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div>
             </div>
-            <div class="link-buttons" id="linkButtons">
-                <a href="#" class="crypto-link">🔄 Actualizando...</a>
-            </div>
         </div>
 
         <div class="card">
-            <div class="card-title">🐋 BALLENAS (Solana)</div>
-            <div id="whaleContainer" class="whale-list">
-                <div class="spinner"></div>
-                <div style="margin-top:0.5rem; text-align:center;">Cargando...</div>
-            </div>
-            <div class="card-title" style="margin-top: 1rem;">📈 ANÁLISIS IA LOCAL</div>
+            <div class="card-title">📈 ANÁLISIS IA LOCAL</div>
             <div id="sentimentContainer">
                 <div class="sentiment-box">
-                    🤖 <strong>Análisis IA Local (TinyLlama):</strong><br>
-                    <span id="sentimentText">Esperando predicción de tu teléfono...</span>
+                    🤖 <strong>TinyLlama (en tu teléfono):</strong><br>
+                    <span id="sentimentText">Cargando...</span>
                 </div>
             </div>
-            <div class="ia-status" id="iaStatus">🔌 Verificando conexión con IA local...</div>
+            <div class="ia-status" id="iaStatus">🔍 Verificando IA...</div>
         </div>
     </div>
 
     <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-    <div class="auto-update">🟢 Actualización automática cada 30 segundos</div>
-
-    <!-- ============================================ -->
-    <!-- ÚNICO SMART LINK DE ADSTERRA PARA NEXTMOON AI -->
-    <!-- ============================================ -->
-    <div class="ad-single">
-        <div class="ad-label">🌟 Patrocinador</div>
-        <a href="https://www.profitablecpmratenetwork.com/hfbcqgkv?key=c318b34c55ad7f3a70c974fce455fb18" target="_blank" rel="nofollow" class="smartlink-btn">
-            🔥 Ver Ofertas Exclusivas 🔥
-        </a>
-    </div>
-
-    <footer>
-        ⚡ <strong>NextMoon AI</strong> · Datos REALES desde DexScreener + Solscan<br>
-        🔍 <strong>Busca cualquier token</strong> (POPCAT, DOGE, SHIB, WIF, PEPE, etc)<br>
-        💰 <strong>IA Local en tu teléfono</strong> · Predicciones personalizadas
-    </footer>
+    <div class="auto-update">🟢 Actualización cada 30 segundos</div>
+    <footer>⚡ Datos: DexScreener · IA: TinyLlama 1.1B en tu teléfono</footer>
 </div>
 
 <script>
-    // ============================================
-    // CONFIGURACIÓN IA LOCAL (mismo teléfono)
-    // ============================================
-    const IA_CONFIG = {
-        ip: '192.168.100.34',
-        puerto: '8005',
-        modelo: 'TinyLlama 1.1B Chat'
-    };
-    
+    const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005' };
     let iaLocalActiva = false;
-    let reconnectInterval = null;
-    let ultimoStatusOk = false;
-    
-    // ============================================
-    // RECONEXIÓN AUTOMÁTICA AGRESIVA (cada 10 seg)
-    // ============================================
+    let currentToken = "POPCAT";
+    let autoRefreshInterval;
+    let isRefreshing = false;
+
+    // Verificar IA (timeout 2 segundos)
     async function verificarIA() {
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3000);
-            
-            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, {
-                signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-            
+            const timeout = setTimeout(() => controller.abort(), 2000);
+            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, { signal: controller.signal });
+            clearTimeout(timeout);
             const data = await response.json();
-            const nuevaActiva = (data.status === 'running' && data.ai?.isEnabled === true);
-            
+            iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
             const statusDiv = document.getElementById('iaStatus');
-            
-            if (nuevaActiva) {
-                iaLocalActiva = true;
-                ultimoStatusOk = true;
+            if (iaLocalActiva) {
                 statusDiv.innerHTML = '✅ IA Local conectada · TinyLlama activo';
                 statusDiv.className = 'ia-status online';
-                console.log('🌙 Moon - IA Local CONECTADA');
             } else {
-                iaLocalActiva = false;
-                statusDiv.innerHTML = '⚠️ IA Local no disponible · Usando análisis automático';
+                statusDiv.innerHTML = '⚠️ IA no disponible · usando análisis automático';
                 statusDiv.className = 'ia-status offline';
-                console.log('🌙 Moon - IA Local no disponible');
             }
             return iaLocalActiva;
         } catch (error) {
             iaLocalActiva = false;
-            const statusDiv = document.getElementById('iaStatus');
-            statusDiv.innerHTML = '🔄 Intentando reconectar con IA local... (app puede estar caída)';
-            statusDiv.className = 'ia-status reconnecting';
-            console.log('🌙 Error conexión Moon - reintentando:', error.message);
+            document.getElementById('iaStatus').innerHTML = '⚠️ IA no conectada · análisis automático';
+            document.getElementById('iaStatus').className = 'ia-status offline';
             return false;
         }
     }
-    
-    // Reconexión automática cada 10 segundos (agresiva)
-    function iniciarReconexionIA() {
-        if (reconnectInterval) clearInterval(reconnectInterval);
-        
-        // Verificar inmediatamente
-        verificarIA();
-        
-        // Luego cada 10 segundos
-        reconnectInterval = setInterval(async () => {
-            const estabaActiva = iaLocalActiva;
-            await verificarIA();
-            
-            // Si acabamos de reconectar y antes no había IA, forzar actualización del análisis
-            if (!estabaActiva && iaLocalActiva && window.tokenDataActual) {
-                console.log('🌙 IA reconectada - actualizando análisis...');
-                const score = window.scoreActual || 50;
-                await mostrarAnalisis(window.tokenDataActual, score);
-            }
-        }, 10000);
-    }
-    
-    // Preguntar a la IA local sobre criptomonedas (con timeout)
-    async function predecirCriptoConIA(moneda, precio, volumen, score) {
+
+    // Preguntar a TinyLlama (timeout 8 segundos)
+    async function preguntarIA(moneda, precio, volumen, score) {
         if (!iaLocalActiva) return null;
-        
         try {
-            const prompt = `Eres un analista de criptomonedas. Analiza ${moneda} a ${precio} USD con volumen $${volumen}M y score ${score}/100. Da una predicción corta (COMPRA/VENTA/ESPERAR) y un consejo útil. Respuesta en español, máximo 2 oraciones:`;
+            const prompt = `Eres analista cripto. Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Da predicción (COMPRA/VENTA/ESPERAR) y consejo corto en español. Máximo 15 palabras.`;
             
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            const timeout = setTimeout(() => controller.abort(), 8000);
             
             const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    prompt: prompt,
-                    model: IA_CONFIG.modelo,
-                    maxTokens: 150,
-                    temperature: 0.7
-                }),
+                body: JSON.stringify({ prompt: prompt, maxTokens: 80, temperature: 0.7 }),
                 signal: controller.signal
             });
-            clearTimeout(timeoutId);
+            clearTimeout(timeout);
             
             if (!response.ok) return null;
             const data = await response.json();
             return data.response || data.text || null;
         } catch (error) {
-            console.error('Error predicción IA:', error);
+            console.log('IA timeout/error:', error);
             return null;
         }
     }
-    
-    // ============================================
-    // FUNCIONES ORIGINALES DE MOON
-    // ============================================
-    let currentToken = "POPCAT";
-    let autoRefreshInterval;
-    let isRefreshing = false;
-    let window.tokenDataActual = null;
-    let window.scoreActual = 50;
 
+    // Obtener datos de DexScreener
     async function fetchTokenData(tokenSymbol) {
         try {
             const url = `https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`;
@@ -469,51 +148,23 @@
             const data = await response.json();
             
             if (data.pairs && data.pairs.length > 0) {
-                const validPairs = data.pairs.filter(p => 
-                    p.liquidity && p.liquidity.usd > 30000 &&
-                    p.priceUsd && parseFloat(p.priceUsd) > 0
-                );
+                const validPairs = data.pairs.filter(p => p.liquidity?.usd > 30000 && p.priceUsd > 0);
                 if (validPairs.length > 0) {
-                    const bestPair = validPairs.sort((a,b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
+                    const best = validPairs.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
                     return {
                         symbol: tokenSymbol.toUpperCase(),
-                        price: parseFloat(bestPair.priceUsd),
-                        volume24h: bestPair.volume?.h24 || 0,
-                        liquidity: bestPair.liquidity?.usd || 0,
-                        priceChange24h: bestPair.priceChange?.h24 || 0,
-                        chain: bestPair.chainId || "unknown",
-                        pairAddress: bestPair.pairAddress,
-                        dexUrl: bestPair.url,
-                        baseToken: bestPair.baseToken
+                        price: parseFloat(best.priceUsd),
+                        volume24h: best.volume?.h24 || 0,
+                        liquidity: best.liquidity?.usd || 0,
+                        priceChange24h: best.priceChange?.h24 || 0,
+                        chain: best.chainId || "unknown"
                     };
                 }
             }
             return null;
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error fetch:', error);
             return null;
-        }
-    }
-
-    async function fetchSolanaWhales(tokenAddress) {
-        try {
-            const url = `https://public-api.solscan.io/token/holders?tokenAddress=${tokenAddress}&limit=10`;
-            const response = await fetch(url);
-            if (!response.ok) return [];
-            const data = await response.json();
-            
-            if (data && data.data && data.data.length > 0) {
-                return data.data
-                    .filter(h => h.owner && !h.owner.includes('burn') && !h.owner.includes('dead'))
-                    .slice(0, 6)
-                    .map(h => ({
-                        address: h.owner.substring(0, 6) + '...' + h.owner.substring(h.owner.length - 4),
-                        percentage: parseFloat(h.percentage) || 0
-                    }));
-            }
-            return [];
-        } catch (error) {
-            return [];
         }
     }
 
@@ -541,67 +192,29 @@
         return Math.min(99, Math.max(20, Math.floor(score)));
     }
 
-    function generateLinks(tokenData) {
-        let links = '';
-        const symbol = tokenData.symbol;
-        
-        if (tokenData.dexUrl) {
-            links += `<a href="${tokenData.dexUrl}" target="_blank" class="crypto-link">📊 DexScreener</a>`;
-        }
-        
-        if (tokenData.chain === "solana") {
-            links += `<a href="https://jup.ag/swap/SOL-${symbol}" target="_blank" class="crypto-link">🔄 Jupiter</a>`;
-        } else if (tokenData.chain === "ethereum") {
-            links += `<a href="https://app.uniswap.org/swap?outputCurrency=${tokenData.pairAddress || 'ETH'}" target="_blank" class="crypto-link">🔄 Uniswap</a>`;
-        } else if (tokenData.chain === "base") {
-            links += `<a href="https://app.uniswap.org/swap?chain=base&outputCurrency=${tokenData.pairAddress}" target="_blank" class="crypto-link">🔄 Uniswap</a>`;
-        }
-        
-        links += `<a href="https://www.coingecko.com/en/coins/${symbol.toLowerCase()}" target="_blank" class="crypto-link">🪙 CoinGecko</a>`;
-        
-        if (links === '') {
-            links = `<a href="https://dexscreener.com/search?q=${symbol}" target="_blank" class="crypto-link">🔍 Buscar en DexScreener</a>`;
-        }
-        return links;
-    }
-    
-    // Función para mostrar análisis con IA local o automático
     async function mostrarAnalisis(tokenData, score) {
         const sentimentSpan = document.getElementById('sentimentText');
         
-        // Guardar datos actuales para reconexión
-        window.tokenDataActual = tokenData;
-        window.scoreActual = score;
-        
-        // Análisis base (siempre presente)
         let baseText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
-        if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen detectado. Interés significativo.<br>";
-        else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado. Monitorear evolución.<br>";
-        else baseText += "⚠️ Volumen bajo. Investigar antes de invertir.<br>";
+        if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen<br>";
+        else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado<br>";
+        else baseText += "⚠️ Volumen bajo<br>";
         
-        // Intentar obtener análisis de IA local
         if (iaLocalActiva) {
-            sentimentSpan.innerHTML = '<span class="typing">🧠 Consultando IA local en tu teléfono</span>';
-            const precio = tokenData.price.toFixed(8);
+            sentimentSpan.innerHTML = '<span class="typing">🧠 Consultando TinyLlama en tu teléfono</span>';
+            const precio = tokenData.price.toFixed(6);
             const volumen = (tokenData.volume24h/1000000).toFixed(2);
-            const prediccionIA = await predecirCriptoConIA(tokenData.symbol, precio, volumen, score);
+            const respuestaIA = await preguntarIA(tokenData.symbol, precio, volumen, score);
             
-            if (prediccionIA) {
-                sentimentSpan.innerHTML = baseText + `🔥 <strong>🤖 IA Local (TinyLlama):</strong> ${prediccionIA}`;
+            if (respuestaIA) {
+                sentimentSpan.innerHTML = baseText + `🔥 <strong>TinyLlama:</strong> ${respuestaIA}`;
             } else {
-                // Fallback automático
-                let fallback = "";
-                if (score > 75) fallback = "🔥 <strong>Recomendación: Alto potencial. Considerar seguimiento.</strong>";
-                else if (score > 60) fallback = "📈 <strong>Recomendación: Potencial positivo. Observar volumen.</strong>";
-                else fallback = "⏳ <strong>Recomendación: Esperar confirmación de tendencia.</strong>";
-                sentimentSpan.innerHTML = baseText + fallback + "<br><span style='opacity:0.5;'>⚠️ IA local no respondió, usando análisis automático</span>";
+                let fallback = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial" : (score > 50 ? "📈 RECOMENDACIÓN: Observar" : "⏳ RECOMENDACIÓN: Esperar");
+                sentimentSpan.innerHTML = baseText + fallback + "<br><span style='opacity:0.6;'>⚠️ IA sin respuesta (timeout)</span>";
             }
         } else {
-            // Sin IA local, usar análisis automático
-            if (score > 75) baseText += "🔥 <strong>Recomendación: Alto potencial. Considerar seguimiento.</strong>";
-            else if (score > 60) baseText += "📈 <strong>Recomendación: Potencial positivo. Observar volumen.</strong>";
-            else baseText += "⏳ <strong>Recomendación: Esperar confirmación de tendencia.</strong>";
-            sentimentSpan.innerHTML = baseText;
+            let recomendacion = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial" : (score > 50 ? "📈 RECOMENDACIÓN: Observar volumen" : "⏳ RECOMENDACIÓN: Esperar confirmación");
+            sentimentSpan.innerHTML = baseText + recomendacion;
         }
     }
 
@@ -610,14 +223,13 @@
         isRefreshing = true;
         
         const tokenToSearch = manualToken || currentToken;
-        document.getElementById('tokenSymbol').innerHTML = '<div class="spinner" style="width:20px;height:20px;"></div>';
+        document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
         
         try {
             const tokenData = await fetchTokenData(tokenToSearch);
-            
             if (!tokenData) {
                 document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
-                document.getElementById('sentimentText').innerHTML = `No se encontró el token "${tokenToSearch}". Intenta con otro.`;
+                document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado`;
                 isRefreshing = false;
                 return;
             }
@@ -625,71 +237,35 @@
             currentToken = tokenToSearch;
             const score = calculateScore(tokenData);
             
-            let whales = [];
-            if (tokenData.chain === "solana" && tokenData.baseToken?.address) {
-                whales = await fetchSolanaWhales(tokenData.baseToken.address);
-            } else if (tokenData.chain === "solana") {
-                whales = await fetchSolanaWhales(tokenToSearch);
-            }
-            
             document.getElementById('tokenSymbol').innerHTML = `$${tokenData.symbol}`;
             document.getElementById('tokenPrice').innerHTML = `$${tokenData.price.toFixed(8)}`;
-            document.getElementById('volume').innerHTML = `$${(tokenData.volume24h / 1000000).toFixed(2)}M`;
-            document.getElementById('liquidity').innerHTML = `$${(tokenData.liquidity / 1000000).toFixed(2)}M`;
+            document.getElementById('volume').innerHTML = `$${(tokenData.volume24h/1000000).toFixed(2)}M`;
+            document.getElementById('liquidity').innerHTML = `$${(tokenData.liquidity/1000000).toFixed(2)}M`;
             
             const changeColor = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
             const changeSign = tokenData.priceChange24h >= 0 ? '+' : '';
             document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
             document.getElementById('iaScore').innerHTML = `${score}/100`;
-            document.getElementById('confidence').innerHTML = `🎯 Score IA: ${score}% · ${score > 70 ? '🔥 ALTO' : score > 50 ? '📈 MEDIO' : '⚠️ BAJO'}`;
             
-            // Mostrar análisis con IA local
             await mostrarAnalisis(tokenData, score);
-            
-            const whaleContainer = document.getElementById('whaleContainer');
-            if (whales.length > 0) {
-                whaleContainer.innerHTML = whales.map(w => `
-                    <div class="whale-item">
-                        <span>🐋 ${w.address}</span>
-                        <span style="color:#f97316;">${w.percentage.toFixed(2)}%</span>
-                    </div>
-                `).join('');
-            } else if (tokenData.chain === "solana") {
-                whaleContainer.innerHTML = '<div style="text-align:center;padding:1rem;color:#64748b;">📭 No se encontraron ballenas significativas</div>';
-            } else {
-                whaleContainer.innerHTML = `<div style="text-align:center;padding:1rem;color:#64748b;">🌊 Token en ${tokenData.chain.toUpperCase()} · Monitoreo disponible solo para Solana</div>`;
-            }
-            
-            document.getElementById('linkButtons').innerHTML = generateLinks(tokenData);
             
         } catch (error) {
             console.error('Error:', error);
-            document.getElementById('tokenSymbol').innerHTML = '❌ Error API';
+            document.getElementById('tokenSymbol').innerHTML = '❌ Error';
         }
         isRefreshing = false;
     }
 
-    function startAutoRefresh() {
-        if (autoRefreshInterval) clearInterval(autoRefreshInterval);
-        autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
-    }
-    
-    document.getElementById('refreshBtn').addEventListener('click', () => updatePrediction());
-    document.getElementById('searchBtn').addEventListener('click', () => {
-        const searchValue = document.getElementById('searchInput').value.trim().toUpperCase();
-        if (searchValue) updatePrediction(searchValue);
-    });
-    document.getElementById('searchInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            const searchValue = document.getElementById('searchInput').value.trim().toUpperCase();
-            if (searchValue) updatePrediction(searchValue);
-        }
-    });
-    
-    // Inicializar: reconexión agresiva + datos
-    iniciarReconexionIA();
+    // Inicializar
+    verificarIA();
     updatePrediction("POPCAT");
-    startAutoRefresh();
+    autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
+    
+    document.getElementById('refreshBtn').onclick = () => updatePrediction();
+    document.getElementById('searchBtn').onclick = () => {
+        const val = document.getElementById('searchInput').value.trim().toUpperCase();
+        if (val) updatePrediction(val);
+    };
 </script>
 </body>
 </html>
