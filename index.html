@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NextMoon AI - Predictor Cripto</title>
+    <title>NextMoon AI - Predictor Cripto con IA Local</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -35,8 +35,6 @@
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
         .typing::after { content: '...'; animation: dots 1.5s steps(4,end) infinite; }
         @keyframes dots { 0%,20%{content:'';}40%{content:'.';}60%{content:'..';}80%,100%{content:'...';} }
-        .success { color: #10b981; }
-        .warning { color: #f59e0b; }
     </style>
 </head>
 <body>
@@ -83,21 +81,12 @@
 </div>
 
 <script>
-    // ============================================
-    // CONFIGURACIÓN CORRECTA DEL MODELO
-    // ============================================
-    const IA_CONFIG = { 
-        ip: '192.168.100.34', 
-        puerto: '8005', 
-        modelName: 'TINYLLAMA_1_1B_CHAT'  // ← Nombre exacto del modelo
-    };
-    
+    const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
     let iaLocalActiva = false;
     let currentToken = "POPCAT";
     let autoRefreshInterval;
     let isRefreshing = false;
 
-    // Verificar IA
     async function verificarIA() {
         try {
             const controller = new AbortController();
@@ -123,52 +112,33 @@
         }
     }
 
-    // Preguntar a TinyLlama con el modelo correcto
     async function preguntarIA(moneda, precio, volumen, score) {
         if (!iaLocalActiva) return null;
-        
         try {
-            const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Da una predicción corta (COMPRA/VENTA/ESPERAR) y un consejo útil. Máximo 20 palabras.`;
-            
+            const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Predicción corta (COMPRA/VENTA/ESPERAR) y consejo útil. Máximo 20 palabras.`;
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), 15000);
-            
             const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    prompt: prompt, 
-                    modelName: IA_CONFIG.modelName,  // ← Usando el nombre correcto
-                    maxTokens: 100,
-                    temperature: 0.7
-                }),
+                body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 100, temperature: 0.7 }),
                 signal: controller.signal
             });
-            
             clearTimeout(timeout);
-            
-            if (!response.ok) {
-                console.log('Error IA:', response.status);
-                return null;
-            }
-            
+            if (!response.ok) return null;
             const data = await response.json();
-            return data.response || data.text || data.result || null;
-            
+            return data.response || data.text || null;
         } catch (error) {
-            console.log('IA error:', error);
             return null;
         }
     }
 
-    // Obtener datos de DexScreener
     async function fetchTokenData(tokenSymbol) {
         try {
             const url = `https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`;
             const response = await fetch(url);
             if (!response.ok) throw new Error('API error');
             const data = await response.json();
-            
             if (data.pairs && data.pairs.length > 0) {
                 const validPairs = data.pairs.filter(p => p.liquidity?.usd > 30000 && p.priceUsd > 0);
                 if (validPairs.length > 0) {
@@ -185,7 +155,6 @@
             }
             return null;
         } catch (error) {
-            console.error('Error fetch:', error);
             return null;
         }
     }
@@ -196,50 +165,40 @@
         else if (tokenData.volume24h > 1000000) score += 18;
         else if (tokenData.volume24h > 500000) score += 12;
         else if (tokenData.volume24h > 100000) score += 6;
-        
         if (tokenData.liquidity > 1000000) score += 20;
         else if (tokenData.liquidity > 500000) score += 15;
         else if (tokenData.liquidity > 200000) score += 10;
         else if (tokenData.liquidity > 50000) score += 5;
-        
         if (tokenData.priceChange24h > 30) score += 20;
         else if (tokenData.priceChange24h > 15) score += 14;
         else if (tokenData.priceChange24h > 5) score += 8;
         else if (tokenData.priceChange24h > 0) score += 4;
-        
         if (tokenData.chain === "solana") score += 10;
         else if (tokenData.chain === "base") score += 8;
         else if (tokenData.chain === "ethereum") score += 5;
-        
         return Math.min(99, Math.max(20, Math.floor(score)));
     }
 
     async function mostrarAnalisis(tokenData, score) {
         const sentimentSpan = document.getElementById('sentimentText');
-        
         let baseText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
         if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen detectado<br>";
         else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado<br>";
         else baseText += "⚠️ Volumen bajo - precaución<br>";
         
         if (iaLocalActiva) {
-            sentimentSpan.innerHTML = '<span class="typing">🧠 TinyLlama analizando en tu teléfono...</span>';
+            sentimentSpan.innerHTML = '<span class="typing">🧠 TinyLlama analizando...</span>';
             const precio = tokenData.price.toFixed(6);
             const volumen = (tokenData.volume24h/1000000).toFixed(2);
             const respuestaIA = await preguntarIA(tokenData.symbol, precio, volumen, score);
-            
-            if (respuestaIA && respuestaIA.length > 0) {
-                sentimentSpan.innerHTML = baseText + `🔥 <strong class="success">TinyLlama:</strong> ${respuestaIA}`;
+            if (respuestaIA) {
+                sentimentSpan.innerHTML = baseText + `🔥 <strong>TinyLlama:</strong> ${respuestaIA}`;
             } else {
-                let fallback = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada" : 
-                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo - monitorear" : 
-                              "⏳ RECOMENDACIÓN: Esperar confirmación");
+                let fallback = score > 70 ? "🔥 Alto potencial" : (score > 50 ? "📈 Potencial positivo" : "⏳ Esperar");
                 sentimentSpan.innerHTML = baseText + fallback;
             }
         } else {
-            let recomendacion = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial" : 
-                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo" : 
-                              "⏳ RECOMENDACIÓN: Esperar");
+            let recomendacion = score > 70 ? "🔥 Alto potencial" : (score > 50 ? "📈 Potencial positivo" : "⏳ Esperar");
             sentimentSpan.innerHTML = baseText + recomendacion;
         }
     }
@@ -247,10 +206,8 @@
     async function updatePrediction(manualToken = null) {
         if (isRefreshing) return;
         isRefreshing = true;
-        
         const tokenToSearch = manualToken || currentToken;
         document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
-        
         try {
             const tokenData = await fetchTokenData(tokenToSearch);
             if (!tokenData) {
@@ -259,34 +216,26 @@
                 isRefreshing = false;
                 return;
             }
-            
             currentToken = tokenToSearch;
             const score = calculateScore(tokenData);
-            
             document.getElementById('tokenSymbol').innerHTML = `$${tokenData.symbol}`;
             document.getElementById('tokenPrice').innerHTML = `$${tokenData.price.toFixed(8)}`;
             document.getElementById('volume').innerHTML = `$${(tokenData.volume24h/1000000).toFixed(2)}M`;
             document.getElementById('liquidity').innerHTML = `$${(tokenData.liquidity/1000000).toFixed(2)}M`;
-            
             const changeColor = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
             const changeSign = tokenData.priceChange24h >= 0 ? '+' : '';
             document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
             document.getElementById('iaScore').innerHTML = `${score}/100`;
-            
             await mostrarAnalisis(tokenData, score);
-            
         } catch (error) {
-            console.error('Error:', error);
             document.getElementById('tokenSymbol').innerHTML = '❌ Error';
         }
         isRefreshing = false;
     }
 
-    // Inicializar
     verificarIA();
     updatePrediction("POPCAT");
     autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
-    
     document.getElementById('refreshBtn').onclick = () => updatePrediction();
     document.getElementById('searchBtn').onclick = () => {
         const val = document.getElementById('searchInput').value.trim().toUpperCase();
