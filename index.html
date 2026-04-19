@@ -35,6 +35,8 @@
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
         .typing::after { content: '...'; animation: dots 1.5s steps(4,end) infinite; }
         @keyframes dots { 0%,20%{content:'';}40%{content:'.';}60%{content:'..';}80%,100%{content:'...';} }
+        .success { color: #10b981; }
+        .warning { color: #f59e0b; }
     </style>
 </head>
 <body>
@@ -87,7 +89,7 @@
     let autoRefreshInterval;
     let isRefreshing = false;
 
-    // Verificar IA (timeout 2 segundos)
+    // Verificar IA
     async function verificarIA() {
         try {
             const controller = new AbortController();
@@ -113,28 +115,47 @@
         }
     }
 
-    // Preguntar a TinyLlama (timeout 8 segundos)
+    // Preguntar a TinyLlama - FORMATO CORREGIDO
     async function preguntarIA(moneda, precio, volumen, score) {
         if (!iaLocalActiva) return null;
+        
         try {
-            const prompt = `Eres analista cripto. Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Da predicción (COMPRA/VENTA/ESPERAR) y consejo corto en español. Máximo 15 palabras.`;
+            // Formato correcto para AI Phone Server
+            const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Predicción corta (COMPRA/VENTA/ESPERAR):`;
             
             const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 8000);
+            const timeout = setTimeout(() => controller.abort(), 10000);
             
-            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+            // INTENTO 1: Formato con "text"
+            let response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt, maxTokens: 80, temperature: 0.7 }),
+                body: JSON.stringify({ text: prompt, max_tokens: 100 }),
                 signal: controller.signal
             });
+            
+            // INTENTO 2: Si falla, probar con "prompt"
+            if (response.status === 400) {
+                response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt, maxTokens: 100 }),
+                    signal: controller.signal
+                });
+            }
+            
             clearTimeout(timeout);
             
-            if (!response.ok) return null;
+            if (!response.ok) {
+                console.log('Error IA:', response.status);
+                return null;
+            }
+            
             const data = await response.json();
-            return data.response || data.text || null;
+            return data.response || data.text || data.result || null;
+            
         } catch (error) {
-            console.log('IA timeout/error:', error);
+            console.log('IA error:', error);
             return null;
         }
     }
@@ -196,24 +217,28 @@
         const sentimentSpan = document.getElementById('sentimentText');
         
         let baseText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
-        if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen<br>";
+        if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen detectado<br>";
         else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado<br>";
-        else baseText += "⚠️ Volumen bajo<br>";
+        else baseText += "⚠️ Volumen bajo - precaución<br>";
         
         if (iaLocalActiva) {
-            sentimentSpan.innerHTML = '<span class="typing">🧠 Consultando TinyLlama en tu teléfono</span>';
+            sentimentSpan.innerHTML = '<span class="typing">🧠 Consultando TinyLlama en tu teléfono...</span>';
             const precio = tokenData.price.toFixed(6);
             const volumen = (tokenData.volume24h/1000000).toFixed(2);
             const respuestaIA = await preguntarIA(tokenData.symbol, precio, volumen, score);
             
-            if (respuestaIA) {
-                sentimentSpan.innerHTML = baseText + `🔥 <strong>TinyLlama:</strong> ${respuestaIA}`;
+            if (respuestaIA && respuestaIA.length > 0) {
+                sentimentSpan.innerHTML = baseText + `🔥 <strong class="success">TinyLlama dice:</strong> ${respuestaIA}`;
             } else {
-                let fallback = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial" : (score > 50 ? "📈 RECOMENDACIÓN: Observar" : "⏳ RECOMENDACIÓN: Esperar");
-                sentimentSpan.innerHTML = baseText + fallback + "<br><span style='opacity:0.6;'>⚠️ IA sin respuesta (timeout)</span>";
+                let fallback = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada progresiva" : 
+                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo - monitorear volumen" : 
+                              "⏳ RECOMENDACIÓN: Esperar confirmación de tendencia");
+                sentimentSpan.innerHTML = baseText + `<span class="warning">⚠️ IA no respondió (timeout)</span><br>${fallback}`;
             }
         } else {
-            let recomendacion = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial" : (score > 50 ? "📈 RECOMENDACIÓN: Observar volumen" : "⏳ RECOMENDACIÓN: Esperar confirmación");
+            let recomendacion = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada" : 
+                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo - observar" : 
+                              "⏳ RECOMENDACIÓN: Esperar confirmación");
             sentimentSpan.innerHTML = baseText + recomendacion;
         }
     }
@@ -229,7 +254,7 @@
             const tokenData = await fetchTokenData(tokenToSearch);
             if (!tokenData) {
                 document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
-                document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado`;
+                document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado en DexScreener`;
                 isRefreshing = false;
                 return;
             }
@@ -251,7 +276,7 @@
             
         } catch (error) {
             console.error('Error:', error);
-            document.getElementById('tokenSymbol').innerHTML = '❌ Error';
+            document.getElementById('tokenSymbol').innerHTML = '❌ Error de conexión';
         }
         isRefreshing = false;
     }
