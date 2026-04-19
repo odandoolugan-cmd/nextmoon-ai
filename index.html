@@ -31,7 +31,6 @@
         .ia-status { font-size: 0.6rem; text-align: center; margin-top: 0.5rem; padding: 0.3rem; border-radius: 1rem; background: #1e293b; }
         .ia-status.online { color: #10b981; }
         .ia-status.offline { color: #ef4444; }
-        .ia-status.loading { color: #f59e0b; }
         .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
         .typing::after { content: '...'; animation: dots 1.5s steps(4,end) infinite; }
@@ -84,7 +83,15 @@
 </div>
 
 <script>
-    const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TinyLlama' };
+    // ============================================
+    // CONFIGURACIÓN CORRECTA DEL MODELO
+    // ============================================
+    const IA_CONFIG = { 
+        ip: '192.168.100.34', 
+        puerto: '8005', 
+        modelName: 'TINYLLAMA_1_1B_CHAT'  // ← Nombre exacto del modelo
+    };
+    
     let iaLocalActiva = false;
     let currentToken = "POPCAT";
     let autoRefreshInterval;
@@ -116,23 +123,22 @@
         }
     }
 
-    // Preguntar a TinyLlama - FORMATO CORRECTO CON modelName
+    // Preguntar a TinyLlama con el modelo correcto
     async function preguntarIA(moneda, precio, volumen, score) {
         if (!iaLocalActiva) return null;
         
         try {
-            const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Predicción corta (COMPRA/VENTA/ESPERAR):`;
+            const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Da una predicción corta (COMPRA/VENTA/ESPERAR) y un consejo útil. Máximo 20 palabras.`;
             
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), 15000);
             
-            // Formato CORRECTO con modelName
             const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     prompt: prompt, 
-                    modelName: IA_CONFIG.modelName,
+                    modelName: IA_CONFIG.modelName,  // ← Usando el nombre correcto
                     maxTokens: 100,
                     temperature: 0.7
                 }),
@@ -225,15 +231,15 @@
             if (respuestaIA && respuestaIA.length > 0) {
                 sentimentSpan.innerHTML = baseText + `🔥 <strong class="success">TinyLlama:</strong> ${respuestaIA}`;
             } else {
-                let fallback = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada progresiva" : 
-                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo - monitorear volumen" : 
-                              "⏳ RECOMENDACIÓN: Esperar confirmación de tendencia");
-                sentimentSpan.innerHTML = baseText + `<span class="warning">⏳ TinyLlama está procesando...</span><br>${fallback}`;
+                let fallback = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada" : 
+                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo - monitorear" : 
+                              "⏳ RECOMENDACIÓN: Esperar confirmación");
+                sentimentSpan.innerHTML = baseText + fallback;
             }
         } else {
-            let recomendacion = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial - considerar entrada" : 
-                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo - observar" : 
-                              "⏳ RECOMENDACIÓN: Esperar confirmación");
+            let recomendacion = score > 70 ? "🔥 RECOMENDACIÓN: Alto potencial" : 
+                              (score > 50 ? "📈 RECOMENDACIÓN: Potencial positivo" : 
+                              "⏳ RECOMENDACIÓN: Esperar");
             sentimentSpan.innerHTML = baseText + recomendacion;
         }
     }
