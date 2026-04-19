@@ -249,6 +249,25 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
         }
+        .ia-status {
+            font-size: 0.6rem;
+            text-align: center;
+            margin-top: 0.5rem;
+            padding: 0.3rem;
+            border-radius: 1rem;
+            background: #1e293b;
+        }
+        .ia-status.online {
+            color: #10b981;
+        }
+        .ia-status.offline {
+            color: #ef4444;
+        }
+        .typing::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
     </style>
 </head>
 <body>
@@ -256,7 +275,7 @@
     <div class="header">
         <div class="badge">🚀 NextMoon AI • PREDICCIONES IA</div>
         <h1>🔮 NextMoon AI</h1>
-        <div style="font-size: 0.7rem; opacity: 0.8;">Datos en tiempo real + Buscador manual</div>
+        <div style="font-size: 0.7rem; opacity: 0.8;">Datos en tiempo real + IA Local en tu teléfono</div>
     </div>
 
     <div class="search-section">
@@ -291,13 +310,14 @@
                 <div class="spinner"></div>
                 <div style="margin-top:0.5rem; text-align:center;">Cargando...</div>
             </div>
-            <div class="card-title" style="margin-top: 1rem;">📈 ANÁLISIS IA</div>
+            <div class="card-title" style="margin-top: 1rem;">📈 ANÁLISIS IA LOCAL</div>
             <div id="sentimentContainer">
                 <div class="sentiment-box">
-                    🤖 <strong>Análisis:</strong><br>
-                    <span id="sentimentText">Escaneando datos del mercado...</span>
+                    🤖 <strong>Análisis IA Local (TinyLlama):</strong><br>
+                    <span id="sentimentText">Esperando predicción de tu teléfono...</span>
                 </div>
             </div>
+            <div class="ia-status" id="iaStatus">🔌 Verificando conexión con IA local...</div>
         </div>
     </div>
 
@@ -317,11 +337,77 @@
     <footer>
         ⚡ <strong>NextMoon AI</strong> · Datos REALES desde DexScreener + Solscan<br>
         🔍 <strong>Busca cualquier token</strong> (POPCAT, DOGE, SHIB, WIF, PEPE, etc)<br>
-        💰 <strong>1 anuncio · El resto es información gratuita</strong>
+        💰 <strong>IA Local en tu teléfono</strong> · Predicciones personalizadas
     </footer>
 </div>
 
 <script>
+    // ============================================
+    // CONFIGURACIÓN IA LOCAL (mismo teléfono)
+    // ============================================
+    const IA_CONFIG = {
+        ip: '192.168.100.34',
+        puerto: '8005',
+        modelo: 'TinyLlama 1.1B Chat'
+    };
+    
+    let iaLocalActiva = false;
+    
+    // Verificar conexión con el teléfono
+    async function verificarIA() {
+        try {
+            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`);
+            const data = await response.json();
+            iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
+            const statusDiv = document.getElementById('iaStatus');
+            if (iaLocalActiva) {
+                statusDiv.innerHTML = '✅ IA Local conectada · TinyLlama activo';
+                statusDiv.className = 'ia-status online';
+            } else {
+                statusDiv.innerHTML = '⚠️ IA Local no disponible · Usando análisis automático';
+                statusDiv.className = 'ia-status offline';
+            }
+            console.log('🌙 Moon - IA Local activa:', iaLocalActiva);
+            return iaLocalActiva;
+        } catch (error) {
+            iaLocalActiva = false;
+            document.getElementById('iaStatus').innerHTML = '❌ No se pudo conectar al teléfono · Verifica AI Phone Server';
+            document.getElementById('iaStatus').className = 'ia-status offline';
+            console.log('🌙 Error conexión Moon:', error);
+            return false;
+        }
+    }
+    
+    // Preguntar a la IA local sobre criptomonedas
+    async function predecirCriptoConIA(moneda, precio, volumen, score) {
+        if (!iaLocalActiva) return null;
+        
+        try {
+            const prompt = `Eres un analista de criptomonedas. Analiza ${moneda} a ${precio} USD con volumen $${volumen}M y score ${score}/100. Da una predicción corta (COMPRA/VENTA/ESPERAR) y un consejo útil. Respuesta en español, máximo 2 oraciones:`;
+            
+            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prompt: prompt,
+                    model: IA_CONFIG.modelo,
+                    maxTokens: 150,
+                    temperature: 0.7
+                })
+            });
+            
+            if (!response.ok) return null;
+            const data = await response.json();
+            return data.response || data.text || null;
+        } catch (error) {
+            console.error('Error predicción IA:', error);
+            return null;
+        }
+    }
+    
+    // ============================================
+    // FUNCIONES ORIGINALES DE MOON (sin modificar)
+    // ============================================
     let currentToken = "POPCAT";
     let autoRefreshInterval;
     let isRefreshing = false;
@@ -429,6 +515,42 @@
         }
         return links;
     }
+    
+    // Función para mostrar análisis con IA local o automático
+    async function mostrarAnalisis(tokenData, score) {
+        const sentimentSpan = document.getElementById('sentimentText');
+        
+        // Análisis base (siempre presente)
+        let baseText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
+        if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen detectado. Interés significativo.<br>";
+        else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado. Monitorear evolución.<br>";
+        else baseText += "⚠️ Volumen bajo. Investigar antes de invertir.<br>";
+        
+        // Intentar obtener análisis de IA local
+        if (iaLocalActiva) {
+            sentimentSpan.innerHTML = '<span class="typing">🧠 Consultando IA local en tu teléfono</span>';
+            const precio = tokenData.price.toFixed(8);
+            const volumen = (tokenData.volume24h/1000000).toFixed(2);
+            const prediccionIA = await predecirCriptoConIA(tokenData.symbol, precio, volumen, score);
+            
+            if (prediccionIA) {
+                sentimentSpan.innerHTML = baseText + `🔥 <strong>🤖 IA Local (TinyLlama):</strong> ${prediccionIA}`;
+            } else {
+                // Fallback automático
+                let fallback = "";
+                if (score > 75) fallback = "🔥 <strong>Recomendación: Alto potencial. Considerar seguimiento.</strong>";
+                else if (score > 60) fallback = "📈 <strong>Recomendación: Potencial positivo. Observar volumen.</strong>";
+                else fallback = "⏳ <strong>Recomendación: Esperar confirmación de tendencia.</strong>";
+                sentimentSpan.innerHTML = baseText + fallback + "<br><span style='opacity:0.5;'>⚠️ IA local no respondió, usando análisis automático</span>";
+            }
+        } else {
+            // Sin IA local, usar análisis automático
+            if (score > 75) baseText += "🔥 <strong>Recomendación: Alto potencial. Considerar seguimiento.</strong>";
+            else if (score > 60) baseText += "📈 <strong>Recomendación: Potencial positivo. Observar volumen.</strong>";
+            else baseText += "⏳ <strong>Recomendación: Esperar confirmación de tendencia.</strong>";
+            sentimentSpan.innerHTML = baseText;
+        }
+    }
 
     async function updatePrediction(manualToken = null) {
         if (isRefreshing) return;
@@ -468,16 +590,8 @@
             document.getElementById('iaScore').innerHTML = `${score}/100`;
             document.getElementById('confidence').innerHTML = `🎯 Score IA: ${score}% · ${score > 70 ? '🔥 ALTO' : score > 50 ? '📈 MEDIO' : '⚠️ BAJO'}`;
             
-            let sentimentText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
-            if (tokenData.volume24h > 2000000) sentimentText += "📈 Alto volumen detectado. Interés significativo.<br>";
-            else if (tokenData.volume24h > 500000) sentimentText += "📊 Volumen moderado. Monitorear evolución.<br>";
-            else sentimentText += "⚠️ Volumen bajo. Investigar antes de invertir.<br>";
-            
-            if (score > 75) sentimentText += "🔥 <strong>Recomendación IA: Alto potencial. Considerar seguimiento.</strong>";
-            else if (score > 60) sentimentText += "📈 <strong>Recomendación IA: Potencial positivo. Observar volumen.</strong>";
-            else sentimentText += "⏳ <strong>Recomendación IA: Esperar confirmación de tendencia.</strong>";
-            
-            document.getElementById('sentimentText').innerHTML = sentimentText;
+            // Mostrar análisis con IA local
+            await mostrarAnalisis(tokenData, score);
             
             const whaleContainer = document.getElementById('whaleContainer');
             if (whales.length > 0) {
@@ -519,6 +633,8 @@
         }
     });
     
+    // Inicializar: verificar IA y cargar datos
+    verificarIA();
     updatePrediction("POPCAT");
     startAutoRefresh();
 </script>
