@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NextMoon AI - Predictor Cripto con IA Local</title>
+    <title>NextMoon AI - Predictor Cripto con IA Local + Modo VR</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -35,212 +35,445 @@
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
         .typing::after { content: '...'; animation: dots 1.5s steps(4,end) infinite; }
         @keyframes dots { 0%,20%{content:'';}40%{content:'.';}60%{content:'..';}80%,100%{content:'...';} }
+        
+        /* Botón VR */
+        .vr-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            font-family: 'Cinzel', serif;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            transition: transform 0.2s;
+        }
+        .vr-button:hover { transform: scale(1.05); }
+        
+        /* Modo VR */
+        .vr-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: none;
+            background: #0a0f1e;
+        }
+        .vr-mode.active { display: block; }
+        .close-vr {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #e9c46a;
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #e9c46a;
+            cursor: pointer;
+            z-index: 1001;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <div class="badge">🚀 NextMoon AI • IA LOCAL</div>
-        <h1>🔮 NextMoon AI</h1>
-        <div style="font-size: 0.7rem;">Datos en tiempo real + TinyLlama en tu teléfono</div>
-    </div>
 
-    <div class="search-box">
-        <input type="text" class="search-input" id="searchInput" placeholder="Buscar token (POPCAT, DOGE, SHIB...)" value="POPCAT">
-        <button class="search-btn" id="searchBtn">Buscar</button>
-    </div>
-
-    <div class="dashboard-grid">
-        <div class="card">
-            <div class="card-title">🎯 DATOS DEL TOKEN</div>
-            <div class="token-symbol" id="tokenSymbol">---</div>
-            <div class="token-price" id="tokenPrice">---</div>
-            <div class="metrics-grid">
-                <div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div>
-                <div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div>
-                <div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div>
-                <div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div>
+    <!-- MODO NORMAL -->
+    <div class="normal-mode" id="normalMode">
+        <div class="container">
+            <div class="header">
+                <div class="badge">🚀 NextMoon AI • IA LOCAL</div>
+                <h1>🔮 NextMoon AI</h1>
+                <div style="font-size: 0.7rem;">Datos en tiempo real + TinyLlama en tu teléfono</div>
             </div>
-        </div>
 
-        <div class="card">
-            <div class="card-title">📈 ANÁLISIS IA LOCAL</div>
-            <div id="sentimentContainer">
-                <div class="sentiment-box">
-                    🤖 <strong>TinyLlama (en tu teléfono):</strong><br>
-                    <span id="sentimentText">Cargando...</span>
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar token (POPCAT, DOGE, SHIB...)" value="POPCAT">
+                <button class="search-btn" id="searchBtn">Buscar</button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-title">🎯 DATOS DEL TOKEN</div>
+                    <div class="token-symbol" id="tokenSymbol">---</div>
+                    <div class="token-price" id="tokenPrice">---</div>
+                    <div class="metrics-grid">
+                        <div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div>
+                        <div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div>
+                        <div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div>
+                        <div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📈 ANÁLISIS IA LOCAL</div>
+                    <div id="sentimentContainer">
+                        <div class="sentiment-box">
+                            🤖 <strong>TinyLlama (en tu teléfono):</strong><br>
+                            <span id="sentimentText">Cargando...</span>
+                        </div>
+                    </div>
+                    <div class="ia-status" id="iaStatus">🔍 Verificando IA...</div>
                 </div>
             </div>
-            <div class="ia-status" id="iaStatus">🔍 Verificando IA...</div>
+
+            <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
+            <div class="auto-update">🟢 Actualización cada 30 segundos</div>
+            <footer>⚡ Datos: DexScreener · IA: TinyLlama 1.1B en tu teléfono</footer>
         </div>
     </div>
 
-    <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-    <div class="auto-update">🟢 Actualización cada 30 segundos</div>
-    <footer>⚡ Datos: DexScreener · IA: TinyLlama 1.1B en tu teléfono</footer>
-</div>
+    <!-- Botón para activar MODO VR -->
+    <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
 
-<script>
-    const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
-    let iaLocalActiva = false;
-    let currentToken = "POPCAT";
-    let autoRefreshInterval;
-    let isRefreshing = false;
+    <!-- MODO VR -->
+    <div class="vr-mode" id="vrMode">
+        <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
+        <div id="vrContainer" style="width:100%;height:100%"></div>
+    </div>
 
-    async function verificarIA() {
-        try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 3000);
-            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, { signal: controller.signal });
-            clearTimeout(timeout);
-            const data = await response.json();
-            iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
-            const statusDiv = document.getElementById('iaStatus');
-            if (iaLocalActiva) {
-                statusDiv.innerHTML = '✅ IA Local conectada · TinyLlama activo';
-                statusDiv.className = 'ia-status online';
-            } else {
-                statusDiv.innerHTML = '⚠️ IA no disponible · usando análisis automático';
-                statusDiv.className = 'ia-status offline';
-            }
-            return iaLocalActiva;
-        } catch (error) {
-            iaLocalActiva = false;
-            document.getElementById('iaStatus').innerHTML = '⚠️ IA no conectada · análisis automático';
-            document.getElementById('iaStatus').className = 'ia-status offline';
-            return false;
-        }
-    }
+    <script>
+        // ============================================
+        // IA LOCAL (misma que en tu moon original)
+        // ============================================
+        const IA_CONFIG = { ip: '192.168.100.34', puerto: '8005', modelName: 'TINYLLAMA_1_1B_CHAT' };
+        let iaLocalActiva = false;
+        let currentToken = "POPCAT";
+        let autoRefreshInterval;
+        let isRefreshing = false;
 
-    async function preguntarIA(moneda, precio, volumen, score) {
-        if (!iaLocalActiva) return null;
-        try {
-            const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Predicción corta (COMPRA/VENTA/ESPERAR) y consejo útil. Máximo 20 palabras.`;
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 15000);
-            const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 100, temperature: 0.7 }),
-                signal: controller.signal
-            });
-            clearTimeout(timeout);
-            if (!response.ok) return null;
-            const data = await response.json();
-            return data.response || data.text || null;
-        } catch (error) {
-            return null;
-        }
-    }
-
-    async function fetchTokenData(tokenSymbol) {
-        try {
-            const url = `https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`;
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('API error');
-            const data = await response.json();
-            if (data.pairs && data.pairs.length > 0) {
-                const validPairs = data.pairs.filter(p => p.liquidity?.usd > 30000 && p.priceUsd > 0);
-                if (validPairs.length > 0) {
-                    const best = validPairs.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
-                    return {
-                        symbol: tokenSymbol.toUpperCase(),
-                        price: parseFloat(best.priceUsd),
-                        volume24h: best.volume?.h24 || 0,
-                        liquidity: best.liquidity?.usd || 0,
-                        priceChange24h: best.priceChange?.h24 || 0,
-                        chain: best.chainId || "unknown"
-                    };
+        async function verificarIA() {
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 3000);
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/status`, { signal: controller.signal });
+                clearTimeout(timeout);
+                const data = await response.json();
+                iaLocalActiva = (data.status === 'running' && data.ai?.isEnabled === true);
+                const statusDiv = document.getElementById('iaStatus');
+                if (iaLocalActiva) {
+                    statusDiv.innerHTML = '✅ IA Local conectada · TinyLlama activo';
+                    statusDiv.className = 'ia-status online';
+                } else {
+                    statusDiv.innerHTML = '⚠️ IA no disponible · usando análisis automático';
+                    statusDiv.className = 'ia-status offline';
                 }
+                return iaLocalActiva;
+            } catch (error) {
+                iaLocalActiva = false;
+                document.getElementById('iaStatus').innerHTML = '⚠️ IA no conectada · análisis automático';
+                document.getElementById('iaStatus').className = 'ia-status offline';
+                return false;
             }
-            return null;
-        } catch (error) {
-            return null;
         }
-    }
 
-    function calculateScore(tokenData) {
-        let score = 50;
-        if (tokenData.volume24h > 3000000) score += 25;
-        else if (tokenData.volume24h > 1000000) score += 18;
-        else if (tokenData.volume24h > 500000) score += 12;
-        else if (tokenData.volume24h > 100000) score += 6;
-        if (tokenData.liquidity > 1000000) score += 20;
-        else if (tokenData.liquidity > 500000) score += 15;
-        else if (tokenData.liquidity > 200000) score += 10;
-        else if (tokenData.liquidity > 50000) score += 5;
-        if (tokenData.priceChange24h > 30) score += 20;
-        else if (tokenData.priceChange24h > 15) score += 14;
-        else if (tokenData.priceChange24h > 5) score += 8;
-        else if (tokenData.priceChange24h > 0) score += 4;
-        if (tokenData.chain === "solana") score += 10;
-        else if (tokenData.chain === "base") score += 8;
-        else if (tokenData.chain === "ethereum") score += 5;
-        return Math.min(99, Math.max(20, Math.floor(score)));
-    }
+        async function preguntarIA(moneda, precio, volumen, score) {
+            if (!iaLocalActiva) return null;
+            try {
+                const prompt = `Analiza ${moneda} a $${precio} USD, volumen $${volumen}M, score ${score}/100. Predicción corta (COMPRA/VENTA/ESPERAR) y consejo útil. Máximo 20 palabras.`;
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 15000);
+                const response = await fetch(`http://${IA_CONFIG.ip}:${IA_CONFIG.puerto}/ai/text`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt, modelName: IA_CONFIG.modelName, maxTokens: 100, temperature: 0.7 }),
+                    signal: controller.signal
+                });
+                clearTimeout(timeout);
+                if (!response.ok) return null;
+                const data = await response.json();
+                return data.response || data.text || null;
+            } catch (error) {
+                return null;
+            }
+        }
 
-    async function mostrarAnalisis(tokenData, score) {
-        const sentimentSpan = document.getElementById('sentimentText');
-        let baseText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
-        if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen detectado<br>";
-        else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado<br>";
-        else baseText += "⚠️ Volumen bajo - precaución<br>";
-        
-        if (iaLocalActiva) {
-            sentimentSpan.innerHTML = '<span class="typing">🧠 TinyLlama analizando...</span>';
-            const precio = tokenData.price.toFixed(6);
-            const volumen = (tokenData.volume24h/1000000).toFixed(2);
-            const respuestaIA = await preguntarIA(tokenData.symbol, precio, volumen, score);
-            if (respuestaIA) {
-                sentimentSpan.innerHTML = baseText + `🔥 <strong>TinyLlama:</strong> ${respuestaIA}`;
+        async function fetchTokenData(tokenSymbol) {
+            try {
+                const url = `https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('API error');
+                const data = await response.json();
+                if (data.pairs && data.pairs.length > 0) {
+                    const validPairs = data.pairs.filter(p => p.liquidity?.usd > 30000 && p.priceUsd > 0);
+                    if (validPairs.length > 0) {
+                        const best = validPairs.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
+                        return {
+                            symbol: tokenSymbol.toUpperCase(),
+                            price: parseFloat(best.priceUsd),
+                            volume24h: best.volume?.h24 || 0,
+                            liquidity: best.liquidity?.usd || 0,
+                            priceChange24h: best.priceChange?.h24 || 0,
+                            chain: best.chainId || "unknown"
+                        };
+                    }
+                }
+                return null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function calculateScore(tokenData) {
+            let score = 50;
+            if (tokenData.volume24h > 3000000) score += 25;
+            else if (tokenData.volume24h > 1000000) score += 18;
+            else if (tokenData.volume24h > 500000) score += 12;
+            else if (tokenData.volume24h > 100000) score += 6;
+            if (tokenData.liquidity > 1000000) score += 20;
+            else if (tokenData.liquidity > 500000) score += 15;
+            else if (tokenData.liquidity > 200000) score += 10;
+            else if (tokenData.liquidity > 50000) score += 5;
+            if (tokenData.priceChange24h > 30) score += 20;
+            else if (tokenData.priceChange24h > 15) score += 14;
+            else if (tokenData.priceChange24h > 5) score += 8;
+            else if (tokenData.priceChange24h > 0) score += 4;
+            if (tokenData.chain === "solana") score += 10;
+            else if (tokenData.chain === "base") score += 8;
+            else if (tokenData.chain === "ethereum") score += 5;
+            return Math.min(99, Math.max(20, Math.floor(score)));
+        }
+
+        async function mostrarAnalisis(tokenData, score) {
+            const sentimentSpan = document.getElementById('sentimentText');
+            let baseText = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
+            if (tokenData.volume24h > 2000000) baseText += "📈 Alto volumen detectado<br>";
+            else if (tokenData.volume24h > 500000) baseText += "📊 Volumen moderado<br>";
+            else baseText += "⚠️ Volumen bajo - precaución<br>";
+            
+            if (iaLocalActiva) {
+                sentimentSpan.innerHTML = '<span class="typing">🧠 TinyLlama analizando...</span>';
+                const precio = tokenData.price.toFixed(6);
+                const volumen = (tokenData.volume24h/1000000).toFixed(2);
+                const respuestaIA = await preguntarIA(tokenData.symbol, precio, volumen, score);
+                if (respuestaIA) {
+                    sentimentSpan.innerHTML = baseText + `🔥 <strong>TinyLlama:</strong> ${respuestaIA}`;
+                } else {
+                    let fallback = score > 70 ? "🔥 Alto potencial" : (score > 50 ? "📈 Potencial positivo" : "⏳ Esperar");
+                    sentimentSpan.innerHTML = baseText + fallback;
+                }
             } else {
-                let fallback = score > 70 ? "🔥 Alto potencial" : (score > 50 ? "📈 Potencial positivo" : "⏳ Esperar");
-                sentimentSpan.innerHTML = baseText + fallback;
+                let recomendacion = score > 70 ? "🔥 Alto potencial" : (score > 50 ? "📈 Potencial positivo" : "⏳ Esperar");
+                sentimentSpan.innerHTML = baseText + recomendacion;
             }
-        } else {
-            let recomendacion = score > 70 ? "🔥 Alto potencial" : (score > 50 ? "📈 Potencial positivo" : "⏳ Esperar");
-            sentimentSpan.innerHTML = baseText + recomendacion;
         }
-    }
 
-    async function updatePrediction(manualToken = null) {
-        if (isRefreshing) return;
-        isRefreshing = true;
-        const tokenToSearch = manualToken || currentToken;
-        document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
-        try {
-            const tokenData = await fetchTokenData(tokenToSearch);
-            if (!tokenData) {
-                document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
-                document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado`;
-                isRefreshing = false;
-                return;
+        async function updatePrediction(manualToken = null) {
+            if (isRefreshing) return;
+            isRefreshing = true;
+            const tokenToSearch = manualToken || currentToken;
+            document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
+            try {
+                const tokenData = await fetchTokenData(tokenToSearch);
+                if (!tokenData) {
+                    document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
+                    document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado`;
+                    isRefreshing = false;
+                    return;
+                }
+                currentToken = tokenToSearch;
+                const score = calculateScore(tokenData);
+                document.getElementById('tokenSymbol').innerHTML = `$${tokenData.symbol}`;
+                document.getElementById('tokenPrice').innerHTML = `$${tokenData.price.toFixed(8)}`;
+                document.getElementById('volume').innerHTML = `$${(tokenData.volume24h/1000000).toFixed(2)}M`;
+                document.getElementById('liquidity').innerHTML = `$${(tokenData.liquidity/1000000).toFixed(2)}M`;
+                const changeColor = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
+                const changeSign = tokenData.priceChange24h >= 0 ? '+' : '';
+                document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
+                document.getElementById('iaScore').innerHTML = `${score}/100`;
+                await mostrarAnalisis(tokenData, score);
+            } catch (error) {
+                document.getElementById('tokenSymbol').innerHTML = '❌ Error';
             }
-            currentToken = tokenToSearch;
-            const score = calculateScore(tokenData);
-            document.getElementById('tokenSymbol').innerHTML = `$${tokenData.symbol}`;
-            document.getElementById('tokenPrice').innerHTML = `$${tokenData.price.toFixed(8)}`;
-            document.getElementById('volume').innerHTML = `$${(tokenData.volume24h/1000000).toFixed(2)}M`;
-            document.getElementById('liquidity').innerHTML = `$${(tokenData.liquidity/1000000).toFixed(2)}M`;
-            const changeColor = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
-            const changeSign = tokenData.priceChange24h >= 0 ? '+' : '';
-            document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
-            document.getElementById('iaScore').innerHTML = `${score}/100`;
-            await mostrarAnalisis(tokenData, score);
-        } catch (error) {
-            document.getElementById('tokenSymbol').innerHTML = '❌ Error';
+            isRefreshing = false;
         }
-        isRefreshing = false;
-    }
 
-    verificarIA();
-    updatePrediction("POPCAT");
-    autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
-    document.getElementById('refreshBtn').onclick = () => updatePrediction();
-    document.getElementById('searchBtn').onclick = () => {
-        const val = document.getElementById('searchInput').value.trim().toUpperCase();
-        if (val) updatePrediction(val);
-    };
-</script>
+        verificarIA();
+        updatePrediction("POPCAT");
+        autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
+        document.getElementById('refreshBtn').onclick = () => updatePrediction();
+        document.getElementById('searchBtn').onclick = () => {
+            const val = document.getElementById('searchInput').value.trim().toUpperCase();
+            if (val) updatePrediction(val);
+        };
+    </script>
+
+    <!-- Script para el MODO VR (Three.js + WebXR) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { VRButton } from 'three/addons/webxr/VRButton.js';
+        
+        let vrScene, vrCamera, vrRenderer, vrControls;
+        let vrActive = false;
+        
+        function initVR() {
+            const container = document.getElementById('vrContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            vrScene = new THREE.Scene();
+            vrScene.background = new THREE.Color(0x0a0f1e);
+            vrScene.fog = new THREE.FogExp2(0x0a0f1e, 0.008);
+            
+            vrCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            vrCamera.position.set(5, 3, 8);
+            vrCamera.lookAt(0, 0, 0);
+            
+            vrRenderer = new THREE.WebGLRenderer({ antialias: true });
+            vrRenderer.setSize(container.clientWidth, container.clientHeight);
+            vrRenderer.setPixelRatio(window.devicePixelRatio);
+            vrRenderer.xr.enabled = true;
+            container.appendChild(vrRenderer.domElement);
+            
+            const vrBtn = VRButton.createButton(vrRenderer);
+            vrBtn.style.position = 'absolute';
+            vrBtn.style.bottom = '20px';
+            vrBtn.style.right = '20px';
+            vrBtn.style.zIndex = '1000';
+            container.appendChild(vrBtn);
+            
+            vrControls = new OrbitControls(vrCamera, vrRenderer.domElement);
+            vrControls.enableDamping = true;
+            vrControls.target.set(0, 0, 0);
+            
+            // Luces
+            const ambientLight = new THREE.AmbientLight(0x404060);
+            vrScene.add(ambientLight);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight.position.set(5, 10, 7);
+            vrScene.add(dirLight);
+            const pointLight = new THREE.PointLight(0x4a9eff, 0.5);
+            pointLight.position.set(0, 3, 2);
+            vrScene.add(pointLight);
+            
+            // Suelo reflectante
+            const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x1a1f2e, roughness: 0.3, metalness: 0.8 });
+            const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), floorMaterial);
+            floor.rotation.x = -Math.PI / 2;
+            floor.position.y = -1.5;
+            vrScene.add(floor);
+            
+            // Cuadrícula espacial
+            const gridHelper = new THREE.GridHelper(25, 30, 0x4a9eff, 0x334155);
+            gridHelper.position.y = -1.4;
+            vrScene.add(gridHelper);
+            
+            // Monedas flotantes (símbolos cripto)
+            const symbols = ['₿', 'Ξ', '◎', 'Ð', 'Ł', '₳'];
+            const colors2 = [0xf7931a, 0x627eea, 0x3b82f6, 0x00d4aa, 0x9c27b0, 0x00a3e0];
+            
+            for (let i = 0; i < 36; i++) {
+                const color = colors2[i % colors2.length];
+                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.2 });
+                const shape = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 16, 32), material);
+                const angle = (i / 36) * Math.PI * 2;
+                const radius = 4;
+                shape.position.x = Math.cos(angle) * radius;
+                shape.position.z = Math.sin(angle) * radius;
+                shape.position.y = Math.sin(angle * 3) * 0.8;
+                vrScene.add(shape);
+            }
+            
+            // Esferas brillantes (planetas)
+            for (let i = 0; i < 12; i++) {
+                const color = colors2[i % colors2.length];
+                const material = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.3 });
+                const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 16), material);
+                const angle = (i / 12) * Math.PI * 2;
+                const radius = 5.5;
+                sphere.position.x = Math.cos(angle) * radius;
+                sphere.position.z = Math.sin(angle) * radius;
+                sphere.position.y = Math.cos(angle * 2) * 0.5;
+                vrScene.add(sphere);
+            }
+            
+            // Texto flotante "NextMoon AI"
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#0a0f1e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = 'Bold 32px "Segoe UI"';
+            ctx.fillStyle = '#e9c46a';
+            ctx.textAlign = 'center';
+            ctx.fillText('NEXTMOON AI', canvas.width/2, canvas.height/2);
+            const textTexture = new THREE.CanvasTexture(canvas);
+            const textMaterial = new THREE.MeshStandardMaterial({ map: textTexture, side: THREE.DoubleSide });
+            const textPlane = new THREE.Mesh(new THREE.PlaneGeometry(4, 1), textMaterial);
+            textPlane.position.set(0, 2.5, -3);
+            vrScene.add(textPlane);
+            
+            // Partículas estelares
+            const particleCount = 1500;
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesPositions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount; i++) {
+                particlesPositions[i * 3] = (Math.random() - 0.5) * 40;
+                particlesPositions[i * 3 + 1] = (Math.random() - 0.5) * 15;
+                particlesPositions[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
+            const particlesMaterial = new THREE.PointsMaterial({ color: 0x60a5fa, size: 0.05, transparent: true, opacity: 0.6 });
+            const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+            vrScene.add(particles);
+            
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.005;
+                particles.rotation.y += 0.0005;
+                if (vrControls) vrControls.update();
+                if (vrRenderer) vrRenderer.render(vrScene, vrCamera);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                if (vrRenderer && vrCamera) {
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    vrCamera.aspect = width / height;
+                    vrCamera.updateProjectionMatrix();
+                    vrRenderer.setSize(width, height);
+                }
+            });
+        }
+        
+        // Control de modos
+        const normalMode = document.getElementById('normalMode');
+        const vrModeDiv = document.getElementById('vrMode');
+        const vrBtn = document.getElementById('vrModeBtn');
+        const closeVrBtn = document.getElementById('closeVrBtn');
+        
+        vrBtn.addEventListener('click', () => {
+            normalMode.style.display = 'none';
+            vrModeDiv.classList.add('active');
+            if (!vrActive) {
+                initVR();
+                vrActive = true;
+            }
+        });
+        
+        closeVrBtn.addEventListener('click', () => {
+            vrModeDiv.classList.remove('active');
+            normalMode.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
