@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NextMoon AI - Predictor Cripto</title>
+    <title>NextMoon AI - Predictor Cripto con IA</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -39,6 +39,8 @@
         .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
+        
+        .ia-badge { background: #8b5cf6; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
     </style>
 </head>
 <body>
@@ -48,8 +50,8 @@
         <div class="container">
             <div class="header">
                 <div class="badge">🚀 NextMoon AI</div>
-                <h1>🔮 NextMoon AI</h1>
-                <div style="font-size: 0.7rem;">Datos en tiempo real de criptomonedas</div>
+                <h1>🔮 NextMoon AI <span class="ia-badge">GROQ IA</span></h1>
+                <div style="font-size: 0.7rem;">Análisis con inteligencia artificial en tiempo real</div>
             </div>
 
             <div class="search-box">
@@ -66,31 +68,31 @@
                         <div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div>
                         <div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div>
                         <div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div>
-                        <div class="metric-item"><div class="metric-label">Score</div><div class="metric-value" id="iaScore">---</div></div>
+                        <div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <div class="card-title">📈 ANÁLISIS</div>
+                    <div class="card-title">📈 ANÁLISIS CON IA (GROQ)</div>
                     <div id="sentimentContainer">
                         <div class="sentiment-box">
-                            📊 <strong>Análisis automático:</strong><br>
-                            <span id="sentimentText">Cargando...</span>
+                            🤖 <strong>Oráculo IA:</strong><br>
+                            <span id="sentimentText">Cargando análisis inteligente...</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update">🟢 Actualización cada 30 segundos</div>
-            <footer>⚡ Datos: DexScreener · Análisis en tiempo real</footer>
+            <div class="auto-update">🟢 Actualización cada 30 segundos | 🧠 Análisis con Groq LLM</div>
+            <footer>⚡ Datos: DexScreener · Análisis: Groq IA (Llama 3.3)</footer>
             
-            <!-- PUBLICIDAD AL FINAL (SMART LINKS) -->
+            <!-- PUBLICIDAD -->
             <div class="ad-container">
                 <div class="ad-label">⚡ PATROCINADORES OFICIALES ⚡</div>
                 <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 10px;">
-                    <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎮 OFERTA 1</a>
-                    <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold; font-family: 'Cinzel', serif;">🎲 OFERTA 2</a>
+                    <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #e9c46a, #f4a261); color: #1a222c; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎮 OFERTA 1</a>
+                    <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow" style="background: linear-gradient(90deg, #2a9d8f, #264653); color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">🎲 OFERTA 2</a>
                     <div style="background: rgba(255,255,255,0.1); border: 2px dashed #e9c46a; border-radius: 40px; padding: 10px 20px; min-width: 120px; text-align: center; font-size: 0.7rem; color: #e9c46a;">⏳ PRÓXIMAMENTE</div>
                 </div>
             </div>
@@ -108,11 +110,33 @@
 
     <script>
         // ============================================
-        // PREDICTOR CRIPTO (SIN IA LOCAL)
+        // CONFIGURACIÓN GROQ - CLAVE DIRECTA
+        // ============================================
+        const GROQ_API_KEY = "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";
+        const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+        const MODEL = "llama-3.3-70b-versatile";
+        
+        // Límite de 100 consultas/día por navegador
+        const limite = {
+            get hoy() { return new Date().toDateString(); },
+            get usadas() { 
+                if(localStorage.getItem('dia_ia') !== this.hoy) return 0;
+                return parseInt(localStorage.getItem('consultas_ia') || 0);
+            },
+            puede() { return this.usadas < 100; },
+            registrar() { 
+                localStorage.setItem('dia_ia', this.hoy);
+                localStorage.setItem('consultas_ia', this.usadas + 1);
+            }
+        };
+        
+        // ============================================
+        // PREDICTOR CRIPTO CON IA DE GROQ
         // ============================================
         let currentToken = "POPCAT";
         let autoRefreshInterval;
         let isRefreshing = false;
+        let currentTokenData = null;
 
         async function fetchTokenData(tokenSymbol) {
             try {
@@ -136,6 +160,7 @@
                 }
                 return null;
             } catch (error) {
+                console.error("Error fetching token:", error);
                 return null;
             }
         }
@@ -160,8 +185,63 @@
             return Math.min(99, Math.max(20, Math.floor(score)));
         }
 
-        function mostrarAnalisis(tokenData, score) {
-            const sentimentSpan = document.getElementById('sentimentText');
+        async function analizarConGroq(tokenData) {
+            if (!limite.puede()) {
+                return `🛡️ Límite de IA alcanzado (100 análisis/día). Usando análisis local.`;
+            }
+            
+            const prompt = `Analiza este token cripto para trading:
+- Token: ${tokenData.symbol}
+- Precio: $${tokenData.price}
+- Volumen 24h: $${(tokenData.volume24h/1000000).toFixed(2)}M
+- Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M
+- Cambio 24h: ${tokenData.priceChange24h}%
+- Blockchain: ${tokenData.chain}
+
+Da un análisis breve (máximo 60 palabras) con:
+1. ¿Es buena oportunidad?
+2. Nivel de riesgo (bajo/medio/alto)
+3. Recomendación final (comprar/observar/evitar)
+
+Responde como un trader experto en cripto, con tono directo.`;
+
+            try {
+                const response = await fetch(GROQ_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${GROQ_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            { 
+                                role: "system", 
+                                content: "Eres un analista cripto experto. Analizas tokens con datos reales. Das consejos prácticos y realistas. Hablas español." 
+                            },
+                            { role: "user", content: prompt }
+                        ],
+                        max_tokens: 200,
+                        temperature: 0.7
+                    })
+                });
+                
+                if (!response.ok) return null;
+                const data = await response.json();
+                const respuesta = data.choices?.[0]?.message?.content || null;
+                
+                if (respuesta) {
+                    limite.registrar();
+                }
+                
+                return respuesta;
+            } catch (error) {
+                console.error("Error en Groq:", error);
+                return null;
+            }
+        }
+
+        function mostrarAnalisisLocal(tokenData, score) {
             let text = `📊 Volumen: $${(tokenData.volume24h/1000000).toFixed(2)}M | Liquidez: $${(tokenData.liquidity/1000000).toFixed(2)}M<br>`;
             if (tokenData.volume24h > 2000000) text += "📈 Alto volumen detectado<br>";
             else if (tokenData.volume24h > 500000) text += "📊 Volumen moderado<br>";
@@ -170,7 +250,7 @@
             if (score > 75) text += "🔥 RECOMENDACIÓN: Alto potencial. Considerar seguimiento.";
             else if (score > 60) text += "📈 RECOMENDACIÓN: Potencial positivo. Observar volumen.";
             else text += "⏳ RECOMENDACIÓN: Esperar confirmación de tendencia.";
-            sentimentSpan.innerHTML = text;
+            return text;
         }
 
         async function updatePrediction(manualToken = null) {
@@ -178,16 +258,22 @@
             isRefreshing = true;
             const tokenToSearch = manualToken || currentToken;
             document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
+            document.getElementById('sentimentText').innerHTML = '<div class="spinner"></div> 🤖 IA analizando...';
+            
             try {
                 const tokenData = await fetchTokenData(tokenToSearch);
                 if (!tokenData) {
                     document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
-                    document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado`;
+                    document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado en DexScreener`;
                     isRefreshing = false;
                     return;
                 }
+                
                 currentToken = tokenToSearch;
+                currentTokenData = tokenData;
                 const score = calculateScore(tokenData);
+                
+                // Actualizar UI con datos del token
                 document.getElementById('tokenSymbol').innerHTML = `$${tokenData.symbol}`;
                 document.getElementById('tokenPrice').innerHTML = `$${tokenData.price.toFixed(8)}`;
                 document.getElementById('volume').innerHTML = `$${(tokenData.volume24h/1000000).toFixed(2)}M`;
@@ -196,13 +282,27 @@
                 const changeSign = tokenData.priceChange24h >= 0 ? '+' : '';
                 document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
-                mostrarAnalisis(tokenData, score);
+                
+                // Análisis con Groq IA
+                const analisisIA = await analizarConGroq(tokenData);
+                
+                if (analisisIA) {
+                    document.getElementById('sentimentText').innerHTML = analisisIA.replace(/\n/g, '<br>');
+                } else {
+                    // Fallback a análisis local
+                    const analisisLocal = mostrarAnalisisLocal(tokenData, score);
+                    document.getElementById('sentimentText').innerHTML = analisisLocal + '<br><br>⚠️ IA no disponible - usando análisis local';
+                }
+                
             } catch (error) {
+                console.error("Error:", error);
                 document.getElementById('tokenSymbol').innerHTML = '❌ Error';
+                document.getElementById('sentimentText').innerHTML = 'Error al obtener datos. Intenta de nuevo.';
             }
             isRefreshing = false;
         }
 
+        // Iniciar con POPCAT
         updatePrediction("POPCAT");
         autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
         document.getElementById('refreshBtn').onclick = () => updatePrediction();
@@ -210,6 +310,9 @@
             const val = document.getElementById('searchInput').value.trim().toUpperCase();
             if (val) updatePrediction(val);
         };
+        
+        // Mostrar estado de la IA
+        console.log("🤖 NextMoon AI con Groq - Límite diario:", limite.usadas, "/100 usadas");
     </script>
 
     <!-- Script para el MODO VR (Three.js + WebXR) -->
