@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NextMoon AI - Predictor Cripto con IA</title>
+    <title>NextMoon AI - Predictor Cripto con IA Potenciada</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -47,9 +47,8 @@
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
         
-        .ia-badge { background: #8b5cf6; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
+        .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
         
-        /* Auspiciantes en chiquito */
         .sponsors {
             text-align: center;
             margin: 20px 0 10px 0;
@@ -76,16 +75,40 @@
             background: rgba(255,255,255,0.15);
             color: #e9c46a;
         }
+        .toast-msg {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            z-index: 2000;
+            animation: fadeOut 2s forwards;
+        }
+        @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
 
-    <!-- MODO NORMAL -->
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
                 <div class="badge">🚀 NextMoon AI</div>
-                <h1>🔮 NextMoon AI <span class="ia-badge">GROQ IA</span></h1>
+                <h1>🔮 NextMoon AI <span class="ia-badge">🇨🇳 IA POTENCIADA</span></h1>
                 <div style="font-size: 0.7rem;" id="subHeader">Análisis con inteligencia artificial en tiempo real</div>
                 <div class="daily-tip" id="dailyTip">
                     📈 El miedo es temporal, la convicción es eterna.
@@ -124,7 +147,6 @@
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
             <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 30 segundos</div>
             
-            <!-- AUSPICIANTES EN CHIQUITO -->
             <div class="sponsors">
                 <div class="sponsors-link">
                     <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a>
@@ -132,7 +154,7 @@
                 </div>
             </div>
 
-            <footer id="footer">⚡ Datos: DexScreener · Predictor IA</footer>
+            <footer id="footer">⚡ Datos: DexScreener · IA Potenciada</footer>
         </div>
     </div>
 
@@ -143,11 +165,12 @@
         <div id="vrContainer" style="width:100%;height:100%"></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
+
     <script>
         // ============================================
-        // ACTUALIZACIÓN AUTOMÁTICA DIARIA (frases y tips)
+        // ACTUALIZACIÓN DIARIA
         // ============================================
-        
         function actualizarContenidoDiario() {
             const hoy = new Date();
             const diaSemana = hoy.getDay();
@@ -183,35 +206,24 @@
             document.getElementById('dailyTip').innerHTML = frasesCripto[diaSemana];
             document.getElementById('subHeader').innerHTML = subtitulos[diaMes % subtitulos.length];
             document.getElementById('autoUpdateText').innerHTML = `🟢 ${hoy.toLocaleDateString('es-ES')} · ${tips[diaSemana]}`;
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${hoy.toLocaleDateString('es-ES')} · ${tips[diaSemana]}`;
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${hoy.toLocaleDateString('es-ES')} · IA Potenciada`;
         }
         
         // ============================================
-        // CONFIGURACIÓN GROQ
-        // ============================================
-        const GROQ_API_KEY = "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";
-        const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-        const MODEL = "llama-3.3-70b-versatile";
-        
-        const limite = {
-            get hoy() { return new Date().toDateString(); },
-            get usadas() { 
-                if(localStorage.getItem('dia_ia') !== this.hoy) return 0;
-                return parseInt(localStorage.getItem('consultas_ia') || 0);
-            },
-            puede() { return this.usadas < 100; },
-            registrar() { 
-                localStorage.setItem('dia_ia', this.hoy);
-                localStorage.setItem('consultas_ia', this.usadas + 1);
-            }
-        };
-        
-        // ============================================
-        // PREDICTOR CRIPTO
+        // PREDICTOR CRIPTO CON IA POTENCIADA (CHINO)
         // ============================================
         let currentToken = "POPCAT";
         let autoRefreshInterval;
         let isRefreshing = false;
+        
+        function showToast(msg, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast-msg';
+            if(isError) toast.style.background = '#ef4444';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
 
         async function fetchTokenData(tokenSymbol) {
             try {
@@ -253,32 +265,54 @@
             return Math.min(99, Math.max(20, Math.floor(score)));
         }
 
-        async function analizarConGroq(tokenData) {
-            if (!limite.puede()) {
-                return `🛡️ Límite de IA alcanzado (100 análisis/día).`;
-            }
-            
-            const prompt = `Analiza este token cripto: ${tokenData.symbol} - Precio: $${tokenData.price} - Volumen: $${(tokenData.volume24h/1e6).toFixed(2)}M - Liquidez: $${(tokenData.liquidity/1e6).toFixed(2)}M - Cambio: ${tokenData.priceChange24h}%. Da análisis breve (máx 50 palabras): oportunidad, riesgo, recomendación.`;
-            
+        // ============================================
+        // IA POTENCIADA: Pensar en CHINO, responder en español
+        // ============================================
+        async function analizarConIAPotenciada(tokenData) {
             try {
-                const response = await fetch(GROQ_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
-                    body: JSON.stringify({
-                        model: MODEL,
-                        messages: [{ role: "system", content: "Eres analista cripto experto. Das consejos realistas. Hablas español." }, { role: "user", content: prompt }],
-                        max_tokens: 200,
-                        temperature: 0.7
-                    })
-                });
-                if (!response.ok) return null;
-                const data = await response.json();
-                const respuesta = data.choices?.[0]?.message?.content;
-                if (respuesta) limite.registrar();
-                return respuesta;
+                if (typeof jsllm7 === 'undefined') {
+                    await new Promise(r => setTimeout(r, 500));
+                    if (typeof jsllm7 === 'undefined') {
+                        return null;
+                    }
+                }
+                
+                const datosStr = `${tokenData.symbol} - Precio: $${tokenData.price} - Volumen 24h: $${(tokenData.volume24h/1e6).toFixed(2)}M - Liquidez: $${(tokenData.liquidity/1e6).toFixed(2)}M - Cambio 24h: ${tokenData.priceChange24h}% - Chain: ${tokenData.chain}`;
+                
+                // Paso 1: Pensar en chino (precisión para análisis financiero)
+                const pensarChino = `你是一名加密货币分析师。分析这个代币：${datosStr}
+
+给出：
+1. 短期（1-2天）：买入/持有/卖出
+2. 风险级别：低/中/高  
+3. 关键指标
+4. 最终判断（1句话）
+
+最多70字。直接实用。`;
+                
+                const respuestaChino = await jsllm7(pensarChino);
+                
+                // Paso 2: Traducir a español natural
+                const traducir = `Translate this crypto analysis to NATURAL SPANISH (keep the recommendations clear):
+
+CHINESE TEXT: "${respuestaChino}"
+
+SPANISH:`;
+                
+                const respuestaFinal = await jsllm7(traducir);
+                
+                return respuestaFinal || respuestaChino;
+                
             } catch (error) {
+                console.error("Error en IA potenciada:", error);
                 return null;
             }
+        }
+        
+        // Respuesta offline de respaldo
+        function analisisOffline(tokenData, score) {
+            const oportunidad = score > 70 ? "🔥 Potencial alcista" : (score > 50 ? "📊 Neutral, observar" : "⚠️ Alto riesgo, evitar");
+            return `📊 **Análisis Técnico**\n\n💰 Score: ${score}/100\n📈 ${oportunidad}\n\n💡 Recomendación: ${score > 70 ? 'Considerar entrada gradual' : (score > 50 ? 'Esperar confirmación' : 'Evitar por ahora')}`;
         }
 
         async function updatePrediction(manualToken = null) {
@@ -309,14 +343,19 @@
                 document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                const analisisIA = await analizarConGroq(tokenData);
-                if (analisisIA) {
-                    document.getElementById('sentimentText').innerHTML = analisisIA.replace(/\n/g, '<br>');
+                // Usar IA potenciada (chino → español)
+                let analisisIA = await analizarConIAPotenciada(tokenData);
+                if (!analisisIA) {
+                    analisisIA = analisisOffline(tokenData, score);
+                    showToast("⚠️ Usando análisis offline", true);
                 } else {
-                    document.getElementById('sentimentText').innerHTML = `📊 Score: ${score}/100 | ${score > 70 ? '🔥 Potencial positivo' : '⏳ Esperar confirmación'}`;
+                    showToast("✅ Análisis con IA potenciada (chino)");
                 }
+                
+                document.getElementById('sentimentText').innerHTML = analisisIA.replace(/\n/g, '<br>');
             } catch (error) {
                 document.getElementById('tokenSymbol').innerHTML = '❌ Error';
+                document.getElementById('sentimentText').innerHTML = 'Error al obtener datos';
             }
             isRefreshing = false;
         }
@@ -401,7 +440,7 @@
         cv.onclick=()=>{vd.classList.remove('active');nm.style.display='block'};
     </script>
 
-    <!-- PUBLICIDAD (SCRIPTS OCULTOS) -->
+    <!-- PUBLICIDAD -->
     <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
