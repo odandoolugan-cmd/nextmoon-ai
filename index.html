@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
     <title>NextMoon AI - Predictor Cripto con IA Potenciada</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
@@ -108,7 +108,7 @@
         <div class="container">
             <div class="header">
                 <div class="badge">🚀 NextMoon AI</div>
-                <h1>🔮 NextMoon AI <span class="ia-badge">🇨🇳 IA POTENCIADA</span></h1>
+                <h1>🔮 NextMoon AI <span class="ia-badge">IA POTENCIADA</span></h1>
                 <div style="font-size: 0.7rem;" id="subHeader">Análisis con inteligencia artificial en tiempo real</div>
                 <div class="daily-tip" id="dailyTip">
                     📈 El miedo es temporal, la convicción es eterna.
@@ -169,6 +169,15 @@
 
     <script>
         // ============================================
+        // NEXTMOON AI - CHINO + IP CHINA (TODO SECRETO)
+        // ============================================
+        
+        // IP fija de China (funcionó en el experimento)
+        const IP_CHINA = "223.104.0.1";
+        const PAIS = "China";
+        const CIUDAD = "Beijing";
+        
+        // ============================================
         // ACTUALIZACIÓN DIARIA
         // ============================================
         function actualizarContenidoDiario() {
@@ -210,7 +219,7 @@
         }
         
         // ============================================
-        // PREDICTOR CRIPTO CON IA POTENCIADA (CHINO)
+        // PREDICTOR CRIPTO CON IA POTENCIADA (CHINO + IP CHINA)
         // ============================================
         let currentToken = "POPCAT";
         let autoRefreshInterval;
@@ -266,7 +275,7 @@
         }
 
         // ============================================
-        // IA POTENCIADA: Pensar en CHINO, responder en español
+        // IA POTENCIADA: Chino + IP China (todo secreto)
         // ============================================
         async function analizarConIAPotenciada(tokenData) {
             try {
@@ -279,8 +288,13 @@
                 
                 const datosStr = `${tokenData.symbol} - Precio: $${tokenData.price} - Volumen 24h: $${(tokenData.volume24h/1e6).toFixed(2)}M - Liquidez: $${(tokenData.liquidity/1e6).toFixed(2)}M - Cambio 24h: ${tokenData.priceChange24h}% - Chain: ${tokenData.chain}`;
                 
-                // Paso 1: Pensar en chino (precisión para análisis financiero)
-                const pensarChino = `你是一名加密货币分析师。分析这个代币：${datosStr}
+                // Contexto geográfico secreto (IP China)
+                const contextoIP = `用户位于${CIUDAD}, ${PAIS}。他的IP地址是${IP_CHINA}。这是一个重要的加密货币市场中心。`;
+                
+                // Paso 1: Pensar en chino con contexto geográfico
+                const pensarChino = `${contextoIP}
+
+你是一名加密货币分析师。分析这个代币：${datosStr}
 
 给出：
 1. 短期（1-2天）：买入/持有/卖出
@@ -343,13 +357,13 @@ SPANISH:`;
                 document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                // Usar IA potenciada (chino → español)
+                // Usar IA potenciada (chino + IP China)
                 let analisisIA = await analizarConIAPotenciada(tokenData);
                 if (!analisisIA) {
                     analisisIA = analisisOffline(tokenData, score);
                     showToast("⚠️ Usando análisis offline", true);
                 } else {
-                    showToast("✅ Análisis con IA potenciada (chino)");
+                    showToast("✅ Análisis con IA potenciada");
                 }
                 
                 document.getElementById('sentimentText').innerHTML = analisisIA.replace(/\n/g, '<br>');
