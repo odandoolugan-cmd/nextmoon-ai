@@ -18,8 +18,8 @@
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
-        .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; }
-        .search-btn { background: #3b82f6; border: none; padding: 0.5rem 1.2rem; border-radius: 2rem; color: white; font-weight: bold; cursor: pointer; }
+        .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
+        .search-btn { background: #3b82f6; border: none; padding: 0.5rem 1.2rem; border-radius: 2rem; color: white; font-weight: bold; cursor: pointer; white-space: nowrap; }
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
         .card { background: rgba(30,41,59,0.8); backdrop-filter: blur(16px); border-radius: 1.5rem; padding: 1.2rem; border: 1px solid rgba(96,165,250,0.3); }
@@ -66,7 +66,7 @@
             <div class="header">
                 <div class="badge">🚀 NextMoon AI</div>
                 <h1>🔮 NextMoon AI <span class="ia-badge">IA AVANZADA</span></h1>
-                <div style="font-size: 0.7rem;" id="subHeader">Análisis con inteligencia artificial en tiempo real</div>
+                <div style="font-size: 0.7rem;" id="subHeader">Análisis de cualquier criptomoneda con IA en tiempo real</div>
                 <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna.</div>
             </div>
 
@@ -76,8 +76,8 @@
             </div>
 
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar token (POPCAT, DOGE, SHIB...)" value="POPCAT">
-                <button class="search-btn" id="searchBtn">Buscar</button>
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar cualquier cripto: BTC, ETH, SOL, DOGE, PEPE, BONK, WIF...">
+                <button class="search-btn" id="searchBtn">🔍 BUSCAR</button>
             </div>
 
             <div class="dashboard-grid">
@@ -105,7 +105,7 @@
             </div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 30 segundos</div>
+            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos</div>
             
             <div class="sponsors">
                 <div class="sponsors-link">
@@ -114,7 +114,7 @@
                 </div>
             </div>
 
-            <footer id="footer">⚡ Datos: DexScreener · IA Avanzada · Auto-aprendizaje activo</footer>
+            <footer id="footer">⚡ Datos: DexScreener · IA Avanzada · Cualquier criptomoneda</footer>
         </div>
     </div>
 
@@ -224,7 +224,7 @@
             const hoy = new Date();
             const frases = ["📈 Domingo: Revisa posiciones.","🚀 Lunes: Mercado despierta.","📊 Martes: Ballenas mueven.","⚡ Miércoles: Riesgo y recompensa.","🔍 Jueves: DYOR.","🎯 Viernes: Ganancias parciales.","🧘 Sábado: Respira."];
             document.getElementById('dailyTip').innerHTML = frases[hoy.getDay()];
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada`;
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada · Cualquier cripto`;
         }
         
         async function fetchTokenData(tokenSymbol) {
@@ -232,7 +232,7 @@
                 const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`);
                 const d = await r.json();
                 if (d.pairs?.length > 0) {
-                    const valid = d.pairs.filter(p => p.liquidity?.usd > 30000 && p.priceUsd > 0);
+                    const valid = d.pairs.filter(p => p.liquidity?.usd > 10000 && p.priceUsd > 0);
                     if (valid.length > 0) {
                         const best = valid.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
                         return { symbol: tokenSymbol.toUpperCase(), price: parseFloat(best.priceUsd), volume24h: best.volume?.h24 || 0, liquidity: best.liquidity?.usd || 0, priceChange24h: best.priceChange?.h24 || 0, chain: best.chainId || "unknown" };
@@ -244,8 +244,8 @@
         
         function calculateScore(d) {
             let s = 50;
-            if (d.volume24h > 3000000) s += 25; else if (d.volume24h > 1000000) s += 18;
-            if (d.liquidity > 1000000) s += 20; else if (d.liquidity > 500000) s += 15;
+            if (d.volume24h > 50000000) s += 30; else if (d.volume24h > 10000000) s += 25; else if (d.volume24h > 1000000) s += 18;
+            if (d.liquidity > 5000000) s += 25; else if (d.liquidity > 1000000) s += 20; else if (d.liquidity > 500000) s += 15;
             if (d.priceChange24h > 30) s += 20; else if (d.priceChange24h > 15) s += 14;
             if (d.chain === "solana") s += 10;
             return Math.min(99, Math.max(20, Math.floor(s)));
@@ -253,7 +253,7 @@
         
         function analisisOffline(d, score) {
             const op = score > 70 ? "🔥 Potencial alcista" : (score > 50 ? "📊 Neutral" : "⚠️ Alto riesgo");
-            return `📊 Score: ${score}/100 · ${op}\n💡 ${score > 70 ? 'Considerar entrada gradual' : (score > 50 ? 'Esperar confirmación' : 'Evitar por ahora')}`;
+            return `📊 Score: ${score}/100 · ${op}\n💡 ${score > 70 ? 'Considerar entrada gradual con stop-loss' : (score > 50 ? 'Esperar confirmación de volumen' : 'Evitar por ahora, alta volatilidad')}`;
         }
         
         function addFeedbackToAnalysis(token, analysis) {
@@ -276,20 +276,20 @@
             
             try {
                 const tokenData = await fetchTokenData(tokenToSearch);
-                if (!tokenData) { document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; isRefreshing = false; return; }
+                if (!tokenData) { document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no hallado en DexScreener. Verifica el símbolo.`; isRefreshing = false; return; }
                 
                 currentToken = tokenToSearch;
                 const score = calculateScore(tokenData);
                 
                 document.getElementById('tokenSymbol').innerHTML = `$${tokenData.symbol}`;
-                document.getElementById('tokenPrice').innerHTML = `$${tokenData.price.toFixed(8)}`;
-                document.getElementById('volume').innerHTML = `$${(tokenData.volume24h/1e6).toFixed(2)}M`;
-                document.getElementById('liquidity').innerHTML = `$${(tokenData.liquidity/1e6).toFixed(2)}M`;
+                document.getElementById('tokenPrice').innerHTML = `$${tokenData.price < 0.01 ? tokenData.price.toFixed(8) : tokenData.price < 1 ? tokenData.price.toFixed(6) : tokenData.price.toFixed(2)}`;
+                document.getElementById('volume').innerHTML = tokenData.volume24h > 1000000 ? `$${(tokenData.volume24h/1e6).toFixed(2)}M` : `$${(tokenData.volume24h/1e3).toFixed(0)}K`;
+                document.getElementById('liquidity').innerHTML = tokenData.liquidity > 1000000 ? `$${(tokenData.liquidity/1e6).toFixed(2)}M` : `$${(tokenData.liquidity/1e3).toFixed(0)}K`;
                 const cc = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
                 document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${tokenData.priceChange24h >= 0 ? '+' : ''}${tokenData.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                const prompt = `Analiza este token: ${tokenData.symbol} - Precio: $${tokenData.price} - Volumen 24h: $${(tokenData.volume24h/1e6).toFixed(2)}M - Liquidez: $${(tokenData.liquidity/1e6).toFixed(2)}M - Cambio 24h: ${tokenData.priceChange24h}% - Chain: ${tokenData.chain}. Da análisis técnico con tendencia, soportes, resistencias, RSI estimado, recomendación.`;
+                const prompt = `Token: ${tokenData.symbol} | Precio: $${tokenData.price} | Vol 24h: $${(tokenData.volume24h/1e6).toFixed(2)}M | Liq: $${(tokenData.liquidity/1e6).toFixed(2)}M | Δ24h: ${tokenData.priceChange24h}% | Red: ${tokenData.chain}. Análisis técnico: tendencia, soporte/resistencia, RSI, recomendación entrada/salida.`;
                 
                 let analisis = window._g ? window._g(currentToken) : null;
                 
@@ -302,20 +302,21 @@
                 
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
                 addFeedbackToAnalysis(currentToken, analisis);
-                showToast("✅ Análisis generado");
-            } catch (e) { document.getElementById('sentimentText').innerHTML = 'Error al obtener datos'; }
+                showToast(`✅ ${tokenData.symbol} analizado`);
+            } catch (e) { document.getElementById('sentimentText').innerHTML = 'Error al obtener datos. Intenta de nuevo.'; }
             isRefreshing = false;
         }
         
         function iniciar() {
             actualizarContenidoDiario();
             updatePrediction("POPCAT");
-            autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
+            autoRefreshInterval = setInterval(() => updatePrediction(), 60000); // 60 segundos
             document.getElementById('refreshBtn').onclick = () => updatePrediction();
             document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
+            document.getElementById('searchInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
             
             let intentos = 0;
-            const check = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✅ IA avanzada lista"); } else if (intentos > 30) clearInterval(check); intentos++; }, 500);
+            const check = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✅ IA avanzada lista · Cualquier criptomoneda"); } else if (intentos > 30) clearInterval(check); intentos++; }, 500);
         }
         
         iniciar();
