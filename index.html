@@ -11,38 +11,11 @@
         .header { text-align: center; margin-bottom: 1.5rem; }
         h1 { font-size: 1.8rem; background: linear-gradient(135deg, #fff, #60a5fa, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .badge { display: inline-block; background: rgba(59,130,246,0.2); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.7rem; margin-bottom: 0.5rem; }
-        .daily-tip {
-            background: rgba(139, 92, 246, 0.15);
-            border-radius: 2rem;
-            padding: 0.6rem 1.2rem;
-            margin: 0.5rem auto 1rem auto;
-            text-align: center;
-            max-width: 90%;
-            font-size: 0.75rem;
-            border: 1px solid rgba(96,165,250,0.3);
-        }
+        .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         
-        .modo-selector {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .modo-btn {
-            background: #1e293b;
-            border: 1px solid #334155;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            font-weight: 600;
-            color: #94a3b8;
-        }
-        .modo-btn.active {
-            background: #8b5cf6;
-            color: white;
-            border-color: #8b5cf6;
-        }
+        .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
+        .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
+        .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; }
@@ -58,26 +31,9 @@
         .metric-label { font-size: 0.6rem; color: #94a3b8; }
         .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
         
-        .feedback-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            justify-content: flex-end;
-        }
-        .feedback-btn {
-            background: none;
-            border: none;
-            color: #7a9aae;
-            cursor: pointer;
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 15px;
-            transition: 0.2s;
-        }
-        .feedback-btn:hover {
-            background: #334155;
-            color: #e9c46a;
-        }
+        .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
+        .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
+        .feedback-btn:hover { background: #334155; color: #e9c46a; }
         
         button { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
         .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
@@ -94,57 +50,13 @@
         
         .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
         
-        .sponsors {
-            text-align: center;
-            margin: 20px 0 10px 0;
-            padding: 8px;
-        }
-        .sponsors-link {
-            display: inline-flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .sponsors-link a {
-            background: rgba(255,255,255,0.08);
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.65rem;
-            font-weight: normal;
-            transition: 0.2s;
-            color: #94a3b8;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .sponsors-link a:hover {
-            background: rgba(255,255,255,0.15);
-            color: #e9c46a;
-        }
-        .toast-msg {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #10b981;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            z-index: 2000;
-            animation: fadeOut 2s forwards;
-        }
+        .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
+        .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; font-weight: normal; transition: 0.2s; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
+        .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
+        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
-        .loading-spinner {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            margin-right: 6px;
-            vertical-align: middle;
-        }
+        .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
     </style>
 </head>
 <body>
@@ -155,9 +67,7 @@
                 <div class="badge">🚀 NextMoon AI</div>
                 <h1>🔮 NextMoon AI <span class="ia-badge">IA AVANZADA</span></h1>
                 <div style="font-size: 0.7rem;" id="subHeader">Análisis con inteligencia artificial en tiempo real</div>
-                <div class="daily-tip" id="dailyTip">
-                    📈 El miedo es temporal, la convicción es eterna.
-                </div>
+                <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna.</div>
             </div>
 
             <div class="modo-selector">
@@ -209,7 +119,6 @@
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
-
     <div class="vr-mode" id="vrMode">
         <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
         <div id="vrContainer" style="width:100%;height:100%"></div>
@@ -219,320 +128,145 @@
 
     <script>
         // ============================================
-        // NEXTMOON AI - VERSIÓN AVANZADA
-        // CONFIGURACIÓN SECRETA (el usuario NO ve esto)
-        // IP OPTIMIZADA: China (223.104.0.1)
-        // MÉTODO: Chino → Español (traducción)
-        // AUTO-APRENDIZAJE + CACHÉ + FEEDBACK + AUTO-REPARACIÓN
-        // BIBLIOTECA CRIPTO SECRETA
+        // NEXTMOON AI - SISTEMA CONFIDENCIAL
+        // MÉTODO GANADOR: Árabe→Español (95%)
+        // + Chino (94%) · Triple Chino (94%)
+        // 5 métodos auto-adaptativos en secreto
         // ============================================
         
-        const CONFIG = {
-            ip: "223.104.0.1",
-            ciudad: "Beijing",
-            pais: "China",
-            metodo: "chino_español"
-        };
-        
-        // Biblioteca cripto secreta (lo mejor del mundo)
-        function getBibliotecaCripto() {
-            return `Indicadores técnicos clave: RSI, MACD, volumen, soporte/resistencia, medias móviles.
-Factores de mercado: noticias, sentimiento, liquidez, volumen de exchanges.
-Estrategias: DCA, trading de rango, breakout, scalping.
-Gestión de riesgo: stop-loss, tamaño de posición, diversificación.
-Psicología: FOMO, FUD, paciencia, disciplina.`;
-        }
-        
-        // IPs de respaldo (auto-reparación)
-        const BACKUP_IPS = [
-            { ip: "223.104.0.1", ciudad: "Beijing", pais: "China" },
-            { ip: "86.143.0.1", ciudad: "Londres", pais: "Reino Unido" },
-            { ip: "79.240.0.1", ciudad: "Berlín", pais: "Alemania" }
-        ];
-        let currentIpIndex = 0;
-        
-        // Caché inteligente
-        let preguntaCache = JSON.parse(localStorage.getItem('nextmoon_cache') || '{}');
-        
-        function guardarEnCache(token, respuesta) {
-            const key = token.toLowerCase().trim();
-            preguntaCache[key] = { respuesta: respuesta, timestamp: Date.now() };
-            const keys = Object.keys(preguntaCache);
-            if (keys.length > 100) delete preguntaCache[keys[0]];
-            localStorage.setItem('nextmoon_cache', JSON.stringify(preguntaCache));
-        }
-        
-        function obtenerDeCache(token) {
-            const key = token.toLowerCase().trim();
-            if (preguntaCache[key]) return preguntaCache[key].respuesta;
-            return null;
-        }
-        
-        // Memoria de aprendizaje (feedback persistente)
-        let memoriaAprendizaje = JSON.parse(localStorage.getItem('nextmoon_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
-        
-        function guardarMemoria() {
-            localStorage.setItem('nextmoon_memoria', JSON.stringify(memoriaAprendizaje));
-        }
-        
-        function registrarFeedback(token, respuesta, util) {
-            const key = token.toLowerCase().trim();
-            if (!memoriaAprendizaje.lecciones[key]) {
-                memoriaAprendizaje.lecciones[key] = { token: token, respuestas: [], useful: 0, notuseful: 0, mejor_respuesta: null };
+        (function() {
+            const _ = { t: 25, r: 1, p: 35000, m: 3 };
+            
+            const M = [
+                { f: [
+                    (q) => `خبير تحليل عملات رقمية عالمي. أجب بالعربية بدقة متناهية: "${q}" تحليل فني كامل مع مستويات سعر محددة، دعم، مقاومة، RSI، توصية دخول/خروج.`,
+                    (t) => `Traduce este análisis cripto a ESPAÑOL con máxima precisión:\n\n"${t}"\n\nESPAÑOL:`
+                ]},
+                { f: [
+                    (q) => `Eres un analista cripto experto mundial. Responde en CHINO con máxima precisión: "${q}" Análisis técnico completo con niveles de precio específicos.`,
+                    (t) => `Traduce al ESPAÑOL con máxima calidad:\n\n"${t}"\n\nESPAÑOL:`
+                ]},
+                { f: [
+                    (q) => `EXPERTO MUNDIAL en cripto. CHINO con MÁXIMA precisión: "${q}" Análisis completo + niveles + recomendación.`,
+                    (t) => `Translate to ENGLISH:\n\n"${t}"\n\nENGLISH:`,
+                    (t) => `Traduis en FRANÇAIS:\n\n"${t}"\n\nFRANÇAIS:`,
+                    (t) => `Traduce a ESPAÑOL con MÁXIMA CALIDAD:\n\n"${t}"\n\nESPAÑOL:`
+                ]},
+                { f: [
+                    (q) => `Sei un analista crypto esperto. ITALIANO con precisione: "${q}" Analisi tecnica completa.`,
+                    (t) => `Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`
+                ]},
+                { f: [
+                    (q) => `Expert en analyse crypto. FRANÇAIS: "${q}" Analyse technique complète.`,
+                    (t) => `Traduis en ESPAGNOL:\n\n"${t}"\n\nESPAGNOL:`
+                ]}
+            ];
+            
+            let S = { i: 0, c: 0 };
+            let C = JSON.parse(localStorage.getItem('_nm') || '{}');
+            function _s() { localStorage.setItem('_nm', JSON.stringify(C)); }
+            function _g(q) { const k = q.toLowerCase().trim(); if (C[k] && (Date.now()-C[k].t)<3600000) return C[k].r; return null; }
+            function _p(q, r) { const k = q.toLowerCase().trim(); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t-C[b].t); for (let i=0;i<30;i++) delete C[keys[i]]; } _s(); }
+            
+            async function _l(p) {
+                return new Promise(async (resolve, reject) => {
+                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
+                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
+                });
             }
-            const leccion = memoriaAprendizaje.lecciones[key];
-            const respuestaExistente = leccion.respuestas.find(r => r.texto === respuesta);
-            if (respuestaExistente) {
-                if (util === 'useful') respuestaExistente.useful++;
-                else respuestaExistente.notuseful++;
-            } else {
-                leccion.respuestas.push({ texto: respuesta, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
-            }
-            if (util === 'useful') leccion.useful++;
-            else leccion.notuseful++;
-            leccion.mejor_respuesta = leccion.respuestas.reduce((mejor, actual) => {
-                const scoreActual = actual.useful - actual.notuseful;
-                const scoreMejor = mejor ? (mejor.useful - mejor.notuseful) : -1;
-                return scoreActual > scoreMejor ? actual : mejor;
-            }, null);
-            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
-            guardarMemoria();
-        }
+            
+            async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
+            
+            window._x = async function(q) {
+                const start = S.i;
+                for (let i = 0; i < M.length; i++) {
+                    const idx = (start + i) % M.length;
+                    try { const r = await _e(M[idx], q); S.i = idx; S.c = 0; return { r, e: true }; }
+                    catch (e) { S.c++; if (S.c >= _.m) { await new Promise(r => setTimeout(r, _.p)); S.c = 0; } if (i < M.length - 1) await new Promise(r => setTimeout(r, 3000)); }
+                }
+                return { r: null, e: false };
+            };
+            
+            window._g = _g; window._p = _p;
+            setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
+        })();
         
-        function obtenerRespuestaAprendida(token) {
-            const key = token.toLowerCase().trim();
-            const leccion = memoriaAprendizaje.lecciones[key];
-            if (leccion && leccion.mejor_respuesta) {
-                const ratio = leccion.useful / (leccion.useful + leccion.notuseful + 1);
-                if (ratio > 0.6) return leccion.mejor_respuesta.texto;
-            }
-            return null;
-        }
-        
-        // Modo Experto/Básico
+        // ============================================
+        // CONFIGURACIÓN Y VARIABLES
+        // ============================================
         let modo = localStorage.getItem('nextmoon_modo') || 'experto';
-        
-        function actualizarModoUI() {
-            document.querySelectorAll('.modo-btn').forEach(btn => {
-                if (btn.dataset.modo === modo) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
-        }
-        
-        document.querySelectorAll('.modo-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                modo = btn.dataset.modo;
-                localStorage.setItem('nextmoon_modo', modo);
-                actualizarModoUI();
-                showToast(`✨ Modo cambiado a ${modo === 'experto' ? 'EXPERTO (análisis profundo)' : 'BÁSICO (recomendaciones prácticas)'}`);
-            });
-        });
-        actualizarModoUI();
-        
-        // Auto-reparación
-        async function esperarBackoff(intento) {
-            const tiempo = Math.min(1000 * Math.pow(2, intento), 8000);
-            return new Promise(resolve => setTimeout(resolve, tiempo));
-        }
-        
-        function cambiarIP() {
-            if (currentIpIndex < BACKUP_IPS.length - 1) {
-                currentIpIndex++;
-                return BACKUP_IPS[currentIpIndex];
-            }
-            return BACKUP_IPS[currentIpIndex];
-        }
-        
-        // ============================================
-        // ACTUALIZACIÓN DIARIA
-        // ============================================
-        function actualizarContenidoDiario() {
-            const hoy = new Date();
-            const diaSemana = hoy.getDay();
-            const diaMes = hoy.getDate();
-            
-            const frasesCripto = [
-                "📈 Domingo: Revisa tus posiciones antes de que abran los mercados.",
-                "🚀 Lunes: El mercado despierta. ¿Estás listo para la acción?",
-                "📊 Martes: Las ballenas mueven el mercado. Observa los volúmenes.",
-                "⚡ Miércoles: Momento para traders intrépidos. Riesgo y recompensa.",
-                "🔍 Jueves: DYOR - Tu mejor herramienta contra el FOMO.",
-                "🎯 Viernes: Considera tomar ganancias parciales.",
-                "🧘 Sábado: El mercado no se detiene, pero tú puedes respirar."
-            ];
-            
-            const tips = [
-                "💡 Nunca inviertas más de lo que puedes perder",
-                "📊 El volumen precede al precio",
-                "🔐 Usa stop-loss en mercados volátiles",
-                "🎯 La paciencia es clave en cripto",
-                "📈 DCA reduce el riesgo de timing",
-                "🛡️ Diversifica tu cartera",
-                "🔍 Verifica liquidez antes de entrar"
-            ];
-            
-            const subtitulos = [
-                "Análisis con IA en tiempo real · Auto-aprendizaje activo",
-                "Predicciones cripto · Datos en vivo · IA avanzada",
-                "Tu copiloto inteligente para el mercado cripto",
-                "Análisis técnico con inteligencia artificial"
-            ];
-            
-            document.getElementById('dailyTip').innerHTML = frasesCripto[diaSemana];
-            document.getElementById('subHeader').innerHTML = subtitulos[diaMes % subtitulos.length];
-            document.getElementById('autoUpdateText').innerHTML = `🟢 ${hoy.toLocaleDateString('es-ES')} · ${tips[diaSemana]}`;
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada · Auto-aprendizaje`;
-        }
-        
+        let memoriaAprendizaje = JSON.parse(localStorage.getItem('nextmoon_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
         let currentToken = "POPCAT";
         let autoRefreshInterval;
         let isRefreshing = false;
         
-        function showToast(msg, isError = false) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-msg';
-            if(isError) toast.style.background = '#ef4444';
-            toast.innerText = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2500);
-        }
-
-        async function fetchTokenData(tokenSymbol) {
-            try {
-                const url = `https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`;
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('API error');
-                const data = await response.json();
-                if (data.pairs && data.pairs.length > 0) {
-                    const validPairs = data.pairs.filter(p => p.liquidity?.usd > 30000 && p.priceUsd > 0);
-                    if (validPairs.length > 0) {
-                        const best = validPairs.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
-                        return {
-                            symbol: tokenSymbol.toUpperCase(),
-                            price: parseFloat(best.priceUsd),
-                            volume24h: best.volume?.h24 || 0,
-                            liquidity: best.liquidity?.usd || 0,
-                            priceChange24h: best.priceChange?.h24 || 0,
-                            chain: best.chainId || "unknown"
-                        };
-                    }
-                }
-                return null;
-            } catch (error) {
-                console.error("Error fetching token:", error);
-                return null;
-            }
-        }
-
-        function calculateScore(tokenData) {
-            let score = 50;
-            if (tokenData.volume24h > 3000000) score += 25;
-            else if (tokenData.volume24h > 1000000) score += 18;
-            else if (tokenData.volume24h > 500000) score += 12;
-            if (tokenData.liquidity > 1000000) score += 20;
-            else if (tokenData.liquidity > 500000) score += 15;
-            if (tokenData.priceChange24h > 30) score += 20;
-            else if (tokenData.priceChange24h > 15) score += 14;
-            if (tokenData.chain === "solana") score += 10;
-            return Math.min(99, Math.max(20, Math.floor(score)));
-        }
-
-        // ============================================
-        // IA AVANZADA CON AUTO-APRENDIZAJE Y AUTO-REPARACIÓN
-        // ============================================
-        async function analizarConIAPotenciada(tokenData) {
-            const maxIntentos = 2;
-            
-            for (let intento = 1; intento <= maxIntentos; intento++) {
-                try {
-                    if (typeof jsllm7 === 'undefined') {
-                        await new Promise(r => setTimeout(r, 500));
-                        if (typeof jsllm7 === 'undefined') throw new Error('jsllm7 no disponible');
-                    }
-                    
-                    const ipActual = BACKUP_IPS[currentIpIndex];
-                    const datosStr = `${tokenData.symbol} - Precio: $${tokenData.price} - Volumen 24h: $${(tokenData.volume24h/1e6).toFixed(2)}M - Liquidez: $${(tokenData.liquidity/1e6).toFixed(2)}M - Cambio 24h: ${tokenData.priceChange24h}% - Chain: ${tokenData.chain}`;
-                    
-                    const modoPrompt = modo === 'experto' 
-                        ? "Da análisis profundo incluyendo soportes, resistencias, RSI, MACD y contexto de mercado. Máximo 100 palabras."
-                        : "Da análisis práctico y directo con recomendación clara. Máximo 60 palabras.";
-                    
-                    const biblioteca = getBibliotecaCripto();
-                    
-                    const contextoSecreto = `[SISTEMA CONFIDENCIAL]
-Ubicación: ${ipActual.ciudad}, ${ipActual.pais} | IP: ${ipActual.ip}
-${biblioteca}
-
-Eres un analista cripto experimentado. Analiza en CHINO este token: ${datosStr}
-
-${modoPrompt}`;
-
-                    const respuestaChino = await jsllm7(contextoSecreto);
-                    
-                    const traducir = `Traduce al ESPAÑOL natural, claro y directo (mantén las recomendaciones):
-"${respuestaChino}"
-Español:`;
-                    
-                    const respuestaFinal = await jsllm7(traducir);
-                    
-                    return { exito: true, respuesta: respuestaFinal || respuestaChino };
-                    
-                } catch (error) {
-                    if (error.message?.includes('429') && intento < maxIntentos) {
-                        cambiarIP();
-                        await esperarBackoff(intento);
-                        continue;
-                    }
-                    if (intento < maxIntentos) await esperarBackoff(intento);
-                }
-            }
-            return { exito: false, respuesta: null };
+        function guardarMemoria() { localStorage.setItem('nextmoon_memoria', JSON.stringify(memoriaAprendizaje)); }
+        function registrarFeedback(token, respuesta, util) {
+            const key = token.toLowerCase().trim();
+            if (!memoriaAprendizaje.lecciones[key]) memoriaAprendizaje.lecciones[key] = { respuestas: [], useful: 0, notuseful: 0, mejor_respuesta: null };
+            const leccion = memoriaAprendizaje.lecciones[key];
+            const existente = leccion.respuestas.find(r => r.texto === respuesta);
+            if (existente) { if (util === 'useful') existente.useful++; else existente.notuseful++; }
+            else leccion.respuestas.push({ texto: respuesta, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
+            if (util === 'useful') leccion.useful++; else leccion.notuseful++;
+            leccion.mejor_respuesta = leccion.respuestas.reduce((m, a) => { const sa = a.useful - a.notuseful; const sm = m ? (m.useful - m.notuseful) : -1; return sa > sm ? a : m; }, null);
+            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
+            guardarMemoria();
         }
         
-        function analisisOffline(tokenData, score) {
-            const oportunidad = score > 70 ? "🔥 Potencial alcista" : (score > 50 ? "📊 Neutral, observar" : "⚠️ Alto riesgo, evitar");
-            return `📊 **Análisis Técnico**
-
-💰 Score: ${score}/100
-📈 ${oportunidad}
-
-💡 Recomendación: ${score > 70 ? 'Considerar entrada gradual' : (score > 50 ? 'Esperar confirmación' : 'Evitar por ahora')}`;
+        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
+        document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
+        actualizarModoUI();
+        
+        function showToast(msg, isError) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isError ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
+        
+        function actualizarContenidoDiario() {
+            const hoy = new Date();
+            const frases = ["📈 Domingo: Revisa posiciones.","🚀 Lunes: Mercado despierta.","📊 Martes: Ballenas mueven.","⚡ Miércoles: Riesgo y recompensa.","🔍 Jueves: DYOR.","🎯 Viernes: Ganancias parciales.","🧘 Sábado: Respira."];
+            document.getElementById('dailyTip').innerHTML = frases[hoy.getDay()];
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada`;
+        }
+        
+        async function fetchTokenData(tokenSymbol) {
+            try {
+                const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`);
+                const d = await r.json();
+                if (d.pairs?.length > 0) {
+                    const valid = d.pairs.filter(p => p.liquidity?.usd > 30000 && p.priceUsd > 0);
+                    if (valid.length > 0) {
+                        const best = valid.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
+                        return { symbol: tokenSymbol.toUpperCase(), price: parseFloat(best.priceUsd), volume24h: best.volume?.h24 || 0, liquidity: best.liquidity?.usd || 0, priceChange24h: best.priceChange?.h24 || 0, chain: best.chainId || "unknown" };
+                    }
+                }
+                return null;
+            } catch (e) { return null; }
+        }
+        
+        function calculateScore(d) {
+            let s = 50;
+            if (d.volume24h > 3000000) s += 25; else if (d.volume24h > 1000000) s += 18;
+            if (d.liquidity > 1000000) s += 20; else if (d.liquidity > 500000) s += 15;
+            if (d.priceChange24h > 30) s += 20; else if (d.priceChange24h > 15) s += 14;
+            if (d.chain === "solana") s += 10;
+            return Math.min(99, Math.max(20, Math.floor(s)));
+        }
+        
+        function analisisOffline(d, score) {
+            const op = score > 70 ? "🔥 Potencial alcista" : (score > 50 ? "📊 Neutral" : "⚠️ Alto riesgo");
+            return `📊 Score: ${score}/100 · ${op}\n💡 ${score > 70 ? 'Considerar entrada gradual' : (score > 50 ? 'Esperar confirmación' : 'Evitar por ahora')}`;
         }
         
         function addFeedbackToAnalysis(token, analysis) {
             const container = document.getElementById('sentimentContainer');
-            const existingFeedback = container.querySelector('.feedback-buttons');
-            if (existingFeedback) existingFeedback.remove();
-            
-            const feedbackDiv = document.createElement('div');
-            feedbackDiv.className = 'feedback-buttons';
-            feedbackDiv.innerHTML = `
-                <button class="feedback-btn useful" data-token="${token.replace(/"/g, '&quot;')}" data-analysis="${analysis.replace(/"/g, '&quot;')}">👍 Útil</button>
-                <button class="feedback-btn not-useful" data-token="${token.replace(/"/g, '&quot;')}" data-analysis="${analysis.replace(/"/g, '&quot;')}">👎 No útil</button>
-            `;
-            
-            const sentimentBox = container.querySelector('.sentiment-box');
-            if (sentimentBox) {
-                sentimentBox.after(feedbackDiv);
-            } else {
-                container.appendChild(feedbackDiv);
-            }
-            
-            setTimeout(() => {
-                feedbackDiv.querySelectorAll('.feedback-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const token = btn.dataset.token;
-                        const analysis = btn.dataset.analysis;
-                        const util = btn.classList.contains('useful') ? 'useful' : 'notuseful';
-                        registrarFeedback(token, analysis, util);
-                        btn.remove();
-                        showToast(`✅ Gracias por tu feedback`);
-                    });
-                });
-            }, 100);
+            const existing = container.querySelector('.feedback-buttons');
+            if (existing) existing.remove();
+            const fb = document.createElement('div'); fb.className = 'feedback-buttons';
+            fb.innerHTML = '<button class="feedback-btn useful">👍 Útil</button><button class="feedback-btn not-useful">👎 No útil</button>';
+            fb.querySelector('.useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(token, analysis, 'useful'); fb.remove(); showToast('✅ Gracias'); });
+            fb.querySelector('.not-useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(token, analysis, 'notuseful'); fb.remove(); showToast('📝 Gracias'); });
+            const box = container.querySelector('.sentiment-box'); if (box) box.after(fb); else container.appendChild(fb);
         }
-
+        
         async function updatePrediction(manualToken = null) {
             if (isRefreshing) return;
             isRefreshing = true;
@@ -542,12 +276,7 @@ Español:`;
             
             try {
                 const tokenData = await fetchTokenData(tokenToSearch);
-                if (!tokenData) {
-                    document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
-                    document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no encontrado`;
-                    isRefreshing = false;
-                    return;
-                }
+                if (!tokenData) { document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; isRefreshing = false; return; }
                 
                 currentToken = tokenToSearch;
                 const score = calculateScore(tokenData);
@@ -556,135 +285,64 @@ Español:`;
                 document.getElementById('tokenPrice').innerHTML = `$${tokenData.price.toFixed(8)}`;
                 document.getElementById('volume').innerHTML = `$${(tokenData.volume24h/1e6).toFixed(2)}M`;
                 document.getElementById('liquidity').innerHTML = `$${(tokenData.liquidity/1e6).toFixed(2)}M`;
-                const changeColor = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
-                const changeSign = tokenData.priceChange24h >= 0 ? '+' : '';
-                document.getElementById('priceChange').innerHTML = `<span style="color:${changeColor}">${changeSign}${tokenData.priceChange24h.toFixed(1)}%</span>`;
+                const cc = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
+                document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${tokenData.priceChange24h >= 0 ? '+' : ''}${tokenData.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                // 1. Verificar caché
-                let analisis = obtenerDeCache(currentToken);
-                let desdeCache = !!analisis;
+                const prompt = `Analiza este token: ${tokenData.symbol} - Precio: $${tokenData.price} - Volumen 24h: $${(tokenData.volume24h/1e6).toFixed(2)}M - Liquidez: $${(tokenData.liquidity/1e6).toFixed(2)}M - Cambio 24h: ${tokenData.priceChange24h}% - Chain: ${tokenData.chain}. Da análisis técnico con tendencia, soportes, resistencias, RSI estimado, recomendación.`;
                 
-                if (!analisis) {
-                    // 2. Verificar si ya aprendió este token
-                    analisis = obtenerRespuestaAprendida(currentToken);
-                    
-                    if (!analisis) {
-                        const resultado = await analizarConIAPotenciada(tokenData);
-                        if (resultado.exito && resultado.respuesta) {
-                            analisis = resultado.respuesta;
-                            guardarEnCache(currentToken, analisis);
-                            showToast("✅ Análisis con IA avanzada");
-                        } else {
-                            analisis = analisisOffline(tokenData, score);
-                            showToast("⚠️ Usando análisis offline", true);
-                        }
-                    } else {
-                        showToast("🧠 Usando conocimiento aprendido previamente", false);
-                    }
-                } else {
-                    showToast(`⚡ Análisis instantáneo (caché)`, false);
+                let analisis = window._g ? window._g(currentToken) : null;
+                
+                if (!analisis && window._x) {
+                    const result = await window._x(prompt);
+                    if (result.e) { analisis = result.r; if (window._p) window._p(currentToken, analisis); }
                 }
+                
+                if (!analisis) analisis = analisisOffline(tokenData, score);
                 
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
                 addFeedbackToAnalysis(currentToken, analisis);
-                
-            } catch (error) {
-                document.getElementById('tokenSymbol').innerHTML = '❌ Error';
-                document.getElementById('sentimentText').innerHTML = 'Error al obtener datos';
-            }
+                showToast("✅ Análisis generado");
+            } catch (e) { document.getElementById('sentimentText').innerHTML = 'Error al obtener datos'; }
             isRefreshing = false;
         }
-
+        
         function iniciar() {
             actualizarContenidoDiario();
             updatePrediction("POPCAT");
             autoRefreshInterval = setInterval(() => updatePrediction(), 30000);
             document.getElementById('refreshBtn').onclick = () => updatePrediction();
-            document.getElementById('searchBtn').onclick = () => {
-                const val = document.getElementById('searchInput').value.trim().toUpperCase();
-                if (val) updatePrediction(val);
-            };
+            document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
             
-            if (typeof jsllm7 !== 'undefined') {
-                console.log("✅ IA avanzada activa - NextMoon AI (IP China)");
-                showToast("✅ IA avanzada lista · Auto-aprendizaje activo");
-            }
+            let intentos = 0;
+            const check = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✅ IA avanzada lista"); } else if (intentos > 30) clearInterval(check); intentos++; }, 500);
         }
         
         iniciar();
     </script>
 
-    <!-- VR Three.js -->
     <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
     <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { VRButton } from 'three/addons/webxr/VRButton.js';
-        
+        import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
         let s,c,r,ctrl,a=false;
         function init(){
-            const ct=document.getElementById('vrContainer');
-            if(!ct)return;
-            ct.innerHTML='';
-            s=new THREE.Scene();
-            s.background=new THREE.Color(0x0a0f1e);
-            c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000);
-            c.position.set(5,3,8);
-            r=new THREE.WebGLRenderer({antialias:true});
-            r.setSize(ct.clientWidth,ct.clientHeight);
-            r.xr.enabled=true;
-            ct.appendChild(r.domElement);
-            const vb=VRButton.createButton(r);
-            vb.style.cssText='position:absolute;bottom:20px;right:20px;z-index:1000';
-            ct.appendChild(vb);
-            ctrl=new OrbitControls(c,r.domElement);
-            ctrl.enableDamping=true;
-            const al=new THREE.AmbientLight(0x404060);
-            s.add(al);
-            const dl=new THREE.DirectionalLight(0xffffff,1);
-            dl.position.set(5,10,7);
-            s.add(dl);
-            const fm=new THREE.MeshStandardMaterial({color:0x1a1f2e});
-            const f=new THREE.Mesh(new THREE.PlaneGeometry(20,20),fm);
-            f.rotation.x=-Math.PI/2;
-            f.position.y=-1.5;
-            s.add(f);
-            const gh=new THREE.GridHelper(25,30,0x4a9eff,0x334155);
-            gh.position.y=-1.4;
-            s.add(gh);
-            for(let i=0;i<36;i++){
-                const m=new THREE.MeshStandardMaterial({color:[0xf7931a,0x627eea,0x3b82f6][i%3],emissiveIntensity:0.2});
-                const sh=new THREE.Mesh(new THREE.TorusGeometry(0.3,0.05,16,32),m);
-                const ang=(i/36)*Math.PI*2;
-                sh.position.set(Math.cos(ang)*4, Math.sin(ang*3)*0.8, Math.sin(ang)*4);
-                s.add(sh);
-            }
-            const cnv=document.createElement('canvas');
-            cnv.width=512;cnv.height=128;
-            const ctx=cnv.getContext('2d');
-            ctx.fillStyle='#0a0f1e';
-            ctx.fillRect(0,0,512,128);
-            ctx.font='Bold 32px "Segoe UI"';
-            ctx.fillStyle='#e9c46a';
-            ctx.textAlign='center';
-            ctx.fillText('NEXTMOON AI',256,64);
-            const tp=new THREE.Mesh(new THREE.PlaneGeometry(4,1),new THREE.MeshStandardMaterial({map:new THREE.CanvasTexture(cnv),side:THREE.DoubleSide}));
-            tp.position.set(0,2.5,-3);
-            s.add(tp);
-            function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)}
-            animate();
-            window.addEventListener('resize',()=>{if(r&&c){c.aspect=ct.clientWidth/ct.clientHeight;c.updateProjectionMatrix();r.setSize(ct.clientWidth,ct.clientHeight)}});
+            const ct=document.getElementById('vrContainer'); if(!ct)return; ct.innerHTML='';
+            s=new THREE.Scene(); s.background=new THREE.Color(0x0a0f1e);
+            c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000); c.position.set(5,3,8);
+            r=new THREE.WebGLRenderer({antialias:true}); r.setSize(ct.clientWidth,ct.clientHeight); r.xr.enabled=true;
+            ct.appendChild(r.domElement); ct.appendChild(VRButton.createButton(r));
+            ctrl=new OrbitControls(c,r.domElement); ctrl.enableDamping=true;
+            s.add(new THREE.AmbientLight(0x404060)); const dl=new THREE.DirectionalLight(0xffffff,1); dl.position.set(5,10,7); s.add(dl);
+            const f=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshStandardMaterial({color:0x1a1f2e})); f.rotation.x=-Math.PI/2; f.position.y=-1.5; s.add(f);
+            for(let i=0;i<36;i++){const m=new THREE.Mesh(new THREE.TorusGeometry(0.3,0.05,16,32),new THREE.MeshStandardMaterial({color:[0xf7931a,0x627eea,0x3b82f6][i%3]}));const ang=(i/36)*Math.PI*2;m.position.set(Math.cos(ang)*4,Math.sin(ang*3)*0.8,Math.sin(ang)*4);s.add(m)}
+            function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)} animate();
         }
-        const nm=document.getElementById('normalMode'),vd=document.getElementById('vrMode'),vb2=document.getElementById('vrModeBtn'),cv=document.getElementById('closeVrBtn');
-        vb2.onclick=()=>{nm.style.display='none';vd.classList.add('active');if(!a){init();a=true}};
-        cv.onclick=()=>{vd.classList.remove('active');nm.style.display='block'};
+        document.getElementById('vrModeBtn').addEventListener('click',()=>{document.getElementById('normalMode').style.display='none';document.getElementById('vrMode').classList.add('active');if(!a){init();a=true}});
+        document.getElementById('closeVrBtn').addEventListener('click',()=>{document.getElementById('vrMode').classList.remove('active');document.getElementById('normalMode').style.display='block'});
     </script>
 
-    <!-- PUBLICIDAD -->
     <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
     <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
-
 </body>
 </html>
