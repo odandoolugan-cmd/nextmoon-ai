@@ -12,11 +12,9 @@
         h1 { font-size: 1.8rem; background: linear-gradient(135deg, #fff, #60a5fa, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .badge { display: inline-block; background: rgba(59,130,246,0.2); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.7rem; margin-bottom: 0.5rem; }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
-        
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
-        
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
         .search-btn { background: #3b82f6; border: none; padding: 0.5rem 1.2rem; border-radius: 2rem; color: white; font-weight: bold; cursor: pointer; white-space: nowrap; }
@@ -30,26 +28,21 @@
         .metric-item { background: #0f172a; border-radius: 0.8rem; padding: 0.6rem; text-align: center; }
         .metric-label { font-size: 0.6rem; color: #94a3b8; }
         .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
-        
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
-        
         button { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
         .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; }
         .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
-        
         .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
         .vr-button:hover { transform: scale(1.05); }
         .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
         .vr-mode.active { display: block; }
         .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; font-family: monospace; }
-        
         .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
-        
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; font-weight: normal; transition: 0.2s; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
@@ -81,265 +74,92 @@
             </div>
 
             <div class="dashboard-grid">
-                <div class="card">
-                    <div class="card-title">🎯 DATOS DEL TOKEN</div>
-                    <div class="token-symbol" id="tokenSymbol">---</div>
-                    <div class="token-price" id="tokenPrice">---</div>
-                    <div class="metrics-grid">
-                        <div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div>
-                        <div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div>
-                        <div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div>
-                        <div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div>
-                    </div>
-                </div>
+                <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
 
-                <div class="card">
-                    <div class="card-title">📈 ANÁLISIS CON IA</div>
-                    <div id="sentimentContainer">
-                        <div class="sentiment-box">
-                            🤖 <strong>Oráculo IA:</strong><br>
-                            <span id="sentimentText">Cargando análisis inteligente...</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="card"><div class="card-title">📈 ANÁLISIS CON IA</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>Oráculo IA:</strong><br><span id="sentimentText">Cargando análisis inteligente...</span></div></div></div>
             </div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
             <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos</div>
-            
-            <div class="sponsors">
-                <div class="sponsors-link">
-                    <a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a>
-                    <a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a>
-                </div>
-            </div>
-
+            <div class="sponsors"><div class="sponsors-link"><a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a><a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a></div></div>
             <footer id="footer">⚡ Datos: DexScreener · IA Avanzada · Cualquier criptomoneda</footer>
         </div>
     </div>
 
     <button class="vr-button" id="vrModeBtn">🔮 ACTIVAR MODO VR</button>
-    <div class="vr-mode" id="vrMode">
-        <button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button>
-        <div id="vrContainer" style="width:100%;height:100%"></div>
-    </div>
+    <div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
     <script>
         // ============================================
-        // NEXTMOON AI - SISTEMA CONFIDENCIAL
-        // MÉTODO GANADOR: Árabe→Español (95%)
-        // + Chino (94%) · Triple Chino (94%)
-        // 5 métodos auto-adaptativos en secreto
+        // NANO-IMPORTS CRIPTO ÉLITE (SECRETOS)
         // ============================================
-        
+        const _B = {
+            c: `[CRIPTO-ELITE] BTC:oro digital,halving,escasez,store of value. ETH:smart contracts,DeFi,NFTs,L2,EVM. SOL:velocidad,bajas comisiones,Proof of History. Indicadores:RSI(sobrecompra>70,sobreventa<30),MACD(cruce alcista/bajista),medias móviles(50,200),soportes,resistencias. Patrones:bull flag,triángulo,cabeza hombros,doble techo/suelo. Estrategias:DCA,swing trading,scalping,hodl. Gestión:stop-loss,take-profit,risk/reward 1:2,no invertir más del 5%.`,
+            d: `[DEFI] DEX:Uniswap,PancakeSwap,Raydium,Jupiter. Lending:Aave,Compound. Stablecoins:USDT,USDC,DAI. Yield Farming,Staking,Liquidity Pools. Riesgos:impermanent loss,rug pull,smart contract hack,slippage.`,
+            m: `[MEMECOINS] Características:alta volatilidad,comunidad fuerte,viralidad,sin utilidad real. Ejemplos:DOGE(original),SHIB(ecosistema),PEPE(cultura),BONK(Solana),WIF(viral),POPCAT(meme). Riesgos:falta liquidez,pump and dump,imitaciones. Estrategia:solo invertir lo que puedes perder,tomar ganancias rápido.`
+        };
+        function _I() { return Object.values(_B).join(' '); }
+
+        // ============================================
+        // NEXTMOON AI - SISTEMA CONFIDENCIAL + IMPORTS
+        // ============================================
         (function() {
             const _ = { t: 25, r: 1, p: 35000, m: 3 };
-            
             const M = [
-                { f: [
-                    (q) => `خبير تحليل عملات رقمية عالمي. أجب بالعربية بدقة متناهية: "${q}" تحليل فني كامل مع مستويات سعر محددة، دعم، مقاومة، RSI، توصية دخول/خروج.`,
-                    (t) => `Traduce este análisis cripto a ESPAÑOL con máxima precisión:\n\n"${t}"\n\nESPAÑOL:`
-                ]},
-                { f: [
-                    (q) => `Eres un analista cripto experto mundial. Responde en CHINO con máxima precisión: "${q}" Análisis técnico completo con niveles de precio específicos.`,
-                    (t) => `Traduce al ESPAÑOL con máxima calidad:\n\n"${t}"\n\nESPAÑOL:`
-                ]},
-                { f: [
-                    (q) => `EXPERTO MUNDIAL en cripto. CHINO con MÁXIMA precisión: "${q}" Análisis completo + niveles + recomendación.`,
-                    (t) => `Translate to ENGLISH:\n\n"${t}"\n\nENGLISH:`,
-                    (t) => `Traduis en FRANÇAIS:\n\n"${t}"\n\nFRANÇAIS:`,
-                    (t) => `Traduce a ESPAÑOL con MÁXIMA CALIDAD:\n\n"${t}"\n\nESPAÑOL:`
-                ]},
-                { f: [
-                    (q) => `Sei un analista crypto esperto. ITALIANO con precisione: "${q}" Analisi tecnica completa.`,
-                    (t) => `Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`
-                ]},
-                { f: [
-                    (q) => `Expert en analyse crypto. FRANÇAIS: "${q}" Analyse technique complète.`,
-                    (t) => `Traduis en ESPAGNOL:\n\n"${t}"\n\nESPAGNOL:`
-                ]}
+                { f: [(q)=>`${_I()}\n\nخبير تحليل عملات رقمية. أجب بالعربية: "${q}"`,(t)=>`Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
+                { f: [(q)=>`${_I()}\n\nEres analista cripto. CHINO: "${q}"`,(t)=>`Traduce al ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
+                { f: [(q)=>`${_I()}\n\nAnalista crypto. ITALIANO: "${q}"`,(t)=>`Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`]},
+                { f: [(q)=>`${_I()}\n\nKrypto-Analyst. DEUTSCH: "${q}"`,(t)=>`Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`]}
             ];
-            
-            let S = { i: 0, c: 0 };
-            let C = JSON.parse(localStorage.getItem('_nm') || '{}');
-            function _s() { localStorage.setItem('_nm', JSON.stringify(C)); }
-            function _g(q) { const k = q.toLowerCase().trim(); if (C[k] && (Date.now()-C[k].t)<3600000) return C[k].r; return null; }
-            function _p(q, r) { const k = q.toLowerCase().trim(); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t-C[b].t); for (let i=0;i<30;i++) delete C[keys[i]]; } _s(); }
-            
-            async function _l(p) {
-                return new Promise(async (resolve, reject) => {
-                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
-                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
-                });
-            }
-            
-            async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
-            
-            window._x = async function(q) {
-                const start = S.i;
-                for (let i = 0; i < M.length; i++) {
-                    const idx = (start + i) % M.length;
-                    try { const r = await _e(M[idx], q); S.i = idx; S.c = 0; return { r, e: true }; }
-                    catch (e) { S.c++; if (S.c >= _.m) { await new Promise(r => setTimeout(r, _.p)); S.c = 0; } if (i < M.length - 1) await new Promise(r => setTimeout(r, 3000)); }
-                }
-                return { r: null, e: false };
-            };
-            
-            window._g = _g; window._p = _p;
-            setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
+            let S={i:0,c:0},C=JSON.parse(localStorage.getItem('_nm2')||'{}');
+            function _s(){localStorage.setItem('_nm2',JSON.stringify(C));}
+            function _g(q){const k=q.toLowerCase().trim().substring(0,100);if(C[k]&&(Date.now()-C[k].t)<3600000)return C[k].r;return null;}
+            function _p(q,r){const k=q.toLowerCase().trim().substring(0,100);C[k]={r,t:Date.now()};const keys=Object.keys(C);if(keys.length>200){keys.sort((a,b)=>C[a].t-C[b].t);for(let i=0;i<30;i++)delete C[keys[i]];}_s();}
+            async function _l(p){return new Promise(async(r,j)=>{const t=setTimeout(()=>j(new Error('T')),_.t*1000);try{const x=await jsllm7(p);clearTimeout(t);r(x);}catch(e){clearTimeout(t);j(e);}});}
+            async function _e(m,q){let t=null;for(let i=0;i<m.f.length;i++)t=await _l(i===0?m.f[i](q):m.f[i](t));return t;}
+            window._x=async function(q){const start=S.i;for(let i=0;i<M.length;i++){const idx=(start+i)%M.length;try{const r=await _e(M[idx],q);S.i=idx;S.c=0;return{r,e:true};}catch(e){S.c++;if(S.c>=_.m){await new Promise(r=>setTimeout(r,_.p));S.c=0;}if(i<M.length-1)await new Promise(r=>setTimeout(r,3000));}}return{r:null,e:false};};
+            window._g=_g;window._p=_p;setInterval(()=>{if(S.i>0&&S.c===0)S.i=0;},180000);
         })();
-        
+
         // ============================================
-        // CONFIGURACIÓN Y VARIABLES
+        // UI - RESPUESTA GARANTIZADA
         // ============================================
-        let modo = localStorage.getItem('nextmoon_modo') || 'experto';
-        let memoriaAprendizaje = JSON.parse(localStorage.getItem('nextmoon_memoria') || '{"lecciones": {}, "estadisticas": {"total_votos": 0}}');
-        let currentToken = "POPCAT";
-        let autoRefreshInterval;
-        let isRefreshing = false;
-        
-        function guardarMemoria() { localStorage.setItem('nextmoon_memoria', JSON.stringify(memoriaAprendizaje)); }
-        function registrarFeedback(token, respuesta, util) {
-            const key = token.toLowerCase().trim();
-            if (!memoriaAprendizaje.lecciones[key]) memoriaAprendizaje.lecciones[key] = { respuestas: [], useful: 0, notuseful: 0, mejor_respuesta: null };
-            const leccion = memoriaAprendizaje.lecciones[key];
-            const existente = leccion.respuestas.find(r => r.texto === respuesta);
-            if (existente) { if (util === 'useful') existente.useful++; else existente.notuseful++; }
-            else leccion.respuestas.push({ texto: respuesta, useful: util === 'useful' ? 1 : 0, notuseful: util === 'notuseful' ? 1 : 0, timestamp: Date.now() });
-            if (util === 'useful') leccion.useful++; else leccion.notuseful++;
-            leccion.mejor_respuesta = leccion.respuestas.reduce((m, a) => { const sa = a.useful - a.notuseful; const sm = m ? (m.useful - m.notuseful) : -1; return sa > sm ? a : m; }, null);
-            memoriaAprendizaje.estadisticas.total_votos = (memoriaAprendizaje.estadisticas.total_votos || 0) + 1;
-            guardarMemoria();
-        }
-        
-        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-        document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
+        let modo=localStorage.getItem('nextmoon_modo')||'experto',currentToken="POPCAT",isRefreshing=false;
+        function _R(d,s){const op=s>70?"🔥 Potencial alcista":(s>50?"📊 Neutral":"⚠️ Alto riesgo");return`📊 Score: ${s}/100 · ${op}\n💡 ${s>70?'Considerar entrada gradual con stop-loss':(s>50?'Esperar confirmación de volumen':'Evitar por ahora, alta volatilidad')}`;}
+
+        function actualizarModoUI(){document.querySelectorAll('.modo-btn').forEach(b=>b.classList.toggle('active',b.dataset.modo===modo));}
+        document.querySelectorAll('.modo-btn').forEach(b=>{b.addEventListener('click',()=>{modo=b.dataset.modo;localStorage.setItem('nextmoon_modo',modo);actualizarModoUI();showToast(`✨ Modo ${modo==='experto'?'EXPERTO':'BÁSICO'}`);});});
         actualizarModoUI();
-        
-        function showToast(msg, isError) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isError ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
-        
-        function actualizarContenidoDiario() {
-            const hoy = new Date();
-            const frases = ["📈 Domingo: Revisa posiciones.","🚀 Lunes: Mercado despierta.","📊 Martes: Ballenas mueven.","⚡ Miércoles: Riesgo y recompensa.","🔍 Jueves: DYOR.","🎯 Viernes: Ganancias parciales.","🧘 Sábado: Respira."];
-            document.getElementById('dailyTip').innerHTML = frases[hoy.getDay()];
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${hoy.toLocaleDateString('es-ES')} · IA Avanzada · Cualquier cripto`;
-        }
-        
-        async function fetchTokenData(tokenSymbol) {
-            try {
-                const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`);
-                const d = await r.json();
-                if (d.pairs?.length > 0) {
-                    const valid = d.pairs.filter(p => p.liquidity?.usd > 10000 && p.priceUsd > 0);
-                    if (valid.length > 0) {
-                        const best = valid.sort((a,b) => (b.liquidity?.usd||0) - (a.liquidity?.usd||0))[0];
-                        return { symbol: tokenSymbol.toUpperCase(), price: parseFloat(best.priceUsd), volume24h: best.volume?.h24 || 0, liquidity: best.liquidity?.usd || 0, priceChange24h: best.priceChange?.h24 || 0, chain: best.chainId || "unknown" };
-                    }
-                }
-                return null;
-            } catch (e) { return null; }
-        }
-        
-        function calculateScore(d) {
-            let s = 50;
-            if (d.volume24h > 50000000) s += 30; else if (d.volume24h > 10000000) s += 25; else if (d.volume24h > 1000000) s += 18;
-            if (d.liquidity > 5000000) s += 25; else if (d.liquidity > 1000000) s += 20; else if (d.liquidity > 500000) s += 15;
-            if (d.priceChange24h > 30) s += 20; else if (d.priceChange24h > 15) s += 14;
-            if (d.chain === "solana") s += 10;
-            return Math.min(99, Math.max(20, Math.floor(s)));
-        }
-        
-        function analisisOffline(d, score) {
-            const op = score > 70 ? "🔥 Potencial alcista" : (score > 50 ? "📊 Neutral" : "⚠️ Alto riesgo");
-            return `📊 Score: ${score}/100 · ${op}\n💡 ${score > 70 ? 'Considerar entrada gradual con stop-loss' : (score > 50 ? 'Esperar confirmación de volumen' : 'Evitar por ahora, alta volatilidad')}`;
-        }
-        
-        function addFeedbackToAnalysis(token, analysis) {
-            const container = document.getElementById('sentimentContainer');
-            const existing = container.querySelector('.feedback-buttons');
-            if (existing) existing.remove();
-            const fb = document.createElement('div'); fb.className = 'feedback-buttons';
-            fb.innerHTML = '<button class="feedback-btn useful">👍 Útil</button><button class="feedback-btn not-useful">👎 No útil</button>';
-            fb.querySelector('.useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(token, analysis, 'useful'); fb.remove(); showToast('✅ Gracias'); });
-            fb.querySelector('.not-useful').addEventListener('click', (e) => { e.stopPropagation(); registrarFeedback(token, analysis, 'notuseful'); fb.remove(); showToast('📝 Gracias'); });
-            const box = container.querySelector('.sentiment-box'); if (box) box.after(fb); else container.appendChild(fb);
-        }
-        
-        async function updatePrediction(manualToken = null) {
-            if (isRefreshing) return;
-            isRefreshing = true;
-            const tokenToSearch = (manualToken || currentToken).toUpperCase();
-            document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
-            document.getElementById('sentimentText').innerHTML = '<div class="spinner"></div>';
-            
-            try {
-                const tokenData = await fetchTokenData(tokenToSearch);
-                if (!tokenData) { document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; document.getElementById('sentimentText').innerHTML = `Token "${tokenToSearch}" no hallado en DexScreener. Verifica el símbolo.`; isRefreshing = false; return; }
-                
-                currentToken = tokenToSearch;
-                const score = calculateScore(tokenData);
-                
-                document.getElementById('tokenSymbol').innerHTML = `$${tokenData.symbol}`;
-                document.getElementById('tokenPrice').innerHTML = `$${tokenData.price < 0.01 ? tokenData.price.toFixed(8) : tokenData.price < 1 ? tokenData.price.toFixed(6) : tokenData.price.toFixed(2)}`;
-                document.getElementById('volume').innerHTML = tokenData.volume24h > 1000000 ? `$${(tokenData.volume24h/1e6).toFixed(2)}M` : `$${(tokenData.volume24h/1e3).toFixed(0)}K`;
-                document.getElementById('liquidity').innerHTML = tokenData.liquidity > 1000000 ? `$${(tokenData.liquidity/1e6).toFixed(2)}M` : `$${(tokenData.liquidity/1e3).toFixed(0)}K`;
-                const cc = tokenData.priceChange24h >= 0 ? '#10b981' : '#ef4444';
-                document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${tokenData.priceChange24h >= 0 ? '+' : ''}${tokenData.priceChange24h.toFixed(1)}%</span>`;
-                document.getElementById('iaScore').innerHTML = `${score}/100`;
-                
-                const prompt = `Token: ${tokenData.symbol} | Precio: $${tokenData.price} | Vol 24h: $${(tokenData.volume24h/1e6).toFixed(2)}M | Liq: $${(tokenData.liquidity/1e6).toFixed(2)}M | Δ24h: ${tokenData.priceChange24h}% | Red: ${tokenData.chain}. Análisis técnico: tendencia, soporte/resistencia, RSI, recomendación entrada/salida.`;
-                
-                let analisis = window._g ? window._g(currentToken) : null;
-                
-                if (!analisis && window._x) {
-                    const result = await window._x(prompt);
-                    if (result.e) { analisis = result.r; if (window._p) window._p(currentToken, analisis); }
-                }
-                
-                if (!analisis) analisis = analisisOffline(tokenData, score);
-                
-                document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
-                addFeedbackToAnalysis(currentToken, analisis);
-                showToast(`✅ ${tokenData.symbol} analizado`);
-            } catch (e) { document.getElementById('sentimentText').innerHTML = 'Error al obtener datos. Intenta de nuevo.'; }
-            isRefreshing = false;
-        }
-        
-        function iniciar() {
-            actualizarContenidoDiario();
-            updatePrediction("POPCAT");
-            autoRefreshInterval = setInterval(() => updatePrediction(), 60000); // 60 segundos
-            document.getElementById('refreshBtn').onclick = () => updatePrediction();
-            document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
-            document.getElementById('searchInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
-            
-            let intentos = 0;
-            const check = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✅ IA avanzada lista · Cualquier criptomoneda"); } else if (intentos > 30) clearInterval(check); intentos++; }, 500);
-        }
-        
+
+        function showToast(msg,isError){const t=document.createElement('div');t.className='toast-msg';t.style.background=isError?'#ef4444':'#10b981';t.innerText=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
+
+        function actualizarDiario(){const h=new Date();const frases=["📈 Domingo: Revisa posiciones.","🚀 Lunes: Mercado despierta.","📊 Martes: Ballenas mueven.","⚡ Miércoles: Riesgo y recompensa.","🔍 Jueves: DYOR.","🎯 Viernes: Ganancias parciales.","🧘 Sábado: Respira."];document.getElementById('dailyTip').innerHTML=frases[h.getDay()];document.getElementById('footer').innerHTML=`⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · IA Avanzada`;}
+
+        async function fetchTokenData(tokenSymbol){try{const r=await fetch(`https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`);const d=await r.json();if(d.pairs?.length>0){const valid=d.pairs.filter(p=>p.liquidity?.usd>10000&&p.priceUsd>0);if(valid.length>0){const best=valid.sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];return{symbol:tokenSymbol.toUpperCase(),price:parseFloat(best.priceUsd),volume24h:best.volume?.h24||0,liquidity:best.liquidity?.usd||0,priceChange24h:best.priceChange?.h24||0,chain:best.chainId||"unknown"};}}return null;}catch(e){return null;}}
+
+        function calculateScore(d){let s=50;if(d.volume24h>50000000)s+=30;else if(d.volume24h>10000000)s+=25;else if(d.volume24h>1000000)s+=18;if(d.liquidity>5000000)s+=25;else if(d.liquidity>1000000)s+=20;else if(d.liquidity>500000)s+=15;if(d.priceChange24h>30)s+=20;else if(d.priceChange24h>15)s+=14;if(d.chain==="solana")s+=10;return Math.min(99,Math.max(20,Math.floor(s)));}
+
+        function addFeedback(token,analysis){const c=document.getElementById('sentimentContainer');const ex=c.querySelector('.feedback-buttons');if(ex)ex.remove();const fb=document.createElement('div');fb.className='feedback-buttons';fb.innerHTML='<button class="feedback-btn">👍</button><button class="feedback-btn">👎</button>';fb.querySelectorAll('.feedback-btn')[0].addEventListener('click',e=>{e.stopPropagation();fb.remove();showToast('✅ Gracias');});fb.querySelectorAll('.feedback-btn')[1].addEventListener('click',e=>{e.stopPropagation();fb.remove();showToast('📝 Gracias');});const box=c.querySelector('.sentiment-box');if(box)box.after(fb);else c.appendChild(fb);}
+
+        async function updatePrediction(manualToken=null){if(isRefreshing)return;isRefreshing=true;const t=(manualToken||currentToken).toUpperCase();document.getElementById('tokenSymbol').innerHTML='<div class="spinner"></div>';document.getElementById('sentimentText').innerHTML='<div class="spinner"></div>';
+        try{const td=await fetchTokenData(t);if(!td){document.getElementById('tokenSymbol').innerHTML='⚠️ No encontrado';document.getElementById('sentimentText').innerHTML=`Token "${t}" no hallado.`;isRefreshing=false;return;}
+        currentToken=t;const score=calculateScore(td);document.getElementById('tokenSymbol').innerHTML=`$${td.symbol}`;document.getElementById('tokenPrice').innerHTML=`$${td.price<0.01?td.price.toFixed(8):td.price<1?td.price.toFixed(6):td.price.toFixed(2)}`;document.getElementById('volume').innerHTML=td.volume24h>1000000?`$${(td.volume24h/1e6).toFixed(2)}M`:`$${(td.volume24h/1e3).toFixed(0)}K`;document.getElementById('liquidity').innerHTML=td.liquidity>1000000?`$${(td.liquidity/1e6).toFixed(2)}M`:`$${(td.liquidity/1e3).toFixed(0)}K`;const cc=td.priceChange24h>=0?'#10b981':'#ef4444';document.getElementById('priceChange').innerHTML=`<span style="color:${cc}">${td.priceChange24h>=0?'+':''}${td.priceChange24h.toFixed(1)}%</span>`;document.getElementById('iaScore').innerHTML=`${score}/100`;
+        const prompt=`Token: ${td.symbol} | Precio: $${td.price} | Vol 24h: $${(td.volume24h/1e6).toFixed(2)}M | Liq: $${(td.liquidity/1e6).toFixed(2)}M | Δ24h: ${td.priceChange24h}% | Red: ${td.chain}. Análisis técnico.`;
+        let analisis=window._g?window._g(currentToken):null;if(!analisis&&window._x){const result=await window._x(prompt);if(result.e){analisis=result.r;if(window._p)window._p(currentToken,analisis);}}if(!analisis)analisis=_R(td,score);
+        document.getElementById('sentimentText').innerHTML=analisis.replace(/\n/g,'<br>');addFeedback(currentToken,analisis);showToast(`✅ ${td.symbol} analizado`);}catch(e){document.getElementById('sentimentText').innerHTML='Error al obtener datos.';}isRefreshing=false;}
+
+        function iniciar(){actualizarDiario();updatePrediction("POPCAT");setInterval(()=>updatePrediction(),60000);document.getElementById('refreshBtn').onclick=()=>updatePrediction();document.getElementById('searchBtn').onclick=()=>{const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);};document.getElementById('searchInput').addEventListener('keypress',e=>{if(e.key==='Enter'){const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);}});let intentos=0;const check=setInterval(()=>{if(typeof jsllm7!=='undefined'){clearInterval(check);showToast("✅ IA avanzada lista");}else if(intentos>30)clearInterval(check);intentos++;},500);}
         iniciar();
     </script>
 
     <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }</script>
     <script type="module">
-        import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
-        let s,c,r,ctrl,a=false;
-        function init(){
-            const ct=document.getElementById('vrContainer'); if(!ct)return; ct.innerHTML='';
-            s=new THREE.Scene(); s.background=new THREE.Color(0x0a0f1e);
-            c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000); c.position.set(5,3,8);
-            r=new THREE.WebGLRenderer({antialias:true}); r.setSize(ct.clientWidth,ct.clientHeight); r.xr.enabled=true;
-            ct.appendChild(r.domElement); ct.appendChild(VRButton.createButton(r));
-            ctrl=new OrbitControls(c,r.domElement); ctrl.enableDamping=true;
-            s.add(new THREE.AmbientLight(0x404060)); const dl=new THREE.DirectionalLight(0xffffff,1); dl.position.set(5,10,7); s.add(dl);
-            const f=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshStandardMaterial({color:0x1a1f2e})); f.rotation.x=-Math.PI/2; f.position.y=-1.5; s.add(f);
-            for(let i=0;i<36;i++){const m=new THREE.Mesh(new THREE.TorusGeometry(0.3,0.05,16,32),new THREE.MeshStandardMaterial({color:[0xf7931a,0x627eea,0x3b82f6][i%3]}));const ang=(i/36)*Math.PI*2;m.position.set(Math.cos(ang)*4,Math.sin(ang*3)*0.8,Math.sin(ang)*4);s.add(m)}
-            function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)} animate();
-        }
-        document.getElementById('vrModeBtn').addEventListener('click',()=>{document.getElementById('normalMode').style.display='none';document.getElementById('vrMode').classList.add('active');if(!a){init();a=true}});
-        document.getElementById('closeVrBtn').addEventListener('click',()=>{document.getElementById('vrMode').classList.remove('active');document.getElementById('normalMode').style.display='block'});
+        import * as THREE from 'three';import {OrbitControls}from'three/addons/controls/OrbitControls.js';import {VRButton}from'three/addons/webxr/VRButton.js';
+        let s,c,r,ctrl,a=false;const ct=document.getElementById('vrContainer'),vb=document.getElementById('vrModeBtn'),cv=document.getElementById('closeVrBtn'),vm=document.getElementById('vrMode');
+        function init(){if(!ct)return;ct.innerHTML='';s=new THREE.Scene();s.background=new THREE.Color(0x0a0f1e);c=new THREE.PerspectiveCamera(45,ct.clientWidth/ct.clientHeight,0.1,1000);c.position.set(5,3,8);r=new THREE.WebGLRenderer({antialias:true});r.setSize(ct.clientWidth,ct.clientHeight);r.xr.enabled=true;ct.appendChild(r.domElement);ct.appendChild(VRButton.createButton(r));ctrl=new OrbitControls(c,r.domElement);ctrl.enableDamping=true;s.add(new THREE.AmbientLight(0x404060));const dl=new THREE.DirectionalLight(0xffffff,1);dl.position.set(5,10,7);s.add(dl);const f=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshStandardMaterial({color:0x1a1f2e}));f.rotation.x=-Math.PI/2;f.position.y=-1.5;s.add(f);for(let i=0;i<36;i++){const m=new THREE.Mesh(new THREE.TorusGeometry(0.3,0.05,16,32),new THREE.MeshStandardMaterial({color:[0xf7931a,0x627eea,0x3b82f6][i%3]}));const ang=(i/36)*Math.PI*2;m.position.set(Math.cos(ang)*4,Math.sin(ang*3)*0.8,Math.sin(ang)*4);s.add(m)}function animate(){requestAnimationFrame(animate);ctrl.update();r.render(s,c)}animate();a=true}
+        vb.addEventListener('click',()=>{document.getElementById('normalMode').style.display='none';vm.classList.add('active');if(!a)setTimeout(init,100)});cv.addEventListener('click',()=>{vm.classList.remove('active');document.getElementById('normalMode').style.display='block'});
     </script>
 
     <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
