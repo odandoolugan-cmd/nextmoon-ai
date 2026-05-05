@@ -76,13 +76,13 @@
             <div class="dashboard-grid">
                 <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
 
-                <div class="card"><div class="card-title">📈 ANÁLISIS CON IA</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>Oráculo IA:</strong><br><span id="sentimentText">Cargando análisis inteligente...</span></div></div></div>
+                <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>Oráculo IA:</strong><br><span id="sentimentText">Cargando análisis inteligente...</span></div></div></div>
             </div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
             <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos</div>
             <div class="sponsors"><div class="sponsors-link"><a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a><a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Datos: DexScreener · IA Avanzada · Cualquier criptomoneda</footer>
+            <footer id="footer">⚡ Datos: DexScreener · IA Avanzada · Señales de Trading</footer>
         </div>
     </div>
 
@@ -93,28 +93,28 @@
 
     <script>
         // ============================================
-        // NANO-IMPORTS CRIPTO ÉLITE (SECRETOS)
+        // NANO-IMPORTS CON SEÑALES DE TRADING (3 CONFIRMACIONES)
         // ============================================
         const _B = {
-            c: `[CRIPTO-ELITE] BTC:oro digital,halving,escasez,store of value. ETH:smart contracts,DeFi,NFTs,L2,EVM. SOL:velocidad,bajas comisiones,Proof of History. Indicadores:RSI(sobrecompra>70,sobreventa<30),MACD(cruce alcista/bajista),medias móviles(50,200),soportes,resistencias. Patrones:bull flag,triángulo,cabeza hombros,doble techo/suelo. Estrategias:DCA,swing trading,scalping,hodl. Gestión:stop-loss,take-profit,risk/reward 1:2,no invertir más del 5%.`,
-            d: `[DEFI] DEX:Uniswap,PancakeSwap,Raydium,Jupiter. Lending:Aave,Compound. Stablecoins:USDT,USDC,DAI. Yield Farming,Staking,Liquidity Pools. Riesgos:impermanent loss,rug pull,smart contract hack,slippage.`,
-            m: `[MEMECOINS] Características:alta volatilidad,comunidad fuerte,viralidad,sin utilidad real. Ejemplos:DOGE(original),SHIB(ecosistema),PEPE(cultura),BONK(Solana),WIF(viral),POPCAT(meme). Riesgos:falta liquidez,pump and dump,imitaciones. Estrategia:solo invertir lo que puedes perder,tomar ganancias rápido.`
+            t: `[TRADING-ELITE] SEÑALES 3 CONFIRMACIONES: 🟢COMPRA FUERTE:RSI<30+MACD cruce alcista+Precio rebota en soporte. 🟡COMPRA DÉBIL:1-2 señales alcistas,esperar confirmación. 🔴VENTA FUERTE:RSI>70+MACD cruce bajista+Precio rechaza resistencia. 🟠VENTA DÉBIL:1-2 señales bajistas,esperar. STOP-LOSS:-5% entrada.TAKE-PROFIT:+10% entrada.RISK/REWARD:1:2. ADVERTENCIA:Esto es análisis técnico informativo.NO es consejo financiero.Investiga antes de invertir.`,
+            c: `[CRIPTO] BTC:oro digital,halving.ETH:smart contracts,DeFi.SOL:velocidad.Indicadores:RSI(sobrecompra>70=VENTA,sobreventa<30=COMPRA),MACD(cruce alcista=COMPRA,cruce bajista=VENTA),MA50/MA200(GoldenCross=COMPRA,DeathCross=VENTA).Soportes:rebote=COMPRA,ruptura=VENTA.Resistencias:ruptura=COMPRA,rechazo=VENTA.Volumen:alto+precio↑=COMPRA,alto+precio↓=VENTA.`,
+            m: `[MEMECOINS] Alta volatilidad.Comunidad fuerte.Viralidad.Sin utilidad real.Ej:DOGE,SHIB,PEPE,BONK,WIF,POPCAT.Riesgo:falta liquidez,pump&dump.Estrategia:solo invertir lo que puedes perder,tomar ganancias rápido,no FOMO.`
         };
         function _I() { return Object.values(_B).join(' '); }
 
         // ============================================
-        // NEXTMOON AI - SISTEMA CONFIDENCIAL + IMPORTS
+        // NEXTMOON AI - SISTEMA CONFIDENCIAL + SEÑALES
         // ============================================
         (function() {
             const _ = { t: 25, r: 1, p: 35000, m: 3 };
             const M = [
-                { f: [(q)=>`${_I()}\n\nخبير تحليل عملات رقمية. أجب بالعربية: "${q}"`,(t)=>`Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
-                { f: [(q)=>`${_I()}\n\nEres analista cripto. CHINO: "${q}"`,(t)=>`Traduce al ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
-                { f: [(q)=>`${_I()}\n\nAnalista crypto. ITALIANO: "${q}"`,(t)=>`Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`]},
-                { f: [(q)=>`${_I()}\n\nKrypto-Analyst. DEUTSCH: "${q}"`,(t)=>`Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`]}
+                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA basadas en RSI,MACD,soportes/resistencias con 3 confirmaciones. Incluye STOP-LOSS y TAKE-PROFIT. ADVIERTE que no es consejo financiero.]\n\nخبير تحليل عملات. أجب بالعربية: "${q}"`,(t)=>`Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
+                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA con 3 confirmaciones. Incluye SL y TP.]\n\nEres analista cripto. CHINO: "${q}"`,(t)=>`Traduce al ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
+                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA con 3 confirmaciones. Incluye SL y TP.]\n\nAnalista crypto. ITALIANO: "${q}"`,(t)=>`Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`]},
+                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA con 3 confirmaciones. Incluye SL y TP.]\n\nKrypto-Analyst. DEUTSCH: "${q}"`,(t)=>`Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`]}
             ];
-            let S={i:0,c:0},C=JSON.parse(localStorage.getItem('_nm2')||'{}');
-            function _s(){localStorage.setItem('_nm2',JSON.stringify(C));}
+            let S={i:0,c:0},C=JSON.parse(localStorage.getItem('_nm3')||'{}');
+            function _s(){localStorage.setItem('_nm3',JSON.stringify(C));}
             function _g(q){const k=q.toLowerCase().trim().substring(0,100);if(C[k]&&(Date.now()-C[k].t)<3600000)return C[k].r;return null;}
             function _p(q,r){const k=q.toLowerCase().trim().substring(0,100);C[k]={r,t:Date.now()};const keys=Object.keys(C);if(keys.length>200){keys.sort((a,b)=>C[a].t-C[b].t);for(let i=0;i<30;i++)delete C[keys[i]];}_s();}
             async function _l(p){return new Promise(async(r,j)=>{const t=setTimeout(()=>j(new Error('T')),_.t*1000);try{const x=await jsllm7(p);clearTimeout(t);r(x);}catch(e){clearTimeout(t);j(e);}});}
@@ -124,33 +124,29 @@
         })();
 
         // ============================================
-        // UI - RESPUESTA GARANTIZADA
+        // UI
         // ============================================
         let modo=localStorage.getItem('nextmoon_modo')||'experto',currentToken="POPCAT",isRefreshing=false;
-        function _R(d,s){const op=s>70?"🔥 Potencial alcista":(s>50?"📊 Neutral":"⚠️ Alto riesgo");return`📊 Score: ${s}/100 · ${op}\n💡 ${s>70?'Considerar entrada gradual con stop-loss':(s>50?'Esperar confirmación de volumen':'Evitar por ahora, alta volatilidad')}`;}
+        function _R(d,s){const op=s>70?"🔥 Potencial alcista":(s>50?"📊 Neutral":"⚠️ Alto riesgo");return`📊 Score: ${s}/100 · ${op}\n💡 ${s>70?'Considerar entrada gradual con stop-loss -5% y take-profit +10%':(s>50?'Esperar confirmación de volumen antes de entrar':'Evitar por ahora, alta volatilidad')}\n\n⚠️ Esto NO es consejo financiero. Investiga antes de invertir.`;}
 
         function actualizarModoUI(){document.querySelectorAll('.modo-btn').forEach(b=>b.classList.toggle('active',b.dataset.modo===modo));}
         document.querySelectorAll('.modo-btn').forEach(b=>{b.addEventListener('click',()=>{modo=b.dataset.modo;localStorage.setItem('nextmoon_modo',modo);actualizarModoUI();showToast(`✨ Modo ${modo==='experto'?'EXPERTO':'BÁSICO'}`);});});
         actualizarModoUI();
-
         function showToast(msg,isError){const t=document.createElement('div');t.className='toast-msg';t.style.background=isError?'#ef4444':'#10b981';t.innerText=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
+        function actualizarDiario(){const h=new Date();document.getElementById('dailyTip').innerHTML=["📈 Domingo","🚀 Lunes","📊 Martes","⚡ Miércoles","🔍 Jueves","🎯 Viernes","🧘 Sábado"][h.getDay()]+": Opera con disciplina.";document.getElementById('footer').innerHTML=`⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading`;}
 
-        function actualizarDiario(){const h=new Date();const frases=["📈 Domingo: Revisa posiciones.","🚀 Lunes: Mercado despierta.","📊 Martes: Ballenas mueven.","⚡ Miércoles: Riesgo y recompensa.","🔍 Jueves: DYOR.","🎯 Viernes: Ganancias parciales.","🧘 Sábado: Respira."];document.getElementById('dailyTip').innerHTML=frases[h.getDay()];document.getElementById('footer').innerHTML=`⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · IA Avanzada`;}
-
-        async function fetchTokenData(tokenSymbol){try{const r=await fetch(`https://api.dexscreener.com/latest/dex/search?q=${tokenSymbol}`);const d=await r.json();if(d.pairs?.length>0){const valid=d.pairs.filter(p=>p.liquidity?.usd>10000&&p.priceUsd>0);if(valid.length>0){const best=valid.sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];return{symbol:tokenSymbol.toUpperCase(),price:parseFloat(best.priceUsd),volume24h:best.volume?.h24||0,liquidity:best.liquidity?.usd||0,priceChange24h:best.priceChange?.h24||0,chain:best.chainId||"unknown"};}}return null;}catch(e){return null;}}
-
+        async function fetchTokenData(t){try{const r=await fetch(`https://api.dexscreener.com/latest/dex/search?q=${t}`);const d=await r.json();if(d.pairs?.length>0){const v=d.pairs.filter(p=>p.liquidity?.usd>10000&&p.priceUsd>0);if(v.length>0){const b=v.sort((a,b)=>(b.liquidity?.usd||0)-(a.liquidity?.usd||0))[0];return{symbol:t.toUpperCase(),price:parseFloat(b.priceUsd),volume24h:b.volume?.h24||0,liquidity:b.liquidity?.usd||0,priceChange24h:b.priceChange?.h24||0,chain:b.chainId||"unknown"};}}return null;}catch(e){return null;}}
         function calculateScore(d){let s=50;if(d.volume24h>50000000)s+=30;else if(d.volume24h>10000000)s+=25;else if(d.volume24h>1000000)s+=18;if(d.liquidity>5000000)s+=25;else if(d.liquidity>1000000)s+=20;else if(d.liquidity>500000)s+=15;if(d.priceChange24h>30)s+=20;else if(d.priceChange24h>15)s+=14;if(d.chain==="solana")s+=10;return Math.min(99,Math.max(20,Math.floor(s)));}
-
         function addFeedback(token,analysis){const c=document.getElementById('sentimentContainer');const ex=c.querySelector('.feedback-buttons');if(ex)ex.remove();const fb=document.createElement('div');fb.className='feedback-buttons';fb.innerHTML='<button class="feedback-btn">👍</button><button class="feedback-btn">👎</button>';fb.querySelectorAll('.feedback-btn')[0].addEventListener('click',e=>{e.stopPropagation();fb.remove();showToast('✅ Gracias');});fb.querySelectorAll('.feedback-btn')[1].addEventListener('click',e=>{e.stopPropagation();fb.remove();showToast('📝 Gracias');});const box=c.querySelector('.sentiment-box');if(box)box.after(fb);else c.appendChild(fb);}
 
         async function updatePrediction(manualToken=null){if(isRefreshing)return;isRefreshing=true;const t=(manualToken||currentToken).toUpperCase();document.getElementById('tokenSymbol').innerHTML='<div class="spinner"></div>';document.getElementById('sentimentText').innerHTML='<div class="spinner"></div>';
-        try{const td=await fetchTokenData(t);if(!td){document.getElementById('tokenSymbol').innerHTML='⚠️ No encontrado';document.getElementById('sentimentText').innerHTML=`Token "${t}" no hallado.`;isRefreshing=false;return;}
+        try{const td=await fetchTokenData(t);if(!td){document.getElementById('tokenSymbol').innerHTML='⚠️ No encontrado';isRefreshing=false;return;}
         currentToken=t;const score=calculateScore(td);document.getElementById('tokenSymbol').innerHTML=`$${td.symbol}`;document.getElementById('tokenPrice').innerHTML=`$${td.price<0.01?td.price.toFixed(8):td.price<1?td.price.toFixed(6):td.price.toFixed(2)}`;document.getElementById('volume').innerHTML=td.volume24h>1000000?`$${(td.volume24h/1e6).toFixed(2)}M`:`$${(td.volume24h/1e3).toFixed(0)}K`;document.getElementById('liquidity').innerHTML=td.liquidity>1000000?`$${(td.liquidity/1e6).toFixed(2)}M`:`$${(td.liquidity/1e3).toFixed(0)}K`;const cc=td.priceChange24h>=0?'#10b981':'#ef4444';document.getElementById('priceChange').innerHTML=`<span style="color:${cc}">${td.priceChange24h>=0?'+':''}${td.priceChange24h.toFixed(1)}%</span>`;document.getElementById('iaScore').innerHTML=`${score}/100`;
-        const prompt=`Token: ${td.symbol} | Precio: $${td.price} | Vol 24h: $${(td.volume24h/1e6).toFixed(2)}M | Liq: $${(td.liquidity/1e6).toFixed(2)}M | Δ24h: ${td.priceChange24h}% | Red: ${td.chain}. Análisis técnico.`;
+        const prompt=`Token: ${td.symbol} | Precio: $${td.price} | Vol 24h: $${(td.volume24h/1e6).toFixed(2)}M | Liq: $${(td.liquidity/1e6).toFixed(2)}M | Δ24h: ${td.priceChange24h}% | Red: ${td.chain}. Da señal de COMPRA o VENTA con 3 confirmaciones (RSI+MACD+Soporte/Resistencia). Incluye STOP-LOSS y TAKE-PROFIT. ADVIERTE que no es consejo financiero.`;
         let analisis=window._g?window._g(currentToken):null;if(!analisis&&window._x){const result=await window._x(prompt);if(result.e){analisis=result.r;if(window._p)window._p(currentToken,analisis);}}if(!analisis)analisis=_R(td,score);
         document.getElementById('sentimentText').innerHTML=analisis.replace(/\n/g,'<br>');addFeedback(currentToken,analisis);showToast(`✅ ${td.symbol} analizado`);}catch(e){document.getElementById('sentimentText').innerHTML='Error al obtener datos.';}isRefreshing=false;}
 
-        function iniciar(){actualizarDiario();updatePrediction("POPCAT");setInterval(()=>updatePrediction(),60000);document.getElementById('refreshBtn').onclick=()=>updatePrediction();document.getElementById('searchBtn').onclick=()=>{const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);};document.getElementById('searchInput').addEventListener('keypress',e=>{if(e.key==='Enter'){const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);}});let intentos=0;const check=setInterval(()=>{if(typeof jsllm7!=='undefined'){clearInterval(check);showToast("✅ IA avanzada lista");}else if(intentos>30)clearInterval(check);intentos++;},500);}
+        function iniciar(){actualizarDiario();updatePrediction("POPCAT");setInterval(()=>updatePrediction(),60000);document.getElementById('refreshBtn').onclick=()=>updatePrediction();document.getElementById('searchBtn').onclick=()=>{const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);};document.getElementById('searchInput').addEventListener('keypress',e=>{if(e.key==='Enter'){const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);}});let intentos=0;const check=setInterval(()=>{if(typeof jsllm7!=='undefined'){clearInterval(check);showToast("✅ IA avanzada lista · Señales de Trading");}else if(intentos>30)clearInterval(check);intentos++;},500);}
         iniciar();
     </script>
 
