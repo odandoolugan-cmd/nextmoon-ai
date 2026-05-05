@@ -45,7 +45,7 @@
         .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-        .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; font-weight: normal; transition: 0.2s; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
+        .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
         .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
         .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
@@ -75,7 +75,6 @@
 
             <div class="dashboard-grid">
                 <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
-
                 <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>Oráculo IA:</strong><br><span id="sentimentText">Cargando análisis inteligente...</span></div></div></div>
             </div>
 
@@ -93,28 +92,29 @@
 
     <script>
         // ============================================
-        // NANO-IMPORTS CON SEÑALES DE TRADING (3 CONFIRMACIONES)
+        // NANO-IMPORTS + REFERENTES + SEÑALES (4 bibliotecas)
         // ============================================
         const _B = {
             t: `[TRADING-ELITE] SEÑALES 3 CONFIRMACIONES: 🟢COMPRA FUERTE:RSI<30+MACD cruce alcista+Precio rebota en soporte. 🟡COMPRA DÉBIL:1-2 señales alcistas,esperar confirmación. 🔴VENTA FUERTE:RSI>70+MACD cruce bajista+Precio rechaza resistencia. 🟠VENTA DÉBIL:1-2 señales bajistas,esperar. STOP-LOSS:-5% entrada.TAKE-PROFIT:+10% entrada.RISK/REWARD:1:2. ADVERTENCIA:Esto es análisis técnico informativo.NO es consejo financiero.Investiga antes de invertir.`,
             c: `[CRIPTO] BTC:oro digital,halving.ETH:smart contracts,DeFi.SOL:velocidad.Indicadores:RSI(sobrecompra>70=VENTA,sobreventa<30=COMPRA),MACD(cruce alcista=COMPRA,cruce bajista=VENTA),MA50/MA200(GoldenCross=COMPRA,DeathCross=VENTA).Soportes:rebote=COMPRA,ruptura=VENTA.Resistencias:ruptura=COMPRA,rechazo=VENTA.Volumen:alto+precio↑=COMPRA,alto+precio↓=VENTA.`,
-            m: `[MEMECOINS] Alta volatilidad.Comunidad fuerte.Viralidad.Sin utilidad real.Ej:DOGE,SHIB,PEPE,BONK,WIF,POPCAT.Riesgo:falta liquidez,pump&dump.Estrategia:solo invertir lo que puedes perder,tomar ganancias rápido,no FOMO.`
+            m: `[MEMECOINS] Alta volatilidad.Comunidad fuerte.Viralidad.Ej:DOGE,SHIB,PEPE,BONK,WIF,POPCAT.Riesgo:falta liquidez,pump&dump.Estrategia:solo invertir lo que puedes perder,tomar ganancias rápido,no FOMO.`,
+            r: `[REFERENTES-TRADING] Analistas:LynAlden(macro,BTC),RaoulPal(GlobalMacro),CathieWood(ARKInnovation),MichaelSaylor(MicroStrategy,HODL),VitalikButerin(Ethereum). Inversores:Buffett(valor,no cripto),PeterLynch(crecimiento),RayDalio(principios,AllWeather),PaulTudorJones(macro,cripto). Frases:"Sé temeroso cuando otros son codiciosos"(Buffett),"El mercado puede permanecer irracional más tiempo del que puedes permanecer solvente"(Keynes),"HODL"(comunidad cripto).`
         };
         function _I() { return Object.values(_B).join(' '); }
 
         // ============================================
-        // NEXTMOON AI - SISTEMA CONFIDENCIAL + SEÑALES
+        // NEXTMOON AI - SISTEMA CONFIDENCIAL
         // ============================================
         (function() {
             const _ = { t: 25, r: 1, p: 35000, m: 3 };
             const M = [
-                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA basadas en RSI,MACD,soportes/resistencias con 3 confirmaciones. Incluye STOP-LOSS y TAKE-PROFIT. ADVIERTE que no es consejo financiero.]\n\nخبير تحليل عملات. أجب بالعربية: "${q}"`,(t)=>`Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
-                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA con 3 confirmaciones. Incluye SL y TP.]\n\nEres analista cripto. CHINO: "${q}"`,(t)=>`Traduce al ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
-                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA con 3 confirmaciones. Incluye SL y TP.]\n\nAnalista crypto. ITALIANO: "${q}"`,(t)=>`Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`]},
-                { f: [(q)=>`${_I()}\n\n[Da señales de COMPRA/VENTA con 3 confirmaciones. Incluye SL y TP.]\n\nKrypto-Analyst. DEUTSCH: "${q}"`,(t)=>`Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`]}
+                { f: [(q)=>`${_I()}\n\n[Basado en referentes como Buffett,LynAlden,Saylor. Da CUÁNDO COMPRAR y CUÁNDO VENDER con 3 confirmaciones + SL -5% y TP +10%. ADVIERTE no es consejo financiero.]\n\nخبير تحليل عملات. أجب بالعربية: "${q}"`,(t)=>`Traduce a ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
+                { f: [(q)=>`${_I()}\n\n[Basado en Buffett,LynAlden. Da CUÁNDO COMPRAR/VENDER con 3 confirmaciones + SL/TP.]\n\nAnalista cripto. CHINO: "${q}"`,(t)=>`Traduce al ESPAÑOL:\n\n"${t}"\n\nESPAÑOL:`]},
+                { f: [(q)=>`${_I()}\n\n[Basado en referentes. Da CUÁNDO COMPRAR/VENDER + SL/TP.]\n\nAnalista crypto. ITALIANO: "${q}"`,(t)=>`Traduci in SPAGNOLO:\n\n"${t}"\n\nSPAGNOLO:`]},
+                { f: [(q)=>`${_I()}\n\n[Da CUÁNDO COMPRAR/VENDER + SL/TP.]\n\nKrypto-Analyst. DEUTSCH: "${q}"`,(t)=>`Übersetze ins SPANISCHE:\n\n"${t}"\n\nSPANISCH:`]}
             ];
-            let S={i:0,c:0},C=JSON.parse(localStorage.getItem('_nm3')||'{}');
-            function _s(){localStorage.setItem('_nm3',JSON.stringify(C));}
+            let S={i:0,c:0},C=JSON.parse(localStorage.getItem('_nm4')||'{}');
+            function _s(){localStorage.setItem('_nm4',JSON.stringify(C));}
             function _g(q){const k=q.toLowerCase().trim().substring(0,100);if(C[k]&&(Date.now()-C[k].t)<3600000)return C[k].r;return null;}
             function _p(q,r){const k=q.toLowerCase().trim().substring(0,100);C[k]={r,t:Date.now()};const keys=Object.keys(C);if(keys.length>200){keys.sort((a,b)=>C[a].t-C[b].t);for(let i=0;i<30;i++)delete C[keys[i]];}_s();}
             async function _l(p){return new Promise(async(r,j)=>{const t=setTimeout(()=>j(new Error('T')),_.t*1000);try{const x=await jsllm7(p);clearTimeout(t);r(x);}catch(e){clearTimeout(t);j(e);}});}
@@ -123,11 +123,9 @@
             window._g=_g;window._p=_p;setInterval(()=>{if(S.i>0&&S.c===0)S.i=0;},180000);
         })();
 
-        // ============================================
         // UI
-        // ============================================
         let modo=localStorage.getItem('nextmoon_modo')||'experto',currentToken="POPCAT",isRefreshing=false;
-        function _R(d,s){const op=s>70?"🔥 Potencial alcista":(s>50?"📊 Neutral":"⚠️ Alto riesgo");return`📊 Score: ${s}/100 · ${op}\n💡 ${s>70?'Considerar entrada gradual con stop-loss -5% y take-profit +10%':(s>50?'Esperar confirmación de volumen antes de entrar':'Evitar por ahora, alta volatilidad')}\n\n⚠️ Esto NO es consejo financiero. Investiga antes de invertir.`;}
+        function _R(d,s){const op=s>70?"🔥 Potencial alcista":(s>50?"📊 Neutral":"⚠️ Alto riesgo");return`📊 Score: ${s}/100 · ${op}\n\n🟢 CUÁNDO COMPRAR: RSI<30 + MACD alcista + soporte fuerte\n🔴 CUÁNDO VENDER: RSI>70 + MACD bajista + resistencia\n🛑 SL: -5% | 🎯 TP: +10%\n\n⚠️ Esto NO es consejo financiero. Investiga antes de invertir.`;}
 
         function actualizarModoUI(){document.querySelectorAll('.modo-btn').forEach(b=>b.classList.toggle('active',b.dataset.modo===modo));}
         document.querySelectorAll('.modo-btn').forEach(b=>{b.addEventListener('click',()=>{modo=b.dataset.modo;localStorage.setItem('nextmoon_modo',modo);actualizarModoUI();showToast(`✨ Modo ${modo==='experto'?'EXPERTO':'BÁSICO'}`);});});
@@ -142,11 +140,11 @@
         async function updatePrediction(manualToken=null){if(isRefreshing)return;isRefreshing=true;const t=(manualToken||currentToken).toUpperCase();document.getElementById('tokenSymbol').innerHTML='<div class="spinner"></div>';document.getElementById('sentimentText').innerHTML='<div class="spinner"></div>';
         try{const td=await fetchTokenData(t);if(!td){document.getElementById('tokenSymbol').innerHTML='⚠️ No encontrado';isRefreshing=false;return;}
         currentToken=t;const score=calculateScore(td);document.getElementById('tokenSymbol').innerHTML=`$${td.symbol}`;document.getElementById('tokenPrice').innerHTML=`$${td.price<0.01?td.price.toFixed(8):td.price<1?td.price.toFixed(6):td.price.toFixed(2)}`;document.getElementById('volume').innerHTML=td.volume24h>1000000?`$${(td.volume24h/1e6).toFixed(2)}M`:`$${(td.volume24h/1e3).toFixed(0)}K`;document.getElementById('liquidity').innerHTML=td.liquidity>1000000?`$${(td.liquidity/1e6).toFixed(2)}M`:`$${(td.liquidity/1e3).toFixed(0)}K`;const cc=td.priceChange24h>=0?'#10b981':'#ef4444';document.getElementById('priceChange').innerHTML=`<span style="color:${cc}">${td.priceChange24h>=0?'+':''}${td.priceChange24h.toFixed(1)}%</span>`;document.getElementById('iaScore').innerHTML=`${score}/100`;
-        const prompt=`Token: ${td.symbol} | Precio: $${td.price} | Vol 24h: $${(td.volume24h/1e6).toFixed(2)}M | Liq: $${(td.liquidity/1e6).toFixed(2)}M | Δ24h: ${td.priceChange24h}% | Red: ${td.chain}. Da señal de COMPRA o VENTA con 3 confirmaciones (RSI+MACD+Soporte/Resistencia). Incluye STOP-LOSS y TAKE-PROFIT. ADVIERTE que no es consejo financiero.`;
+        const prompt=`Token: ${td.symbol} | Precio: $${td.price} | Vol: $${(td.volume24h/1e6).toFixed(2)}M | Liq: $${(td.liquidity/1e6).toFixed(2)}M | Δ24h: ${td.priceChange24h}% | Red: ${td.chain}. Basado en Buffett,LynAlden,Saylor. Da CUÁNDO COMPRAR y CUÁNDO VENDER con 3 confirmaciones. SL -5%, TP +10%. ADVIERTE no es consejo financiero.`;
         let analisis=window._g?window._g(currentToken):null;if(!analisis&&window._x){const result=await window._x(prompt);if(result.e){analisis=result.r;if(window._p)window._p(currentToken,analisis);}}if(!analisis)analisis=_R(td,score);
-        document.getElementById('sentimentText').innerHTML=analisis.replace(/\n/g,'<br>');addFeedback(currentToken,analisis);showToast(`✅ ${td.symbol} analizado`);}catch(e){document.getElementById('sentimentText').innerHTML='Error al obtener datos.';}isRefreshing=false;}
+        document.getElementById('sentimentText').innerHTML=analisis.replace(/\n/g,'<br>');addFeedback(currentToken,analisis);showToast(`✅ ${td.symbol} analizado`);}catch(e){document.getElementById('sentimentText').innerHTML='Error.';}isRefreshing=false;}
 
-        function iniciar(){actualizarDiario();updatePrediction("POPCAT");setInterval(()=>updatePrediction(),60000);document.getElementById('refreshBtn').onclick=()=>updatePrediction();document.getElementById('searchBtn').onclick=()=>{const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);};document.getElementById('searchInput').addEventListener('keypress',e=>{if(e.key==='Enter'){const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);}});let intentos=0;const check=setInterval(()=>{if(typeof jsllm7!=='undefined'){clearInterval(check);showToast("✅ IA avanzada lista · Señales de Trading");}else if(intentos>30)clearInterval(check);intentos++;},500);}
+        function iniciar(){actualizarDiario();updatePrediction("POPCAT");setInterval(()=>updatePrediction(),60000);document.getElementById('refreshBtn').onclick=()=>updatePrediction();document.getElementById('searchBtn').onclick=()=>{const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);};document.getElementById('searchInput').addEventListener('keypress',e=>{if(e.key==='Enter'){const v=document.getElementById('searchInput').value.trim().toUpperCase();if(v)updatePrediction(v);}});let intentos=0;const check=setInterval(()=>{if(typeof jsllm7!=='undefined'){clearInterval(check);showToast("✅ IA avanzada lista");}else if(intentos>30)clearInterval(check);intentos++;},500);}
         iniciar();
     </script>
 
