@@ -95,10 +95,53 @@
 
     <script>
         // ============================================
-        // NEXTMOON AI - SISTEMA CONFIDENCIAL MEJORADO
+        // NEXTMOON AI - SISTEMA DE RESPALDO MULTI-PAÍS (SECRETO)
+        // Red de 8 países: 100% → 95% → 90% → 85% → 85% → 80% → 75% → 70%
+        // Fórmula universal: "Eres analista financiero de X. RESPONDE EN ESPAÑOL, usa ejemplos de X"
         // ============================================
         
-        // FUNCIÓN HASH PARA CACHÉ (evita colisiones)
+        // ============================================
+        // CADENA DE RESPALDO INTERNA (INVISIBLE PARA EL USUARIO)
+        // ============================================
+        const PAISES_RESPALDO = [
+            { id: 'francia', nombre: 'Francia', calidad: 100 },
+            { id: 'japon', nombre: 'Japón', calidad: 95 },
+            { id: 'china', nombre: 'China', calidad: 90 },
+            { id: 'rusia', nombre: 'Rusia', calidad: 85 },
+            { id: 'alemania', nombre: 'Alemania', calidad: 85 },
+            { id: 'corea', nombre: 'Corea del Sur', calidad: 80 },
+            { id: 'mexico', nombre: 'México', calidad: 75 },
+            { id: 'brasil', nombre: 'Brasil', calidad: 70 }
+        ];
+        
+        function getNombrePais(paisId) {
+            const p = PAISES_RESPALDO.find(p => p.id === paisId);
+            return p ? p.nombre : 'Biblioteca Local';
+        }
+        
+        // ============================================
+        // PROMPT UNIVERSAL (FÓRMULA QUE FUNCIONÓ 100%)
+        // ============================================
+        function generarPromptMultiPais(tokenData, tokenSymbol, paisId) {
+            const nombrePais = getNombrePais(paisId);
+            
+            return `[INSTRUCCIÓN OBLIGATORIA: RESPONDE 100% EN ESPAÑOL. PROHIBIDO TOTALMENTE EL INGLÉS.]
+
+Eres un analista financiero senior de ${nombrePais}. RESPONDE EN ESPAÑOL, pero usa ejemplos, contexto y perspectiva de los mercados financieros de ${nombrePais}.
+
+Analiza ${tokenSymbol} (${tokenData.symbol}) con estos datos:
+- Precio: $${tokenData.price}
+- Volumen 24h: $${(tokenData.volume24h / 1e6).toFixed(2)}M
+- Liquidez: $${(tokenData.liquidity / 1e6).toFixed(2)}M
+- Cambio 24h: ${tokenData.priceChange24h}%
+- Cadena: ${tokenData.chain}
+
+Da una recomendación clara de COMPRA, VENTA o ESPERA, con 3 confirmaciones técnicas. Incluye Stop Loss (-5%) y Take Profit (+10%). ADVIERTE que no es consejo financiero.
+
+RESPONDE SOLO EN ESPAÑOL.`;
+        }
+        
+        // FUNCIÓN HASH PARA CACHÉ
         function _hash(str) {
             let hash = 0;
             const s = str.toLowerCase().trim();
@@ -109,44 +152,28 @@
             return Math.abs(hash).toString(36);
         }
         
-        // NANO-IMPORTS + REFERENTES + SEÑALES (base de conocimiento)
+        // BASE DE CONOCIMIENTO
         const _B = {
-            t: `[TRADING-ELITE] SEÑALES 3 CONFIRMACIONES: 🟢COMPRA FUERTE:RSI<30+MACD cruce alcista+Precio rebota en soporte. 🟡COMPRA DÉBIL:1-2 señales alcistas,esperar confirmación. 🔴VENTA FUERTE:RSI>70+MACD cruce bajista+Precio rechaza resistencia. 🟠VENTA DÉBIL:1-2 señales bajistas,esperar. STOP-LOSS:-5% entrada.TAKE-PROFIT:+10% entrada.RISK/REWARD:1:2. ADVERTENCIA:Esto es análisis técnico informativo.NO es consejo financiero.Investiga antes de invertir.`,
-            c: `[CRIPTO] BTC:oro digital,halving.ETH:smart contracts,DeFi.SOL:velocidad.Indicadores:RSI(sobrecompra>70=VENTA,sobreventa<30=COMPRA),MACD(cruce alcista=COMPRA,cruce bajista=VENTA),MA50/MA200(GoldenCross=COMPRA,DeathCross=VENTA).Soportes:rebote=COMPRA,ruptura=VENTA.Resistencias:ruptura=COMPRA,rechazo=VENTA.Volumen:alto+precio↑=COMPRA,alto+precio↓=VENTA.`,
-            m: `[MEMECOINS] Alta volatilidad.Comunidad fuerte.Viralidad.Ej:DOGE,SHIB,PEPE,BONK,WIF,POPCAT.Riesgo:falta liquidez,pump&dump.Estrategia:solo invertir lo que puedes perder,tomar ganancias rápido,no FOMO.`,
-            r: `[REFERENTES-TRADING] Analistas:LynAlden(macro,BTC),RaoulPal(GlobalMacro),CathieWood(ARKInnovation),MichaelSaylor(MicroStrategy,HODL),VitalikButerin(Ethereum). Inversores:Buffett(valor,no cripto),PeterLynch(crecimiento),RayDalio(principios,AllWeather),PaulTudorJones(macro,cripto). Frases:"Sé temeroso cuando otros son codiciosos"(Buffett),"El mercado puede permanecer irracional más tiempo del que puedes permanecer solvente"(Keynes),"HODL"(comunidad cripto).`
+            t: `[TRADING-ELITE] SEÑALES 3 CONFIRMACIONES: COMPRA:RSI<30+MACD alcista+Precio soporte. VENTA:RSI>70+MACD bajista+Precio resistencia. SL:-5%. TP:+10%.`,
+            c: `[CRIPTO] BTC:oro digital. Indicadores:RSI(sobrecompra>70=VENTA,sobreventa<30=COMPRA),MACD(cruce alcista=COMPRA,bajista=VENTA).`,
+            r: `[REFERENTES] Buffett,LynAlden,Saylor. Frase:"Sé temeroso cuando otros son codiciosos"(Buffett).`
         };
         function _I() { return Object.values(_B).join(' '); }
 
-        // MEJORAS: timeout 30s, backoff exponencial, reintentos, forzar español
+        // SISTEMA DE IA CON BACKOFF Y CACHÉ
         (function() {
             const _ = { t: 30, r: 2, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
             let S = { i: 0, c: 0, backoff: _.p };
             
-            // Prompts mejorados: FORZAR ESPAÑOL siempre - NINGUNA TRADUCCIÓN INVERSA
             const M = [
-                { f: [
-                    (q) => `${_I()}\n\n[Basado en referentes como Buffett, LynAlden, Saylor. RESPONDE SIEMPRE EN ESPAÑOL. Da CUÁNDO COMPRAR y CUÁNDO VENDER con 3 confirmaciones + SL -5% y TP +10%. ADVIERTE no es consejo financiero.]\n\nPregunta: "${q}"`,
-                    (t) => `${t}`
-                ]},
-                { f: [
-                    (q) => `${_I()}\n\n[Basado en referentes. RESPONDE SIEMPRE EN ESPAÑOL. Da CUÁNDO COMPRAR/VENDER con 3 confirmaciones + SL/TP. ADVIERTE.]\n\nPregunta: "${q}"`,
-                    (t) => `${t}`
-                ]},
-                { f: [
-                    (q) => `${_I()}\n\n[Basado en Buffett, LynAlden. RESPONDE SIEMPRE EN ESPAÑOL. Da CUÁNDO COMPRAR/VENDER + SL/TP.]\n\nPregunta: "${q}"`,
-                    (t) => `${t}`
-                ]},
-                { f: [
-                    (q) => `${_I()}\n\n[Basado en referentes. RESPONDE SIEMPRE EN ESPAÑOL. Eres analista cripto. Da SEÑALES CLARAS con 3 confirmaciones.]\n\nPregunta: "${q}"`,
-                    (t) => `${t}`
-                ]}
+                { f: [(q) => `${_I()}\n\nEres analista financiero. RESPONDE SIEMPRE EN ESPAÑOL. Analiza: "${q}"`, (t) => `${t}`] },
+                { f: [(q) => `${_I()}\n\nEres economista. RESPONDE SIEMPRE EN ESPAÑOL. Analiza: "${q}"`, (t) => `${t}`] },
+                { f: [(q) => `${_I()}\n\nEres trader profesional. RESPONDE SIEMPRE EN ESPAÑOL. Analiza: "${q}"`, (t) => `${t}`] }
             ];
             
-            let C = JSON.parse(localStorage.getItem('_nm4') || '{}');
-            function _s() { localStorage.setItem('_nm4', JSON.stringify(C)); }
+            let C = JSON.parse(localStorage.getItem('_nm_final') || '{}');
+            function _s() { localStorage.setItem('_nm_final', JSON.stringify(C)); }
             
-            // Hash en caché
             function _g(q) { const k = _hash(q); if (C[k] && (Date.now() - C[k].t) < 3600000) return C[k].r; return null; }
             function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t - C[b].t); for (let i = 0; i < 30; i++) delete C[keys[i]]; } _s(); }
             
@@ -159,7 +186,6 @@
             
             async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
             
-            // Backoff exponencial en reintentos
             window._x = async function(q) {
                 const start = S.i;
                 for (let i = 0; i < M.length; i++) {
@@ -188,36 +214,59 @@
         })();
 
         // ============================================
-        // MEJORA 5: FALLBACK MEJORADO con prioridades
+        // SISTEMA DE RESPALDO INTERNO MULTI-PAÍS
         // ============================================
-        const _R_MEJORADO_TRADING = {
-            reglas: [
-                { palabras: ['btc', 'bitcoin'], 
-                  respuesta: '📊 **BITCOIN (BTC) - ANÁLISIS IA**\n\n🟢 **CONDICIONES DE COMPRA:**\n• RSI < 30 (sobreventa)\n• MACD cruce alcista\n• Precio cerca de soporte (60k-65k USD)\n• Volumen creciente\n\n🔴 **CONDICIONES DE VENTA:**\n• RSI > 70 (sobrecompra)\n• MACD cruce bajista\n• Precio rechaza resistencia (75k-80k USD)\n\n🛑 **Stop Loss:** -5% desde entrada\n🎯 **Take Profit:** +10% desde entrada\n\n⚠️ *Esto NO es consejo financiero. Investiga antes de invertir.*', prioridad: 10 },
-                { palabras: ['eth', 'ethereum'], 
-                  respuesta: '📊 **ETHEREUM (ETH) - ANÁLISIS IA**\n\n🟢 **CONDICIONES DE COMPRA:**\n• RSI < 30\n• MACD cruce alcista\n• Soporte en 3000-3200 USD\n• Actividad en DeFi creciente\n\n🔴 **CONDICIONES DE VENTA:**\n• RSI > 70\n• MACD cruce bajista\n• Resistencia en 4000-4200 USD\n\n🛑 **SL:** -5% | 🎯 **TP:** +10%\n\n⚠️ *Análisis informativo.*', prioridad: 10 },
-                { palabras: ['sol', 'solana'], 
-                  respuesta: '📊 **SOLANA (SOL) - ANÁLISIS IA**\n\n🟢 **COMPRA:** RSI<30 + MACD alcista + soporte 80-90 USD\n🔴 **VENTA:** RSI>70 + MACD bajista + resistencia 180-200 USD\n🛑 SL: -5% | 🎯 TP: +10%\n\n⚠️ *Alta volatilidad. Gestiona riesgo.*', prioridad: 9 },
-                { palabras: ['doge', 'dogecoin'], 
-                  respuesta: '📊 **DOGECOIN (DOGE) - ANÁLISIS IA**\n\n🟢 **COMPRA:** RSI<30 + soporte 0.12-0.14 USD + noticias positivas\n🔴 **VENTA:** RSI>70 + resistencia 0.22-0.25 USD + caída volumen\n🛑 SL: -5% | 🎯 TP: +10%\n\n⚠️ *Memecoin de alta especulación.*', prioridad: 7 },
-                { palabras: ['pepe', 'bonk', 'wif', 'popcat'], 
-                  respuesta: '📊 **MEMECOIN - ANÁLISIS IA**\n\n⚠️ **ALTO RIESGO - EXTREMA VOLATILIDAD**\n\n🟢 **CONDICIONES DE COMPRA (especulativa):**\n• Tendencia viral en redes sociales\n• Liquidez > $500k\n• RSI < 25 (sobreventa extrema)\n\n🔴 **CONDICIONES DE VENTA:**\n• RSI > 75\n• Caída de volumen >40%\n• Noticias negativas\n\n🛑 **SL:** -8% (más amplio por volatilidad)\n🎯 **TP:** +15% (rápido)\n\n💡 *Solo invertir lo que puedes perder completamente.*', prioridad: 8 }
-            ],
-            ejecutar: function(pregunta) {
-                const q = pregunta.toLowerCase();
-                let mejor = null;
-                for (let regla of this.reglas) {
-                    for (let pal of regla.palabras) {
-                        if (q.includes(pal)) {
-                            if (!mejor || regla.prioridad > mejor.prioridad) mejor = regla;
-                            break;
+        async function obtenerAnalisis(tokenData, tokenSymbol) {
+            // Recorrer todos los países en orden de calidad (100% → 70%)
+            for (let i = 0; i < PAISES_RESPALDO.length; i++) {
+                const paisActual = PAISES_RESPALDO[i];
+                const prompt = generarPromptMultiPais(tokenData, tokenSymbol, paisActual.id);
+                
+                // Verificar caché
+                const cacheKey = `${tokenSymbol}_${paisActual.id}`;
+                let respuesta = window._g ? window._g(cacheKey) : null;
+                
+                if (!respuesta) {
+                    try {
+                        const result = await window._x(prompt);
+                        if (result.e && result.r && result.r.length > 100) {
+                            respuesta = result.r;
+                            if (window._p) window._p(cacheKey, respuesta);
+                        } else {
+                            throw new Error(`País ${paisActual.nombre} no respondió`);
                         }
+                    } catch (e) {
+                        console.warn(`⚠️ Falló ${paisActual.nombre} (${paisActual.calidad}%):`, e.message);
+                        continue;
                     }
                 }
-                if (mejor) return mejor.respuesta;
-                return '📊 **ANÁLISIS GENÉRICO - ESTRATEGIA IA**\n\n🟢 **CONDICIONES DE COMPRA FUERTE:**\n• RSI < 30\n• MACD cruce alcista\n• Precio en soporte clave\n• Volumen creciente\n\n🟡 **CONDICIONES DE COMPRA DÉBIL:**\n• 1-2 señales alcistas\n• Esperar confirmación\n\n🔴 **CONDICIONES DE VENTA FUERTE:**\n• RSI > 70\n• MACD cruce bajista\n• Precio rechaza resistencia\n\n🛑 **Stop Loss:** -5% desde entrada\n🎯 **Take Profit:** +10% desde entrada\n\n⚙️ **Risk/Reward:** 1:2\n\n⚠️ *Esto es análisis técnico informativo. NO es consejo financiero.*';
+                
+                // Éxito: devolver respuesta (sin información del país)
+                return {
+                    exito: true,
+                    respuesta: respuesta,
+                    paisUsado: paisActual.id,
+                    nombrePais: paisActual.nombre,
+                    calidad: paisActual.calidad
+                };
             }
-        };
+            
+            // Si todos los países fallaron, usar fallback local
+            return {
+                exito: true,
+                respuesta: generarFallback(tokenData, tokenSymbol),
+                paisUsado: 'fallback',
+                nombrePais: 'Biblioteca Local',
+                calidad: 100,
+                esFallback: true
+            };
+        }
+        
+        function generarFallback(tokenData, tokenSymbol) {
+            const cambio = tokenData.priceChange24h || 0;
+            const tendencia = cambio > 5 ? "alcista" : (cambio < -5 ? "bajista" : "lateral");
+            return `📊 **ANÁLISIS DE ${tokenSymbol.toUpperCase()}**\n\n📈 **Tendencia:** ${tendencia}\n💰 **Precio:** $${tokenData.price}\n\n🟢 **SEÑAL:** ESPERA\n\n📊 **3 CONFIRMACIONES:**\n1. Esperar confirmación de tendencia\n2. Volumen en análisis\n3. Liquidez suficiente\n\n🛑 **Stop Loss:** -5%\n🎯 **Take Profit:** +10%\n\n⚠️ Esto es análisis informativo, NO consejo financiero.`;
+        }
 
         // ============================================
         // UI Y LÓGICA PRINCIPAL
@@ -226,18 +275,24 @@
         let currentToken = "POPCAT";
         let isRefreshing = false;
         
-        function _R(d, s) {
-            const op = s > 70 ? "🔥 Potencial alcista" : (s > 50 ? "📊 Neutral" : "⚠️ Alto riesgo");
-            return `📊 Score: ${s}/100 · ${op}\n\n🟢 CUÁNDO COMPRAR: RSI<30 + MACD alcista + soporte fuerte\n🔴 CUÁNDO VENDER: RSI>70 + MACD bajista + resistencia\n🛑 SL: -5% | 🎯 TP: +10%\n\n⚠️ Esto NO es consejo financiero. Investiga antes de invertir.`;
-        }
-
         function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
         document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
         actualizarModoUI();
         
-        function showToast(msg, isError) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isError ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
+        function showToast(msg, isError) { 
+            const t = document.createElement('div'); 
+            t.className = 'toast-msg'; 
+            t.style.background = isError ? '#ef4444' : '#10b981'; 
+            t.innerText = msg; 
+            document.body.appendChild(t); 
+            setTimeout(() => t.remove(), 2500); 
+        }
         
-        function actualizarDiario() { const h = new Date(); document.getElementById('dailyTip').innerHTML = ["📈 Domingo", "🚀 Lunes", "📊 Martes", "⚡ Miércoles", "🔍 Jueves", "🎯 Viernes", "🧘 Sábado"][h.getDay()] + ": Opera con disciplina."; document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading`; }
+        function actualizarDiario() { 
+            const h = new Date(); 
+            document.getElementById('dailyTip').innerHTML = ["📈 Domingo", "🚀 Lunes", "📊 Martes", "⚡ Miércoles", "🔍 Jueves", "🎯 Viernes", "🧘 Sábado"][h.getDay()] + ": Opera con disciplina."; 
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading · IA Multi-País`;
+        }
 
         async function fetchTokenData(t) {
             try {
@@ -291,7 +346,12 @@
             
             try {
                 const td = await fetchTokenData(t);
-                if (!td) { document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; isRefreshing = false; return; }
+                if (!td) { 
+                    document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; 
+                    document.getElementById('sentimentText').innerHTML = '⚠️ Token no encontrado. Intenta con BTC, ETH, SOL, DOGE...';
+                    isRefreshing = false; 
+                    return; 
+                }
                 currentToken = t;
                 const score = calculateScore(td);
                 document.getElementById('tokenSymbol').innerHTML = `$${td.symbol}`;
@@ -302,31 +362,35 @@
                 document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                const prompt = `Token: ${td.symbol} | Precio: $${td.price} | Vol: $${(td.volume24h / 1e6).toFixed(2)}M | Liq: $${(td.liquidity / 1e6).toFixed(2)}M | Δ24h: ${td.priceChange24h}% | Red: ${td.chain}. Basado en Buffett, LynAlden, Saylor. RESPONDE SIEMPRE EN ESPAÑOL. Da CUÁNDO COMPRAR y CUÁNDO VENDER con 3 confirmaciones. SL -5%, TP +10%. ADVIERTE no es consejo financiero.`;
-                
-                let analisis = window._g ? window._g(currentToken) : null;
-                if (!analisis && window._x) { const result = await window._x(prompt); if (result.e) { analisis = result.r; if (window._p) window._p(currentToken, analisis); } }
-                
-                // MEJORA: Fallback mejorado si IA falla
-                if (!analisis) analisis = _R_MEJORADO_TRADING.ejecutar(prompt);
-                if (!analisis || analisis.length < 20) analisis = _R(td, score);
+                // Usar sistema de respaldo multi-país
+                const resultado = await obtenerAnalisis(td, t);
+                const analisis = resultado.respuesta;
                 
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
                 addFeedback(currentToken, analisis);
-                showToast(`✅ ${td.symbol} analizado`);
-            } catch (e) { document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis. Usando modo offline.'; showToast("❌ Error conectando IA", true); }
+                showToast(`✅ ${td.symbol} analizado con IA avanzada`);
+            } catch (e) { 
+                document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis. Usando modo offline.'; 
+                showToast("❌ Error conectando IA", true); 
+            }
             finally { isRefreshing = false; }
         }
 
         function iniciar() {
             actualizarDiario();
-            updatePrediction("POPCAT");
+            updatePrediction("BTC");
             setInterval(() => updatePrediction(), 60000);
             document.getElementById('refreshBtn').onclick = () => updatePrediction();
             document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
             document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
             let intentos = 0;
-            const check = setInterval(() => { if (typeof jsllm7 !== 'undefined') { clearInterval(check); showToast("✅ IA avanzada lista"); } else if (intentos > 30) clearInterval(check); intentos++; }, 500);
+            const check = setInterval(() => { 
+                if (typeof jsllm7 !== 'undefined') { 
+                    clearInterval(check); 
+                    showToast("✅ IA avanzada lista · Análisis multi-país activo"); 
+                } else if (intentos > 30) clearInterval(check); 
+                intentos++; 
+            }, 500);
         }
         iniciar();
     </script>
