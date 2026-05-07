@@ -96,22 +96,19 @@
     <script>
         // ============================================
         // NEXTMOON AI - SISTEMA DE RESPALDO MULTI-PAÍS (SECRETO)
-        // Red de 8 países: 100% → 95% → 90% → 85% → 85% → 80% → 75% → 70%
-        // Fórmula universal: "Eres analista financiero de X. RESPONDE EN ESPAÑOL, usa ejemplos de X"
+        // SOLO PAÍSES QUE DIERON 100% EN PRUEBA REAL:
+        // Francia, Alemania, México, Brasil
+        // FÓRMULA UNIVERSAL: "Eres analista financiero senior de X. RESPONDE EN ESPAÑOL, usa ejemplos de X"
         // ============================================
         
         // ============================================
-        // CADENA DE RESPALDO INTERNA (INVISIBLE PARA EL USUARIO)
+        // CADENA DE RESPALDO (SOLO PAÍSES CON 100% REAL)
         // ============================================
         const PAISES_RESPALDO = [
             { id: 'francia', nombre: 'Francia', calidad: 100 },
-            { id: 'japon', nombre: 'Japón', calidad: 95 },
-            { id: 'china', nombre: 'China', calidad: 90 },
-            { id: 'rusia', nombre: 'Rusia', calidad: 85 },
-            { id: 'alemania', nombre: 'Alemania', calidad: 85 },
-            { id: 'corea', nombre: 'Corea del Sur', calidad: 80 },
-            { id: 'mexico', nombre: 'México', calidad: 75 },
-            { id: 'brasil', nombre: 'Brasil', calidad: 70 }
+            { id: 'alemania', nombre: 'Alemania', calidad: 100 },
+            { id: 'mexico', nombre: 'México', calidad: 100 },
+            { id: 'brasil', nombre: 'Brasil', calidad: 100 }
         ];
         
         function getNombrePais(paisId) {
@@ -120,7 +117,7 @@
         }
         
         // ============================================
-        // PROMPT UNIVERSAL (FÓRMULA QUE FUNCIONÓ 100%)
+        // PROMPT GANADOR (FÓRMULA QUE FUNCIONÓ 100%)
         // ============================================
         function generarPromptMultiPais(tokenData, tokenSymbol, paisId) {
             const nombrePais = getNombrePais(paisId);
@@ -217,7 +214,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
         // SISTEMA DE RESPALDO INTERNO MULTI-PAÍS
         // ============================================
         async function obtenerAnalisis(tokenData, tokenSymbol) {
-            // Recorrer todos los países en orden de calidad (100% → 70%)
+            // Recorrer todos los países (todos son 100%)
             for (let i = 0; i < PAISES_RESPALDO.length; i++) {
                 const paisActual = PAISES_RESPALDO[i];
                 const prompt = generarPromptMultiPais(tokenData, tokenSymbol, paisActual.id);
@@ -236,7 +233,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
                             throw new Error(`País ${paisActual.nombre} no respondió`);
                         }
                     } catch (e) {
-                        console.warn(`⚠️ Falló ${paisActual.nombre} (${paisActual.calidad}%):`, e.message);
+                        console.warn(`⚠️ Falló ${paisActual.nombre}:`, e.message);
                         continue;
                     }
                 }
@@ -291,7 +288,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
         function actualizarDiario() { 
             const h = new Date(); 
             document.getElementById('dailyTip').innerHTML = ["📈 Domingo", "🚀 Lunes", "📊 Martes", "⚡ Miércoles", "🔍 Jueves", "🎯 Viernes", "🧘 Sábado"][h.getDay()] + ": Opera con disciplina."; 
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading · IA Multi-País`;
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading · IA Multi-País 100%`;
         }
 
         async function fetchTokenData(t) {
@@ -387,7 +384,7 @@ RESPONDE SOLO EN ESPAÑOL.`;
             const check = setInterval(() => { 
                 if (typeof jsllm7 !== 'undefined') { 
                     clearInterval(check); 
-                    showToast("✅ IA avanzada lista · Análisis multi-país activo"); 
+                    showToast("✅ IA avanzada lista · Análisis multi-país 100% activo"); 
                 } else if (intentos > 30) clearInterval(check); 
                 intentos++; 
             }, 500);
