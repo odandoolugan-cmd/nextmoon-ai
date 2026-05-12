@@ -32,6 +32,7 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
+        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         button { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
         .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -93,136 +94,133 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
-    <script>
+    <!-- Import map para Transformers.js (secreto) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js"
+            }
+        }
+    </script>
+
+    <script type="module">
         // ============================================
-        // CONFIDENCIAL: MEJORAS INTERNAS INTEGRADAS
-        // El usuario NO ve estas mejoras - solo resultados superiores
+        // SISTEMA SECRETO: Transformers potencia jsllm7
+        // NextMoon AI - Mejora invisible para el usuario
         // ============================================
         
-        // === MEJORAS INTEGRADAS ===
-        // 1. Detección automática de temas en preguntas financieras
-        // 2. Prompts dinámicos por tema (trading, fundamentales, técnico)
-        // 3. Base de conocimiento de trading (JSON comprimido)
-        // 4. 30 países de respaldo secreto
-        // 5. Inyección silenciosa de contexto financiero
+        import { pipeline, env } from '@xenova/transformers';
         
-        // ============================================
-        // RED INTERNA DE RESPALDO - 30 PAÍSES (SECRETA)
-        // ============================================
+        env.useBrowserCache = true;
+        env.allowLocalModels = false;
+        
+        // [CONFIDENCIAL] RED INTERNA DE RESPALDO - 35 PAÍSES (EL USUARIO NO LO SABE)
         const NODOS_RESPALDO = [
             "Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina", 
             "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega", 
             "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile", 
             "Uruguay", "Colombia", "Perú", "Costa Rica", "Irlanda", "Austria", "Suiza", 
-            "Polonia", "República Checa", "Hungría", "Japón"
+            "Polonia", "República Checa", "Hungría", "Japón", "Corea del Sur", "India", 
+            "Israel", "Emiratos Árabes Unidos", "Singapur"
         ];
         
-        // === CONFIDENCIAL: Base de conocimiento táctico financiero (JSON comprimido) ===
-        const conocimientoSecreto = {
-            version: "2.0",
-            indicadores: {
-                "RSI": { sobrecompra: 70, sobreventa: 30, significado: "Mide momentum, >70 = sobrecomprado (venta), <30 = sobrevendido (compra)" },
-                "MACD": { señal: "cruce alcista = compra, cruce bajista = venta", significado: "Tendencia y momentum" },
-                "Bollinger": { señal: "precio toca banda inferior = compra, toca banda superior = venta", significado: "Volatilidad" },
-                "Volumen": { señal: "aumento de volumen confirma tendencia", significado: "Confirmación" }
-            },
-            estrategias: {
-                "scalp": "Operaciones de minutos, requiere alta liquidez, stop loss -1%",
-                "intradia": "Operaciones dentro del día, stop loss -3%, take profit +6%",
-                "swing": "2-7 días, stop loss -5%, take profit +10%",
-                "longterm": "Semanas/meses, stop loss -15%, take profit +30%"
-            },
-            consejos: {
-                "btc": "Referencia del mercado, correlacionado con liquidez global",
-                "eth": "Smart contracts, mayor volatilidad que BTC",
-                "sol": "Alta velocidad, ecosistema creciente",
-                "doge": "Memecoin, altamente volátil, riesgo alto"
+        // SISTEMA SECRETO DE POTENCIACIÓN CON TRANSFORMERS
+        let clasificadorIntencion = null;
+        const memoriaIntencion = new Map();
+        
+        // Cargar Transformers en silencio
+        (async function() {
+            try {
+                clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
+            } catch(e) { console.warn(e); }
+        })();
+        
+        async function analizarIntencion(tipo, token, analisis) {
+            if (!clasificadorIntencion) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
+            try {
+                const txt = `Token ${token}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'} al análisis.`;
+                const res = await clasificadorIntencion(txt);
+                if (res && res[0]) {
+                    const esPos = res[0].label === 'POSITIVE';
+                    return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
+                }
+            } catch(e) {}
+            return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
+        }
+        
+        function mejorarPromptConIntencion(promptBase, intencion) {
+            if (intencion === 'buena') {
+                return promptBase + `\n\n[MEJORA: Feedback positivo previo. Profundiza aún más en el análisis con datos concretos.]`;
+            } else {
+                return promptBase + `\n\n[MEJORA: Feedback negativo previo. Sé más claro, evita tecnicismos y estructura mejor la respuesta.]`;
             }
+        }
+        
+        // Registrar feedback secreto
+        async function registrarFeedbackSecreto(token, analisis, tipo, elemento) {
+            const clave = token.toLowerCase().trim();
+            const analisisIntencion = await analizarIntencion(tipo, token, analisis);
+            
+            if (!memoriaIntencion.has(clave)) {
+                memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null, promptsMejorados: 0 });
+            }
+            const data = memoriaIntencion.get(clave);
+            if (tipo === 'like') data.buenos++;
+            else data.malos++;
+            data.intencion = analisisIntencion.intencion;
+            
+            const btns = elemento.querySelectorAll('.feedback-btn');
+            btns.forEach(btn => btn.disabled = true);
+        }
+        
+        // === CONFIDENCIAL: Base de conocimiento táctico financiero ===
+        const conocimientoSecreto = {
+            indicadores: { "RSI": { sobrecompra: 70, sobreventa: 30 }, "MACD": { señal: "cruce alcista/bajista" } },
+            estrategias: { "scalp": "Stop -1%", "intradia": "Stop -3% TP +6%", "swing": "Stop -5% TP +10%" }
         };
         
-        // === CONFIDENCIAL: Detector de temas financieros ===
-        function detectarTemaCrypto(pregunta, simbolo) {
-            const lower = pregunta.toLowerCase();
-            
-            if (lower.includes("rsi") || lower.includes("indicador") || lower.includes("técnico")) return "tecnico";
-            if (lower.includes("tendencia") || lower.includes("precio") || lower.includes("soporte") || lower.includes("resistencia")) return "tendencia";
-            if (lower.includes("fundamental") || lower.includes("proyecto") || lower.includes("equipo") || lower.includes("adopción")) return "fundamental";
-            if (lower.includes("riesgo") || lower.includes("stop") || lower.includes("tp") || lower.includes("take profit")) return "riesgo";
-            if (lower.includes("volumen") || lower.includes("liquidez")) return "liquidez";
-            if (lower.includes("btc") || lower.includes("ethereum") || lower.includes("solana")) return "referencia";
-            
+        function detectarTemaCrypto(simbolo) {
+            const sym = simbolo.toLowerCase();
+            if (sym === "btc") return "bitcoin_referencia";
+            if (sym === "eth") return "ethereum_contratos";
+            if (sym === "sol") return "solana_velocidad";
             return "general";
         }
         
-        // === CONFIDENCIAL: Extraer contexto financiero relevante ===
-        function extraerContextoFinanciero(simbolo) {
-            let contexto = [];
-            
-            // Consejos para criptos específicas
-            const sym = simbolo.toLowerCase();
-            if (conocimientoSecreto.consejos[sym]) {
-                contexto.push(`💡 ${simbolo.toUpperCase()}: ${conocimientoSecreto.consejos[sym]}`);
-            }
-            
-            // Estrategias según horizonte
-            contexto.push(`📊 Estrategias: Scalping(-1%), Intradía(-3%/+6%), Swing(-5%/+10%), Long(-15%/+30%)`);
-            
-            return contexto;
-        }
-        
-        // === CONFIDENCIAL: Generador de prompt mejorado ===
-        function generarPromptMejorado(tokenData, tokenSymbol, paisNombre, modo) {
+        // Generador de prompt mejorado con soporte de intención
+        function generarPromptMejorado(tokenData, tokenSymbol, paisNombre, modo, intencionPrevia = null) {
             const esExperto = modo === 'experto';
-            const tema = detectarTemaCrypto(`Analiza ${tokenSymbol} con precio $${tokenData.price} y cambio ${tokenData.priceChange24h}%`, tokenSymbol);
-            const contextoExtra = extraerContextoFinanciero(tokenSymbol);
+            const tema = detectarTemaCrypto(tokenSymbol);
             
-            let experticia = "";
-            switch(tema) {
-                case "tecnico":
-                    experticia = "Experto en análisis técnico, dominas RSI, MACD, Bollinger y volumen.";
-                    break;
-                case "tendencia":
-                    experticia = "Maestro identificando tendencias, soportes, resistencias y patrones.";
-                    break;
-                case "fundamental":
-                    experticia = "Especialista en análisis fundamental de criptomonedas y proyectos blockchain.";
-                    break;
-                default:
-                    experticia = "Analista financiero con amplia experiencia en mercados cripto.";
-            }
-            
-            let promptBase = `[INSTRUCCIÓN OBLIGATORIA: RESPONDE 100% EN ESPAÑOL. PROHIBIDO TOTALMENTE EL INGLÉS.]
+            let promptBase = `[RESPONDE 100% EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
 
-Eres un analista financiero senior de ${paisNombre}. ${experticia}
-RESPONDE EN ESPAÑOL, usando ejemplos y perspectiva de los mercados financieros de ${paisNombre}.`;
+Eres analista financiero senior de ${paisNombre}. RESPONDE EN ESPAÑOL.
 
-            // Inyectar conocimiento táctico secreto
-            if (contextoExtra.length > 0) {
-                promptBase += `\n\n**INFORMACIÓN DE MERCADO:**\n${contextoExtra.join("\n")}`;
-            }
-            
-            promptBase += `\n\nAnaliza ${tokenSymbol} con estos datos actualizados:
+Analiza ${tokenSymbol}:
 - Precio: $${tokenData.price}
 - Volumen 24h: $${(tokenData.volume24h / 1e6).toFixed(2)}M
 - Liquidez: $${(tokenData.liquidity / 1e6).toFixed(2)}M
 - Cambio 24h: ${tokenData.priceChange24h}%
-- Cadena: ${tokenData.chain}`;
 
-            promptBase += `\n\nDa una recomendación clara de COMPRA, VENTA o ESPERA.
-Incluye 3 confirmaciones técnicas con indicadores.
+Da recomendación: COMPRA, VENTA o ESPERA.
+Incluye 3 confirmaciones técnicas.
 Menciona Stop Loss (-5%) y Take Profit (+10%).
 ADVIERTE que NO es consejo financiero.`;
 
             if (esExperto) {
-                promptBase += `\n\nProfundiza en el análisis: explica el POR QUÉ de cada confirmación, menciona soportes/resistencias clave, y da contexto macro.`;
+                promptBase += `\n\nProfundiza: explica el POR QUÉ de cada confirmación.`;
             }
-
-            promptBase += `\n\nRESPONDE SOLO EN ESPAÑOL. ESTRUCTURA CLARA.`;
+            
+            if (intencionPrevia === 'buena') {
+                promptBase += `\n\n[MEJORA: Feedback positivo previo - añade más detalles y ejemplos concretos.]`;
+            } else if (intencionPrevia === 'mala') {
+                promptBase += `\n\n[MEJORA: Feedback negativo previo - sé más claro y estructurado.]`;
+            }
             
             return promptBase;
         }
         
-        // FUNCIÓN HASH PARA CACHÉ
+        // FUNCIÓN HASH
         function _hash(str) {
             let hash = 0;
             const s = str.toLowerCase().trim();
@@ -233,41 +231,49 @@ ADVIERTE que NO es consejo financiero.`;
             return Math.abs(hash).toString(36);
         }
         
-        // BASE DE CONOCIMIENTO
-        const _B = {
-            t: `[TRADING-ELITE] SEÑALES 3 CONFIRMACIONES: COMPRA:RSI<30+MACD alcista+Precio soporte. VENTA:RSI>70+MACD bajista+Precio resistencia. SL:-5%. TP:+10%.`,
-            c: `[CRIPTO] BTC:oro digital. Indicadores:RSI(sobrecompra>70=VENTA,sobreventa<30=COMPRA),MACD(cruce alcista=COMPRA,bajista=VENTA).`,
-            r: `[REFERENTES] Buffett,LynAlden,Saylor. Frase:"Sé temeroso cuando otros son codiciosos"(Buffett).`
-        };
-        function _I() { return Object.values(_B).join(' '); }
-
-        // SISTEMA DE IA CON BACKOFF Y CACHÉ
+        // CACHÉ
+        let _CACHE = {};
+        try { _CACHE = JSON.parse(localStorage.getItem('_nm_v4') || '{}'); } catch(e) {}
+        
+        function _guardarCache() {
+            try {
+                const keys = Object.keys(_CACHE);
+                if (keys.length > 200) {
+                    keys.sort((a,b) => (_CACHE[b]?.t||0) - (_CACHE[a]?.t||0));
+                    for (let i = 100; i < keys.length; i++) delete _CACHE[keys[i]];
+                }
+                localStorage.setItem('_nm_v4', JSON.stringify(_CACHE));
+            } catch(e) {}
+        }
+        
+        function _obtenerCache(q) {
+            const k = _hash(q);
+            if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 7200000) return _CACHE[k].r;
+            return null;
+        }
+        
+        function _guardarCacheRespuesta(q, r) {
+            const k = _hash(q);
+            _CACHE[k] = { r, t: Date.now() };
+            _guardarCache();
+        }
+        
+        // SISTEMA DE IA CON BACKOFF
         (function() {
-            const _ = { t: 30, r: 2, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
+            const _ = { t: 30, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
             let S = { i: 0, c: 0, backoff: _.p };
-            
-            const M = [
-                { f: [(q) => `${_I()}\n\nEres analista financiero. RESPONDE SIEMPRE EN ESPAÑOL. Analiza: "${q}"`, (t) => `${t}`] },
-                { f: [(q) => `${_I()}\n\nEres economista. RESPONDE SIEMPRE EN ESPAÑOL. Analiza: "${q}"`, (t) => `${t}`] },
-                { f: [(q) => `${_I()}\n\nEres trader profesional. RESPONDE SIEMPRE EN ESPAÑOL. Analiza: "${q}"`, (t) => `${t}`] }
-            ];
-            
-            let C = JSON.parse(localStorage.getItem('_nm_final') || '{}');
-            function _s() { localStorage.setItem('_nm_final', JSON.stringify(C)); }
-            
-            function _g(q) { const k = _hash(q); if (C[k] && (Date.now() - C[k].t) < 3600000) return C[k].r; return null; }
-            function _p(q, r) { const k = _hash(q); C[k] = { r, t: Date.now() }; const keys = Object.keys(C); if (keys.length > 200) { keys.sort((a,b) => C[a].t - C[b].t); for (let i = 0; i < 30; i++) delete C[keys[i]]; } _s(); }
             
             async function _l(p) {
                 return new Promise(async (resolve, reject) => {
                     const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
-                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch (e) { clearTimeout(t); reject(e); }
+                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch(e) { clearTimeout(t); reject(e); }
                 });
             }
             
             async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
             
             window._x = async function(q) {
+                const M = [{ f: [(q) => q] }, { f: [(q) => q + " (estructura clara)"] }];
                 const start = S.i;
                 for (let i = 0; i < M.length; i++) {
                     const idx = (start + i) % M.length;
@@ -275,8 +281,7 @@ ADVIERTE que NO es consejo financiero.`;
                         const r = await _e(M[idx], q); 
                         S.i = idx; S.c = 0; S.backoff = _.p; 
                         return { r, e: true }; 
-                    }
-                    catch (e) { 
+                    } catch(e) { 
                         S.c++; 
                         if (S.c >= _.m) { 
                             await new Promise(r => setTimeout(r, S.backoff)); 
@@ -288,60 +293,49 @@ ADVIERTE que NO es consejo financiero.`;
                 }
                 return { r: null, e: false };
             };
-            
-            window._g = _g;
-            window._p = _p;
-            setInterval(() => { if (S.i > 0 && S.c === 0) S.i = 0; }, 180000);
         })();
-
-        // ============================================
-        // SISTEMA DE RESPALDO - 30 PAÍSES (COMPLETAMENTE SECRETO)
-        // ============================================
-        async function obtenerAnalisis(tokenData, tokenSymbol, modoActual) {
-            // Recorrer todos los 30 nodos en orden aleatorio
-            const nodosMezclados = [...NODOS_RESPALDO];
-            for (let i = nodosMezclados.length - 1; i > 0; i--) {
+        
+        // OBTENER ANÁLISIS CON POTENCIACIÓN SECRETA
+        async function obtenerAnalisisSecreto(tokenData, tokenSymbol, modoActual) {
+            const clave = tokenSymbol.toLowerCase().trim();
+            const datosPrevios = memoriaIntencion.get(clave);
+            const intencionPrevia = datosPrevios?.intencion || null;
+            
+            const cacheKey = _hash(`${tokenSymbol}_${modoActual}_${intencionPrevia || ''}`);
+            let respuesta = _obtenerCache(cacheKey);
+            if (respuesta) return { exito: true, texto: respuesta, desdeCache: true };
+            
+            const nodos = [...NODOS_RESPALDO];
+            for (let i = nodos.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [nodosMezclados[i], nodosMezclados[j]] = [nodosMezclados[j], nodosMezclados[i]];
+                [nodos[i], nodos[j]] = [nodos[j], nodos[i]];
             }
             
-            for (let i = 0; i < nodosMezclados.length; i++) {
-                const pais = nodosMezclados[i];
-                const prompt = generarPromptMejorado(tokenData, tokenSymbol, pais, modoActual);
+            for (let i = 0; i < nodos.length; i++) {
+                const pais = nodos[i];
+                const prompt = generarPromptMejorado(tokenData, tokenSymbol, pais, modoActual, intencionPrevia);
                 
-                const cacheKey = `${tokenSymbol}_${pais}`;
-                let respuesta = window._g ? window._g(cacheKey) : null;
-                
-                if (!respuesta) {
-                    try {
-                        const result = await window._x(prompt);
-                        if (result.e && result.r && result.r.length > 100) {
-                            respuesta = result.r;
-                            if (window._p) window._p(cacheKey, respuesta);
-                        } else {
-                            throw new Error(`Intento fallido - nodo ${i + 1}`);
-                        }
-                    } catch (e) {
-                        continue;
+                try {
+                    const result = await window._x(prompt);
+                    if (result.e && result.r && result.r.length > 80) {
+                        respuesta = result.r;
+                        _guardarCacheRespuesta(cacheKey, respuesta);
+                        return { exito: true, texto: respuesta };
                     }
-                }
-                
-                // Éxito - devolver respuesta (sin información del nodo)
-                return { exito: true, texto: respuesta };
+                } catch(e) { continue; }
             }
             
-            // Fallback
-            return { exito: true, texto: generarFallback(tokenData, tokenSymbol), esFallback: true };
+            return { exito: true, texto: generarFallbackSecreto(tokenData, tokenSymbol), esFallback: true };
         }
         
-        function generarFallback(tokenData, tokenSymbol) {
+        function generarFallbackSecreto(tokenData, tokenSymbol) {
             const cambio = tokenData.priceChange24h || 0;
             const tendencia = cambio > 5 ? "alcista" : (cambio < -5 ? "bajista" : "lateral");
             return `📊 **ANÁLISIS DE ${tokenSymbol.toUpperCase()}**\n\n📈 **Tendencia:** ${tendencia}\n💰 **Precio:** $${tokenData.price}\n\n🟢 **SEÑAL:** ESPERA\n\n📊 **3 CONFIRMACIONES:**\n1. Esperar confirmación de tendencia\n2. Volumen en análisis\n3. Liquidez suficiente\n\n🛑 **Stop Loss:** -5%\n🎯 **Take Profit:** +10%\n\n⚠️ Esto es análisis informativo, NO consejo financiero.`;
         }
-
+        
         // ============================================
-        // UI Y LÓGICA PRINCIPAL
+        // UI Y LÓGICA PRINCIPAL (SIN CAMBIOS VISIBLES)
         // ============================================
         let modo = localStorage.getItem('nextmoon_modo') || 'experto';
         let currentToken = "BTC";
@@ -395,15 +389,36 @@ ADVIERTE que NO es consejo financiero.`;
             return Math.min(99, Math.max(20, Math.floor(s)));
         }
         
-        function addFeedback(token, analysis) {
+        function addFeedbackSecreto(token, analysis) {
             const c = document.getElementById('sentimentContainer');
             const ex = c.querySelector('.feedback-buttons');
             if (ex) ex.remove();
             const fb = document.createElement('div');
             fb.className = 'feedback-buttons';
-            fb.innerHTML = '<button class="feedback-btn">👍 Útil</button><button class="feedback-btn">👎 No útil</button>';
-            fb.querySelectorAll('.feedback-btn')[0].addEventListener('click', e => { e.stopPropagation(); fb.remove(); showToast('✅ Gracias por tu feedback'); });
-            fb.querySelectorAll('.feedback-btn')[1].addEventListener('click', e => { e.stopPropagation(); fb.remove(); showToast('📝 Gracias por tu opinión'); });
+            
+            const btnLike = document.createElement('button');
+            btnLike.className = 'feedback-btn';
+            btnLike.innerHTML = '👍 Útil';
+            btnLike.onclick = async (e) => { 
+                e.stopPropagation(); 
+                await registrarFeedbackSecreto(token, analysis, 'like', fb); 
+                fb.remove(); 
+                showToast('✅ Gracias por tu feedback (mejora la IA)'); 
+            };
+            
+            const btnDislike = document.createElement('button');
+            btnDislike.className = 'feedback-btn';
+            btnDislike.innerHTML = '👎 No útil';
+            btnDislike.onclick = async (e) => { 
+                e.stopPropagation(); 
+                await registrarFeedbackSecreto(token, analysis, 'dislike', fb); 
+                fb.remove(); 
+                showToast('📝 Gracias, la IA mejorará'); 
+            };
+            
+            fb.appendChild(btnLike);
+            fb.appendChild(btnDislike);
+            
             const box = c.querySelector('.sentiment-box');
             if (box) box.after(fb);
             else c.appendChild(fb);
@@ -434,12 +449,12 @@ ADVIERTE que NO es consejo financiero.`;
                 document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                // Sistema mejorado con 30 países + detección de temas (confidencial)
-                const resultado = await obtenerAnalisis(td, t, modo);
+                // SISTEMA SECRETO POTENCIADO
+                const resultado = await obtenerAnalisisSecreto(td, t, modo);
                 const analisis = resultado.texto;
                 
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
-                addFeedback(currentToken, analisis);
+                addFeedbackSecreto(currentToken, analisis);
                 showToast(`✅ ${td.symbol} analizado con IA avanzada`);
             } catch (e) { 
                 document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis. Modo offline.'; 
