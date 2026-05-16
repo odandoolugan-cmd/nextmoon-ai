@@ -105,6 +105,58 @@
 
     <script type="module">
         // ============================================
+        // SISTEMA DE CACHÉ OCULTO (GO)
+        // ABSOLUTAMENTE CONFIDENCIAL - EL USUARIO NO SABE QUE EXISTE
+        // ============================================
+        
+        const GO_URL = 'http://localhost:8080';
+        let goDisponible = false;
+        
+        // Verificación silenciosa de Go (sin mostrar nada)
+        async function verificarGoSilencioso() {
+            try {
+                const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
+                if (respuesta.ok) {
+                    goDisponible = true;
+                } else {
+                    goDisponible = false;
+                }
+            } catch (e) {
+                goDisponible = false;
+            }
+        }
+        
+        // Consultar caché oculto - el usuario cree que es la IA normal
+        async function consultarCacheOculto(token) {
+            if (!goDisponible) return null;
+            try {
+                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(token)}`, {
+                    signal: AbortSignal.timeout(3000)
+                });
+                if (respuesta.ok) {
+                    const texto = await respuesta.text();
+                    if (texto && texto !== "No sé" && texto.length > 60) {
+                        return texto;
+                    }
+                }
+            } catch (e) {
+                // Silencio total - el usuario nunca sabe que falló
+            }
+            return null;
+        }
+        
+        // Guardar en caché oculto (completamente silencioso)
+        async function guardarEnCacheOculto(token, analisis) {
+            if (!goDisponible) return;
+            try {
+                fetch(`${GO_URL}/aprender?q=${encodeURIComponent(token)}&respuesta=${encodeURIComponent(analisis)}`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(2000)
+                }).catch(() => {});
+            } catch (e) {}
+        }
+        
+        // ============================================
         // SISTEMA SECRETO: Transformers potencia jsllm7
         // NextMoon AI - Mejora invisible para el usuario
         // ============================================
@@ -231,11 +283,11 @@ ADVIERTE que NO es consejo financiero.`;
             return Math.abs(hash).toString(36);
         }
         
-        // CACHÉ
+        // CACHÉ LOCAL
         let _CACHE = {};
         try { _CACHE = JSON.parse(localStorage.getItem('_nm_v4') || '{}'); } catch(e) {}
         
-        function _guardarCache() {
+        function _guardarCacheLocal() {
             try {
                 const keys = Object.keys(_CACHE);
                 if (keys.length > 200) {
@@ -246,16 +298,16 @@ ADVIERTE que NO es consejo financiero.`;
             } catch(e) {}
         }
         
-        function _obtenerCache(q) {
+        function _obtenerCacheLocal(q) {
             const k = _hash(q);
             if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 7200000) return _CACHE[k].r;
             return null;
         }
         
-        function _guardarCacheRespuesta(q, r) {
+        function _guardarCacheLocalRespuesta(q, r) {
             const k = _hash(q);
             _CACHE[k] = { r, t: Date.now() };
-            _guardarCache();
+            _guardarCacheLocal();
         }
         
         // SISTEMA DE IA CON BACKOFF
@@ -295,15 +347,28 @@ ADVIERTE que NO es consejo financiero.`;
             };
         })();
         
-        // OBTENER ANÁLISIS CON POTENCIACIÓN SECRETA
+        // ============================================
+        // OBTENER ANÁLISIS CON CACHÉ GO OCULTO
+        // ============================================
+        
         async function obtenerAnalisisSecreto(tokenData, tokenSymbol, modoActual) {
             const clave = tokenSymbol.toLowerCase().trim();
             const datosPrevios = memoriaIntencion.get(clave);
             const intencionPrevia = datosPrevios?.intencion || null;
             
             const cacheKey = _hash(`${tokenSymbol}_${modoActual}_${intencionPrevia || ''}`);
-            let respuesta = _obtenerCache(cacheKey);
-            if (respuesta) return { exito: true, texto: respuesta, desdeCache: true };
+            
+            // 1. INTENTAR CACHÉ OCULTO DE GO PRIMERO
+            const respuestaGo = await consultarCacheOculto(tokenSymbol);
+            if (respuestaGo) {
+                return { exito: true, texto: respuestaGo, desdeCache: true };
+            }
+            
+            // 2. INTENTAR CACHÉ LOCAL (fallback)
+            let respuesta = _obtenerCacheLocal(cacheKey);
+            if (respuesta) {
+                return { exito: true, texto: respuesta, desdeCache: true };
+            }
             
             const nodos = [...NODOS_RESPALDO];
             for (let i = nodos.length - 1; i > 0; i--) {
@@ -319,7 +384,9 @@ ADVIERTE que NO es consejo financiero.`;
                     const result = await window._x(prompt);
                     if (result.e && result.r && result.r.length > 80) {
                         respuesta = result.r;
-                        _guardarCacheRespuesta(cacheKey, respuesta);
+                        _guardarCacheLocalRespuesta(cacheKey, respuesta);
+                        // Guardar en Go ocultamente para futuras consultas
+                        guardarEnCacheOculto(tokenSymbol, respuesta);
                         return { exito: true, texto: respuesta };
                     }
                 } catch(e) { continue; }
@@ -340,6 +407,10 @@ ADVIERTE que NO es consejo financiero.`;
         let modo = localStorage.getItem('nextmoon_modo') || 'experto';
         let currentToken = "BTC";
         let isRefreshing = false;
+        
+        // Verificar Go silenciosamente al inicio y periódicamente
+        verificarGoSilencioso();
+        setInterval(verificarGoSilencioso, 60000); // Cada minuto en silencio
         
         function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
         document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
@@ -449,7 +520,7 @@ ADVIERTE que NO es consejo financiero.`;
                 document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                // SISTEMA SECRETO POTENCIADO
+                // SISTEMA SECRETO POTENCIADO CON CACHÉ GO
                 const resultado = await obtenerAnalisisSecreto(td, t, modo);
                 const analisis = resultado.texto;
                 
@@ -525,6 +596,5 @@ ADVIERTE que NO es consejo financiero.`;
 
     <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
     <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
-    <script>(function(lba){var d=document,s=d.createElement('script'),l=d.scripts[d.scripts.length-1];s.settings=lba||{};s.src="\/\/webbedtrash.com\/bVXUV\/s.d\/GMln0\/Y\/WTcw\/zetmc9uuSZCUHlqkJPBTVYP5bNsjsULxkN\/zDMDttNHj\/kn2mN\/TOE\/3yNawU";s.async=true;s.referrerPolicy='no-referrer-when-downgrade';l.parentNode.insertBefore(s,l);})({})</script>
 </body>
 </html>
