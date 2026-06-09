@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>NextMoon AI · Predictor Cripto con IA Avanzada · Sin Markdown</title>
+    <title>NextMoon AI · Predictor Cripto con IA Avanzada + 10 Herramientas</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -16,6 +16,12 @@
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+        
+        /* BARRA DE HERRAMIENTAS */
+        .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
+        .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
+        .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
+        
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
         .search-btn { background: #3b82f6; border: none; padding: 0.5rem 1.2rem; border-radius: 2rem; color: white; font-weight: bold; cursor: pointer; white-space: nowrap; }
@@ -48,11 +54,25 @@
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
-        .sponsors-link a:hover { background: rgba(255,255,255,0.15); color: #e9c46a; }
         .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .restriction-alert { background: rgba(139, 92, 246, 0.15); border: 1px solid #8b5cf6; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #a78bfa; }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
+        .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
+        .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
+        
+        /* Sidebar historial */
+        #sidebarHistorial { position: fixed; left: 10px; top: 100px; background: #1e293b; border-radius: 1rem; padding: 0.8rem; width: 180px; z-index: 1000; font-size: 0.7rem; border: 1px solid #8b5cf6; backdrop-filter: blur(10px); max-height: 80vh; overflow-y: auto; }
+        #sidebarHistorial strong { color: #a78bfa; }
+        #sidebarHistorial hr { margin: 5px 0; border-color: #334155; }
+        .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
+        .historial-item:hover { background: #334155; color: #a78bfa; }
+        
+        @media (max-width: 700px) { #sidebarHistorial { display: none; } }
     </style>
 </head>
 <body>
@@ -61,8 +81,8 @@
         <div class="container">
             <div class="header">
                 <div class="badge">🚀 NextMoon AI</div>
-                <h1>🔮 NextMoon AI <span class="ia-badge">IA AVANZADA</span></h1>
-                <div style="font-size: 0.7rem;" id="subHeader">Análisis de cualquier criptomoneda con IA en tiempo real · Sin markdown</div>
+                <h1>🔮 NextMoon AI <span class="ia-badge">10 HERRAMIENTAS</span></h1>
+                <div style="font-size: 0.7rem;" id="subHeader">Análisis de criptomonedas con IA · 10 herramientas tácticas · Sin markdown</div>
                 <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna.</div>
             </div>
 
@@ -71,8 +91,22 @@
                 <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
             </div>
 
+            <!-- BARRA DE HERRAMIENTAS (10 MECANISMOS) -->
+            <div class="tools-bar">
+                <button class="tool-btn" id="btnHistorico">📊 Análisis Histórico</button>
+                <button class="tool-btn" id="btnComparar">🔄 Comparar Criptos</button>
+                <button class="tool-btn" id="btnVolatilidad">⚠️ Alerta Volatilidad</button>
+                <button class="tool-btn" id="btnSoporteResistencia">📈 S/R Levels</button>
+                <button class="tool-btn" id="btnNoticias">📰 Noticias Cripto</button>
+                <button class="tool-btn" id="btnPortafolio">💼 Simular Portafolio</button>
+                <button class="tool-btn" id="btnAlertas">🔔 Alertas Precio</button>
+                <button class="tool-btn" id="btnEstrategia">🎯 Estrategia Trading</button>
+                <button class="tool-btn" id="btnFearGreed">😨 Fear & Greed</button>
+                <button class="tool-btn" id="btnPrediccion">🔮 Predicción 7 días</button>
+            </div>
+
             <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Buscar cualquier cripto: BTC, ETH, SOL, DOGE, PEPE, BONK, WIF...">
+                <input type="text" class="search-input" id="searchInput" placeholder="Buscar cualquier cripto: BTC, ETH, SOL, DOGE, PEPE...">
                 <button class="search-btn" id="searchBtn">🔍 BUSCAR</button>
             </div>
 
@@ -82,10 +116,10 @@
             </div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos</div>
-            <div class="restriction-alert">🔍 Análisis con IA · Estrategia 3 confirmaciones · Red global de conocimiento · Texto limpio sin asteriscos</div>
-            <div class="sponsors"><div class="sponsors-link"><a href="https://www.profitablecpmratenetwork.com/cuitcvgz?key=85ca230e218898f76e48c348cafb2311" target="_blank" rel="nofollow">🎮 OFERTA 1</a><a href="https://www.profitablecpmratenetwork.com/b27uffyn?key=5b35819451353807b0e99b21addde69a" target="_blank" rel="nofollow">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ Datos: DexScreener · IA Avanzada · Señales de Trading · Texto limpio sin markdown</footer>
+            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos · 10 herramientas disponibles</div>
+            <div class="restriction-alert">🔍 Análisis con IA · Estrategia 3 confirmaciones · Red global de conocimiento · Texto limpio sin asteriscos · 10 herramientas tácticas</div>
+            <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
+            <footer id="footer">⚡ NextMoon AI · Datos DexScreener · IA Avanzada · Señales de Trading · 10 herramientas · Sin markdown</footer>
         </div>
     </div>
 
@@ -97,40 +131,33 @@
     <script type="importmap">
         {
             "imports": {
-                "@xenova/transformers": "https://unpkg.com/@xenova/transformers@2.17.0/dist/transformers.min.js",
                 "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
                 "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
             }
         }
     </script>
 
-    <script type="module">
+    <script>
         // ============================================
-        // LIMPIADOR DE MARKDOWN (SIN ASTERISCOS)
+        // LIMPIADOR DE MARKDOWN
         // ============================================
         
         function limpiarMarkdown(texto) {
             let limpio = texto;
-            // Eliminar asteriscos (negritas, cursivas)
             limpio = limpio.replace(/\*\*/g, '');
             limpio = limpio.replace(/\*/g, '');
-            // Eliminar numerales (títulos)
             limpio = limpio.replace(/^###\s*/gm, '');
             limpio = limpio.replace(/^##\s*/gm, '');
             limpio = limpio.replace(/^#\s*/gm, '');
-            // Eliminar backticks
             limpio = limpio.replace(/`/g, '');
-            // Eliminar líneas separadoras
             limpio = limpio.replace(/^---\s*$/gm, '');
-            // Convertir guiones de listas en viñetas
             limpio = limpio.replace(/^\s*-\s+/gm, '• ');
-            // Limpiar espacios múltiples
             limpio = limpio.replace(/\n{3,}/g, '\n\n');
             return limpio.trim();
         }
         
         // ============================================
-        // SISTEMA DE CACHÉ OCULTO (GO)
+        // SISTEMA DE CACHÉ
         // ============================================
         
         const GO_URL = 'http://localhost:8080';
@@ -140,7 +167,6 @@
             try {
                 const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
                 if (respuesta.ok) goDisponible = true;
-                else goDisponible = false;
             } catch (e) { goDisponible = false; }
         }
         
@@ -150,9 +176,7 @@
                 const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(token)}`, { signal: AbortSignal.timeout(3000) });
                 if (respuesta.ok) {
                     const texto = await respuesta.text();
-                    if (texto && texto !== "No sé" && texto.length > 60) {
-                        return limpiarMarkdown(texto);
-                    }
+                    if (texto && texto !== "No sé" && texto.length > 60) return limpiarMarkdown(texto);
                 }
             } catch (e) {}
             return null;
@@ -160,124 +184,22 @@
         
         async function guardarEnCacheOculto(token, analisis) {
             if (!goDisponible) return;
-            try {
-                fetch(`${GO_URL}/aprender?q=${encodeURIComponent(token)}&respuesta=${encodeURIComponent(analisis)}`, {
-                    method: 'GET',
-                    signal: AbortSignal.timeout(2000)
-                }).catch(() => {});
-            } catch (e) {}
+            try { fetch(`${GO_URL}/aprender?q=${encodeURIComponent(token)}&respuesta=${encodeURIComponent(analisis)}`, { method: 'GET', signal: AbortSignal.timeout(2000) }).catch(() => {}); } catch(e) {}
         }
         
         // ============================================
-        // SISTEMA SECRETO: Transformers
+        // DATOS Y CONFIGURACIÓN
         // ============================================
-        
-        import { pipeline, env } from '@xenova/transformers';
-        
-        env.useBrowserCache = true;
-        env.allowLocalModels = false;
         
         const NODOS_RESPALDO = [
-            "Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina", 
-            "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega", 
-            "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile", 
-            "Uruguay", "Colombia", "Perú", "Costa Rica", "Irlanda", "Austria", "Suiza", 
-            "Polonia", "República Checa", "Hungría", "Japón", "Corea del Sur", "India", 
-            "Israel", "Emiratos Árabes Unidos", "Singapur"
+            "Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina",
+            "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega",
+            "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile",
+            "Uruguay", "Colombia", "Perú", "Japón", "Corea del Sur", "Singapur"
         ];
         
-        let clasificadorIntencion = null;
-        const memoriaIntencion = new Map();
-        
-        (async function() {
-            try {
-                clasificadorIntencion = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', { quantized: true });
-            } catch(e) { console.warn(e); }
-        })();
-        
-        async function analizarIntencion(tipo, token, analisis) {
-            if (!clasificadorIntencion) return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.6 };
-            try {
-                const txt = `Token ${token}. Usuario dio ${tipo === 'like' ? 'feedback positivo' : 'feedback negativo'}.`;
-                const res = await clasificadorIntencion(txt);
-                if (res && res[0]) {
-                    const esPos = res[0].label === 'POSITIVE';
-                    return { intencion: (tipo === 'like' && esPos) ? 'buena' : 'mala', confianza: res[0].score };
-                }
-            } catch(e) {}
-            return { intencion: tipo === 'like' ? 'buena' : 'mala', confianza: 0.5 };
-        }
-        
-        function mejorarPromptConIntencion(promptBase, intencion) {
-            if (intencion === 'buena') {
-                return promptBase + `\n\n[MEJORA: Feedback positivo previo. Profundiza aún más con datos concretos y estructura clara. NO uses asteriscos.]`;
-            } else {
-                return promptBase + `\n\n[MEJORA: Feedback negativo previo. Sé más claro, evita tecnicismos y estructura mejor la respuesta. NO uses asteriscos.]`;
-            }
-        }
-        
-        async function registrarFeedbackSecreto(token, analisis, tipo, elemento) {
-            const clave = token.toLowerCase().trim();
-            const analisisIntencion = await analizarIntencion(tipo, token, analisis);
-            
-            if (!memoriaIntencion.has(clave)) {
-                memoriaIntencion.set(clave, { buenos: 0, malos: 0, intencion: null });
-            }
-            const data = memoriaIntencion.get(clave);
-            if (tipo === 'like') data.buenos++;
-            else data.malos++;
-            data.intencion = analisisIntencion.intencion;
-            
-            const btns = elemento.querySelectorAll('.feedback-btn');
-            btns.forEach(btn => btn.disabled = true);
-        }
-        
-        function detectarTemaCrypto(simbolo) {
-            const sym = simbolo.toLowerCase();
-            if (sym === "btc") return "bitcoin_referencia";
-            if (sym === "eth") return "ethereum_contratos";
-            if (sym === "sol") return "solana_velocidad";
-            return "general";
-        }
-        
-        function generarPromptMejorado(tokenData, tokenSymbol, paisNombre, modo, intencionPrevia = null) {
-            const esExperto = modo === 'experto';
-            const tema = detectarTemaCrypto(tokenSymbol);
-            
-            let promptBase = `[RESPONDE 100% EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
-
-REGLAS ESTRICTAS DE FORMATO:
-- NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
-- NO USES NUMERALES (#) PARA TÍTULOS
-- NO USES MARKDOWN
-- USA "•" PARA VIÑETAS SI ES NECESARIO
-- USA SALTOS DE LÍNEA PARA SEPARAR IDEAS
-
-Eres analista financiero senior de ${paisNombre}. RESPONDE EN ESPAÑOL.
-
-Analiza ${tokenSymbol}:
-- Precio: $${tokenData.price}
-- Volumen 24h: $${(tokenData.volume24h / 1e6).toFixed(2)}M
-- Liquidez: $${(tokenData.liquidity / 1e6).toFixed(2)}M
-- Cambio 24h: ${tokenData.priceChange24h}%
-
-Da recomendación: COMPRA, VENTA o ESPERA.
-Incluye 3 confirmaciones técnicas.
-Menciona Stop Loss (-5%) y Take Profit (+10%).
-ADVIERTE que NO es consejo financiero.`;
-
-            if (esExperto) {
-                promptBase += `\n\nProfundiza: explica el POR QUÉ de cada confirmación.`;
-            }
-            
-            if (intencionPrevia === 'buena') {
-                promptBase += `\n\n[MEJORA: Feedback positivo previo - añade más detalles y ejemplos concretos. MANTÉN FORMATO SIN ASTERISCOS.]`;
-            } else if (intencionPrevia === 'mala') {
-                promptBase += `\n\n[MEJORA: Feedback negativo previo - sé más claro y estructurado. MANTÉN FORMATO SIN ASTERISCOS.]`;
-            }
-            
-            return promptBase;
-        }
+        let _CACHE = {};
+        try { _CACHE = JSON.parse(localStorage.getItem('_nm_v5') || '{}'); } catch(e) {}
         
         function _hash(str) {
             let h = 0;
@@ -289,110 +211,45 @@ ADVIERTE que NO es consejo financiero.`;
             return Math.abs(h).toString(36);
         }
         
-        let _CACHE = {};
-        try { _CACHE = JSON.parse(localStorage.getItem('_nm_v4') || '{}'); } catch(e) {}
-        
-        function _guardarCacheLocal() {
-            try {
-                const keys = Object.keys(_CACHE);
-                if (keys.length > 200) {
-                    keys.sort((a,b) => (_CACHE[b]?.t||0) - (_CACHE[a]?.t||0));
-                    for (let i = 100; i < keys.length; i++) delete _CACHE[keys[i]];
-                }
-                localStorage.setItem('_nm_v4', JSON.stringify(_CACHE));
-            } catch(e) {}
-        }
-        
         function _obtenerCacheLocal(q) {
             const k = _hash(q);
             if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 7200000) return _CACHE[k].r;
             return null;
         }
         
-        function _guardarCacheLocalRespuesta(q, r) {
+        function _guardarCacheLocal(q, r) {
             const k = _hash(q);
             _CACHE[k] = { r, t: Date.now() };
-            _guardarCacheLocal();
+            try { localStorage.setItem('_nm_v5', JSON.stringify(_CACHE)); } catch(e) {}
         }
         
-        (function() {
-            const _ = { t: 30, p: 30000, m: 2, maxBackoff: 300000, backoffFactor: 2 };
-            let S = { i: 0, c: 0, backoff: _.p };
-            
-            async function _l(p) {
-                return new Promise(async (resolve, reject) => {
-                    const t = setTimeout(() => reject(new Error('T')), _.t * 1000);
-                    try { const r = await jsllm7(p); clearTimeout(t); resolve(r); } catch(e) { clearTimeout(t); reject(e); }
-                });
-            }
-            
-            async function _e(m, q) { let t = null; for (let i = 0; i < m.f.length; i++) t = await _l(i === 0 ? m.f[i](q) : m.f[i](t)); return t; }
-            
-            window._x = async function(q) {
-                const M = [{ f: [(q) => q] }, { f: [(q) => q + " (estructura clara)"] }];
-                const start = S.i;
-                for (let i = 0; i < M.length; i++) {
-                    const idx = (start + i) % M.length;
-                    try { 
-                        const r = await _e(M[idx], q); 
-                        S.i = idx; S.c = 0; S.backoff = _.p; 
-                        return { r, e: true }; 
-                    } catch(e) { 
-                        S.c++; 
-                        if (S.c >= _.m) { 
-                            await new Promise(r => setTimeout(r, S.backoff)); 
-                            S.c = 0; 
-                            S.backoff = Math.min(S.backoff * _.backoffFactor, _.maxBackoff); 
-                        } 
-                        if (i < M.length - 1) await new Promise(r => setTimeout(r, 2000)); 
-                    }
-                }
-                return { r: null, e: false };
-            };
-        })();
-        
-        async function obtenerAnalisisSecreto(tokenData, tokenSymbol, modoActual) {
-            const clave = tokenSymbol.toLowerCase().trim();
-            const datosPrevios = memoriaIntencion.get(clave);
-            const intencionPrevia = datosPrevios?.intencion || null;
-            
-            const cacheKey = _hash(`${tokenSymbol}_${modoActual}_${intencionPrevia || ''}`);
-            
-            const respuestaGo = await consultarCacheOculto(tokenSymbol);
-            if (respuestaGo) {
-                return { exito: true, texto: respuestaGo, desdeCache: true };
-            }
-            
-            let respuesta = _obtenerCacheLocal(cacheKey);
-            if (respuesta) {
-                return { exito: true, texto: respuesta, desdeCache: true };
-            }
-            
-            const nodos = [...NODOS_RESPALDO];
-            for (let i = nodos.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [nodos[i], nodos[j]] = [nodos[j], nodos[i]];
-            }
-            
-            for (let i = 0; i < nodos.length; i++) {
-                const pais = nodos[i];
-                const prompt = generarPromptMejorado(tokenData, tokenSymbol, pais, modoActual, intencionPrevia);
-                
-                try {
-                    const result = await window._x(prompt);
-                    if (result.e && result.r && result.r.length > 80) {
-                        respuesta = limpiarMarkdown(result.r);
-                        _guardarCacheLocalRespuesta(cacheKey, respuesta);
-                        guardarEnCacheOculto(tokenSymbol, respuesta);
-                        return { exito: true, texto: respuesta };
-                    }
-                } catch(e) { continue; }
-            }
-            
-            return { exito: true, texto: generarFallbackSecreto(tokenData, tokenSymbol), esFallback: true };
+        function generarPromptIA(tokenData, tokenSymbol, pais, modo) {
+            const esExperto = modo === 'experto';
+            return `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
+
+REGLAS ESTRICTAS:
+- NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
+- NO USES NUMERALES (#) PARA TÍTULOS
+- NO USES MARKDOWN
+- USA "•" PARA VIÑETAS
+
+Eres analista financiero senior de ${pais}.
+
+Analiza ${tokenSymbol}:
+- Precio: $${tokenData.price}
+- Volumen 24h: $${(tokenData.volume24h / 1e6).toFixed(2)}M
+- Liquidez: $${(tokenData.liquidity / 1e6).toFixed(2)}M
+- Cambio 24h: ${tokenData.priceChange24h}%
+
+Da recomendación: COMPRA, VENTA o ESPERA.
+Incluye 3 confirmaciones técnicas.
+Stop Loss: -5%, Take Profit: +10%.
+ADVIERTE que NO es consejo financiero.${esExperto ? ' Profundiza el POR QUÉ de cada confirmación.' : ''}
+
+RESPUESTA (texto limpio):`;
         }
         
-        function generarFallbackSecreto(tokenData, tokenSymbol) {
+        function fallbackLocal(tokenSymbol, tokenData) {
             const cambio = tokenData.priceChange24h || 0;
             const tendencia = cambio > 5 ? "alcista" : (cambio < -5 ? "bajista" : "lateral");
             return `ANÁLISIS DE ${tokenSymbol.toUpperCase()}
@@ -413,8 +270,38 @@ Take Profit: +10%
 ⚠️ Esto es análisis informativo, NO consejo financiero.`;
         }
         
+        async function obtenerAnalisis(tokenData, tokenSymbol, modo) {
+            const cacheKey = _hash(`${tokenSymbol}_${modo}`);
+            const respuestaGo = await consultarCacheOculto(tokenSymbol);
+            if (respuestaGo) return respuestaGo;
+            
+            let respuesta = _obtenerCacheLocal(cacheKey);
+            if (respuesta) return respuesta;
+            
+            const nodos = [...NODOS_RESPALDO];
+            for (let i = nodos.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [nodos[i], nodos[j]] = [nodos[j], nodos[i]];
+            }
+            
+            for (let i = 0; i < Math.min(nodos.length, 10); i++) {
+                const pais = nodos[i];
+                const prompt = generarPromptIA(tokenData, tokenSymbol, pais, modo);
+                try {
+                    const respuestaIA = await jsllm7(prompt);
+                    if (respuestaIA && respuestaIA.length > 80) {
+                        const respuestaLimpia = limpiarMarkdown(respuestaIA);
+                        _guardarCacheLocal(cacheKey, respuestaLimpia);
+                        guardarEnCacheOculto(tokenSymbol, respuestaLimpia);
+                        return respuestaLimpia;
+                    }
+                } catch(e) { continue; }
+            }
+            return fallbackLocal(tokenSymbol, tokenData);
+        }
+        
         // ============================================
-        // UI Y LÓGICA PRINCIPAL
+        // UI PRINCIPAL
         // ============================================
         
         let modo = localStorage.getItem('nextmoon_modo') || 'experto';
@@ -437,12 +324,46 @@ Take Profit: +10%
             setTimeout(() => t.remove(), 2500); 
         }
         
-        function actualizarDiario() { 
-            const h = new Date(); 
-            document.getElementById('dailyTip').innerHTML = ["📈 Domingo", "🚀 Lunes", "📊 Martes", "⚡ Miércoles", "🔍 Jueves", "🎯 Viernes", "🧘 Sábado"][h.getDay()] + ": Opera con disciplina."; 
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading · IA Avanzada · Sin markdown`;
+        function mostrarModal(titulo, contenido) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>${titulo}</h3>
+                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
+                    <button class="modal-close">Cerrar</button>
+                </div>
+            `;
+            modal.querySelector('.modal-close').onclick = () => modal.remove();
+            document.body.appendChild(modal);
         }
-
+        
+        // Historial
+        let historial = JSON.parse(localStorage.getItem('nextmoon_historial') || '[]');
+        
+        function guardarEnHistorial(token) {
+            historial = [token, ...historial.filter(t => t !== token)].slice(0, 10);
+            localStorage.setItem('nextmoon_historial', JSON.stringify(historial));
+            actualizarSidebarHistorial();
+        }
+        
+        function actualizarSidebarHistorial() {
+            let sidebar = document.getElementById('sidebarHistorial');
+            if (!sidebar && historial.length > 0) {
+                sidebar = document.createElement('div');
+                sidebar.id = 'sidebarHistorial';
+                document.body.appendChild(sidebar);
+            }
+            if (sidebar && historial.length > 0) {
+                sidebar.innerHTML = `<strong>📜 HISTORIAL</strong><hr>${historial.map(t => `<button class="historial-item" onclick="cargarHistorial('${t}')">💰 ${t}</button>`).join('')}`;
+            }
+        }
+        
+        window.cargarHistorial = function(token) {
+            document.getElementById('searchInput').value = token;
+            updatePrediction(token);
+        };
+        
         async function fetchTokenData(t) {
             try {
                 const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${t}`);
@@ -472,41 +393,6 @@ Take Profit: +10%
             return Math.min(99, Math.max(20, Math.floor(s)));
         }
         
-        function addFeedbackSecreto(token, analysis) {
-            const c = document.getElementById('sentimentContainer');
-            const ex = c.querySelector('.feedback-buttons');
-            if (ex) ex.remove();
-            const fb = document.createElement('div');
-            fb.className = 'feedback-buttons';
-            
-            const btnLike = document.createElement('button');
-            btnLike.className = 'feedback-btn';
-            btnLike.innerHTML = '👍 Útil';
-            btnLike.onclick = async (e) => { 
-                e.stopPropagation(); 
-                await registrarFeedbackSecreto(token, analysis, 'like', fb); 
-                fb.remove(); 
-                showToast('✅ Gracias por tu feedback'); 
-            };
-            
-            const btnDislike = document.createElement('button');
-            btnDislike.className = 'feedback-btn';
-            btnDislike.innerHTML = '👎 No útil';
-            btnDislike.onclick = async (e) => { 
-                e.stopPropagation(); 
-                await registrarFeedbackSecreto(token, analysis, 'dislike', fb); 
-                fb.remove(); 
-                showToast('📝 Gracias, la IA mejorará'); 
-            };
-            
-            fb.appendChild(btnLike);
-            fb.appendChild(btnDislike);
-            
-            const box = c.querySelector('.sentiment-box');
-            if (box) box.after(fb);
-            else c.appendChild(fb);
-        }
-
         async function updatePrediction(manualToken = null) {
             if (isRefreshing) return;
             isRefreshing = true;
@@ -523,6 +409,7 @@ Take Profit: +10%
                     return; 
                 }
                 currentToken = t;
+                guardarEnHistorial(t);
                 const score = calculateScore(td);
                 document.getElementById('tokenSymbol').innerHTML = `$${td.symbol}`;
                 document.getElementById('tokenPrice').innerHTML = td.price < 0.01 ? `$${td.price.toFixed(8)}` : (td.price < 1 ? `$${td.price.toFixed(6)}` : `$${td.price.toFixed(2)}`);
@@ -532,19 +419,111 @@ Take Profit: +10%
                 document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                const resultado = await obtenerAnalisisSecreto(td, t, modo);
-                const analisis = resultado.texto;
-                
+                const analisis = await obtenerAnalisis(td, t, modo);
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
-                addFeedbackSecreto(currentToken, analisis);
-                showToast(`✅ ${td.symbol} analizado con IA avanzada`);
+                showToast(`✅ ${td.symbol} analizado con IA`);
             } catch (e) { 
-                document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis. Modo offline.'; 
+                document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis.'; 
                 showToast("❌ Error", true); 
             }
             finally { isRefreshing = false; }
         }
-
+        
+        // ============================================
+        // 10 HERRAMIENTAS CRIPTO
+        // ============================================
+        
+        async function generico(promptText, titulo) {
+            showToast(`⏳ ${titulo}...`);
+            const respuesta = await jsllm7(promptText);
+            mostrarModal(titulo, limpiarMarkdown(respuesta));
+        }
+        
+        // 1. Análisis Histórico
+        async function analisisHistorico() {
+            const token = currentToken;
+            const prompt = `Realiza un análisis histórico del comportamiento de ${token} en los últimos meses. Identifica patrones, tendencias y niveles clave de soporte/resistencia. Sé conciso y práctico. Sin asteriscos.`;
+            await generico(prompt, `📊 ANÁLISIS HISTÓRICO: ${token}`);
+        }
+        
+        // 2. Comparar Criptos
+        async function compararCriptos() {
+            const token1 = currentToken;
+            const token2 = prompt("¿Qué cripto quieres comparar con " + token1 + "? (Ej: ETH, SOL, DOGE):", "ETH");
+            if (!token2) return;
+            const prompt = `Compara ${token1} y ${token2} en términos de: precio, volatilidad, casos de uso, adopción, y perspectiva futura. Da una conclusión sobre cuál tiene mejor relación riesgo/beneficio. Sin asteriscos.`;
+            await generico(prompt, `🔄 COMPARACIÓN: ${token1} vs ${token2}`);
+        }
+        
+        // 3. Alerta Volatilidad
+        async function alertaVolatilidad() {
+            const token = currentToken;
+            const prompt = `Analiza la volatilidad actual de ${token}. Da un nivel de volatilidad (bajo/medio/alto), explica las causas probables, y sugiere estrategias para operar en este entorno. Sin asteriscos.`;
+            await generico(prompt, `⚠️ ALERTA VOLATILIDAD: ${token}`);
+        }
+        
+        // 4. Niveles S/R
+        async function soporteResistencia() {
+            const token = currentToken;
+            const prompt = `Calcula y explica los niveles de soporte y resistencia clave para ${token}. Incluye 3 niveles de soporte y 3 de resistencia. Explica cómo usarlos en trading. Sin asteriscos.`;
+            await generico(prompt, `📈 SOPORTE/RESISTENCIA: ${token}`);
+        }
+        
+        // 5. Noticias Cripto
+        async function noticiasCripto() {
+            const token = currentToken;
+            const prompt = `Resume las 5 noticias más relevantes de las últimas 48 horas sobre ${token} y el mercado cripto en general. Incluye el impacto potencial en el precio. Sin asteriscos.`;
+            await generico(prompt, `📰 NOTICIAS: ${token}`);
+        }
+        
+        // 6. Simular Portafolio
+        async function simularPortafolio() {
+            const prompt = `Crea una simulación de portafolio cripto balanceado para un inversor con tolerancia media al riesgo. Sugiere 5 activos con porcentajes de asignación y justifica cada elección. Sin asteriscos.`;
+            await generico(prompt, `💼 SIMULACIÓN DE PORTAFOLIO`);
+        }
+        
+        // 7. Alertas Precio
+        async function alertasPrecio() {
+            const token = currentToken;
+            const prompt = `Sugiere 3 niveles de precio clave para ${token} donde sería recomendable poner alertas de compra y 3 para alertas de venta. Explica por qué cada nivel es relevante. Sin asteriscos.`;
+            await generico(prompt, `🔔 ALERTAS PRECIO: ${token}`);
+        }
+        
+        // 8. Estrategia Trading
+        async function estrategiaTrading() {
+            const token = currentToken;
+            const perfil = prompt("¿Perfil de riesgo? (conservador, moderado, agresivo):", "moderado");
+            if (!perfil) return;
+            const prompt = `Diseña una estrategia de trading para ${token} con perfil ${perfil}. Incluye: timeframe recomendado, indicadores clave, reglas de entrada/salida, y gestión de riesgo. Sin asteriscos.`;
+            await generico(prompt, `🎯 ESTRATEGIA TRADING: ${token} (${perfil})`);
+        }
+        
+        // 9. Fear & Greed
+        async function fearGreed() {
+            const prompt = `Analiza el sentimiento actual del mercado cripto usando el índice de Fear & Greed (simulado). Da un valor del 0 al 100, explica el sentimiento, y cómo debería operar un inversor en este contexto. Sin asteriscos.`;
+            await generico(prompt, `😨 FEAR & GREED INDEX`);
+        }
+        
+        // 10. Predicción 7 días
+        async function prediccion7dias() {
+            const token = currentToken;
+            const prompt = `Genera una predicción para ${token} en los próximos 7 días. Incluye: escenario más probable, rango de precio esperado, y 3 factores que podrían influir en el movimiento. Sin asteriscos.`;
+            await generico(prompt, `🔮 PREDICCIÓN 7 DÍAS: ${token}`);
+        }
+        
+        // Asignar botones
+        document.getElementById('btnHistorico').onclick = analisisHistorico;
+        document.getElementById('btnComparar').onclick = compararCriptos;
+        document.getElementById('btnVolatilidad').onclick = alertaVolatilidad;
+        document.getElementById('btnSoporteResistencia').onclick = soporteResistencia;
+        document.getElementById('btnNoticias').onclick = noticiasCripto;
+        document.getElementById('btnPortafolio').onclick = simularPortafolio;
+        document.getElementById('btnAlertas').onclick = alertasPrecio;
+        document.getElementById('btnEstrategia').onclick = estrategiaTrading;
+        document.getElementById('btnFearGreed').onclick = fearGreed;
+        document.getElementById('btnPrediccion').onclick = prediccion7dias;
+        
+        // Inicialización
         function iniciar() {
             actualizarDiario();
             updatePrediction("BTC");
@@ -552,15 +531,24 @@ Take Profit: +10%
             document.getElementById('refreshBtn').onclick = () => updatePrediction();
             document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
             document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
+            actualizarSidebarHistorial();
             let intentos = 0;
             const check = setInterval(() => { 
                 if (typeof jsllm7 !== 'undefined') { 
                     clearInterval(check); 
-                    showToast("✅ IA avanzada lista · Red global de conocimiento · Texto limpio sin markdown"); 
+                    showToast("✅ IA avanzada lista · 10 herramientas disponibles"); 
                 } else if (intentos > 30) clearInterval(check); 
                 intentos++; 
             }, 500);
         }
+        
+        function actualizarDiario() { 
+            const h = new Date(); 
+            const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. | 10 herramientas tácticas disponibles`; 
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading · IA Avanzada · 10 herramientas · Sin markdown`;
+        }
+        
         iniciar();
     </script>
 
@@ -603,8 +591,5 @@ Take Profit: +10%
         vrBtn.addEventListener('click', () => { document.getElementById('normalMode').style.display = 'none'; vrMode.classList.add('active'); if (!active) setTimeout(initVR, 100); });
         closeVr.addEventListener('click', () => { vrMode.classList.remove('active'); document.getElementById('normalMode').style.display = 'block'; });
     </script>
-
-    <script type="text/javascript" data-cfasync="false">(function(){var y=window,j="fd00ec802f889d01aba4b20343501917",o=[["siteId",230+597-856*111+5387265],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],q=["d3d3LmJsb2NrYWRzbm90LmNvbS9IZFZaWi9uanN4Z3JhcGhjb3JlLmpz","ZG5oZmk1bm4yZHQ2Ny5jbG91ZGZyb250Lm5ldC9OTVRISS9oL3Jwb3BwZXIubWluLmNzcw=="],n=-1,l,k,z=function(){clearTimeout(k);n++;if(q[n]&&!(1802736393000<(new Date).getTime()&&1<n)){l=y.document.createElement("script");l.type="text/javascript";l.async=!0;var f=y.document.getElementsByTagName("script")[0];l.src="https://"+atob(q[n]);l.crossOrigin="anonymous";l.onerror=z;l.onload=function(){clearTimeout(k);y[j.slice(0,16)+j.slice(0,16)]||z()};k=setTimeout(z,5E3);f.parentNode.insertBefore(l,f)}}};if(!y[j]){try{Object.freeze(y[j]=o)}catch(e){}z()}})();</script>
-    <script src="https://pl29137063.profitablecpmratenetwork.com/61/2f/c0/612fc0895a4d18ef5b58ae13c6940b8d.js"></script>
 </body>
 </html>
