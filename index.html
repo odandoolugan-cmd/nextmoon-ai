@@ -35,6 +35,124 @@
         .metric-item { background: #0f172a; border-radius: 0.8rem; padding: 0.6rem; text-align: center; }
         .metric-label { font-size: 0.6rem; color: #94a3b8; }
         .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
+        
+        /* ARQUITECTURA DE WIDGETS */
+        .widget-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .widget {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .widget:hover {
+            border-color: #8b5cf6;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .widget-title {
+            font-weight: 700;
+            color: #60a5fa;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .widget-content {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #eef2ff;
+        }
+        
+        .widget-confidence {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        
+        .confidence-bar {
+            flex: 1;
+            height: 4px;
+            background: #1e293b;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #10b981);
+            transition: width 1s ease;
+            width: 0%;
+        }
+        
+        .confidence-label {
+            font-size: 0.7rem;
+            color: #b0c4de;
+            min-width: 40px;
+        }
+        
+        .metrics-grid-widget {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .metric-item-widget {
+            background: rgba(0,0,0,0.3);
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-value-widget {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        
+        .metric-label-widget {
+            font-size: 0.6rem;
+            color: #94a3b8;
+        }
+        
+        .sources-list {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 0.7rem;
+        }
+        
+        .source-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .source-item:last-child { border-bottom: none; }
+        .source-icon { font-size: 0.8rem; }
+        
+        .metadata-container { display: none; }
+        
+        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.5; }
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
@@ -42,7 +160,6 @@
         button { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
         .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.5; }
         .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
         .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; box-shadow: 0 0 15px rgba(245,158,11,0.5); transition: transform 0.2s; }
@@ -72,7 +189,10 @@
         .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
         .historial-item:hover { background: #334155; color: #a78bfa; }
         
-        @media (max-width: 700px) { #sidebarHistorial { display: none; } }
+        @media (max-width: 700px) { 
+            #sidebarHistorial { display: none; }
+            .widget-container { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -115,6 +235,73 @@
                 <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>Oráculo IA:</strong><br><span id="sentimentText">Cargando análisis inteligente...</span></div></div></div>
             </div>
 
+            <!-- WIDGETS INDEPENDIENTES -->
+            <div class="widget-container" id="widgetContainer">
+                <div class="widget" id="widgetMetricas">
+                    <div class="widget-title">📊 Análisis de Mercado</div>
+                    <div class="widget-content">
+                        <div class="metrics-grid-widget">
+                            <div class="metric-item-widget">
+                                <div class="metric-value-widget" id="metricIndicadores">0</div>
+                                <div class="metric-label-widget">Indicadores Técnicos</div>
+                            </div>
+                            <div class="metric-item-widget">
+                                <div class="metric-value-widget" id="metricConfirmaciones">0</div>
+                                <div class="metric-label-widget">Confirmaciones</div>
+                            </div>
+                            <div class="metric-item-widget">
+                                <div class="metric-value-widget" id="metricNiveles">0</div>
+                                <div class="metric-label-widget">Niveles Clave</div>
+                            </div>
+                            <div class="metric-item-widget">
+                                <div class="metric-value-widget" id="metricAlertas">0</div>
+                                <div class="metric-label-widget">Alertas Activas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget" id="widgetConfianza">
+                    <div class="widget-title">🎯 Confianza de la Señal</div>
+                    <div class="widget-content">
+                        <div class="widget-confidence">
+                            <span style="font-size:0.8rem;">📊</span>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidenceFill" style="width:0%"></div>
+                            </div>
+                            <span class="confidence-label" id="confidenceLabel">0%</span>
+                        </div>
+                        <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">
+                            Basado en 3 confirmaciones técnicas
+                        </div>
+                    </div>
+                </div>
+                <div class="widget" id="widgetFuentes">
+                    <div class="widget-title">📚 Fuentes de Datos</div>
+                    <div class="widget-content">
+                        <div class="sources-list" id="sourcesList">
+                            <div style="color:#94a3b8;font-size:0.75rem;">Fuentes de datos de mercado</div>
+                            <div class="source-item"><span class="source-icon">📊</span> DexScreener</div>
+                            <div class="source-item"><span class="source-icon">🤖</span> IA Predictiva</div>
+                            <div class="source-item"><span class="source-icon">🌍</span> Red Global</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget" id="widgetEstrategia">
+                    <div class="widget-title">🎯 Estrategia Recomendada</div>
+                    <div class="widget-content" id="widgetEstrategiaContent">
+                        <div style="color:#94a3b8;font-size:0.75rem;">Estrategia de trading recomendada</div>
+                        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+                            <span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #3b82f6;">📈 Compra</span>
+                            <span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #f59e0b;">📊 Espera</span>
+                            <span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #ef4444;">📉 Venta</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METADATOS JSON-LD (oculto) -->
+            <div class="metadata-container" id="metadataContainer"></div>
+
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
             <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos · 10 herramientas disponibles</div>
             <div class="restriction-alert">🔍 Análisis con IA · Estrategia 3 confirmaciones · Red global de conocimiento · Texto limpio sin asteriscos · 10 herramientas tácticas</div>
@@ -139,6 +326,23 @@
 
     <script>
         // ============================================
+        // SISTEMA DE CACHÉ SEMÁNTICO
+        // ============================================
+        
+        const semanticCache = new Map();
+        
+        function getSemanticKey(text) {
+            const words = text.toLowerCase()
+                .replace(/[¿?¡!.,;:]/g, '')
+                .split(' ')
+                .filter(w => w.length > 3)
+                .slice(0, 5)
+                .sort()
+                .join('_');
+            return words;
+        }
+        
+        // ============================================
         // LIMPIADOR DE MARKDOWN
         // ============================================
         
@@ -154,6 +358,125 @@
             limpio = limpio.replace(/^\s*-\s+/gm, '• ');
             limpio = limpio.replace(/\n{3,}/g, '\n\n');
             return limpio.trim();
+        }
+        
+        // ============================================
+        // GENERAR METADATOS JSON-LD
+        // ============================================
+        
+        function generarMetadatos(token, precio, confianza, estrategia) {
+            return {
+                "@context": "https://schema.org",
+                "@type": "FinancialProduct",
+                "name": token,
+                "description": `Análisis de ${token} con IA avanzada`,
+                "price": precio,
+                "priceCurrency": "USD",
+                "confidenceScore": confianza,
+                "strategy": estrategia,
+                "dateCreated": new Date().toISOString()
+            };
+        }
+        
+        // ============================================
+        // ACTUALIZAR WIDGETS
+        // ============================================
+        
+        function actualizarWidgets(tokenData, analisis, tokenSymbol) {
+            // Extraer métricas del análisis
+            const analisisLower = analisis.toLowerCase();
+            
+            // Contar indicadores técnicos
+            let indicadores = 0;
+            if (analisisLower.includes('rsi')) indicadores++;
+            if (analisisLower.includes('macd')) indicadores++;
+            if (analisisLower.includes('media')) indicadores++;
+            if (analisisLower.includes('volumen')) indicadores++;
+            if (analisisLower.includes('tendencia')) indicadores++;
+            if (analisisLower.includes('soporte')) indicadores++;
+            if (analisisLower.includes('resistencia')) indicadores++;
+            if (analisisLower.includes('bollinger')) indicadores++;
+            indicadores = Math.min(Math.max(indicadores, 3), 8);
+            
+            // Confirmaciones (3 base)
+            let confirmaciones = 3;
+            if (analisisLower.includes('compra') || analisisLower.includes('alza')) confirmaciones++;
+            if (analisisLower.includes('venta') || analisisLower.includes('baja')) confirmaciones++;
+            if (analisisLower.includes('volumen') && analisisLower.includes('alto')) confirmaciones++;
+            confirmaciones = Math.min(confirmaciones, 6);
+            
+            // Niveles clave
+            let niveles = 2;
+            if (analisisLower.includes('soporte')) niveles++;
+            if (analisisLower.includes('resistencia')) niveles++;
+            if (analisisLower.includes('breakout')) niveles++;
+            if (analisisLower.includes('reversión')) niveles++;
+            niveles = Math.min(niveles, 5);
+            
+            // Alertas
+            let alertas = 2;
+            if (analisisLower.includes('stop loss')) alertas++;
+            if (analisisLower.includes('take profit')) alertas++;
+            if (analisisLower.includes('alerta')) alertas++;
+            alertas = Math.min(alertas, 4);
+            
+            // Actualizar métricas
+            document.getElementById('metricIndicadores').textContent = indicadores;
+            document.getElementById('metricConfirmaciones').textContent = confirmaciones;
+            document.getElementById('metricNiveles').textContent = niveles;
+            document.getElementById('metricAlertas').textContent = alertas;
+            
+            // Calcular confianza
+            let confianza = 60;
+            if (tokenData.liquidity > 1000000) confianza += 10;
+            if (tokenData.volume24h > 10000000) confianza += 10;
+            if (confirmaciones >= 4) confianza += 10;
+            if (indicadores >= 5) confianza += 5;
+            if (tokenData.priceChange24h > 0 && tokenData.priceChange24h < 20) confianza += 5;
+            confianza = Math.min(Math.max(confianza, 50), 92);
+            
+            document.getElementById('confidenceFill').style.width = confianza + '%';
+            document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
+            
+            // Detectar estrategia
+            const estrategiaContent = document.getElementById('widgetEstrategiaContent');
+            let estrategia = '📊 ESPERA';
+            let color = '#f59e0b';
+            
+            if (analisisLower.includes('compra') || analisisLower.includes('alza') || analisisLower.includes('bull')) {
+                estrategia = '📈 COMPRA';
+                color = '#10b981';
+            } else if (analisisLower.includes('venta') || analisisLower.includes('baja') || analisisLower.includes('bear')) {
+                estrategia = '📉 VENTA';
+                color = '#ef4444';
+            }
+            
+            estrategiaContent.innerHTML = `
+                <div style="color:#94a3b8;font-size:0.75rem;margin-bottom:8px;">Estrategia recomendada</div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                    <span style="background:#1e293b;padding:8px 16px;border-radius:15px;font-size:1rem;font-weight:bold;border:2px solid ${color};color:${color};">${estrategia}</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;">${confirmaciones} confirmaciones</span>
+                </div>
+                <div style="margin-top:8px;font-size:0.7rem;color:#94a3b8;">
+                    Stop Loss: -5% · Take Profit: +10%
+                </div>
+            `;
+            
+            // Generar metadatos JSON-LD
+            const metadatos = generarMetadatos(
+                tokenSymbol, 
+                tokenData.price, 
+                confianza, 
+                estrategia.replace('📈 ', '').replace('📉 ', '').replace('📊 ', '')
+            );
+            document.getElementById('metadataContainer').innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
+            
+            // Deep linking
+            if (history.pushState) {
+                const url = new URL(window.location);
+                url.searchParams.set('token', tokenSymbol);
+                window.history.pushState({}, '', url);
+            }
         }
         
         // ============================================
@@ -271,12 +594,28 @@ Take Profit: +10%
         }
         
         async function obtenerAnalisis(tokenData, tokenSymbol, modo) {
+            const semanticKey = getSemanticKey(tokenSymbol);
+            
+            // Verificar caché semántico
+            if (semanticCache.has(semanticKey)) {
+                const cached = semanticCache.get(semanticKey);
+                if (Date.now() - cached.timestamp < 7200000) {
+                    return cached.data;
+                }
+            }
+            
             const cacheKey = _hash(`${tokenSymbol}_${modo}`);
             const respuestaGo = await consultarCacheOculto(tokenSymbol);
-            if (respuestaGo) return respuestaGo;
+            if (respuestaGo) {
+                semanticCache.set(semanticKey, { data: respuestaGo, timestamp: Date.now() });
+                return respuestaGo;
+            }
             
             let respuesta = _obtenerCacheLocal(cacheKey);
-            if (respuesta) return respuesta;
+            if (respuesta) {
+                semanticCache.set(semanticKey, { data: respuesta, timestamp: Date.now() });
+                return respuesta;
+            }
             
             const nodos = [...NODOS_RESPALDO];
             for (let i = nodos.length - 1; i > 0; i--) {
@@ -293,11 +632,14 @@ Take Profit: +10%
                         const respuestaLimpia = limpiarMarkdown(respuestaIA);
                         _guardarCacheLocal(cacheKey, respuestaLimpia);
                         guardarEnCacheOculto(tokenSymbol, respuestaLimpia);
+                        semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
                         return respuestaLimpia;
                     }
                 } catch(e) { continue; }
             }
-            return fallbackLocal(tokenSymbol, tokenData);
+            const fallback = fallbackLocal(tokenSymbol, tokenData);
+            semanticCache.set(semanticKey, { data: fallback, timestamp: Date.now() });
+            return fallback;
         }
         
         // ============================================
@@ -393,6 +735,21 @@ Take Profit: +10%
             return Math.min(99, Math.max(20, Math.floor(s)));
         }
         
+        // ============================================
+        // DEEP LINKING - CARGAR TOKEN DESDE URL
+        // ============================================
+        
+        function cargarDesdeURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            if (token) {
+                document.getElementById('searchInput').value = token;
+                setTimeout(() => updatePrediction(token), 1000);
+            }
+        }
+        
+        cargarDesdeURL();
+        
         async function updatePrediction(manualToken = null) {
             if (isRefreshing) return;
             isRefreshing = true;
@@ -421,6 +778,10 @@ Take Profit: +10%
                 
                 const analisis = await obtenerAnalisis(td, t, modo);
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
+                
+                // Actualizar widgets
+                actualizarWidgets(td, analisis, t);
+                
                 showToast(`✅ ${td.symbol} analizado con IA`);
             } catch (e) { 
                 document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis.'; 
@@ -436,7 +797,13 @@ Take Profit: +10%
         async function generico(promptText, titulo) {
             showToast(`⏳ ${titulo}...`);
             const respuesta = await jsllm7(promptText);
-            mostrarModal(titulo, limpiarMarkdown(respuesta));
+            const respuestaLimpia = limpiarMarkdown(respuesta);
+            mostrarModal(titulo, respuestaLimpia);
+            // Actualizar widgets con el resultado de la herramienta
+            const td = await fetchTokenData(currentToken);
+            if (td) {
+                actualizarWidgets(td, respuestaLimpia, currentToken);
+            }
         }
         
         // 1. Análisis Histórico
@@ -545,7 +912,7 @@ Take Profit: +10%
         function actualizarDiario() { 
             const h = new Date(); 
             const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. | 10 herramientas tácticas disponibles`; 
+            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. | 10 herramientas tácticas disponibles · Widgets inteligentes`; 
             document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading · IA Avanzada · 10 herramientas · Sin markdown`;
         }
         
