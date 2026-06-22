@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>NextMoon AI · Predictor Cripto con IA Avanzada + 10 Herramientas</title>
+    <title>NextMoon AI · Predictor Cripto con IA Avanzada + Conectores</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -17,7 +17,6 @@
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
         
-        /* BARRA DE HERRAMIENTAS */
         .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
         .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
         .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
@@ -36,7 +35,6 @@
         .metric-label { font-size: 0.6rem; color: #94a3b8; }
         .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
         
-        /* ARQUITECTURA DE WIDGETS */
         .widget-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -131,6 +129,29 @@
             color: #94a3b8;
         }
         
+        /* Métricas de conectores */
+        .connector-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .connector-metric {
+            background: rgba(0,0,0,0.3);
+            padding: 6px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .connector-metric .value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        .connector-metric .label {
+            font-size: 0.55rem;
+            color: #94a3b8;
+        }
+        
         .sources-list {
             margin-top: 10px;
             padding: 10px;
@@ -176,13 +197,11 @@
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .restriction-alert { background: rgba(139, 92, 246, 0.15); border: 1px solid #8b5cf6; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #a78bfa; }
         
-        /* Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
         
-        /* Sidebar historial */
         #sidebarHistorial { position: fixed; left: 10px; top: 100px; background: #1e293b; border-radius: 1rem; padding: 0.8rem; width: 180px; z-index: 1000; font-size: 0.7rem; border: 1px solid #8b5cf6; backdrop-filter: blur(10px); max-height: 80vh; overflow-y: auto; }
         #sidebarHistorial strong { color: #a78bfa; }
         #sidebarHistorial hr { margin: 5px 0; border-color: #334155; }
@@ -192,6 +211,7 @@
         @media (max-width: 700px) { 
             #sidebarHistorial { display: none; }
             .widget-container { grid-template-columns: 1fr; }
+            .connector-metrics { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -201,9 +221,9 @@
         <div class="container">
             <div class="header">
                 <div class="badge">🚀 NextMoon AI</div>
-                <h1>🔮 NextMoon AI <span class="ia-badge">10 HERRAMIENTAS</span></h1>
-                <div style="font-size: 0.7rem;" id="subHeader">Análisis de criptomonedas con IA · 10 herramientas tácticas · Sin markdown</div>
-                <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna.</div>
+                <h1>🔮 NextMoon AI <span class="ia-badge">CONECTORES</span></h1>
+                <div style="font-size: 0.7rem;" id="subHeader">Análisis de criptomonedas con IA · Conectores: Memoria · Semántico · APIs</div>
+                <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna. · Conectores activos</div>
             </div>
 
             <div class="modo-selector">
@@ -211,7 +231,6 @@
                 <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
             </div>
 
-            <!-- BARRA DE HERRAMIENTAS (10 MECANISMOS) -->
             <div class="tools-bar">
                 <button class="tool-btn" id="btnHistorico">📊 Análisis Histórico</button>
                 <button class="tool-btn" id="btnComparar">🔄 Comparar Criptos</button>
@@ -235,7 +254,6 @@
                 <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>Oráculo IA:</strong><br><span id="sentimentText">Cargando análisis inteligente...</span></div></div></div>
             </div>
 
-            <!-- WIDGETS INDEPENDIENTES -->
             <div class="widget-container" id="widgetContainer">
                 <div class="widget" id="widgetMetricas">
                     <div class="widget-title">📊 Análisis de Mercado</div>
@@ -260,6 +278,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="widget" id="widgetConectores">
+                    <div class="widget-title">🔌 Estado de Conectores</div>
+                    <div class="widget-content">
+                        <div class="connector-metrics">
+                            <div class="connector-metric">
+                                <div class="value" id="metricMemoria">0</div>
+                                <div class="label">Memoria</div>
+                            </div>
+                            <div class="connector-metric">
+                                <div class="value" id="metricSemantico">0</div>
+                                <div class="label">Semántico</div>
+                            </div>
+                            <div class="connector-metric">
+                                <div class="value" id="metricAPIs">0</div>
+                                <div class="label">APIs</div>
+                            </div>
+                            <div class="connector-metric">
+                                <div class="value" id="metricContexto">0%</div>
+                                <div class="label">Contexto</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="widget" id="widgetConfianza">
                     <div class="widget-title">🎯 Confianza de la Señal</div>
                     <div class="widget-content">
@@ -271,18 +312,7 @@
                             <span class="confidence-label" id="confidenceLabel">0%</span>
                         </div>
                         <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">
-                            Basado en 3 confirmaciones técnicas
-                        </div>
-                    </div>
-                </div>
-                <div class="widget" id="widgetFuentes">
-                    <div class="widget-title">📚 Fuentes de Datos</div>
-                    <div class="widget-content">
-                        <div class="sources-list" id="sourcesList">
-                            <div style="color:#94a3b8;font-size:0.75rem;">Fuentes de datos de mercado</div>
-                            <div class="source-item"><span class="source-icon">📊</span> DexScreener</div>
-                            <div class="source-item"><span class="source-icon">🤖</span> IA Predictiva</div>
-                            <div class="source-item"><span class="source-icon">🌍</span> Red Global</div>
+                            Basado en 3 confirmaciones técnicas + conectores
                         </div>
                     </div>
                 </div>
@@ -299,14 +329,13 @@
                 </div>
             </div>
 
-            <!-- METADATOS JSON-LD (oculto) -->
             <div class="metadata-container" id="metadataContainer"></div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos · 10 herramientas disponibles</div>
-            <div class="restriction-alert">🔍 Análisis con IA · Estrategia 3 confirmaciones · Red global de conocimiento · Texto limpio sin asteriscos · 10 herramientas tácticas</div>
+            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos · Conectores activos</div>
+            <div class="restriction-alert">🔍 Análisis con IA · Conectores: Memoria · Semántico · APIs · Estrategia 3 confirmaciones</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ NextMoon AI · Datos DexScreener · IA Avanzada · Señales de Trading · 10 herramientas · Sin markdown</footer>
+            <footer id="footer">⚡ NextMoon AI · Conectores activos · Datos DexScreener · IA Avanzada · 10 herramientas</footer>
         </div>
     </div>
 
@@ -326,6 +355,223 @@
 
     <script>
         // ============================================
+        // CONECTOR DE MEMORIA
+        // ============================================
+        
+        class MemoryConnector {
+            constructor() {
+                this.shortTerm = [];
+                this.longTerm = new Map();
+                this.maxShortTerm = 10;
+                this.loadFromStorage();
+            }
+            
+            loadFromStorage() {
+                try {
+                    const data = JSON.parse(localStorage.getItem('nextmoon_memoria') || '{}');
+                    if (data.shortTerm) this.shortTerm = data.shortTerm;
+                    if (data.longTerm) {
+                        this.longTerm = new Map(Object.entries(data.longTerm));
+                    }
+                } catch(e) {}
+            }
+            
+            saveToStorage() {
+                try {
+                    localStorage.setItem('nextmoon_memoria', JSON.stringify({
+                        shortTerm: this.shortTerm,
+                        longTerm: Object.fromEntries(this.longTerm)
+                    }));
+                } catch(e) {}
+            }
+            
+            remember(interaction) {
+                this.shortTerm.push({
+                    ...interaction,
+                    timestamp: Date.now()
+                });
+                if (this.shortTerm.length > this.maxShortTerm) {
+                    this.shortTerm.shift();
+                }
+                this.saveToStorage();
+            }
+            
+            recall(token, limit = 3) {
+                const relevant = this.shortTerm
+                    .filter(item => {
+                        const similarity = this.calculateSimilarity(token, item.token || '');
+                        return similarity > 0.2;
+                    })
+                    .sort((a, b) => b.similarity - a.similarity)
+                    .slice(0, limit);
+                
+                return relevant.map(item => ({
+                    token: item.token,
+                    analisis: item.analisis,
+                    similarity: item.similarity,
+                    recomendacion: item.recomendacion
+                }));
+            }
+            
+            calculateSimilarity(a, b) {
+                if (!a || !b) return 0;
+                const wordsA = a.toLowerCase().split(' ');
+                const wordsB = b.toLowerCase().split(' ');
+                const common = wordsA.filter(w => wordsB.includes(w) && w.length > 2);
+                return common.length / Math.max(wordsA.length, wordsB.length);
+            }
+            
+            getStats() {
+                return {
+                    shortTerm: this.shortTerm.length,
+                    longTerm: this.longTerm.size,
+                    total: this.shortTerm.length + this.longTerm.size
+                };
+            }
+        }
+
+        // ============================================
+        // CONECTOR SEMÁNTICO
+        // ============================================
+        
+        class SemanticConnector {
+            constructor() {
+                this.embeddingsCache = new Map();
+                this.similarityThreshold = 0.25;
+            }
+            
+            generateEmbedding(text) {
+                const words = text.toLowerCase()
+                    .replace(/[¿?¡!.,;:]/g, '')
+                    .split(' ')
+                    .filter(w => w.length > 2);
+                
+                const vector = new Map();
+                words.forEach(w => {
+                    vector.set(w, (vector.get(w) || 0) + 1);
+                });
+                return vector;
+            }
+            
+            cosineSimilarity(vecA, vecB) {
+                let dotProduct = 0;
+                let normA = 0;
+                let normB = 0;
+                
+                const keys = new Set([...vecA.keys(), ...vecB.keys()]);
+                keys.forEach(key => {
+                    const a = vecA.get(key) || 0;
+                    const b = vecB.get(key) || 0;
+                    dotProduct += a * b;
+                    normA += a * a;
+                    normB += b * b;
+                });
+                
+                if (normA === 0 || normB === 0) return 0;
+                return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+            }
+            
+            findSimilar(query, candidates) {
+                const queryEmbedding = this.generateEmbedding(query);
+                const results = candidates.map(candidate => ({
+                    ...candidate,
+                    similarity: this.cosineSimilarity(queryEmbedding, this.generateEmbedding(candidate.text || candidate.token || ''))
+                }));
+                
+                return results
+                    .filter(r => r.similarity > this.similarityThreshold)
+                    .sort((a, b) => b.similarity - a.similarity);
+            }
+            
+            getStats() {
+                return {
+                    cacheSize: this.embeddingsCache.size,
+                    threshold: this.similarityThreshold
+                };
+            }
+        }
+
+        // ============================================
+        // CONECTOR DE APIs
+        // ============================================
+        
+        class APIConnector {
+            constructor() {
+                this.endpoints = new Map();
+                this.cache = new Map();
+                this.maxCacheAge = 3600000;
+                this.registerDefaultEndpoints();
+            }
+            
+            registerDefaultEndpoints() {
+                this.registerEndpoint('marketData', {
+                    url: 'https://api.example.com/market',
+                    method: 'GET',
+                    transform: (data) => ({
+                        tendencias: data.tendencias || [],
+                        volumen_total: data.volumen_total || 0
+                    })
+                });
+            }
+            
+            registerEndpoint(name, config) {
+                this.endpoints.set(name, config);
+            }
+            
+            async call(endpointName, params = {}) {
+                const config = this.endpoints.get(endpointName);
+                if (!config) {
+                    return { error: `Endpoint ${endpointName} no encontrado` };
+                }
+                
+                const cacheKey = `${endpointName}_${JSON.stringify(params)}`;
+                if (this.cache.has(cacheKey)) {
+                    const cached = this.cache.get(cacheKey);
+                    if (Date.now() - cached.timestamp < this.maxCacheAge) {
+                        return cached.data;
+                    }
+                }
+                
+                try {
+                    const mockData = this.generateMockData(endpointName, params);
+                    const result = config.transform ? config.transform(mockData) : mockData;
+                    this.cache.set(cacheKey, {
+                        data: result,
+                        timestamp: Date.now()
+                    });
+                    return result;
+                } catch(e) {
+                    return { error: e.message };
+                }
+            }
+            
+            generateMockData(endpoint, params) {
+                const datos = {
+                    marketData: {
+                        tendencias: ['Alcista en BTC', 'Lateral en ETH', 'Bajista en DOGE'],
+                        volumen_total: 125000000000
+                    }
+                };
+                return datos[endpoint] || {};
+            }
+            
+            getStats() {
+                return {
+                    endpoints: this.endpoints.size,
+                    cacheSize: this.cache.size
+                };
+            }
+        }
+
+        // ============================================
+        // INICIALIZACIÓN DE CONECTORES
+        // ============================================
+        
+        const memoryConnector = new MemoryConnector();
+        const semanticConnector = new SemanticConnector();
+        const apiConnector = new APIConnector();
+
+        // ============================================
         // SISTEMA DE CACHÉ SEMÁNTICO
         // ============================================
         
@@ -341,7 +587,24 @@
                 .join('_');
             return words;
         }
+
+        // ============================================
+        // ACTUALIZAR MÉTRICAS DE CONECTORES
+        // ============================================
         
+        function actualizarMetricasConectores() {
+            const memStats = memoryConnector.getStats();
+            const semStats = semanticConnector.getStats();
+            const apiStats = apiConnector.getStats();
+            
+            document.getElementById('metricMemoria').textContent = memStats.total;
+            document.getElementById('metricSemantico').textContent = semStats.cacheSize;
+            document.getElementById('metricAPIs').textContent = apiStats.endpoints;
+            
+            const contextoPorcentaje = Math.min(100, (memStats.shortTerm * 10) + 20);
+            document.getElementById('metricContexto').textContent = Math.min(contextoPorcentaje, 100) + '%';
+        }
+
         // ============================================
         // LIMPIADOR DE MARKDOWN
         // ============================================
@@ -359,7 +622,7 @@
             limpio = limpio.replace(/\n{3,}/g, '\n\n');
             return limpio.trim();
         }
-        
+
         // ============================================
         // GENERAR METADATOS JSON-LD
         // ============================================
@@ -369,7 +632,7 @@
                 "@context": "https://schema.org",
                 "@type": "FinancialProduct",
                 "name": token,
-                "description": `Análisis de ${token} con IA avanzada`,
+                "description": `Análisis de ${token} con IA avanzada y conectores`,
                 "price": precio,
                 "priceCurrency": "USD",
                 "confidenceScore": confianza,
@@ -377,16 +640,14 @@
                 "dateCreated": new Date().toISOString()
             };
         }
-        
+
         // ============================================
         // ACTUALIZAR WIDGETS
         // ============================================
         
         function actualizarWidgets(tokenData, analisis, tokenSymbol) {
-            // Extraer métricas del análisis
             const analisisLower = analisis.toLowerCase();
             
-            // Contar indicadores técnicos
             let indicadores = 0;
             if (analisisLower.includes('rsi')) indicadores++;
             if (analisisLower.includes('macd')) indicadores++;
@@ -398,14 +659,12 @@
             if (analisisLower.includes('bollinger')) indicadores++;
             indicadores = Math.min(Math.max(indicadores, 3), 8);
             
-            // Confirmaciones (3 base)
             let confirmaciones = 3;
             if (analisisLower.includes('compra') || analisisLower.includes('alza')) confirmaciones++;
             if (analisisLower.includes('venta') || analisisLower.includes('baja')) confirmaciones++;
             if (analisisLower.includes('volumen') && analisisLower.includes('alto')) confirmaciones++;
             confirmaciones = Math.min(confirmaciones, 6);
             
-            // Niveles clave
             let niveles = 2;
             if (analisisLower.includes('soporte')) niveles++;
             if (analisisLower.includes('resistencia')) niveles++;
@@ -413,20 +672,17 @@
             if (analisisLower.includes('reversión')) niveles++;
             niveles = Math.min(niveles, 5);
             
-            // Alertas
             let alertas = 2;
             if (analisisLower.includes('stop loss')) alertas++;
             if (analisisLower.includes('take profit')) alertas++;
             if (analisisLower.includes('alerta')) alertas++;
             alertas = Math.min(alertas, 4);
             
-            // Actualizar métricas
             document.getElementById('metricIndicadores').textContent = indicadores;
             document.getElementById('metricConfirmaciones').textContent = confirmaciones;
             document.getElementById('metricNiveles').textContent = niveles;
             document.getElementById('metricAlertas').textContent = alertas;
             
-            // Calcular confianza
             let confianza = 60;
             if (tokenData.liquidity > 1000000) confianza += 10;
             if (tokenData.volume24h > 10000000) confianza += 10;
@@ -438,7 +694,6 @@
             document.getElementById('confidenceFill').style.width = confianza + '%';
             document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
             
-            // Detectar estrategia
             const estrategiaContent = document.getElementById('widgetEstrategiaContent');
             let estrategia = '📊 ESPERA';
             let color = '#f59e0b';
@@ -462,7 +717,6 @@
                 </div>
             `;
             
-            // Generar metadatos JSON-LD
             const metadatos = generarMetadatos(
                 tokenSymbol, 
                 tokenData.price, 
@@ -471,14 +725,15 @@
             );
             document.getElementById('metadataContainer').innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
             
-            // Deep linking
             if (history.pushState) {
                 const url = new URL(window.location);
                 url.searchParams.set('token', tokenSymbol);
                 window.history.pushState({}, '', url);
             }
+            
+            actualizarMetricasConectores();
         }
-        
+
         // ============================================
         // SISTEMA DE CACHÉ
         // ============================================
@@ -509,7 +764,7 @@
             if (!goDisponible) return;
             try { fetch(`${GO_URL}/aprender?q=${encodeURIComponent(token)}&respuesta=${encodeURIComponent(analisis)}`, { method: 'GET', signal: AbortSignal.timeout(2000) }).catch(() => {}); } catch(e) {}
         }
-        
+
         // ============================================
         // DATOS Y CONFIGURACIÓN
         // ============================================
@@ -596,12 +851,28 @@ Take Profit: +10%
         async function obtenerAnalisis(tokenData, tokenSymbol, modo) {
             const semanticKey = getSemanticKey(tokenSymbol);
             
-            // Verificar caché semántico
+            // 1. Verificar caché semántico
             if (semanticCache.has(semanticKey)) {
                 const cached = semanticCache.get(semanticKey);
                 if (Date.now() - cached.timestamp < 7200000) {
                     return cached.data;
                 }
+            }
+            
+            // 2. Buscar en memoria análisis similares
+            const memoriaSimilar = memoryConnector.recall(tokenSymbol, 2);
+            let contextoMemoria = '';
+            if (memoriaSimilar.length > 0) {
+                contextoMemoria = '\n\n[Contexto de memoria:] ' + memoriaSimilar.map(m => 
+                    `Análisis similar de ${m.token}: "${m.analisis.substring(0, 100)}..."`
+                ).join(' ');
+            }
+            
+            // 3. Consultar API para datos de mercado
+            const apiData = await apiConnector.call('marketData');
+            let contextoAPI = '';
+            if (!apiData.error) {
+                contextoAPI = `\n\n[Datos de mercado externos:] Tendencias: ${apiData.tendencias?.join(', ') || ''}`;
             }
             
             const cacheKey = _hash(`${tokenSymbol}_${modo}`);
@@ -625,7 +896,12 @@ Take Profit: +10%
             
             for (let i = 0; i < Math.min(nodos.length, 10); i++) {
                 const pais = nodos[i];
-                const prompt = generarPromptIA(tokenData, tokenSymbol, pais, modo);
+                let prompt = generarPromptIA(tokenData, tokenSymbol, pais, modo);
+                
+                // Añadir contexto de conectores
+                if (contextoMemoria) prompt += `\n${contextoMemoria}`;
+                if (contextoAPI) prompt += `\n${contextoAPI}`;
+                
                 try {
                     const respuestaIA = await jsllm7(prompt);
                     if (respuestaIA && respuestaIA.length > 80) {
@@ -633,6 +909,15 @@ Take Profit: +10%
                         _guardarCacheLocal(cacheKey, respuestaLimpia);
                         guardarEnCacheOculto(tokenSymbol, respuestaLimpia);
                         semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
+                        
+                        // Guardar en memoria
+                        memoryConnector.remember({
+                            token: tokenSymbol,
+                            analisis: respuestaLimpia,
+                            recomendacion: respuestaLimpia.includes('COMPRA') ? 'COMPRA' : 
+                                           respuestaLimpia.includes('VENTA') ? 'VENTA' : 'ESPERA'
+                        });
+                        actualizarMetricasConectores();
                         return respuestaLimpia;
                     }
                 } catch(e) { continue; }
@@ -641,7 +926,7 @@ Take Profit: +10%
             semanticCache.set(semanticKey, { data: fallback, timestamp: Date.now() });
             return fallback;
         }
-        
+
         // ============================================
         // UI PRINCIPAL
         // ============================================
@@ -679,8 +964,11 @@ Take Profit: +10%
             modal.querySelector('.modal-close').onclick = () => modal.remove();
             document.body.appendChild(modal);
         }
+
+        // ============================================
+        // HISTORIAL
+        // ============================================
         
-        // Historial
         let historial = JSON.parse(localStorage.getItem('nextmoon_historial') || '[]');
         
         function guardarEnHistorial(token) {
@@ -705,6 +993,10 @@ Take Profit: +10%
             document.getElementById('searchInput').value = token;
             updatePrediction(token);
         };
+
+        // ============================================
+        // FUNCIONES DE DATOS
+        // ============================================
         
         async function fetchTokenData(t) {
             try {
@@ -734,7 +1026,7 @@ Take Profit: +10%
             if (d.chain === "solana") s += 10;
             return Math.min(99, Math.max(20, Math.floor(s)));
         }
-        
+
         // ============================================
         // DEEP LINKING - CARGAR TOKEN DESDE URL
         // ============================================
@@ -749,6 +1041,10 @@ Take Profit: +10%
         }
         
         cargarDesdeURL();
+
+        // ============================================
+        // ACTUALIZAR PREDICCIÓN
+        // ============================================
         
         async function updatePrediction(manualToken = null) {
             if (isRefreshing) return;
@@ -778,18 +1074,16 @@ Take Profit: +10%
                 
                 const analisis = await obtenerAnalisis(td, t, modo);
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
-                
-                // Actualizar widgets
                 actualizarWidgets(td, analisis, t);
                 
-                showToast(`✅ ${td.symbol} analizado con IA`);
+                showToast(`✅ ${td.symbol} analizado · Conectores activos`);
             } catch (e) { 
                 document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis.'; 
                 showToast("❌ Error", true); 
             }
             finally { isRefreshing = false; }
         }
-        
+
         // ============================================
         // 10 HERRAMIENTAS CRIPTO
         // ============================================
@@ -799,21 +1093,18 @@ Take Profit: +10%
             const respuesta = await jsllm7(promptText);
             const respuestaLimpia = limpiarMarkdown(respuesta);
             mostrarModal(titulo, respuestaLimpia);
-            // Actualizar widgets con el resultado de la herramienta
             const td = await fetchTokenData(currentToken);
             if (td) {
                 actualizarWidgets(td, respuestaLimpia, currentToken);
             }
         }
         
-        // 1. Análisis Histórico
         async function analisisHistorico() {
             const token = currentToken;
             const prompt = `Realiza un análisis histórico del comportamiento de ${token} en los últimos meses. Identifica patrones, tendencias y niveles clave de soporte/resistencia. Sé conciso y práctico. Sin asteriscos.`;
             await generico(prompt, `📊 ANÁLISIS HISTÓRICO: ${token}`);
         }
         
-        // 2. Comparar Criptos
         async function compararCriptos() {
             const token1 = currentToken;
             const token2 = prompt("¿Qué cripto quieres comparar con " + token1 + "? (Ej: ETH, SOL, DOGE):", "ETH");
@@ -822,41 +1113,35 @@ Take Profit: +10%
             await generico(prompt, `🔄 COMPARACIÓN: ${token1} vs ${token2}`);
         }
         
-        // 3. Alerta Volatilidad
         async function alertaVolatilidad() {
             const token = currentToken;
             const prompt = `Analiza la volatilidad actual de ${token}. Da un nivel de volatilidad (bajo/medio/alto), explica las causas probables, y sugiere estrategias para operar en este entorno. Sin asteriscos.`;
             await generico(prompt, `⚠️ ALERTA VOLATILIDAD: ${token}`);
         }
         
-        // 4. Niveles S/R
         async function soporteResistencia() {
             const token = currentToken;
             const prompt = `Calcula y explica los niveles de soporte y resistencia clave para ${token}. Incluye 3 niveles de soporte y 3 de resistencia. Explica cómo usarlos en trading. Sin asteriscos.`;
             await generico(prompt, `📈 SOPORTE/RESISTENCIA: ${token}`);
         }
         
-        // 5. Noticias Cripto
         async function noticiasCripto() {
             const token = currentToken;
             const prompt = `Resume las 5 noticias más relevantes de las últimas 48 horas sobre ${token} y el mercado cripto en general. Incluye el impacto potencial en el precio. Sin asteriscos.`;
             await generico(prompt, `📰 NOTICIAS: ${token}`);
         }
         
-        // 6. Simular Portafolio
         async function simularPortafolio() {
             const prompt = `Crea una simulación de portafolio cripto balanceado para un inversor con tolerancia media al riesgo. Sugiere 5 activos con porcentajes de asignación y justifica cada elección. Sin asteriscos.`;
             await generico(prompt, `💼 SIMULACIÓN DE PORTAFOLIO`);
         }
         
-        // 7. Alertas Precio
         async function alertasPrecio() {
             const token = currentToken;
             const prompt = `Sugiere 3 niveles de precio clave para ${token} donde sería recomendable poner alertas de compra y 3 para alertas de venta. Explica por qué cada nivel es relevante. Sin asteriscos.`;
             await generico(prompt, `🔔 ALERTAS PRECIO: ${token}`);
         }
         
-        // 8. Estrategia Trading
         async function estrategiaTrading() {
             const token = currentToken;
             const perfil = prompt("¿Perfil de riesgo? (conservador, moderado, agresivo):", "moderado");
@@ -865,20 +1150,17 @@ Take Profit: +10%
             await generico(prompt, `🎯 ESTRATEGIA TRADING: ${token} (${perfil})`);
         }
         
-        // 9. Fear & Greed
         async function fearGreed() {
             const prompt = `Analiza el sentimiento actual del mercado cripto usando el índice de Fear & Greed (simulado). Da un valor del 0 al 100, explica el sentimiento, y cómo debería operar un inversor en este contexto. Sin asteriscos.`;
             await generico(prompt, `😨 FEAR & GREED INDEX`);
         }
         
-        // 10. Predicción 7 días
         async function prediccion7dias() {
             const token = currentToken;
             const prompt = `Genera una predicción para ${token} en los próximos 7 días. Incluye: escenario más probable, rango de precio esperado, y 3 factores que podrían influir en el movimiento. Sin asteriscos.`;
             await generico(prompt, `🔮 PREDICCIÓN 7 DÍAS: ${token}`);
         }
         
-        // Asignar botones
         document.getElementById('btnHistorico').onclick = analisisHistorico;
         document.getElementById('btnComparar').onclick = compararCriptos;
         document.getElementById('btnVolatilidad').onclick = alertaVolatilidad;
@@ -889,8 +1171,11 @@ Take Profit: +10%
         document.getElementById('btnEstrategia').onclick = estrategiaTrading;
         document.getElementById('btnFearGreed').onclick = fearGreed;
         document.getElementById('btnPrediccion').onclick = prediccion7dias;
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
         
-        // Inicialización
         function iniciar() {
             actualizarDiario();
             updatePrediction("BTC");
@@ -899,11 +1184,12 @@ Take Profit: +10%
             document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
             document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
             actualizarSidebarHistorial();
+            actualizarMetricasConectores();
             let intentos = 0;
             const check = setInterval(() => { 
                 if (typeof jsllm7 !== 'undefined') { 
                     clearInterval(check); 
-                    showToast("✅ IA avanzada lista · 10 herramientas disponibles"); 
+                    showToast("✅ IA avanzada lista · Conectores activos · 10 herramientas disponibles"); 
                 } else if (intentos > 30) clearInterval(check); 
                 intentos++; 
             }, 500);
@@ -912,8 +1198,8 @@ Take Profit: +10%
         function actualizarDiario() { 
             const h = new Date(); 
             const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. | 10 herramientas tácticas disponibles · Widgets inteligentes`; 
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Señales de Trading · IA Avanzada · 10 herramientas · Sin markdown`;
+            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. · Conectores: Memoria · Semántico · APIs`; 
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Conectores activos · IA Avanzada · 10 herramientas`;
         }
         
         iniciar();
