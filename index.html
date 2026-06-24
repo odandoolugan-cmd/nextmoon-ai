@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>NextMoon AI · Predictor Cripto con IA Avanzada + Conectores</title>
+    <title>NextMoon AI · Predictor Cripto con IA Avanzada + Conectores + jsllm7 404M</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -20,6 +20,7 @@
         .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
         .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
         .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
+        .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
@@ -129,7 +130,6 @@
             color: #94a3b8;
         }
         
-        /* Métricas de conectores */
         .connector-metrics {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -173,7 +173,7 @@
         
         .metadata-container { display: none; }
         
-        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.5; }
+        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.5; max-height: 500px; overflow-y: auto; }
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
@@ -208,6 +208,8 @@
         .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
         .historial-item:hover { background: #334155; color: #a78bfa; }
         
+        #jsllm7Status { font-size: 0.6rem; color: #94a3b8; text-align: center; margin-top: 5px; }
+        
         @media (max-width: 700px) { 
             #sidebarHistorial { display: none; }
             .widget-container { grid-template-columns: 1fr; }
@@ -221,9 +223,9 @@
         <div class="container">
             <div class="header">
                 <div class="badge">🚀 NextMoon AI</div>
-                <h1>🔮 NextMoon AI <span class="ia-badge">CONECTORES</span></h1>
-                <div style="font-size: 0.7rem;" id="subHeader">Análisis de criptomonedas con IA · Conectores: Memoria · Semántico · APIs</div>
-                <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna. · Conectores activos</div>
+                <h1>🔮 NextMoon AI <span class="ia-badge">jsllm7 404M</span> <span class="ia-badge" style="background:#8b5cf6;">CONECTORES</span></h1>
+                <div style="font-size: 0.7rem;" id="subHeader">Análisis de criptomonedas con IA · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
+                <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna. · jsllm7 404M activo</div>
             </div>
 
             <div class="modo-selector">
@@ -242,6 +244,7 @@
                 <button class="tool-btn" id="btnEstrategia">🎯 Estrategia Trading</button>
                 <button class="tool-btn" id="btnFearGreed">😨 Fear & Greed</button>
                 <button class="tool-btn" id="btnPrediccion">🔮 Predicción 7 días</button>
+                <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
             </div>
 
             <div class="search-box">
@@ -299,6 +302,9 @@
                                 <div class="label">Contexto</div>
                             </div>
                         </div>
+                        <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#94a3b8;">
+                            🧠 jsllm7: 🔍 Conectando a Termux...
+                        </div>
                     </div>
                 </div>
                 <div class="widget" id="widgetConfianza">
@@ -332,10 +338,10 @@
             <div class="metadata-container" id="metadataContainer"></div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos · Conectores activos</div>
-            <div class="restriction-alert">🔍 Análisis con IA · Conectores: Memoria · Semántico · APIs · Estrategia 3 confirmaciones</div>
+            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos · jsllm7 404M · Conectores activos</div>
+            <div class="restriction-alert">🔍 Análisis con IA · Conectores: Memoria · Semántico · APIs · jsllm7 404M · Estrategia 3 confirmaciones</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ NextMoon AI · Conectores activos · Datos DexScreener · IA Avanzada · 10 herramientas</footer>
+            <footer id="footer">⚡ NextMoon AI · jsllm7 404M · Conectores activos · Datos DexScreener · IA Avanzada · 10 herramientas</footer>
         </div>
     </div>
 
@@ -354,6 +360,74 @@
     </script>
 
     <script>
+        // ============================================
+        // CONFIGURACIÓN - API DE TERMUX (PUERTO 8081)
+        // ============================================
+        
+        const JSLLM7_API_URL = 'http://localhost:8081';
+        let jsllm7TermuxConectado = false;
+        let currentTokenData = null;
+        
+        // ============================================
+        // FUNCIÓN PRINCIPAL PARA LLAMAR A jsllm7
+        // PRIORIZA TERMUX -> CDN -> FALLBACK
+        // ============================================
+        
+        async function llamarJsllm7(prompt) {
+            console.log('🔍 Intentando llamar a jsllm7...');
+            
+            // 1. INTENTAR CON TERMUX (API local)
+            try {
+                const preguntaCodificada = encodeURIComponent(prompt);
+                const url = `${JSLLM7_API_URL}/ask?q=${preguntaCodificada}`;
+                
+                console.log('📤 Enviando a Termux (8081):', prompt.substring(0, 60) + '...');
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    console.error('❌ Error HTTP:', response.status);
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const text = await response.text();
+                console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
+                
+                if (text && text.length > 20) {
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    console.log('✅ Respuesta de Termux obtenida');
+                    return text;
+                } else {
+                    throw new Error('Respuesta vacía o inválida');
+                }
+            } catch (error) {
+                console.warn('⚠️ Error conectando a Termux:', error);
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+            }
+            
+            // 2. FALLBACK: Usar jsllm7 del CDN
+            console.log('⚠️ Termux no disponible, intentando CDN...');
+            if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
+                try {
+                    const response = await window.jsllm7(prompt);
+                    if (response && response.length > 50) {
+                        console.log('✅ Respuesta de CDN obtenida');
+                        return response;
+                    }
+                } catch (e) {
+                    console.warn('Error con jsllm7 CDN:', e);
+                }
+            }
+            
+            // 3. FALLBACK FINAL
+            console.log('⚠️ Usando fallback genérico');
+            return null;
+        }
+
         // ============================================
         // CONECTOR DE MEMORIA
         // ============================================
@@ -632,7 +706,7 @@
                 "@context": "https://schema.org",
                 "@type": "FinancialProduct",
                 "name": token,
-                "description": `Análisis de ${token} con IA avanzada y conectores`,
+                "description": `Análisis de ${token} con IA avanzada y conectores + jsllm7 404M`,
                 "price": precio,
                 "priceCurrency": "USD",
                 "confidenceScore": confianza,
@@ -848,7 +922,14 @@ Take Profit: +10%
 ⚠️ Esto es análisis informativo, NO consejo financiero.`;
         }
         
+        let currentToken = "BTC";
+        
+        // ============================================
+        // FUNCIÓN OBTENER ANÁLISIS (PRIORIZA TERMUX)
+        // ============================================
+        
         async function obtenerAnalisis(tokenData, tokenSymbol, modo) {
+            currentTokenData = tokenData;
             const semanticKey = getSemanticKey(tokenSymbol);
             
             // 1. Verificar caché semántico
@@ -868,13 +949,38 @@ Take Profit: +10%
                 ).join(' ');
             }
             
-            // 3. Consultar API para datos de mercado
-            const apiData = await apiConnector.call('marketData');
-            let contextoAPI = '';
-            if (!apiData.error) {
-                contextoAPI = `\n\n[Datos de mercado externos:] Tendencias: ${apiData.tendencias?.join(', ') || ''}`;
+            // 3. PRIORIZAR TERMUX
+            try {
+                const promptTermux = `Analiza ${tokenSymbol} con estos datos: Precio $${tokenData.price}, Volumen $${(tokenData.volume24h/1e6).toFixed(2)}M, Liquidez $${(tokenData.liquidity/1e6).toFixed(2)}M, Cambio ${tokenData.priceChange24h}%`;
+                const respuestaTermux = await llamarJsllm7(promptTermux);
+                
+                // Verificar que la respuesta NO sea el mensaje genérico
+                if (respuestaTermux && respuestaTermux.length > 80 && 
+                    !respuestaTermux.includes('ANÁLISIS GENERAL') && 
+                    !respuestaTermux.includes('📖 ANÁLISIS GENERAL') &&
+                    !respuestaTermux.includes('ACLARACIÓN')) {
+                    
+                    const respuestaLimpia = limpiarMarkdown(respuestaTermux);
+                    const cacheKey = _hash(`${tokenSymbol}_${modo}`);
+                    _guardarCacheLocal(cacheKey, respuestaLimpia);
+                    semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
+                    
+                    memoryConnector.remember({
+                        token: tokenSymbol,
+                        analisis: respuestaLimpia,
+                        recomendacion: respuestaLimpia.includes('COMPRA') ? 'COMPRA' : 
+                                       respuestaLimpia.includes('VENTA') ? 'VENTA' : 'ESPERA'
+                    });
+                    actualizarMetricasConectores();
+                    console.log('✅ Usando análisis de Termux');
+                    return respuestaLimpia;
+                }
+            } catch(e) {
+                console.warn('Error con Termux:', e);
             }
             
+            // 4. FALLBACK: Usar CDN
+            console.log('⚠️ Usando CDN como fallback...');
             const cacheKey = _hash(`${tokenSymbol}_${modo}`);
             const respuestaGo = await consultarCacheOculto(tokenSymbol);
             if (respuestaGo) {
@@ -897,20 +1003,15 @@ Take Profit: +10%
             for (let i = 0; i < Math.min(nodos.length, 10); i++) {
                 const pais = nodos[i];
                 let prompt = generarPromptIA(tokenData, tokenSymbol, pais, modo);
-                
-                // Añadir contexto de conectores
                 if (contextoMemoria) prompt += `\n${contextoMemoria}`;
-                if (contextoAPI) prompt += `\n${contextoAPI}`;
                 
                 try {
-                    const respuestaIA = await jsllm7(prompt);
+                    const respuestaIA = await window.jsllm7(prompt);
                     if (respuestaIA && respuestaIA.length > 80) {
                         const respuestaLimpia = limpiarMarkdown(respuestaIA);
                         _guardarCacheLocal(cacheKey, respuestaLimpia);
                         guardarEnCacheOculto(tokenSymbol, respuestaLimpia);
                         semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
-                        
-                        // Guardar en memoria
                         memoryConnector.remember({
                             token: tokenSymbol,
                             analisis: respuestaLimpia,
@@ -922,6 +1023,7 @@ Take Profit: +10%
                     }
                 } catch(e) { continue; }
             }
+            
             const fallback = fallbackLocal(tokenSymbol, tokenData);
             semanticCache.set(semanticKey, { data: fallback, timestamp: Date.now() });
             return fallback;
@@ -932,7 +1034,6 @@ Take Profit: +10%
         // ============================================
         
         let modo = localStorage.getItem('nextmoon_modo') || 'experto';
-        let currentToken = "BTC";
         let isRefreshing = false;
         
         verificarGoSilencioso();
@@ -1076,7 +1177,7 @@ Take Profit: +10%
                 document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
                 actualizarWidgets(td, analisis, t);
                 
-                showToast(`✅ ${td.symbol} analizado · Conectores activos`);
+                showToast(`✅ ${td.symbol} analizado · jsllm7 404M · Conectores activos`);
             } catch (e) { 
                 document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis.'; 
                 showToast("❌ Error", true); 
@@ -1090,12 +1191,16 @@ Take Profit: +10%
         
         async function generico(promptText, titulo) {
             showToast(`⏳ ${titulo}...`);
-            const respuesta = await jsllm7(promptText);
-            const respuestaLimpia = limpiarMarkdown(respuesta);
-            mostrarModal(titulo, respuestaLimpia);
-            const td = await fetchTokenData(currentToken);
-            if (td) {
-                actualizarWidgets(td, respuestaLimpia, currentToken);
+            try {
+                const respuesta = await llamarJsllm7(promptText);
+                const respuestaLimpia = limpiarMarkdown(respuesta);
+                mostrarModal(titulo, respuestaLimpia);
+                const td = await fetchTokenData(currentToken);
+                if (td) {
+                    actualizarWidgets(td, respuestaLimpia, currentToken);
+                }
+            } catch(e) {
+                showToast('❌ Error generando análisis', true);
             }
         }
         
@@ -1161,6 +1266,29 @@ Take Profit: +10%
             await generico(prompt, `🔮 PREDICCIÓN 7 DÍAS: ${token}`);
         }
         
+        function verEstadoTermux() {
+            const estado = jsllm7TermuxConectado ? '✅ Conectado' : '❌ Desconectado';
+            const mensaje = `
+=== ESTADO DE jsllm7 ===
+
+🔌 Puerto: 8081
+📊 Registros: 404,356,967
+📡 Estado: ${estado}
+📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
+
+${jsllm7TermuxConectado ? 
+'✅ jsllm7 está funcionando correctamente con 404M registros' : 
+'⚠️ jsllm7 no está conectado a Termux. Usando CDN como respaldo.'}
+
+Para conectar:
+1. Abre Termux
+2. Ejecuta: cd ~/experimento
+3. Ejecuta: python3 servidor.py &
+4. Recarga esta página
+`;
+            mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
+        }
+        
         document.getElementById('btnHistorico').onclick = analisisHistorico;
         document.getElementById('btnComparar').onclick = compararCriptos;
         document.getElementById('btnVolatilidad').onclick = alertaVolatilidad;
@@ -1171,6 +1299,7 @@ Take Profit: +10%
         document.getElementById('btnEstrategia').onclick = estrategiaTrading;
         document.getElementById('btnFearGreed').onclick = fearGreed;
         document.getElementById('btnPrediccion').onclick = prediccion7dias;
+        document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
 
         // ============================================
         // INICIALIZACIÓN
@@ -1185,21 +1314,43 @@ Take Profit: +10%
             document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
             actualizarSidebarHistorial();
             actualizarMetricasConectores();
+            
+            // Verificar conexión con Termux
+            verificarConexionTermux();
+            
             let intentos = 0;
             const check = setInterval(() => { 
-                if (typeof jsllm7 !== 'undefined') { 
+                if (typeof window.jsllm7 !== 'undefined') { 
                     clearInterval(check); 
-                    showToast("✅ IA avanzada lista · Conectores activos · 10 herramientas disponibles"); 
+                    showToast("✅ IA avanzada lista · jsllm7 404M · Conectores activos · 10 herramientas disponibles"); 
                 } else if (intentos > 30) clearInterval(check); 
                 intentos++; 
             }, 500);
         }
         
+        async function verificarConexionTermux() {
+            try {
+                const response = await fetch(`${JSLLM7_API_URL}/stats`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').textContent = `🧠 jsllm7: ✅ Activo (${stats.total?.toLocaleString() || '404M'} en Termux:8081)`;
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    console.log('✅ jsllm7 conectado a Termux:', stats);
+                }
+            } catch(e) {
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+                console.warn('⚠️ Termux no disponible en puerto 8081');
+            }
+        }
+        
         function actualizarDiario() { 
             const h = new Date(); 
             const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. · Conectores: Memoria · Semántico · APIs`; 
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · Conectores activos · IA Avanzada · 10 herramientas`;
+            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. · jsllm7 404M · Conectores: Memoria · Semántico · APIs`; 
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · jsllm7 404M · Conectores activos · 10 herramientas`;
         }
         
         iniciar();
