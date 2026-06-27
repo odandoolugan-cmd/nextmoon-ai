@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>NextMoon AI · Predictor Cripto con IA Avanzada + Conectores + jsllm7 404M</title>
+    <title>NextMoon AI · 403M DECIDE · Predictor Cripto</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
         .container { max-width: 1400px; margin: 0 auto; }
         .header { text-align: center; margin-bottom: 1.5rem; }
-        h1 { font-size: 1.8rem; background: linear-gradient(135deg, #fff, #60a5fa, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        h1 { font-size: 1.8rem; background: linear-gradient(135deg, #fff, #60a5fa, #a78bfa, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .badge { display: inline-block; background: rgba(59,130,246,0.2); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.7rem; margin-bottom: 0.5rem; }
+        .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
         .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
@@ -21,6 +23,8 @@
         .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
         .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
         .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; }
+        .tool-btn.decision { border-color: #ec4899; color: #f472b6; }
+        .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border-color: #8b5cf6; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
@@ -43,141 +47,30 @@
             margin: 15px 0;
         }
         
-        .widget {
-            background: rgba(30, 41, 59, 0.9);
-            border: 1px solid #3b82f6;
-            border-radius: 12px;
-            padding: 15px;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
+        .widget { background: rgba(30, 41, 59, 0.9); border: 1px solid #3b82f6; border-radius: 12px; padding: 15px; transition: all 0.3s; backdrop-filter: blur(10px); }
+        .widget:hover { border-color: #8b5cf6; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.1); transform: translateY(-2px); }
+        .widget-title { font-weight: 700; color: #60a5fa; font-size: 0.8rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .widget-content { font-size: 0.85rem; line-height: 1.6; color: #eef2ff; }
+        .widget-confidence { display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 8px; }
+        .confidence-bar { flex: 1; height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; }
+        .confidence-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #10b981); transition: width 1s ease; width: 0%; }
+        .confidence-label { font-size: 0.7rem; color: #b0c4de; min-width: 40px; }
+        .metrics-grid-widget { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .metric-item-widget { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; text-align: center; }
+        .metric-value-widget { font-size: 1.2rem; font-weight: bold; color: #60a5fa; }
+        .metric-label-widget { font-size: 0.6rem; color: #94a3b8; }
+        .connector-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .connector-metric { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; text-align: center; }
+        .connector-metric .value { font-size: 1rem; font-weight: bold; color: #60a5fa; }
+        .connector-metric .label { font-size: 0.55rem; color: #94a3b8; }
         
-        .widget:hover {
-            border-color: #8b5cf6;
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .widget-title {
-            font-weight: 700;
-            color: #60a5fa;
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .widget-content {
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #eef2ff;
-        }
-        
-        .widget-confidence {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-        }
-        
-        .confidence-bar {
-            flex: 1;
-            height: 4px;
-            background: #1e293b;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .confidence-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f59e0b, #10b981);
-            transition: width 1s ease;
-            width: 0%;
-        }
-        
-        .confidence-label {
-            font-size: 0.7rem;
-            color: #b0c4de;
-            min-width: 40px;
-        }
-        
-        .metrics-grid-widget {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .metric-item-widget {
-            background: rgba(0,0,0,0.3);
-            padding: 8px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .metric-value-widget {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #60a5fa;
-        }
-        
-        .metric-label-widget {
-            font-size: 0.6rem;
-            color: #94a3b8;
-        }
-        
-        .connector-metrics {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .connector-metric {
-            background: rgba(0,0,0,0.3);
-            padding: 6px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        .connector-metric .value {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #60a5fa;
-        }
-        .connector-metric .label {
-            font-size: 0.55rem;
-            color: #94a3b8;
-        }
-        
-        .sources-list {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            font-size: 0.7rem;
-        }
-        
-        .source-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .source-item:last-child { border-bottom: none; }
-        .source-icon { font-size: 0.8rem; }
-        
-        .metadata-container { display: none; }
+        #decisionStatus { font-size: 0.65rem; color: #ec4899; margin-top: 4px; text-align: center; }
+        #jsllm7WidgetStatus { font-size: 0.65rem; color: #94a3b8; margin-top: 8px; }
         
         .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.5; max-height: 500px; overflow-y: auto; }
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
-        .feedback-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         button { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
         .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -196,7 +89,6 @@
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .restriction-alert { background: rgba(139, 92, 246, 0.15); border: 1px solid #8b5cf6; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #a78bfa; }
-        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
         .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
@@ -208,13 +100,7 @@
         .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
         .historial-item:hover { background: #334155; color: #a78bfa; }
         
-        #jsllm7Status { font-size: 0.6rem; color: #94a3b8; text-align: center; margin-top: 5px; }
-        
-        @media (max-width: 700px) { 
-            #sidebarHistorial { display: none; }
-            .widget-container { grid-template-columns: 1fr; }
-            .connector-metrics { grid-template-columns: 1fr 1fr; }
-        }
+        @media (max-width: 700px) { #sidebarHistorial { display: none; } .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
@@ -222,10 +108,10 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <div class="badge">🚀 NextMoon AI</div>
+                <div class="badge">🚀 NextMoon AI <span class="badge-decision">🧠 403M DECIDE</span></div>
                 <h1>🔮 NextMoon AI <span class="ia-badge">jsllm7 404M</span> <span class="ia-badge" style="background:#8b5cf6;">CONECTORES</span></h1>
-                <div style="font-size: 0.7rem;" id="subHeader">Análisis de criptomonedas con IA · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
-                <div class="daily-tip" id="dailyTip">📈 El miedo es temporal, la convicción es eterna. · jsllm7 404M activo</div>
+                <div style="font-size: 0.7rem;" id="subHeader">403M DECIDE · Análisis Cripto · Conectores: Memoria · Semántico · APIs · jsllm7 404M</div>
+                <div class="daily-tip" id="dailyTip">🧠 403M DECIDE qué tecnología usar para cada análisis · jsllm7 404M activo</div>
             </div>
 
             <div class="modo-selector">
@@ -244,8 +130,11 @@
                 <button class="tool-btn" id="btnEstrategia">🎯 Estrategia Trading</button>
                 <button class="tool-btn" id="btnFearGreed">😨 Fear & Greed</button>
                 <button class="tool-btn" id="btnPrediccion">🔮 Predicción 7 días</button>
+                <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M Decide</button>
                 <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
             </div>
+
+            <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-bottom:10px;">🧠 403M DECIDE: Listo para analizar criptomonedas</div>
 
             <div class="search-box">
                 <input type="text" class="search-input" id="searchInput" placeholder="Buscar cualquier cripto: BTC, ETH, SOL, DOGE, PEPE...">
@@ -262,22 +151,10 @@
                     <div class="widget-title">📊 Análisis de Mercado</div>
                     <div class="widget-content">
                         <div class="metrics-grid-widget">
-                            <div class="metric-item-widget">
-                                <div class="metric-value-widget" id="metricIndicadores">0</div>
-                                <div class="metric-label-widget">Indicadores Técnicos</div>
-                            </div>
-                            <div class="metric-item-widget">
-                                <div class="metric-value-widget" id="metricConfirmaciones">0</div>
-                                <div class="metric-label-widget">Confirmaciones</div>
-                            </div>
-                            <div class="metric-item-widget">
-                                <div class="metric-value-widget" id="metricNiveles">0</div>
-                                <div class="metric-label-widget">Niveles Clave</div>
-                            </div>
-                            <div class="metric-item-widget">
-                                <div class="metric-value-widget" id="metricAlertas">0</div>
-                                <div class="metric-label-widget">Alertas Activas</div>
-                            </div>
+                            <div class="metric-item-widget"><div class="metric-value-widget" id="metricIndicadores">0</div><div class="metric-label-widget">Indicadores Técnicos</div></div>
+                            <div class="metric-item-widget"><div class="metric-value-widget" id="metricConfirmaciones">0</div><div class="metric-label-widget">Confirmaciones</div></div>
+                            <div class="metric-item-widget"><div class="metric-value-widget" id="metricNiveles">0</div><div class="metric-label-widget">Niveles Clave</div></div>
+                            <div class="metric-item-widget"><div class="metric-value-widget" id="metricAlertas">0</div><div class="metric-label-widget">Alertas Activas</div></div>
                         </div>
                     </div>
                 </div>
@@ -285,26 +162,12 @@
                     <div class="widget-title">🔌 Estado de Conectores</div>
                     <div class="widget-content">
                         <div class="connector-metrics">
-                            <div class="connector-metric">
-                                <div class="value" id="metricMemoria">0</div>
-                                <div class="label">Memoria</div>
-                            </div>
-                            <div class="connector-metric">
-                                <div class="value" id="metricSemantico">0</div>
-                                <div class="label">Semántico</div>
-                            </div>
-                            <div class="connector-metric">
-                                <div class="value" id="metricAPIs">0</div>
-                                <div class="label">APIs</div>
-                            </div>
-                            <div class="connector-metric">
-                                <div class="value" id="metricContexto">0%</div>
-                                <div class="label">Contexto</div>
-                            </div>
+                            <div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Memoria</div></div>
+                            <div class="connector-metric"><div class="value" id="metricSemantico">0</div><div class="label">Semántico</div></div>
+                            <div class="connector-metric"><div class="value" id="metricAPIs">0</div><div class="label">APIs</div></div>
+                            <div class="connector-metric"><div class="value" id="metricContexto">0%</div><div class="label">Contexto 403M</div></div>
                         </div>
-                        <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#94a3b8;">
-                            🧠 jsllm7: 🔍 Conectando a Termux...
-                        </div>
+                        <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#94a3b8;">🧠 jsllm7: 🔍 Conectando a Termux...</div>
                     </div>
                 </div>
                 <div class="widget" id="widgetConfianza">
@@ -312,14 +175,10 @@
                     <div class="widget-content">
                         <div class="widget-confidence">
                             <span style="font-size:0.8rem;">📊</span>
-                            <div class="confidence-bar">
-                                <div class="confidence-fill" id="confidenceFill" style="width:0%"></div>
-                            </div>
+                            <div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div>
                             <span class="confidence-label" id="confidenceLabel">0%</span>
                         </div>
-                        <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">
-                            Basado en 3 confirmaciones técnicas + conectores
-                        </div>
+                        <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Basado en 3 confirmaciones técnicas + 403M DECIDE</div>
                     </div>
                 </div>
                 <div class="widget" id="widgetEstrategia">
@@ -338,10 +197,10 @@
             <div class="metadata-container" id="metadataContainer"></div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update" id="autoUpdateText">🟢 Actualización cada 60 segundos · jsllm7 404M · Conectores activos</div>
-            <div class="restriction-alert">🔍 Análisis con IA · Conectores: Memoria · Semántico · APIs · jsllm7 404M · Estrategia 3 confirmaciones</div>
+            <div class="auto-update" id="autoUpdateText">🟢 403M DECIDE · Actualización cada 60 segundos · jsllm7 404M · Conectores activos</div>
+            <div class="restriction-alert">🧠 403M DECIDE qué BIG TECH usar · Conectores: Memoria · Semántico · APIs · jsllm7 404M · Estrategia 3 confirmaciones</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ NextMoon AI · jsllm7 404M · Conectores activos · Datos DexScreener · IA Avanzada · 10 herramientas</footer>
+            <footer id="footer">⚡ NextMoon AI · 403M DECIDE · jsllm7 404M · Conectores activos · Datos DexScreener · IA Avanzada · 10 herramientas</footer>
         </div>
     </div>
 
@@ -351,12 +210,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 
     <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
-        }
+        { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
     </script>
 
     <script>
@@ -367,69 +221,132 @@
         const JSLLM7_API_URL = 'http://localhost:8081';
         let jsllm7TermuxConectado = false;
         let currentTokenData = null;
+        let modo = localStorage.getItem('nextmoon_modo') || 'experto';
+        let isRefreshing = false;
+        let currentToken = "BTC";
         
         // ============================================
-        // FUNCIÓN PRINCIPAL PARA LLAMAR A jsllm7
-        // PRIORIZA TERMUX -> CDN -> FALLBACK
+        // NÚCLEO 403M DECIDE
         // ============================================
         
-        async function llamarJsllm7(prompt) {
-            console.log('🔍 Intentando llamar a jsllm7...');
-            
-            // 1. INTENTAR CON TERMUX (API local)
-            try {
-                const preguntaCodificada = encodeURIComponent(prompt);
-                const url = `${JSLLM7_API_URL}/ask?q=${preguntaCodificada}`;
-                
-                console.log('📤 Enviando a Termux (8081):', prompt.substring(0, 60) + '...');
-                
-                const response = await fetch(url);
-                
-                if (!response.ok) {
-                    console.error('❌ Error HTTP:', response.status);
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const text = await response.text();
-                console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
-                
-                if (text && text.length > 20) {
-                    jsllm7TermuxConectado = true;
-                    document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
-                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
-                    console.log('✅ Respuesta de Termux obtenida');
-                    return text;
-                } else {
-                    throw new Error('Respuesta vacía o inválida');
-                }
-            } catch (error) {
-                console.warn('⚠️ Error conectando a Termux:', error);
-                jsllm7TermuxConectado = false;
-                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
-                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+        class Nucleo403MDecisor {
+            constructor() {
+                this.nucleo = { activo: true, parametros: 403000000, decisiones: 0 };
+                this.bigTech = {
+                    nvidia: { activo: false, usos: 0, nombre: 'NVIDIA (Visualización)' },
+                    google: { activo: false, usos: 0, nombre: 'Google (Búsqueda)' },
+                    meta: { activo: false, usos: 0, nombre: 'Meta (Comunidad)' },
+                    amazon: { activo: false, usos: 0, nombre: 'Amazon (Recursos)' },
+                    microsoft: { activo: false, usos: 0, nombre: 'Microsoft (Análisis)' },
+                    apple: { activo: false, usos: 0, nombre: 'Apple (Experiencia)' }
+                };
+                this.historialDecisiones = [];
+                console.log('🧠 NÚCLEO 403M DECIDE inicializado para NextMoon AI');
             }
             
-            // 2. FALLBACK: Usar jsllm7 del CDN
-            console.log('⚠️ Termux no disponible, intentando CDN...');
-            if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
-                try {
-                    const response = await window.jsllm7(prompt);
-                    if (response && response.length > 50) {
-                        console.log('✅ Respuesta de CDN obtenida');
-                        return response;
+            async analizarYDecidir(pregunta, token, modo) {
+                this.nucleo.decisiones++;
+                console.log(`🧠 403M analizando consulta cripto: "${pregunta.substring(0, 50)}..."`);
+                document.getElementById('decisionStatus').textContent = '🧠 403M DECIDE: Analizando consulta cripto...';
+                
+                const promptDecision = `[DECISIÓN AUTÓNOMA 403M - CRIPTO]
+Analiza la siguiente consulta sobre ${token} y decide qué BIG TECH activar:
+
+CONSULTA: "${pregunta}"
+MODO: ${modo}
+
+BIG TECH DISPONIBLES:
+1. NVIDIA - Para visualización de datos, gráficos, análisis técnico
+2. Google - Para búsqueda de información, noticias, datos históricos
+3. Meta - Para conectar con comunidades de traders
+4. Amazon - Para acceso a recursos, libros de trading
+5. Microsoft - Para análisis de datos, herramientas de trading
+6. Apple - Para diseño de dashboards, experiencia visual
+
+DECIDE:
+- Si es sobre gráficos o visualización → NVIDIA
+- Si es sobre búsqueda de información → Google
+- Si es sobre comunidad de traders → Meta
+- Si es sobre recursos educativos → Amazon
+- Si es sobre análisis de datos → Microsoft
+- Si es sobre experiencia de usuario → Apple
+
+Responde SOLO con los nombres separados por comas.
+Ejemplo: "Google, Microsoft" o "NVIDIA"
+
+DECISIÓN:`;
+
+                const decision = await llamarJsllm7(promptDecision);
+                console.log(`🧠 Decisión 403M: ${decision}`);
+                
+                const techsActivar = this.procesarDecision(decision);
+                
+                if (techsActivar.length > 0) {
+                    document.getElementById('decisionStatus').textContent = `🧠 403M DECIDE: Activando ${techsActivar.join(', ')} para ${token}`;
+                }
+                
+                for (const tech of techsActivar) {
+                    if (this.bigTech[tech] && !this.bigTech[tech].activo) {
+                        this.bigTech[tech].activo = true;
+                        this.bigTech[tech].usos++;
+                        console.log(`🚀 403M activó: ${tech.toUpperCase()} para ${token}`);
                     }
-                } catch (e) {
-                    console.warn('Error con jsllm7 CDN:', e);
                 }
+                
+                this.historialDecisiones.push({
+                    token: token,
+                    pregunta: pregunta.substring(0, 50),
+                    decision: techsActivar,
+                    timestamp: new Date().toISOString()
+                });
+                
+                return techsActivar;
             }
             
-            // 3. FALLBACK FINAL
-            console.log('⚠️ Usando fallback genérico');
-            return null;
+            procesarDecision(decision) {
+                if (!decision) return ['google'];
+                const techs = [];
+                const d = decision.toLowerCase();
+                const mapeo = { 'nvidia': 'nvidia', 'google': 'google', 'meta': 'meta', 'amazon': 'amazon', 'microsoft': 'microsoft', 'apple': 'apple' };
+                for (const [key, value] of Object.entries(mapeo)) {
+                    if (d.includes(key) || d.includes(value)) techs.push(value);
+                }
+                return techs.length > 0 ? techs : ['google'];
+            }
+            
+            getEstado() {
+                const activos = Object.entries(this.bigTech).filter(([k, v]) => v.activo).map(([k]) => k);
+                return {
+                    decisiones: this.nucleo.decisiones,
+                    bigTechActivos: activos,
+                    usos: Object.fromEntries(Object.entries(this.bigTech).map(([k, v]) => [k, v.usos])),
+                    historial: this.historialDecisiones.slice(-5)
+                };
+            }
+            
+            mostrarEstado() {
+                const e = this.getEstado();
+                let mensaje = `
+=== 🧠 403M DECIDE (CRIPTO) ===
+
+📊 Decisiones tomadas: ${e.decisiones}
+
+🏢 BIG TECH ACTIVADOS POR 403M:
+${Object.entries(e.usos).map(([k, v]) => `   • ${k}: ${v} usos`).join('\n')}
+
+📜 ÚLTIMAS DECISIONES:
+${e.historial.map(h => `   • ${h.token}: "${h.pregunta}..." → ${h.decision.join(', ')}`).join('\n')}
+
+${e.bigTechActivos.length > 0 ? '✅ 403M está activando BIG TECH automáticamente' : '⚠️ 403M aún no ha activado BIG TECH'}
+`;
+                return mensaje;
+            }
         }
 
+        const nucleoDecisor = new Nucleo403MDecisor();
+
         // ============================================
-        // CONECTOR DE MEMORIA
+        // CONECTORES
         // ============================================
         
         class MemoryConnector {
@@ -439,17 +356,13 @@
                 this.maxShortTerm = 10;
                 this.loadFromStorage();
             }
-            
             loadFromStorage() {
                 try {
                     const data = JSON.parse(localStorage.getItem('nextmoon_memoria') || '{}');
                     if (data.shortTerm) this.shortTerm = data.shortTerm;
-                    if (data.longTerm) {
-                        this.longTerm = new Map(Object.entries(data.longTerm));
-                    }
+                    if (data.longTerm) this.longTerm = new Map(Object.entries(data.longTerm));
                 } catch(e) {}
             }
-            
             saveToStorage() {
                 try {
                     localStorage.setItem('nextmoon_memoria', JSON.stringify({
@@ -458,18 +371,11 @@
                     }));
                 } catch(e) {}
             }
-            
             remember(interaction) {
-                this.shortTerm.push({
-                    ...interaction,
-                    timestamp: Date.now()
-                });
-                if (this.shortTerm.length > this.maxShortTerm) {
-                    this.shortTerm.shift();
-                }
+                this.shortTerm.push({ ...interaction, timestamp: Date.now() });
+                if (this.shortTerm.length > this.maxShortTerm) this.shortTerm.shift();
                 this.saveToStorage();
             }
-            
             recall(token, limit = 3) {
                 const relevant = this.shortTerm
                     .filter(item => {
@@ -478,15 +384,8 @@
                     })
                     .sort((a, b) => b.similarity - a.similarity)
                     .slice(0, limit);
-                
-                return relevant.map(item => ({
-                    token: item.token,
-                    analisis: item.analisis,
-                    similarity: item.similarity,
-                    recomendacion: item.recomendacion
-                }));
+                return relevant.map(item => ({ token: item.token, analisis: item.analisis, similarity: item.similarity }));
             }
-            
             calculateSimilarity(a, b) {
                 if (!a || !b) return 0;
                 const wordsA = a.toLowerCase().split(' ');
@@ -494,44 +393,24 @@
                 const common = wordsA.filter(w => wordsB.includes(w) && w.length > 2);
                 return common.length / Math.max(wordsA.length, wordsB.length);
             }
-            
             getStats() {
-                return {
-                    shortTerm: this.shortTerm.length,
-                    longTerm: this.longTerm.size,
-                    total: this.shortTerm.length + this.longTerm.size
-                };
+                return { shortTerm: this.shortTerm.length, longTerm: this.longTerm.size, total: this.shortTerm.length + this.longTerm.size };
             }
         }
 
-        // ============================================
-        // CONECTOR SEMÁNTICO
-        // ============================================
-        
         class SemanticConnector {
             constructor() {
                 this.embeddingsCache = new Map();
                 this.similarityThreshold = 0.25;
             }
-            
             generateEmbedding(text) {
-                const words = text.toLowerCase()
-                    .replace(/[¿?¡!.,;:]/g, '')
-                    .split(' ')
-                    .filter(w => w.length > 2);
-                
+                const words = text.toLowerCase().replace(/[¿?¡!.,;:]/g, '').split(' ').filter(w => w.length > 2);
                 const vector = new Map();
-                words.forEach(w => {
-                    vector.set(w, (vector.get(w) || 0) + 1);
-                });
+                words.forEach(w => vector.set(w, (vector.get(w) || 0) + 1));
                 return vector;
             }
-            
             cosineSimilarity(vecA, vecB) {
-                let dotProduct = 0;
-                let normA = 0;
-                let normB = 0;
-                
+                let dotProduct = 0, normA = 0, normB = 0;
                 const keys = new Set([...vecA.keys(), ...vecB.keys()]);
                 keys.forEach(key => {
                     const a = vecA.get(key) || 0;
@@ -540,35 +419,20 @@
                     normA += a * a;
                     normB += b * b;
                 });
-                
                 if (normA === 0 || normB === 0) return 0;
                 return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
             }
-            
             findSimilar(query, candidates) {
                 const queryEmbedding = this.generateEmbedding(query);
                 const results = candidates.map(candidate => ({
                     ...candidate,
                     similarity: this.cosineSimilarity(queryEmbedding, this.generateEmbedding(candidate.text || candidate.token || ''))
                 }));
-                
-                return results
-                    .filter(r => r.similarity > this.similarityThreshold)
-                    .sort((a, b) => b.similarity - a.similarity);
+                return results.filter(r => r.similarity > this.similarityThreshold).sort((a, b) => b.similarity - a.similarity);
             }
-            
-            getStats() {
-                return {
-                    cacheSize: this.embeddingsCache.size,
-                    threshold: this.similarityThreshold
-                };
-            }
+            getStats() { return { cacheSize: this.embeddingsCache.size, threshold: this.similarityThreshold }; }
         }
 
-        // ============================================
-        // CONECTOR DE APIs
-        // ============================================
-        
         class APIConnector {
             constructor() {
                 this.endpoints = new Map();
@@ -576,111 +440,42 @@
                 this.maxCacheAge = 3600000;
                 this.registerDefaultEndpoints();
             }
-            
             registerDefaultEndpoints() {
                 this.registerEndpoint('marketData', {
                     url: 'https://api.example.com/market',
                     method: 'GET',
-                    transform: (data) => ({
-                        tendencias: data.tendencias || [],
-                        volumen_total: data.volumen_total || 0
-                    })
+                    transform: (data) => ({ tendencias: data.tendencias || [], volumen_total: data.volumen_total || 0 })
                 });
             }
-            
-            registerEndpoint(name, config) {
-                this.endpoints.set(name, config);
-            }
-            
+            registerEndpoint(name, config) { this.endpoints.set(name, config); }
             async call(endpointName, params = {}) {
                 const config = this.endpoints.get(endpointName);
-                if (!config) {
-                    return { error: `Endpoint ${endpointName} no encontrado` };
-                }
-                
+                if (!config) return { error: `Endpoint ${endpointName} no encontrado` };
                 const cacheKey = `${endpointName}_${JSON.stringify(params)}`;
                 if (this.cache.has(cacheKey)) {
                     const cached = this.cache.get(cacheKey);
-                    if (Date.now() - cached.timestamp < this.maxCacheAge) {
-                        return cached.data;
-                    }
+                    if (Date.now() - cached.timestamp < this.maxCacheAge) return cached.data;
                 }
-                
                 try {
                     const mockData = this.generateMockData(endpointName, params);
                     const result = config.transform ? config.transform(mockData) : mockData;
-                    this.cache.set(cacheKey, {
-                        data: result,
-                        timestamp: Date.now()
-                    });
+                    this.cache.set(cacheKey, { data: result, timestamp: Date.now() });
                     return result;
-                } catch(e) {
-                    return { error: e.message };
-                }
+                } catch(e) { return { error: e.message }; }
             }
-            
             generateMockData(endpoint, params) {
-                const datos = {
-                    marketData: {
-                        tendencias: ['Alcista en BTC', 'Lateral en ETH', 'Bajista en DOGE'],
-                        volumen_total: 125000000000
-                    }
-                };
+                const datos = { marketData: { tendencias: ['Alcista en BTC', 'Lateral en ETH', 'Bajista en DOGE'], volumen_total: 125000000000 } };
                 return datos[endpoint] || {};
             }
-            
-            getStats() {
-                return {
-                    endpoints: this.endpoints.size,
-                    cacheSize: this.cache.size
-                };
-            }
+            getStats() { return { endpoints: this.endpoints.size, cacheSize: this.cache.size }; }
         }
 
-        // ============================================
-        // INICIALIZACIÓN DE CONECTORES
-        // ============================================
-        
         const memoryConnector = new MemoryConnector();
         const semanticConnector = new SemanticConnector();
         const apiConnector = new APIConnector();
 
         // ============================================
-        // SISTEMA DE CACHÉ SEMÁNTICO
-        // ============================================
-        
-        const semanticCache = new Map();
-        
-        function getSemanticKey(text) {
-            const words = text.toLowerCase()
-                .replace(/[¿?¡!.,;:]/g, '')
-                .split(' ')
-                .filter(w => w.length > 3)
-                .slice(0, 5)
-                .sort()
-                .join('_');
-            return words;
-        }
-
-        // ============================================
-        // ACTUALIZAR MÉTRICAS DE CONECTORES
-        // ============================================
-        
-        function actualizarMetricasConectores() {
-            const memStats = memoryConnector.getStats();
-            const semStats = semanticConnector.getStats();
-            const apiStats = apiConnector.getStats();
-            
-            document.getElementById('metricMemoria').textContent = memStats.total;
-            document.getElementById('metricSemantico').textContent = semStats.cacheSize;
-            document.getElementById('metricAPIs').textContent = apiStats.endpoints;
-            
-            const contextoPorcentaje = Math.min(100, (memStats.shortTerm * 10) + 20);
-            document.getElementById('metricContexto').textContent = Math.min(contextoPorcentaje, 100) + '%';
-        }
-
-        // ============================================
-        // LIMPIADOR DE MARKDOWN
+        // FUNCIONES UTILITARIAS
         // ============================================
         
         function limpiarMarkdown(texto) {
@@ -697,22 +492,200 @@
             return limpio.trim();
         }
 
+        function actualizarMetricasConectores() {
+            const memStats = memoryConnector.getStats();
+            const semStats = semanticConnector.getStats();
+            const apiStats = apiConnector.getStats();
+            document.getElementById('metricMemoria').textContent = memStats.total;
+            document.getElementById('metricSemantico').textContent = semStats.cacheSize;
+            document.getElementById('metricAPIs').textContent = apiStats.endpoints;
+            const contextoPorcentaje = Math.min(100, (memStats.shortTerm * 10) + 20);
+            document.getElementById('metricContexto').textContent = Math.min(contextoPorcentaje, 100) + '%';
+        }
+
+        function showToast(msg, isError) {
+            const t = document.createElement('div');
+            t.className = 'toast-msg';
+            t.style.background = isError ? '#ef4444' : '#10b981';
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 2500);
+        }
+
+        function mostrarModal(titulo, contenido) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>${titulo}</h3>
+                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
+                    <button class="modal-close">Cerrar</button>
+                </div>
+            `;
+            modal.querySelector('.modal-close').onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+
         // ============================================
-        // GENERAR METADATOS JSON-LD
+        // FUNCIÓN PRINCIPAL - LLAMAR A jsllm7
         // ============================================
         
-        function generarMetadatos(token, precio, confianza, estrategia) {
-            return {
-                "@context": "https://schema.org",
-                "@type": "FinancialProduct",
-                "name": token,
-                "description": `Análisis de ${token} con IA avanzada y conectores + jsllm7 404M`,
-                "price": precio,
-                "priceCurrency": "USD",
-                "confidenceScore": confianza,
-                "strategy": estrategia,
-                "dateCreated": new Date().toISOString()
-            };
+        async function llamarJsllm7(prompt) {
+            console.log('🔍 Intentando llamar a jsllm7...');
+            
+            try {
+                const preguntaCodificada = encodeURIComponent(prompt);
+                const url = `${JSLLM7_API_URL}/ask?q=${preguntaCodificada}`;
+                console.log('📤 Enviando a Termux (8081):', prompt.substring(0, 60) + '...');
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const text = await response.text();
+                console.log('📥 Respuesta recibida (primeros 100 chars):', text.substring(0, 100));
+                if (text && text.length > 20) {
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ✅ Activo (404M en Termux:8081)';
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    console.log('✅ Respuesta de Termux obtenida');
+                    return text;
+                } else {
+                    throw new Error('Respuesta vacía');
+                }
+            } catch (error) {
+                console.warn('⚠️ Error conectando a Termux:', error);
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').textContent = '🧠 jsllm7: ⚠️ Usando CDN';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+            }
+            
+            console.log('⚠️ Termux no disponible, intentando CDN...');
+            if (typeof window.jsllm7 !== 'undefined' && window.jsllm7) {
+                try {
+                    const response = await window.jsllm7(prompt);
+                    if (response && response.length > 50) {
+                        console.log('✅ Respuesta de CDN obtenida');
+                        return response;
+                    }
+                } catch (e) { console.warn('Error con jsllm7 CDN:', e); }
+            }
+            console.log('⚠️ Usando fallback genérico');
+            return null;
+        }
+
+        // ============================================
+        // FUNCIONES DE DATOS
+        // ============================================
+        
+        async function fetchTokenData(t) {
+            try {
+                const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${t}`);
+                const d = await r.json();
+                if (d.pairs?.length > 0) {
+                    const v = d.pairs.filter(p => p.liquidity?.usd > 10000 && p.priceUsd > 0);
+                    if (v.length > 0) {
+                        const b = v.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
+                        return { symbol: t.toUpperCase(), price: parseFloat(b.priceUsd), volume24h: b.volume?.h24 || 0, liquidity: b.liquidity?.usd || 0, priceChange24h: b.priceChange?.h24 || 0, chain: b.chainId || "unknown" };
+                    }
+                }
+                return null;
+            } catch (e) { return null; }
+        }
+
+        function calculateScore(d) {
+            let s = 50;
+            if (d.volume24h > 50000000) s += 30;
+            else if (d.volume24h > 10000000) s += 25;
+            else if (d.volume24h > 1000000) s += 18;
+            if (d.liquidity > 5000000) s += 25;
+            else if (d.liquidity > 1000000) s += 20;
+            else if (d.liquidity > 500000) s += 15;
+            if (d.priceChange24h > 30) s += 20;
+            else if (d.priceChange24h > 15) s += 14;
+            if (d.chain === "solana") s += 10;
+            return Math.min(99, Math.max(20, Math.floor(s)));
+        }
+
+        // ============================================
+        // FUNCIÓN OBTENER ANÁLISIS CON 403M DECIDE
+        // ============================================
+        
+        const semanticCache = new Map();
+        const NODOS_RESPALDO = ["Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina", "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega", "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile", "Uruguay", "Colombia", "Perú", "Japón", "Corea del Sur", "Singapur"];
+
+        function getSemanticKey(text) {
+            const words = text.toLowerCase().replace(/[¿?¡!.,;:]/g, '').split(' ').filter(w => w.length > 3).slice(0, 5).sort().join('_');
+            return words;
+        }
+
+        async function obtenerAnalisis(tokenData, tokenSymbol, modo) {
+            currentTokenData = tokenData;
+            const semanticKey = getSemanticKey(tokenSymbol);
+            
+            if (semanticCache.has(semanticKey)) {
+                const cached = semanticCache.get(semanticKey);
+                if (Date.now() - cached.timestamp < 7200000) return cached.data;
+            }
+            
+            // 403M DECIDE qué BIG TECH activar
+            const bigTechDecididos = await nucleoDecisor.analizarYDecidir(`Analizar ${tokenSymbol}`, tokenSymbol, modo);
+            
+            const memoriaSimilar = memoryConnector.recall(tokenSymbol, 2);
+            let contextoMemoria = '';
+            if (memoriaSimilar.length > 0) {
+                contextoMemoria = '\n\n[Contexto de memoria:] ' + memoriaSimilar.map(m => 
+                    `Análisis similar de ${m.token}: "${m.analisis.substring(0, 100)}..."`
+                ).join(' ');
+            }
+            
+            const prompt = `[ANÁLISIS CRIPTO CON 403M DECIDE]
+403M DECIDIÓ ACTIVAR: ${bigTechDecididos.join(', ') || 'Ninguno'}
+
+Analiza ${tokenSymbol} con estos datos:
+- Precio: $${tokenData.price}
+- Volumen 24h: $${(tokenData.volume24h / 1e6).toFixed(2)}M
+- Liquidez: $${(tokenData.liquidity / 1e6).toFixed(2)}M
+- Cambio 24h: ${tokenData.priceChange24h}%
+
+Da recomendación: COMPRA, VENTA o ESPERA.
+Incluye 3 confirmaciones técnicas.
+Stop Loss: -5%, Take Profit: +10%.
+
+RESPONDE EN ESPAÑOL. SIN ASTERISCOS.`;
+
+            try {
+                const respuesta = await llamarJsllm7(prompt);
+                if (respuesta && respuesta.length > 80) {
+                    const respuestaLimpia = limpiarMarkdown(respuesta);
+                    semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
+                    memoryConnector.remember({
+                        token: tokenSymbol,
+                        analisis: respuestaLimpia,
+                        recomendacion: respuestaLimpia.includes('COMPRA') ? 'COMPRA' : respuestaLimpia.includes('VENTA') ? 'VENTA' : 'ESPERA'
+                    });
+                    actualizarMetricasConectores();
+                    return respuestaLimpia;
+                }
+            } catch(e) { console.warn('Error en análisis:', e); }
+            
+            // Fallback
+            const fallback = `ANÁLISIS DE ${tokenSymbol.toUpperCase()}
+403M DECIDIÓ: ${bigTechDecididos.join(', ') || 'Ninguno'}
+
+Precio: $${tokenData.price}
+Tendencia: ${tokenData.priceChange24h > 5 ? 'Alcista' : tokenData.priceChange24h < -5 ? 'Bajista' : 'Lateral'}
+
+SEÑAL: ESPERA
+
+3 CONFIRMACIONES:
+• Esperar confirmación de tendencia
+• Volumen en análisis
+• Liquidez: $${(tokenData.liquidity / 1e6).toFixed(2)}M
+
+Stop Loss: -5%
+Take Profit: +10%
+
+⚠️ Esto es análisis informativo, NO consejo financiero.`;
+            semanticCache.set(semanticKey, { data: fallback, timestamp: Date.now() });
+            return fallback;
         }
 
         // ============================================
@@ -771,7 +744,6 @@
             const estrategiaContent = document.getElementById('widgetEstrategiaContent');
             let estrategia = '📊 ESPERA';
             let color = '#f59e0b';
-            
             if (analisisLower.includes('compra') || analisisLower.includes('alza') || analisisLower.includes('bull')) {
                 estrategia = '📈 COMPRA';
                 color = '#10b981';
@@ -781,7 +753,7 @@
             }
             
             estrategiaContent.innerHTML = `
-                <div style="color:#94a3b8;font-size:0.75rem;margin-bottom:8px;">Estrategia recomendada</div>
+                <div style="color:#94a3b8;font-size:0.75rem;margin-bottom:8px;">Estrategia recomendada por 403M</div>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
                     <span style="background:#1e293b;padding:8px 16px;border-radius:15px;font-size:1rem;font-weight:bold;border:2px solid ${color};color:${color};">${estrategia}</span>
                     <span style="font-size:0.7rem;color:#94a3b8;">${confirmaciones} confirmaciones</span>
@@ -791,279 +763,48 @@
                 </div>
             `;
             
-            const metadatos = generarMetadatos(
-                tokenSymbol, 
-                tokenData.price, 
-                confianza, 
-                estrategia.replace('📈 ', '').replace('📉 ', '').replace('📊 ', '')
-            );
-            document.getElementById('metadataContainer').innerHTML = `<script type="application/ld+json">${JSON.stringify(metadatos)}<\/script>`;
-            
-            if (history.pushState) {
-                const url = new URL(window.location);
-                url.searchParams.set('token', tokenSymbol);
-                window.history.pushState({}, '', url);
-            }
-            
             actualizarMetricasConectores();
         }
 
         // ============================================
-        // SISTEMA DE CACHÉ
+        // ACTUALIZAR PREDICCIÓN
         // ============================================
         
-        const GO_URL = 'http://localhost:8080';
-        let goDisponible = false;
-        
-        async function verificarGoSilencioso() {
+        async function updatePrediction(manualToken = null) {
+            if (isRefreshing) return;
+            isRefreshing = true;
+            const t = (manualToken || currentToken).toUpperCase();
+            document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
+            document.getElementById('sentimentText').innerHTML = '<div class="spinner"></div>';
+            
             try {
-                const respuesta = await fetch(`${GO_URL}/ping`, { method: 'GET', signal: AbortSignal.timeout(1500) });
-                if (respuesta.ok) goDisponible = true;
-            } catch (e) { goDisponible = false; }
-        }
-        
-        async function consultarCacheOculto(token) {
-            if (!goDisponible) return null;
-            try {
-                const respuesta = await fetch(`${GO_URL}/ask?q=${encodeURIComponent(token)}`, { signal: AbortSignal.timeout(3000) });
-                if (respuesta.ok) {
-                    const texto = await respuesta.text();
-                    if (texto && texto !== "No sé" && texto.length > 60) return limpiarMarkdown(texto);
+                const td = await fetchTokenData(t);
+                if (!td) {
+                    document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
+                    document.getElementById('sentimentText').innerHTML = '⚠️ Token no encontrado. Intenta con BTC, ETH, SOL, DOGE...';
+                    isRefreshing = false;
+                    return;
                 }
-            } catch (e) {}
-            return null;
-        }
-        
-        async function guardarEnCacheOculto(token, analisis) {
-            if (!goDisponible) return;
-            try { fetch(`${GO_URL}/aprender?q=${encodeURIComponent(token)}&respuesta=${encodeURIComponent(analisis)}`, { method: 'GET', signal: AbortSignal.timeout(2000) }).catch(() => {}); } catch(e) {}
-        }
-
-        // ============================================
-        // DATOS Y CONFIGURACIÓN
-        // ============================================
-        
-        const NODOS_RESPALDO = [
-            "Alemania", "Francia", "México", "Brasil", "España", "Italia", "Argentina",
-            "Inglaterra", "Países Bajos", "Portugal", "Bélgica", "Suecia", "Noruega",
-            "Dinamarca", "Finlandia", "Canadá", "Australia", "Nueva Zelanda", "Chile",
-            "Uruguay", "Colombia", "Perú", "Japón", "Corea del Sur", "Singapur"
-        ];
-        
-        let _CACHE = {};
-        try { _CACHE = JSON.parse(localStorage.getItem('_nm_v5') || '{}'); } catch(e) {}
-        
-        function _hash(str) {
-            let h = 0;
-            const s = str.toLowerCase().trim();
-            for (let i = 0; i < s.length; i++) {
-                h = ((h << 5) - h) + s.charCodeAt(i);
-                h |= 0;
-            }
-            return Math.abs(h).toString(36);
-        }
-        
-        function _obtenerCacheLocal(q) {
-            const k = _hash(q);
-            if (_CACHE[k] && (Date.now() - _CACHE[k].t) < 7200000) return _CACHE[k].r;
-            return null;
-        }
-        
-        function _guardarCacheLocal(q, r) {
-            const k = _hash(q);
-            _CACHE[k] = { r, t: Date.now() };
-            try { localStorage.setItem('_nm_v5', JSON.stringify(_CACHE)); } catch(e) {}
-        }
-        
-        function generarPromptIA(tokenData, tokenSymbol, pais, modo) {
-            const esExperto = modo === 'experto';
-            return `[RESPONDE EXCLUSIVAMENTE EN ESPAÑOL. PROHIBIDO EL INGLÉS.]
-
-REGLAS ESTRICTAS:
-- NO USES ASTERISCOS (*) EN NINGUNA CIRCUNSTANCIA
-- NO USES NUMERALES (#) PARA TÍTULOS
-- NO USES MARKDOWN
-- USA "•" PARA VIÑETAS
-
-Eres analista financiero senior de ${pais}.
-
-Analiza ${tokenSymbol}:
-- Precio: $${tokenData.price}
-- Volumen 24h: $${(tokenData.volume24h / 1e6).toFixed(2)}M
-- Liquidez: $${(tokenData.liquidity / 1e6).toFixed(2)}M
-- Cambio 24h: ${tokenData.priceChange24h}%
-
-Da recomendación: COMPRA, VENTA o ESPERA.
-Incluye 3 confirmaciones técnicas.
-Stop Loss: -5%, Take Profit: +10%.
-ADVIERTE que NO es consejo financiero.${esExperto ? ' Profundiza el POR QUÉ de cada confirmación.' : ''}
-
-RESPUESTA (texto limpio):`;
-        }
-        
-        function fallbackLocal(tokenSymbol, tokenData) {
-            const cambio = tokenData.priceChange24h || 0;
-            const tendencia = cambio > 5 ? "alcista" : (cambio < -5 ? "bajista" : "lateral");
-            return `ANÁLISIS DE ${tokenSymbol.toUpperCase()}
-
-Tendencia: ${tendencia}
-Precio: $${tokenData.price}
-
-SEÑAL: ESPERA
-
-3 CONFIRMACIONES:
-• Esperar confirmación de tendencia
-• Volumen en análisis
-• Liquidez suficiente
-
-Stop Loss: -5%
-Take Profit: +10%
-
-⚠️ Esto es análisis informativo, NO consejo financiero.`;
-        }
-        
-        let currentToken = "BTC";
-        
-        // ============================================
-        // FUNCIÓN OBTENER ANÁLISIS (PRIORIZA TERMUX)
-        // ============================================
-        
-        async function obtenerAnalisis(tokenData, tokenSymbol, modo) {
-            currentTokenData = tokenData;
-            const semanticKey = getSemanticKey(tokenSymbol);
-            
-            // 1. Verificar caché semántico
-            if (semanticCache.has(semanticKey)) {
-                const cached = semanticCache.get(semanticKey);
-                if (Date.now() - cached.timestamp < 7200000) {
-                    return cached.data;
-                }
-            }
-            
-            // 2. Buscar en memoria análisis similares
-            const memoriaSimilar = memoryConnector.recall(tokenSymbol, 2);
-            let contextoMemoria = '';
-            if (memoriaSimilar.length > 0) {
-                contextoMemoria = '\n\n[Contexto de memoria:] ' + memoriaSimilar.map(m => 
-                    `Análisis similar de ${m.token}: "${m.analisis.substring(0, 100)}..."`
-                ).join(' ');
-            }
-            
-            // 3. PRIORIZAR TERMUX
-            try {
-                const promptTermux = `Analiza ${tokenSymbol} con estos datos: Precio $${tokenData.price}, Volumen $${(tokenData.volume24h/1e6).toFixed(2)}M, Liquidez $${(tokenData.liquidity/1e6).toFixed(2)}M, Cambio ${tokenData.priceChange24h}%`;
-                const respuestaTermux = await llamarJsllm7(promptTermux);
+                currentToken = t;
+                guardarEnHistorial(t);
+                const score = calculateScore(td);
+                document.getElementById('tokenSymbol').innerHTML = `$${td.symbol}`;
+                document.getElementById('tokenPrice').innerHTML = td.price < 0.01 ? `$${td.price.toFixed(8)}` : (td.price < 1 ? `$${td.price.toFixed(6)}` : `$${td.price.toFixed(2)}`);
+                document.getElementById('volume').innerHTML = td.volume24h > 1000000 ? `$${(td.volume24h / 1e6).toFixed(2)}M` : `$${(td.volume24h / 1e3).toFixed(0)}K`;
+                document.getElementById('liquidity').innerHTML = td.liquidity > 1000000 ? `$${(td.liquidity / 1e6).toFixed(2)}M` : `$${(td.liquidity / 1e3).toFixed(0)}K`;
+                const cc = td.priceChange24h >= 0 ? '#10b981' : '#ef4444';
+                document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
+                document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                // Verificar que la respuesta NO sea el mensaje genérico
-                if (respuestaTermux && respuestaTermux.length > 80 && 
-                    !respuestaTermux.includes('ANÁLISIS GENERAL') && 
-                    !respuestaTermux.includes('📖 ANÁLISIS GENERAL') &&
-                    !respuestaTermux.includes('ACLARACIÓN')) {
-                    
-                    const respuestaLimpia = limpiarMarkdown(respuestaTermux);
-                    const cacheKey = _hash(`${tokenSymbol}_${modo}`);
-                    _guardarCacheLocal(cacheKey, respuestaLimpia);
-                    semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
-                    
-                    memoryConnector.remember({
-                        token: tokenSymbol,
-                        analisis: respuestaLimpia,
-                        recomendacion: respuestaLimpia.includes('COMPRA') ? 'COMPRA' : 
-                                       respuestaLimpia.includes('VENTA') ? 'VENTA' : 'ESPERA'
-                    });
-                    actualizarMetricasConectores();
-                    console.log('✅ Usando análisis de Termux');
-                    return respuestaLimpia;
-                }
-            } catch(e) {
-                console.warn('Error con Termux:', e);
-            }
-            
-            // 4. FALLBACK: Usar CDN
-            console.log('⚠️ Usando CDN como fallback...');
-            const cacheKey = _hash(`${tokenSymbol}_${modo}`);
-            const respuestaGo = await consultarCacheOculto(tokenSymbol);
-            if (respuestaGo) {
-                semanticCache.set(semanticKey, { data: respuestaGo, timestamp: Date.now() });
-                return respuestaGo;
-            }
-            
-            let respuesta = _obtenerCacheLocal(cacheKey);
-            if (respuesta) {
-                semanticCache.set(semanticKey, { data: respuesta, timestamp: Date.now() });
-                return respuesta;
-            }
-            
-            const nodos = [...NODOS_RESPALDO];
-            for (let i = nodos.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [nodos[i], nodos[j]] = [nodos[j], nodos[i]];
-            }
-            
-            for (let i = 0; i < Math.min(nodos.length, 10); i++) {
-                const pais = nodos[i];
-                let prompt = generarPromptIA(tokenData, tokenSymbol, pais, modo);
-                if (contextoMemoria) prompt += `\n${contextoMemoria}`;
+                const analisis = await obtenerAnalisis(td, t, modo);
+                document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
+                actualizarWidgets(td, analisis, t);
                 
-                try {
-                    const respuestaIA = await window.jsllm7(prompt);
-                    if (respuestaIA && respuestaIA.length > 80) {
-                        const respuestaLimpia = limpiarMarkdown(respuestaIA);
-                        _guardarCacheLocal(cacheKey, respuestaLimpia);
-                        guardarEnCacheOculto(tokenSymbol, respuestaLimpia);
-                        semanticCache.set(semanticKey, { data: respuestaLimpia, timestamp: Date.now() });
-                        memoryConnector.remember({
-                            token: tokenSymbol,
-                            analisis: respuestaLimpia,
-                            recomendacion: respuestaLimpia.includes('COMPRA') ? 'COMPRA' : 
-                                           respuestaLimpia.includes('VENTA') ? 'VENTA' : 'ESPERA'
-                        });
-                        actualizarMetricasConectores();
-                        return respuestaLimpia;
-                    }
-                } catch(e) { continue; }
-            }
-            
-            const fallback = fallbackLocal(tokenSymbol, tokenData);
-            semanticCache.set(semanticKey, { data: fallback, timestamp: Date.now() });
-            return fallback;
-        }
-
-        // ============================================
-        // UI PRINCIPAL
-        // ============================================
-        
-        let modo = localStorage.getItem('nextmoon_modo') || 'experto';
-        let isRefreshing = false;
-        
-        verificarGoSilencioso();
-        setInterval(verificarGoSilencioso, 60000);
-        
-        function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-        document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
-        actualizarModoUI();
-        
-        function showToast(msg, isError) { 
-            const t = document.createElement('div'); 
-            t.className = 'toast-msg'; 
-            t.style.background = isError ? '#ef4444' : '#10b981'; 
-            t.innerText = msg; 
-            document.body.appendChild(t); 
-            setTimeout(() => t.remove(), 2500); 
-        }
-        
-        function mostrarModal(titulo, contenido) {
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <h3>${titulo}</h3>
-                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
-                    <button class="modal-close">Cerrar</button>
-                </div>
-            `;
-            modal.querySelector('.modal-close').onclick = () => modal.remove();
-            document.body.appendChild(modal);
+                showToast(`✅ ${td.symbol} analizado · 403M DECIDE · jsllm7 404M`);
+            } catch (e) {
+                document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis.';
+                showToast("❌ Error", true);
+            } finally { isRefreshing = false; }
         }
 
         // ============================================
@@ -1096,154 +837,67 @@ Take Profit: +10%
         };
 
         // ============================================
-        // FUNCIONES DE DATOS
-        // ============================================
-        
-        async function fetchTokenData(t) {
-            try {
-                const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${t}`);
-                const d = await r.json();
-                if (d.pairs?.length > 0) {
-                    const v = d.pairs.filter(p => p.liquidity?.usd > 10000 && p.priceUsd > 0);
-                    if (v.length > 0) {
-                        const b = v.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
-                        return { symbol: t.toUpperCase(), price: parseFloat(b.priceUsd), volume24h: b.volume?.h24 || 0, liquidity: b.liquidity?.usd || 0, priceChange24h: b.priceChange?.h24 || 0, chain: b.chainId || "unknown" };
-                    }
-                }
-                return null;
-            } catch (e) { return null; }
-        }
-        
-        function calculateScore(d) {
-            let s = 50;
-            if (d.volume24h > 50000000) s += 30;
-            else if (d.volume24h > 10000000) s += 25;
-            else if (d.volume24h > 1000000) s += 18;
-            if (d.liquidity > 5000000) s += 25;
-            else if (d.liquidity > 1000000) s += 20;
-            else if (d.liquidity > 500000) s += 15;
-            if (d.priceChange24h > 30) s += 20;
-            else if (d.priceChange24h > 15) s += 14;
-            if (d.chain === "solana") s += 10;
-            return Math.min(99, Math.max(20, Math.floor(s)));
-        }
-
-        // ============================================
-        // DEEP LINKING - CARGAR TOKEN DESDE URL
-        // ============================================
-        
-        function cargarDesdeURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const token = urlParams.get('token');
-            if (token) {
-                document.getElementById('searchInput').value = token;
-                setTimeout(() => updatePrediction(token), 1000);
-            }
-        }
-        
-        cargarDesdeURL();
-
-        // ============================================
-        // ACTUALIZAR PREDICCIÓN
-        // ============================================
-        
-        async function updatePrediction(manualToken = null) {
-            if (isRefreshing) return;
-            isRefreshing = true;
-            const t = (manualToken || currentToken).toUpperCase();
-            document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
-            document.getElementById('sentimentText').innerHTML = '<div class="spinner"></div>';
-            
-            try {
-                const td = await fetchTokenData(t);
-                if (!td) { 
-                    document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; 
-                    document.getElementById('sentimentText').innerHTML = '⚠️ Token no encontrado. Intenta con BTC, ETH, SOL, DOGE...';
-                    isRefreshing = false; 
-                    return; 
-                }
-                currentToken = t;
-                guardarEnHistorial(t);
-                const score = calculateScore(td);
-                document.getElementById('tokenSymbol').innerHTML = `$${td.symbol}`;
-                document.getElementById('tokenPrice').innerHTML = td.price < 0.01 ? `$${td.price.toFixed(8)}` : (td.price < 1 ? `$${td.price.toFixed(6)}` : `$${td.price.toFixed(2)}`);
-                document.getElementById('volume').innerHTML = td.volume24h > 1000000 ? `$${(td.volume24h / 1e6).toFixed(2)}M` : `$${(td.volume24h / 1e3).toFixed(0)}K`;
-                document.getElementById('liquidity').innerHTML = td.liquidity > 1000000 ? `$${(td.liquidity / 1e6).toFixed(2)}M` : `$${(td.liquidity / 1e3).toFixed(0)}K`;
-                const cc = td.priceChange24h >= 0 ? '#10b981' : '#ef4444';
-                document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
-                document.getElementById('iaScore').innerHTML = `${score}/100`;
-                
-                const analisis = await obtenerAnalisis(td, t, modo);
-                document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
-                actualizarWidgets(td, analisis, t);
-                
-                showToast(`✅ ${td.symbol} analizado · jsllm7 404M · Conectores activos`);
-            } catch (e) { 
-                document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis.'; 
-                showToast("❌ Error", true); 
-            }
-            finally { isRefreshing = false; }
-        }
-
-        // ============================================
-        // 10 HERRAMIENTAS CRIPTO
+        // 10 HERRAMIENTAS + BOTONES
         // ============================================
         
         async function generico(promptText, titulo) {
-            showToast(`⏳ ${titulo}...`);
+            showToast(`⏳ ${titulo} con 403M...`);
             try {
                 const respuesta = await llamarJsllm7(promptText);
                 const respuestaLimpia = limpiarMarkdown(respuesta);
                 mostrarModal(titulo, respuestaLimpia);
                 const td = await fetchTokenData(currentToken);
-                if (td) {
-                    actualizarWidgets(td, respuestaLimpia, currentToken);
-                }
-            } catch(e) {
-                showToast('❌ Error generando análisis', true);
-            }
+                if (td) actualizarWidgets(td, respuestaLimpia, currentToken);
+            } catch(e) { showToast('❌ Error', true); }
         }
         
         async function analisisHistorico() {
             const token = currentToken;
-            const prompt = `Realiza un análisis histórico del comportamiento de ${token} en los últimos meses. Identifica patrones, tendencias y niveles clave de soporte/resistencia. Sé conciso y práctico. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Análisis histórico de ${token}`, token, modo);
+            const prompt = `Realiza un análisis histórico de ${token}. Identifica patrones, tendencias y niveles clave.`;
             await generico(prompt, `📊 ANÁLISIS HISTÓRICO: ${token}`);
         }
         
         async function compararCriptos() {
             const token1 = currentToken;
-            const token2 = prompt("¿Qué cripto quieres comparar con " + token1 + "? (Ej: ETH, SOL, DOGE):", "ETH");
+            const token2 = prompt("¿Qué cripto comparar con " + token1 + "?", "ETH");
             if (!token2) return;
-            const prompt = `Compara ${token1} y ${token2} en términos de: precio, volatilidad, casos de uso, adopción, y perspectiva futura. Da una conclusión sobre cuál tiene mejor relación riesgo/beneficio. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Comparar ${token1} vs ${token2}`, token1, modo);
+            const prompt = `Compara ${token1} y ${token2}. Da conclusión sobre cuál tiene mejor relación riesgo/beneficio.`;
             await generico(prompt, `🔄 COMPARACIÓN: ${token1} vs ${token2}`);
         }
         
         async function alertaVolatilidad() {
             const token = currentToken;
-            const prompt = `Analiza la volatilidad actual de ${token}. Da un nivel de volatilidad (bajo/medio/alto), explica las causas probables, y sugiere estrategias para operar en este entorno. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Volatilidad de ${token}`, token, modo);
+            const prompt = `Analiza la volatilidad actual de ${token}. Da nivel (bajo/medio/alto) y estrategias.`;
             await generico(prompt, `⚠️ ALERTA VOLATILIDAD: ${token}`);
         }
         
         async function soporteResistencia() {
             const token = currentToken;
-            const prompt = `Calcula y explica los niveles de soporte y resistencia clave para ${token}. Incluye 3 niveles de soporte y 3 de resistencia. Explica cómo usarlos en trading. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Soporte/resistencia de ${token}`, token, modo);
+            const prompt = `Calcula niveles de soporte y resistencia para ${token}. Incluye 3 de cada uno.`;
             await generico(prompt, `📈 SOPORTE/RESISTENCIA: ${token}`);
         }
         
         async function noticiasCripto() {
             const token = currentToken;
-            const prompt = `Resume las 5 noticias más relevantes de las últimas 48 horas sobre ${token} y el mercado cripto en general. Incluye el impacto potencial en el precio. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Noticias de ${token}`, token, modo);
+            const prompt = `Resume 5 noticias relevantes de las últimas 48h sobre ${token}.`;
             await generico(prompt, `📰 NOTICIAS: ${token}`);
         }
         
         async function simularPortafolio() {
-            const prompt = `Crea una simulación de portafolio cripto balanceado para un inversor con tolerancia media al riesgo. Sugiere 5 activos con porcentajes de asignación y justifica cada elección. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir('Simular portafolio cripto', 'Portafolio', modo);
+            const prompt = `Crea simulación de portafolio cripto balanceado con 5 activos y porcentajes.`;
             await generico(prompt, `💼 SIMULACIÓN DE PORTAFOLIO`);
         }
         
         async function alertasPrecio() {
             const token = currentToken;
-            const prompt = `Sugiere 3 niveles de precio clave para ${token} donde sería recomendable poner alertas de compra y 3 para alertas de venta. Explica por qué cada nivel es relevante. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Alertas de precio para ${token}`, token, modo);
+            const prompt = `Sugiere 3 niveles de alerta de compra y 3 de venta para ${token}.`;
             await generico(prompt, `🔔 ALERTAS PRECIO: ${token}`);
         }
         
@@ -1251,18 +905,21 @@ Take Profit: +10%
             const token = currentToken;
             const perfil = prompt("¿Perfil de riesgo? (conservador, moderado, agresivo):", "moderado");
             if (!perfil) return;
-            const prompt = `Diseña una estrategia de trading para ${token} con perfil ${perfil}. Incluye: timeframe recomendado, indicadores clave, reglas de entrada/salida, y gestión de riesgo. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Estrategia trading ${token} perfil ${perfil}`, token, modo);
+            const prompt = `Diseña estrategia de trading para ${token} con perfil ${perfil}.`;
             await generico(prompt, `🎯 ESTRATEGIA TRADING: ${token} (${perfil})`);
         }
         
         async function fearGreed() {
-            const prompt = `Analiza el sentimiento actual del mercado cripto usando el índice de Fear & Greed (simulado). Da un valor del 0 al 100, explica el sentimiento, y cómo debería operar un inversor en este contexto. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir('Fear & Greed Index', 'Mercado', modo);
+            const prompt = `Analiza el sentimiento del mercado cripto con Fear & Greed (0-100).`;
             await generico(prompt, `😨 FEAR & GREED INDEX`);
         }
         
         async function prediccion7dias() {
             const token = currentToken;
-            const prompt = `Genera una predicción para ${token} en los próximos 7 días. Incluye: escenario más probable, rango de precio esperado, y 3 factores que podrían influir en el movimiento. Sin asteriscos.`;
+            await nucleoDecisor.analizarYDecidir(`Predicción 7 días ${token}`, token, modo);
+            const prompt = `Genera predicción para ${token} en 7 días. Incluye rango de precio esperado.`;
             await generico(prompt, `🔮 PREDICCIÓN 7 DÍAS: ${token}`);
         }
         
@@ -1276,9 +933,7 @@ Take Profit: +10%
 📡 Estado: ${estado}
 📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
 
-${jsllm7TermuxConectado ? 
-'✅ jsllm7 está funcionando correctamente con 404M registros' : 
-'⚠️ jsllm7 no está conectado a Termux. Usando CDN como respaldo.'}
+${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm7 no conectado a Termux.'}
 
 Para conectar:
 1. Abre Termux
@@ -1288,6 +943,19 @@ Para conectar:
 `;
             mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
         }
+
+        // ============================================
+        // BOTÓN 403M DECIDE
+        // ============================================
+        
+        document.getElementById('btnDecisionStatus').onclick = () => {
+            const estado = nucleoDecisor.mostrarEstado();
+            mostrarModal('🧠 403M DECIDE (CRIPTO)', estado);
+        };
+
+        // ============================================
+        // ASIGNAR BOTONES
+        // ============================================
         
         document.getElementById('btnHistorico').onclick = analisisHistorico;
         document.getElementById('btnComparar').onclick = compararCriptos;
@@ -1305,27 +973,25 @@ Para conectar:
         // INICIALIZACIÓN
         // ============================================
         
-        function iniciar() {
-            actualizarDiario();
-            updatePrediction("BTC");
-            setInterval(() => updatePrediction(), 60000);
-            document.getElementById('refreshBtn').onclick = () => updatePrediction();
-            document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
-            document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
-            actualizarSidebarHistorial();
-            actualizarMetricasConectores();
-            
-            // Verificar conexión con Termux
-            verificarConexionTermux();
-            
-            let intentos = 0;
-            const check = setInterval(() => { 
-                if (typeof window.jsllm7 !== 'undefined') { 
-                    clearInterval(check); 
-                    showToast("✅ IA avanzada lista · jsllm7 404M · Conectores activos · 10 herramientas disponibles"); 
-                } else if (intentos > 30) clearInterval(check); 
-                intentos++; 
-            }, 500);
+        function actualizarModoUI() {
+            document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo));
+        }
+        
+        document.querySelectorAll('.modo-btn').forEach(b => {
+            b.addEventListener('click', () => {
+                modo = b.dataset.modo;
+                localStorage.setItem('nextmoon_modo', modo);
+                actualizarModoUI();
+                showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`);
+            });
+        });
+        actualizarModoUI();
+        
+        function actualizarDiario() {
+            const h = new Date();
+            const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            document.getElementById('dailyTip').innerHTML = `🧠 403M DECIDE · ${dias[h.getDay()]}: Opera con disciplina. · jsllm7 404M · Conectores: Memoria · Semántico · APIs`;
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · 403M DECIDE · jsllm7 404M · Conectores activos · 10 herramientas`;
         }
         
         async function verificarConexionTermux() {
@@ -1346,11 +1012,34 @@ Para conectar:
             }
         }
         
-        function actualizarDiario() { 
-            const h = new Date(); 
-            const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-            document.getElementById('dailyTip').innerHTML = `📈 ${dias[h.getDay()]}: Opera con disciplina. · jsllm7 404M · Conectores: Memoria · Semántico · APIs`; 
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · jsllm7 404M · Conectores activos · 10 herramientas`;
+        function iniciar() {
+            actualizarDiario();
+            updatePrediction("BTC");
+            setInterval(() => updatePrediction(), 60000);
+            document.getElementById('refreshBtn').onclick = () => updatePrediction();
+            document.getElementById('searchBtn').onclick = () => {
+                const v = document.getElementById('searchInput').value.trim().toUpperCase();
+                if (v) updatePrediction(v);
+            };
+            document.getElementById('searchInput').addEventListener('keypress', e => {
+                if (e.key === 'Enter') {
+                    const v = document.getElementById('searchInput').value.trim().toUpperCase();
+                    if (v) updatePrediction(v);
+                }
+            });
+            actualizarSidebarHistorial();
+            actualizarMetricasConectores();
+            verificarConexionTermux();
+            setInterval(verificarConexionTermux, 30000);
+            
+            let intentos = 0;
+            const check = setInterval(() => {
+                if (typeof window.jsllm7 !== 'undefined') {
+                    clearInterval(check);
+                    showToast("🚀 403M DECIDE · jsllm7 404M · Conectores activos");
+                } else if (intentos > 30) clearInterval(check);
+                intentos++;
+            }, 500);
         }
         
         iniciar();
@@ -1383,7 +1072,7 @@ Para conectar:
             floor.position.y = -1.5;
             scene.add(floor);
             for (let i = 0; i < 36; i++) {
-                const torus = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 16, 32), new THREE.MeshStandardMaterial({ color: [0xf7931a, 0x627eea, 0x3b82f6][i % 3] }));
+                const torus = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 16, 32), new THREE.MeshStandardMaterial({ color: [0xf7931a, 0x627eea, 0x3b82f6, 0xec4899][i % 4] }));
                 const angle = (i / 36) * Math.PI * 2;
                 torus.position.set(Math.cos(angle) * 4, Math.sin(angle * 3) * 0.8, Math.sin(angle) * 4);
                 scene.add(torus);
