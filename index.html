@@ -109,9 +109,9 @@
         <div class="container">
             <div class="header">
                 <div class="badge">🚀 NextMoon AI <span class="badge-decision">🧠 403M LECTOR</span></div>
-                <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#8b5cf6;">RESPUESTA DIRECTA</span></h1>
+                <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#8b5cf6;">CLOUDFLARE 24/7</span></h1>
                 <div style="font-size: 0.7rem;" id="subHeader">403M LECTOR · Lee 403M+ datos · Responde directamente · IA integrada</div>
-                <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · Sin contexto extra</div>
+                <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · 24/7 activo</div>
             </div>
 
             <div class="modo-selector">
@@ -167,7 +167,7 @@
                             <div class="connector-metric"><div class="value" id="metricAPIs">30</div><div class="label">Países</div></div>
                             <div class="connector-metric"><div class="value" id="metricContexto">100%</div><div class="label">Precisión</div></div>
                         </div>
-                        <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#10b981;">📖 403M LECTOR: ✅ Activo · 403M+ datos cargados</div>
+                        <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#10b981;">📖 403M LECTOR: ✅ Activo · 403M+ datos cargados · 24/7</div>
                     </div>
                 </div>
                 <div class="widget" id="widgetConfianza">
@@ -197,10 +197,10 @@
             <div class="metadata-container" id="metadataContainer"></div>
 
             <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update" id="autoUpdateText">🟢 403M LECTOR · 403M+ datos · Actualización cada 60 segundos · Respuesta directa</div>
-            <div class="restriction-alert">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · Estrategia con 3 confirmaciones</div>
+            <div class="auto-update" id="autoUpdateText">🟢 403M LECTOR · 403M+ datos · Actualización cada 60 segundos · 24/7 activo</div>
+            <div class="restriction-alert">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · Estrategia con 3 confirmaciones · 24/7</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ NextMoon AI · 403M LECTOR · 403M+ datos · Respuesta directa · IA integrada · 10 herramientas</footer>
+            <footer id="footer">⚡ NextMoon AI · 403M LECTOR · 403M+ datos · Respuesta directa · IA integrada · 10 herramientas · 24/7 activo</footer>
         </div>
     </div>
 
@@ -215,10 +215,11 @@
 
     <script>
         // ============================================
-        // CONFIGURACIÓN
+        // CONFIGURACIÓN - API EN CLOUDFLARE 24/7
         // ============================================
         
-        const JSLLM7_API_URL = 'http://localhost:8081';
+        // 🔥 CAMBIADO: ahora usa Cloudflare en lugar de localhost
+        const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
         let jsllm7TermuxConectado = false;
         let currentTokenData = null;
         let modo = localStorage.getItem('nextmoon_modo') || 'experto';
@@ -1440,7 +1441,7 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
             const h = new Date();
             const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
             document.getElementById('dailyTip').innerHTML = `🧠 403M LECTOR: Lee 403M+ datos · ${dias[h.getDay()]}: Análisis directo · Respuesta inmediata`;
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · 403M LECTOR · 403M+ datos · 10 herramientas`;
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · 403M LECTOR · 403M+ datos · 10 herramientas · 24/7 activo`;
         }
         
         function iniciar() {
@@ -1465,7 +1466,7 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
             verificarConexionTermux();
             setInterval(verificarConexionTermux, 30000);
             
-            showToast("🚀 403M LECTOR activo · 403M+ datos · " + Object.keys(BASE_DATOS_403M.criptos).length + " criptos precargadas");
+            showToast("🚀 403M LECTOR activo · 403M+ datos · 24/7 · " + Object.keys(BASE_DATOS_403M.criptos).length + " criptos precargadas");
         }
         
         async function verificarConexionTermux() {
@@ -1480,7 +1481,7 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
                 }
             } catch(e) {
                 jsllm7TermuxConectado = false;
-                document.getElementById('jsllm7WidgetStatus').textContent = '📖 403M LECTOR: ✅ Activo (sin jsllm7)';
+                document.getElementById('jsllm7WidgetStatus').textContent = '📖 403M LECTOR: ✅ Activo (sin jsllm7) · 24/7';
                 document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
                 console.warn('⚠️ Termux no disponible, usando 403M LECTOR');
             }
