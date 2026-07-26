@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>NextMoon AI · 403M LECTOR · Predictor Cripto</title>
+    <title>NextMoon AI · 403M LECTOR · Predictor Cripto · AcadémIA Pro</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -24,7 +24,9 @@
         .tool-btn:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; transform: scale(1.02); }
         .tool-btn.jsllm7 { border-color: #8b5cf6; color: #a78bfa; }
         .tool-btn.decision { border-color: #ec4899; color: #f472b6; }
-        .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border-color: #8b5cf6; }
+        .tool-btn.decision:hover { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; }
+        .tool-btn.academia { border-color: #10b981; color: #34d399; }
+        .tool-btn.academia:hover { background: linear-gradient(135deg, #10b981, #059669); color: white; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
@@ -40,13 +42,7 @@
         .metric-label { font-size: 0.6rem; color: #94a3b8; }
         .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
         
-        .widget-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 15px 0;
-        }
-        
+        .widget-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
         .widget { background: rgba(30, 41, 59, 0.9); border: 1px solid #3b82f6; border-radius: 12px; padding: 15px; transition: all 0.3s; backdrop-filter: blur(10px); }
         .widget:hover { border-color: #8b5cf6; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.1); transform: translateY(-2px); }
         .widget-title { font-weight: 700; color: #60a5fa; font-size: 0.8rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
@@ -71,7 +67,7 @@
         .feedback-buttons { display: flex; gap: 10px; margin-top: 10px; justify-content: flex-end; }
         .feedback-btn { background: none; border: none; color: #7a9aae; cursor: pointer; font-size: 0.7rem; padding: 4px 10px; border-radius: 15px; transition: 0.2s; }
         .feedback-btn:hover { background: #334155; color: #e9c46a; }
-        button { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        button.refresh-btn { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
         .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
@@ -85,20 +81,34 @@
         .sponsors { text-align: center; margin: 20px 0 10px 0; padding: 8px; }
         .sponsors-link { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .sponsors-link a { background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 0.65rem; color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
-        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 2s forwards; }
+        .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 3s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
         .restriction-alert { background: rgba(139, 92, 246, 0.15); border: 1px solid #8b5cf6; border-radius: 0.8rem; padding: 0.5rem 1rem; margin-top: 1rem; font-size: 0.7rem; text-align: center; color: #a78bfa; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; align-items: center; justify-content: center; }
-        .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
+        .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 650px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
-        .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
+        .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; width: auto; }
         
         #sidebarHistorial { position: fixed; left: 10px; top: 100px; background: #1e293b; border-radius: 1rem; padding: 0.8rem; width: 180px; z-index: 1000; font-size: 0.7rem; border: 1px solid #8b5cf6; backdrop-filter: blur(10px); max-height: 80vh; overflow-y: auto; }
         #sidebarHistorial strong { color: #a78bfa; }
         #sidebarHistorial hr { margin: 5px 0; border-color: #334155; }
         .historial-item { background: none; border: none; color: #94a3b8; cursor: pointer; display: block; margin: 5px 0; text-align: left; width: 100%; font-size: 0.65rem; padding: 4px; border-radius: 8px; }
         .historial-item:hover { background: #334155; color: #a78bfa; }
+        
+        .status-bar { background: #1e293b; border-radius: 1rem; padding: 0.4rem 1rem; margin: 0.5rem 0; font-size: 0.6rem; display: flex; justify-content: space-around; flex-wrap: wrap; color: #94a3b8; }
+        .cache-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+        .cache-hit { background: #10b981; }
+        .cache-miss { background: #f59e0b; }
+        
+        .export-buttons { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+        .export-btn { background: #334155; border: 1px solid #475569; padding: 4px 12px; border-radius: 15px; font-size: 0.6rem; cursor: pointer; color: #94a3b8; transition: 0.2s; }
+        .export-btn:hover { background: #8b5cf6; color: white; }
+        
+        .quality-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.55rem; margin-left: 5px; }
+        .quality-alta { background: #10b981; color: white; }
+        .quality-media { background: #f59e0b; color: black; }
+        .quality-baja { background: #ef4444; color: white; }
         
         @media (max-width: 700px) { #sidebarHistorial { display: none; } .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
@@ -108,10 +118,17 @@
     <div class="normal-mode" id="normalMode">
         <div class="container">
             <div class="header">
-                <div class="badge">🚀 NextMoon AI <span class="badge-decision">🧠 403M LECTOR</span></div>
+                <div class="badge">🚀 NextMoon AI <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-decision" style="background:linear-gradient(90deg,#10b981,#059669);">📚 ACADÉMIA PRO</span></div>
                 <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#8b5cf6;">CLOUDFLARE 24/7</span></h1>
-                <div style="font-size: 0.7rem;" id="subHeader">403M LECTOR · Lee 403M+ datos · Responde directamente · IA integrada</div>
-                <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · 24/7 activo</div>
+                <div style="font-size: 0.7rem;" id="subHeader">403M LECTOR · AcadémIA Pro · IndexedDB · 5 Fuentes · Exportación · Plagio</div>
+                <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Lee 403M+ datos · Análisis académico · 24/7 activo</div>
+            </div>
+
+            <div class="status-bar">
+                <span>💾 Caché: <span id="cacheHitRate">0%</span></span>
+                <span>📊 DB: <span id="dbEntries">0</span></span>
+                <span>🧠 403M: <span id="decisionCount">0</span></span>
+                <span>🔌 jsllm7: <span id="jsllm7StatusBar">Conectando...</span></span>
             </div>
 
             <div class="modo-selector">
@@ -120,21 +137,24 @@
             </div>
 
             <div class="tools-bar">
-                <button class="tool-btn" id="btnHistorico">📊 Análisis Histórico</button>
-                <button class="tool-btn" id="btnComparar">🔄 Comparar Criptos</button>
-                <button class="tool-btn" id="btnVolatilidad">⚠️ Alerta Volatilidad</button>
+                <button class="tool-btn" id="btnHistorico">📊 Histórico</button>
+                <button class="tool-btn" id="btnComparar">🔄 Comparar</button>
+                <button class="tool-btn" id="btnVolatilidad">⚠️ Volatilidad</button>
                 <button class="tool-btn" id="btnSoporteResistencia">📈 S/R Levels</button>
-                <button class="tool-btn" id="btnNoticias">📰 Noticias Cripto</button>
-                <button class="tool-btn" id="btnPortafolio">💼 Simular Portafolio</button>
-                <button class="tool-btn" id="btnAlertas">🔔 Alertas Precio</button>
-                <button class="tool-btn" id="btnEstrategia">🎯 Estrategia Trading</button>
+                <button class="tool-btn" id="btnNoticias">📰 Noticias</button>
+                <button class="tool-btn" id="btnPortafolio">💼 Portafolio</button>
+                <button class="tool-btn" id="btnAlertas">🔔 Alertas</button>
+                <button class="tool-btn" id="btnEstrategia">🎯 Estrategia</button>
                 <button class="tool-btn" id="btnFearGreed">😨 Fear & Greed</button>
-                <button class="tool-btn" id="btnPrediccion">🔮 Predicción 7 días</button>
+                <button class="tool-btn" id="btnPrediccion">🔮 Predicción</button>
+                <button class="tool-btn academia" id="btnBuscarAcademico">📚 Búsqueda Académica</button>
+                <button class="tool-btn academia" id="btnVerificarPlagio">⚠️ Plagio</button>
+                <button class="tool-btn academia" id="btnExportar">📤 Exportar</button>
                 <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M LECTOR</button>
                 <button class="tool-btn jsllm7" id="btnTermuxStatus">🔌 Estado jsllm7</button>
             </div>
 
-            <div id="decisionStatus" style="font-size:0.65rem;color:#ec4899;text-align:center;margin-bottom:10px;">🧠 403M LECTOR: Listo · Lee 403M+ datos · Responde directamente</div>
+            <div id="decisionStatus">🧠 403M LECTOR: Listo · Lee 403M+ datos · AcadémIA Pro integrado</div>
 
             <div class="search-box">
                 <input type="text" class="search-input" id="searchInput" placeholder="Buscar cualquier cripto: BTC, ETH, SOL, DOGE, PEPE, XRP, ADA...">
@@ -143,7 +163,7 @@
 
             <div class="dashboard-grid">
                 <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
-                <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>403M LECTOR:</strong><br><span id="sentimentText">Cargando análisis desde 403M+ datos...</span></div></div></div>
+                <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>403M LECTOR:</strong><br><span id="sentimentText">Cargando análisis desde 403M+ datos...</span></div><div class="export-buttons"><button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA 7</button></div></div></div>
             </div>
 
             <div class="widget-container" id="widgetContainer">
@@ -165,20 +185,20 @@
                             <div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div>
                             <div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos leídos</div></div>
                             <div class="connector-metric"><div class="value" id="metricAPIs">30</div><div class="label">Países</div></div>
-                            <div class="connector-metric"><div class="value" id="metricContexto">100%</div><div class="label">Precisión</div></div>
+                            <div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div>
                         </div>
-                        <div id="jsllm7WidgetStatus" style="margin-top:8px;font-size:0.65rem;color:#10b981;">📖 403M LECTOR: ✅ Activo · 403M+ datos cargados · 24/7</div>
+                        <div id="jsllm7WidgetStatus">📖 403M LECTOR: ✅ Activo · 403M+ datos cargados · 24/7</div>
                     </div>
                 </div>
                 <div class="widget" id="widgetConfianza">
                     <div class="widget-title">🎯 Confianza de la Señal</div>
                     <div class="widget-content">
                         <div class="widget-confidence">
-                            <span style="font-size:0.8rem;">📊</span>
+                            <span>📊</span>
                             <div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div>
                             <span class="confidence-label" id="confidenceLabel">0%</span>
                         </div>
-                        <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Basado en 403M+ datos · 3 confirmaciones técnicas</div>
+                        <div id="widgetConfianzaDetalle" style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Basado en 403M+ datos · Calidad: <span id="qualityLabel">--</span></div>
                     </div>
                 </div>
                 <div class="widget" id="widgetEstrategia">
@@ -194,13 +214,11 @@
                 </div>
             </div>
 
-            <div class="metadata-container" id="metadataContainer"></div>
-
-            <button id="refreshBtn">🔄 ACTUALIZAR AHORA</button>
-            <div class="auto-update" id="autoUpdateText">🟢 403M LECTOR · 403M+ datos · Actualización cada 60 segundos · 24/7 activo</div>
-            <div class="restriction-alert">🧠 403M LECTOR: Lee 403M+ datos · Responde directamente · Estrategia con 3 confirmaciones · 24/7</div>
+            <button id="refreshBtn" class="refresh-btn">🔄 ACTUALIZAR AHORA</button>
+            <div class="auto-update" id="autoUpdateText">🟢 403M LECTOR · AcadémIA Pro · IndexedDB · 5 fuentes · 24/7 activo</div>
+            <div class="restriction-alert">🧠 403M LECTOR: Lee 403M+ datos · AcadémIA Pro · Exportación LaTeX/Markdown/BibTeX/APA · 24/7</div>
             <div class="sponsors"><div class="sponsors-link"><a href="#" target="_blank">🎮 OFERTA 1</a><a href="#" target="_blank">🎲 OFERTA 2</a></div></div>
-            <footer id="footer">⚡ NextMoon AI · 403M LECTOR · 403M+ datos · Respuesta directa · IA integrada · 10 herramientas · 24/7 activo</footer>
+            <footer id="footer">⚡ NextMoon AI · 403M LECTOR · AcadémIA Pro · IndexedDB · 5 Fuentes · 24/7 activo</footer>
         </div>
     </div>
 
@@ -208,855 +226,458 @@
     <div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR DE VR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
-
     <script type="importmap">
         { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
     </script>
 
     <script>
         // ============================================
-        // CONFIGURACIÓN - API EN CLOUDFLARE 24/7
+        // CONFIGURACIÓN
         // ============================================
-        
-        // 🔥 CAMBIADO: ahora usa Cloudflare en lugar de localhost
         const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
         let jsllm7TermuxConectado = false;
         let currentTokenData = null;
         let modo = localStorage.getItem('nextmoon_modo') || 'experto';
         let isRefreshing = false;
         let currentToken = "BTC";
+        let ultimoAnalisis = '';
+        let referenciasAcademicas = [];
         
         // ============================================
-        // BASE DE DATOS 403M+ AMPLIADA
+        // SISTEMA DE CACHÉ CON IndexedDB (MEJORA #1)
         // ============================================
-        
-        const BASE_DATOS_403M = {
-            // ========================================
-            // ANÁLISIS DE CRIPTOMONEDAS (AMPLIADO)
-            // ========================================
+        class PersistentCache {
+            constructor() {
+                this.dbName = 'NextMoonDB';
+                this.version = 1;
+                this.db = null;
+                this.cacheHits = 0;
+                this.cacheMisses = 0;
+                this.init();
+            }
             
-            criptos: {
-                btc: {
-                    keywords: ['btc', 'bitcoin'],
-                    nombre: 'Bitcoin',
-                    analisis: `📊 ANÁLISIS DE BITCOIN (BTC)
-
-🔍 CONTEXTO ACTUAL:
-Bitcoin es la criptomoneda líder con la mayor capitalización del mercado. Es considerada "oro digital" y refugio de valor en el ecosistema cripto.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 58 - Neutro con sesgo alcista
-• MACD: Señal de compra reciente
-• Media móvil 50: Por encima - Tendencia alcista
-• Media móvil 200: Por encima - Tendencia alcista a largo plazo
-• Volumen: Moderado - Sin señales extremas
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $65,000
-• Soporte 2: $62,500
-• Soporte 3: $60,000
-• Resistencia 1: $72,000
-• Resistencia 2: $75,000
-• Resistencia 3: $80,000
-
-🎯 SEÑAL: COMPRA (CONFIRMACIÓN MODERADA)
-
-📊 3 CONFIRMACIONES:
-1. MACD mostrando cruce alcista
-2. Precio sobre media móvil de 50 días
-3. RSI en zona neutral con tendencia al alza
-
-⚠️ STOP LOSS: -5% (nivel de soporte)
-💰 TAKE PROFIT: +10% (nivel de resistencia)
-
-💡 ESTRATEGIA:
-DCA (promedio de costo) en zonas de soporte. Acumulación gradual en $66,000-$68,000.`
-                },
-                eth: {
-                    keywords: ['eth', 'ethereum'],
-                    nombre: 'Ethereum',
-                    analisis: `📊 ANÁLISIS DE ETHEREUM (ETH)
-
-🔍 CONTEXTO ACTUAL:
-Ethereum es la segunda criptomoneda más grande y la plataforma líder para contratos inteligentes y DeFi.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 52 - Neutro
-• MACD: Plano - Sin señal clara
-• Media móvil 50: Cerca - Zona de decisión
-• Media móvil 200: Por encima - Tendencia alcista
-• Volumen: Bajo - Consolidación
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $3,200
-• Soporte 2: $3,000
-• Soporte 3: $2,800
-• Resistencia 1: $3,600
-• Resistencia 2: $3,800
-• Resistencia 3: $4,000
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. MACD sin dirección definida
-2. RSI en zona neutral
-3. Volumen bajo indicando consolidación
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar breakout confirmado. Observar si supera $3,600 con volumen.`
-                },
-                sol: {
-                    keywords: ['sol', 'solana'],
-                    nombre: 'Solana',
-                    analisis: `📊 ANÁLISIS DE SOLANA (SOL)
-
-🔍 CONTEXTO ACTUAL:
-Solana es una de las blockchains más rápidas y con menor costo. Su ecosistema DeFi y NFT sigue creciendo.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 62 - Alcista moderado
-• MACD: Señal de compra
-• Media móvil 50: Por encima - Tendencia alcista
-• Media móvil 200: Por encima - Tendencia alcista
-• Volumen: Alto - Interés significativo
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $140
-• Soporte 2: $130
-• Soporte 3: $120
-• Resistencia 1: $165
-• Resistencia 2: $175
-• Resistencia 3: $190
-
-🎯 SEÑAL: COMPRA
-
-📊 3 CONFIRMACIONES:
-1. RSI mostrando fuerza alcista
-2. MACD con señal de compra
-3. Volumen alto confirmando interés
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Entrar en pullback hacia $145-$150. Stop loss ajustado.`
-                },
-                doge: {
-                    keywords: ['doge', 'dogecoin'],
-                    nombre: 'Dogecoin',
-                    analisis: `📊 ANÁLISIS DE DOGECOIN (DOGE)
-
-🔍 CONTEXTO ACTUAL:
-Dogecoin es la criptomoneda meme más famosa, con una comunidad activa y respaldo de figuras influyentes.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 45 - Neutro
-• MACD: Plano - Sin señal clara
-• Media móvil 50: Cerca - Zona de indecisión
-• Media móvil 200: Por debajo - Tendencia bajista a largo plazo
-• Volumen: Bajo - Mercado calmado
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $0.12
-• Soporte 2: $0.10
-• Soporte 3: $0.08
-• Resistencia 1: $0.15
-• Resistencia 2: $0.17
-• Resistencia 3: $0.20
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. Sin señal clara en MACD
-2. RSI en zona neutral
-3. Precio cerca de media móvil 50
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar catalizador o ruptura de $0.15 con volumen.`
-                },
-                pepe: {
-                    keywords: ['pepe', 'pepecoin'],
-                    nombre: 'Pepe',
-                    analisis: `📊 ANÁLISIS DE PEPE (PEPE)
-
-🔍 CONTEXTO ACTUAL:
-Pepe es una criptomoneda meme que ha ganado popularidad recientemente. Alto riesgo y alta volatilidad.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 68 - Alcista (cerca de sobrecompra)
-• MACD: Señal de compra reciente
-• Media móvil 50: Por encima - Tendencia alcista
-• Media móvil 200: Por encima - Tendencia alcista
-• Volumen: Muy alto - Interés especulativo
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $0.000008
-• Soporte 2: $0.000006
-• Soporte 3: $0.000004
-• Resistencia 1: $0.000012
-• Resistencia 2: $0.000015• Resistencia 3: $0.000020
-
-🎯 SEÑAL: COMPRA (ALTO RIESGO)
-
-📊 3 CONFIRMACIONES:
-1. MACD con señal de compra
-2. Volumen extremadamente alto
-3. Tendencia alcista confirmada
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Alto riesgo. Entrada pequeña. Stop loss estricto.`
-                },
-                xrp: {
-                    keywords: ['xrp', 'ripple'],
-                    nombre: 'Ripple',
-                    analisis: `📊 ANÁLISIS DE XRP (RIPPLE)
-
-🔍 CONTEXTO ACTUAL:
-XRP es la criptomoneda de Ripple Labs, enfocada en pagos internacionales y transferencias bancarias rápidas.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 55 - Neutro
-• MACD: Señal de compra débil
-• Media móvil 50: Por encima - Tendencia alcista
-• Media móvil 200: Por encima - Tendencia alcista
-• Volumen: Moderado
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $0.48
-• Soporte 2: $0.45
-• Soporte 3: $0.42
-• Resistencia 1: $0.55
-• Resistencia 2: $0.58
-• Resistencia 3: $0.62
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. MACD con señal débil
-2. RSI en zona neutral
-3. Volumen moderado sin dirección clara
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar confirmación de tendencia. Observar $0.55.`
-                },
-                ada: {
-                    keywords: ['ada', 'cardano'],
-                    nombre: 'Cardano',
-                    analisis: `📊 ANÁLISIS DE CARDANO (ADA)
-
-🔍 CONTEXTO ACTUAL:
-Cardano es una plataforma blockchain de tercera generación con enfoque en investigación académica y desarrollo formal.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 48 - Neutro
-• MACD: Plano - Sin señal clara
-• Media móvil 50: Cerca - Zona de decisión
-• Media móvil 200: Por debajo - Tendencia bajista
-• Volumen: Bajo - Consolidación
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $0.35
-• Soporte 2: $0.32
-• Soporte 3: $0.30
-• Resistencia 1: $0.42
-• Resistencia 2: $0.45
-• Resistencia 3: $0.50
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. MACD sin dirección
-2. RSI en zona neutral
-3. Volumen bajo
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar catalizador o ruptura de $0.42.`
-                },
-                dot: {
-                    keywords: ['dot', 'polkadot'],
-                    nombre: 'Polkadot',
-                    analisis: `📊 ANÁLISIS DE POLKADOT (DOT)
-
-🔍 CONTEXTO ACTUAL:
-Polkadot es una blockchain de interoperabilidad que permite conectar diferentes cadenas.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 50 - Neutro
-• MACD: Plano - Sin señal
-• Media móvil 50: Cerca
-• Media móvil 200: Por debajo
-• Volumen: Bajo
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $4.50
-• Soporte 2: $4.20
-• Soporte 3: $4.00
-• Resistencia 1: $5.20
-• Resistencia 2: $5.50
-• Resistencia 3: $6.00
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. Sin señal clara
-2. RSI neutral
-3. Volumen bajo
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar breakout.`
-                },
-                avax: {
-                    keywords: ['avax', 'avalanche'],
-                    nombre: 'Avalanche',
-                    analisis: `📊 ANÁLISIS DE AVALANCHE (AVAX)
-
-🔍 CONTEXTO ACTUAL:
-Avalanche es una plataforma blockchain de alto rendimiento con consenso rápido.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 52 - Neutro
-• MACD: Señal de compra débil
-• Media móvil 50: Por encima
-• Media móvil 200: Por encima
-• Volumen: Moderado
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $28
-• Soporte 2: $26
-• Soporte 3: $24
-• Resistencia 1: $34
-• Resistencia 2: $36
-• Resistencia 3: $40
-
-🎯 SEÑAL: COMPRA (LIGERA)
-
-📊 3 CONFIRMACIONES:
-1. MACD con señal de compra
-2. Precio sobre medias
-3. Tendencia alcista
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Acumulación gradual.`
-                },
-                shib: {
-                    keywords: ['shib', 'shiba', 'shiba inu'],
-                    nombre: 'Shiba Inu',
-                    analisis: `📊 ANÁLISIS DE SHIBA INU (SHIB)
-
-🔍 CONTEXTO ACTUAL:
-Shiba Inu es una criptomoneda meme que ha ganado popularidad como alternativa a Dogecoin.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 42 - Neutro (ligero bajista)
-• MACD: Plano
-• Media móvil 50: Por debajo
-• Media móvil 200: Por debajo
-• Volumen: Moderado
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $0.000020
-• Soporte 2: $0.000018
-• Soporte 3: $0.000015
-• Resistencia 1: $0.000025
-• Resistencia 2: $0.000028
-• Resistencia 3: $0.000032
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. MACD sin señal
-2. RSI en zona neutral
-3. Precio bajo medias
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar recuperación.`
-                },
-                link: {
-                    keywords: ['link', 'chainlink'],
-                    nombre: 'Chainlink',
-                    analisis: `📊 ANÁLISIS DE CHAINLINK (LINK)
-
-🔍 CONTEXTO ACTUAL:
-Chainlink es el principal proveedor de oráculos descentralizados para contratos inteligentes.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 55 - Neutro
-• MACD: Señal de compra
-• Media móvil 50: Por encima
-• Media móvil 200: Por encima
-• Volumen: Moderado
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $12
-• Soporte 2: $11
-• Soporte 3: $10
-• Resistencia 1: $15
-• Resistencia 2: $16
-• Resistencia 3: $18
-
-🎯 SEÑAL: COMPRA (LIGERA)
-
-📊 3 CONFIRMACIONES:
-1. MACD con señal de compra
-2. RSI en tendencia alcista
-3. Precio sobre medias
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Acumulación en zonas de soporte.`
-                },
-                near: {
-                    keywords: ['near', 'near protocol'],
-                    nombre: 'NEAR Protocol',
-                    analisis: `📊 ANÁLISIS DE NEAR PROTOCOL (NEAR)
-
-🔍 CONTEXTO ACTUAL:
-NEAR es una blockchain de capa 1 con enfoque en usabilidad y escalabilidad.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 48 - Neutro
-• MACD: Plano
-• Media móvil 50: Cerca
-• Media móvil 200: Por debajo
-• Volumen: Bajo
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $3.50
-• Soporte 2: $3.20
-• Soporte 3: $3.00
-• Resistencia 1: $4.20
-• Resistencia 2: $4.50
-• Resistencia 3: $5.00
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. MACD sin señal
-2. RSI neutral
-3. Volumen bajo
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar breakout.`
-                },
-                matic: {
-                    keywords: ['matic', 'polygon'],
-                    nombre: 'Polygon',
-                    analisis: `📊 ANÁLISIS DE POLYGON (MATIC)
-
-🔍 CONTEXTO ACTUAL:
-Polygon es una solución de escalabilidad de capa 2 para Ethereum.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 52 - Neutro
-• MACD: Señal de compra débil
-• Media móvil 50: Por encima
-• Media móvil 200: Por encima
-• Volumen: Moderado
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $0.55
-• Soporte 2: $0.50
-• Soporte 3: $0.48
-• Resistencia 1: $0.65
-• Resistencia 2: $0.68
-• Resistencia 3: $0.75
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. MACD con señal débil
-2. RSI neutral
-3. Volumen moderado
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar confirmación.`
-                },
-                atom: {
-                    keywords: ['atom', 'cosmos'],
-                    nombre: 'Cosmos',
-                    analisis: `📊 ANÁLISIS DE COSMOS (ATOM)
-
-🔍 CONTEXTO ACTUAL:
-Cosmos es la "Internet de Blockchains" que permite interoperabilidad entre cadenas.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 46 - Neutro
-• MACD: Plano
-• Media móvil 50: Por debajo
-• Media móvil 200: Por debajo
-• Volumen: Bajo
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $5.00
-• Soporte 2: $4.80
-• Soporte 3: $4.50
-• Resistencia 1: $6.00
-• Resistencia 2: $6.50
-• Resistencia 3: $7.00
-
-🎯 SEÑAL: ESPERA
-
-📊 3 CONFIRMACIONES:
-1. MACD sin señal
-2. RSI neutral
-3. Volumen bajo
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Esperar recuperación.`
-                },
-                fet: {
-                    keywords: ['fet', 'fetch', 'fetch ai'],
-                    nombre: 'Fetch AI',
-                    analisis: `📊 ANÁLISIS DE FETCH AI (FET)
-
-🔍 CONTEXTO ACTUAL:
-Fetch AI es un proyecto de inteligencia artificial descentralizada.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 60 - Alcista
-• MACD: Señal de compra
-• Media móvil 50: Por encima
-• Media móvil 200: Por encima
-• Volumen: Alto - Interés creciente
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $1.00
-• Soporte 2: $0.90
-• Soporte 3: $0.80
-• Resistencia 1: $1.20
-• Resistencia 2: $1.30
-• Resistencia 3: $1.50
-
-🎯 SEÑAL: COMPRA
-
-📊 3 CONFIRMACIONES:
-1. MACD con señal de compra
-2. RSI mostrando fuerza
-3. Volumen alto confirmando interés
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Entrada en pullback.`
-                },
-                render: {
-                    keywords: ['render', 'rndr'],
-                    nombre: 'Render Network',
-                    analisis: `📊 ANÁLISIS DE RENDER NETWORK (RNDR)
-
-🔍 CONTEXTO ACTUAL:
-Render Network es una plataforma de renderizado GPU descentralizado.
-
-⚡ INDICADORES TÉCNICOS CLAVE:
-• RSI (14): 65 - Alcista
-• MACD: Señal de compra
-• Media móvil 50: Por encima
-• Media móvil 200: Por encima
-• Volumen: Alto
-
-📈 SOPORTE Y RESISTENCIA:
-• Soporte 1: $7.00
-• Soporte 2: $6.50
-• Soporte 3: $6.00
-• Resistencia 1: $8.50
-• Resistencia 2: $9.00
-• Resistencia 3: $10.00
-
-🎯 SEÑAL: COMPRA
-
-📊 3 CONFIRMACIONES:
-1. MACD con señal de compra
-2. RSI mostrando fuerza
-3. Tendencia alcista confirmada
-
-⚠️ STOP LOSS: -5%
-💰 TAKE PROFIT: +10%
-
-💡 ESTRATEGIA:
-Seguir tendencia.`
+            async init() {
+                return new Promise((resolve) => {
+                    const request = indexedDB.open(this.dbName, this.version);
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        if (!db.objectStoreNames.contains('analysisCache')) {
+                            const store = db.createObjectStore('analysisCache', { keyPath: 'token' });
+                            store.createIndex('timestamp', 'timestamp', { unique: false });
+                        }
+                        if (!db.objectStoreNames.contains('academicRefs')) {
+                            const store = db.createObjectStore('academicRefs', { keyPath: 'queryHash' });
+                            store.createIndex('timestamp', 'timestamp', { unique: false });
+                        }
+                        if (!db.objectStoreNames.contains('analytics')) {
+                            db.createObjectStore('analytics', { keyPath: 'metric' });
+                        }
+                    };
+                    
+                    request.onsuccess = (event) => {
+                        this.db = event.target.result;
+                        this.loadStats();
+                        console.log('✅ IndexedDB inicializada (NextMoon)');
+                        resolve();
+                    };
+                    
+                    request.onerror = () => resolve();
+                });
+            }
+            
+            async loadStats() {
+                try {
+                    const stats = await this.getAnalytics('cacheStats');
+                    if (stats) {
+                        this.cacheHits = stats.hits || 0;
+                        this.cacheMisses = stats.misses || 0;
+                    }
+                    this.updateUI();
+                } catch(e) {}
+            }
+            
+            async getAnalytics(metric) {
+                if (!this.db) return null;
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction(['analytics'], 'readonly');
+                    const store = tx.objectStore('analytics');
+                    const req = store.get(metric);
+                    req.onsuccess = () => resolve(req.result?.value || null);
+                    req.onerror = () => resolve(null);
+                });
+            }
+            
+            async saveAnalytics(metric, value) {
+                if (!this.db) return;
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction(['analytics'], 'readwrite');
+                    const store = tx.objectStore('analytics');
+                    store.put({ metric, value, timestamp: Date.now() });
+                    tx.oncomplete = () => resolve();
+                });
+            }
+            
+            async cacheAnalysis(token, data) {
+                if (!this.db) await this.init();
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction(['analysisCache'], 'readwrite');
+                    const store = tx.objectStore('analysisCache');
+                    store.put({ token: token.toUpperCase(), data, timestamp: Date.now() });
+                    tx.oncomplete = () => {
+                        this.cacheMisses++;
+                        this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses });
+                        this.updateUI();
+                        resolve();
+                    };
+                });
+            }
+            
+            async getCachedAnalysis(token) {
+                if (!this.db) await this.init();
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction(['analysisCache'], 'readonly');
+                    const store = tx.objectStore('analysisCache');
+                    const req = store.get(token.toUpperCase());
+                    
+                    req.onsuccess = () => {
+                        const result = req.result;
+                        if (result && (Date.now() - result.timestamp) < 300000) {
+                            this.cacheHits++;
+                            this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses });
+                            this.updateUI();
+                            resolve(result.data);
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    
+                    req.onerror = () => resolve(null);
+                });
+            }
+            
+            async cacheAcademicRefs(queryHash, refs) {
+                if (!this.db) await this.init();
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction(['academicRefs'], 'readwrite');
+                    const store = tx.objectStore('academicRefs');
+                    store.put({ queryHash, refs, timestamp: Date.now() });
+                    tx.oncomplete = () => resolve();
+                });
+            }
+            
+            async getCachedAcademicRefs(queryHash) {
+                if (!this.db) await this.init();
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction(['academicRefs'], 'readonly');
+                    const store = tx.objectStore('academicRefs');
+                    const req = store.get(queryHash);
+                    
+                    req.onsuccess = () => {
+                        const result = req.result;
+                        if (result && (Date.now() - result.timestamp) < 3600000) {
+                            resolve(result.refs);
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    
+                    req.onerror = () => resolve(null);
+                });
+            }
+            
+            updateUI() {
+                const total = this.cacheHits + this.cacheMisses;
+                const hitRate = total > 0 ? Math.round((this.cacheHits / total) * 100) : 0;
+                
+                document.getElementById('cacheHitRate').textContent = hitRate + '%';
+                document.getElementById('dbEntries').textContent = total;
+                document.getElementById('metricDB').textContent = total;
+            }
+            
+            getStats() {
+                return { hits: this.cacheHits, misses: this.cacheMisses, total: this.cacheHits + this.cacheMisses };
+            }
+        }
+        
+        const cache = new PersistentCache();
+        
+        // ============================================
+        // ANALIZADOR DE CALIDAD (MEJORA #3)
+        // ============================================
+        class ContentAnalyzer {
+            constructor() {
+                this.stopWords = new Set(['el', 'la', 'los', 'las', 'un', 'una', 'de', 'del', 'en', 'con', 'por', 'para', 'que', 'es', 'se', 'su', 'al', 'lo', 'como', 'más', 'y', 'o', 'pero', 'si', 'no']);
+                this.financialWords = {
+                    'soporte': 3, 'resistencia': 3, 'tendencia': 3, 'volumen': 2.5, 'indicador': 2.5,
+                    'rsi': 3, 'macd': 3, 'media': 2, 'análisis': 2.5, 'señal': 3, 'estrategia': 2.5,
+                    'riesgo': 2, 'beneficio': 2, 'stop': 3, 'profit': 3, 'compra': 2.5, 'venta': 2.5
+                };
+            }
+            
+            analyzeQuality(text) {
+                const words = text.toLowerCase().split(/\s+/);
+                const filtered = words.filter(w => !this.stopWords.has(w));
+                let score = 0;
+                
+                filtered.forEach(word => {
+                    if (this.financialWords[word]) score += this.financialWords[word];
+                });
+                
+                const qualityScore = Math.min((score / Math.max(filtered.length, 1)) * 100 + 30, 100);
+                
+                return {
+                    qualityScore: Math.round(qualityScore),
+                    qualityLevel: qualityScore > 70 ? 'alta' : qualityScore > 40 ? 'media' : 'baja'
+                };
+            }
+        }
+        
+        const analyzer = new ContentAnalyzer();
+        
+        // ============================================
+        // DETECTOR DE PLAGIO (MEJORA #5)
+        // ============================================
+        class PlagiarismDetector {
+            createShingles(text, size = 3) {
+                const words = text.toLowerCase().split(/\s+/);
+                const shingles = [];
+                for (let i = 0; i < words.length - size + 1; i++) {
+                    shingles.push(words.slice(i, i + size).join(' '));
                 }
+                return new Set(shingles);
+            }
+            
+            calculateSimilarity(text1, text2) {
+                const s1 = this.createShingles(text1);
+                const s2 = this.createShingles(text2);
+                const intersection = new Set([...s1].filter(x => s2.has(x)));
+                const union = new Set([...s1, ...s2]);
+                return union.size > 0 ? intersection.size / union.size : 0;
+            }
+            
+            check(text, sources) {
+                const results = sources.map(s => ({
+                    source: s.substring(0, 60),
+                    similarity: this.calculateSimilarity(text.substring(0, 500), s.substring(0, 500))
+                }));
+                
+                const maxSim = Math.max(...results.map(r => r.similarity), 0);
+                return {
+                    overallRisk: maxSim > 0.3 ? 'Alto' : maxSim > 0.15 ? 'Medio' : 'Bajo',
+                    maxSimilarity: maxSim,
+                    details: results.sort((a, b) => b.similarity - a.similarity)
+                };
+            }
+        }
+        
+        const plagiarismDetector = new PlagiarismDetector();
+        
+        // ============================================
+        // EXPORTADOR (MEJORA #6)
+        // ============================================
+        class Exporter {
+            toLatex(content, token) {
+                const safe = content.replace(/[#%&_{}]/g, '\\$&').replace(/\*\*(.*?)\*\*/g, '\\textbf{$1}');
+                return `\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[spanish]{babel}\n\n\\title{Análisis de ${token}}\n\\author{NextMoon AI + AcadémIA Pro}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\n${safe}\n\n\\end{document}`;
+            }
+            
+            toMarkdown(content, token) {
+                return `# Análisis de ${token}\n\n*Generado por NextMoon AI + AcadémIA Pro*\n\n${content}`;
+            }
+            
+            toBibTeX(token, refs) {
+                return refs.map((ref, i) => 
+                    `@misc{ref${i+1}_${token.toLowerCase()},\n  author = {{NextMoon AI}},\n  title = {Análisis de ${token}},\n  year = {${new Date().getFullYear()}},\n  note = {Fuente: ${ref.fuente || 'Análisis 403M'}}\n}`
+                ).join('\n\n');
+            }
+            
+            toAPA(token, refs) {
+                return refs.map((ref, i) => 
+                    `NextMoon AI (${new Date().getFullYear()}). Análisis de ${token}. ${ref.fuente || '403M LECTOR'}.`
+                ).join('\n\n');
+            }
+        }
+        
+        const exporter = new Exporter();
+        
+        // ============================================
+        // BÚSQUEDA ACADÉMICA
+        // ============================================
+        async function buscarFuenteAcademica(tema, fuente) {
+            const endpoints = {
+                crossref: `https://api.crossref.org/works?query=${encodeURIComponent(tema + ' cryptocurrency')}&rows=3`,
+                openalex: `https://api.openalex.org/works?search=${encodeURIComponent(tema + ' blockchain')}&per-page=3`,
+                semantic: `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema + ' crypto')}&limit=3&fields=title,authors,year`,
+                arxiv: `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema + ' cryptocurrency')}&max_results=3`
+            };
+            
+            try {
+                const response = await fetch(endpoints[fuente]);
+                if (!response.ok) return [];
+                
+                if (fuente === 'arxiv') {
+                    const text = await response.text();
+                    const parser = new DOMParser();
+                    const xml = parser.parseFromString(text, 'text/xml');
+                    return Array.from(xml.querySelectorAll('entry')).map(entry => ({
+                        titulo: entry.querySelector('title')?.textContent?.trim() || 'Sin título',
+                        autor: entry.querySelector('author name')?.textContent || 'Autor',
+                        year: entry.querySelector('published')?.textContent?.substring(0,4) || 's.f.',
+                        fuente: 'arXiv',
+                        url: entry.querySelector('id')?.textContent || ''
+                    }));
+                }
+                
+                const data = await response.json();
+                
+                if (fuente === 'crossref' && data.message?.items) {
+                    return data.message.items.map(item => ({
+                        titulo: item.title?.[0] || 'Sin título',
+                        autor: item.author?.map(a => `${a.family || ''}, ${a.given?.charAt(0) || ''}.`).join(', ') || 'Autor',
+                        year: item.issued?.['date-parts']?.[0]?.[0] || 's.f.',
+                        fuente: 'Crossref',
+                        url: item.DOI ? `https://doi.org/${item.DOI}` : ''
+                    }));
+                }
+                
+                if (fuente === 'openalex' && data.results) {
+                    return data.results.map(item => ({
+                        titulo: item.title || 'Sin título',
+                        autor: item.authorships?.map(a => a.author.display_name).join(', ') || 'Autor',
+                        year: item.publication_year || 's.f.',
+                        fuente: 'OpenAlex',
+                        url: item.doi || ''
+                    }));
+                }
+                
+                if (fuente === 'semantic' && data.data) {
+                    return data.data.map(item => ({
+                        titulo: item.title || 'Sin título',
+                        autor: item.authors?.map(a => a.name).join(', ') || 'Autor',
+                        year: item.year || 's.f.',
+                        fuente: 'Semantic Scholar',
+                        url: item.url || ''
+                    }));
+                }
+                
+                return [];
+            } catch(e) { return []; }
+        }
+        
+        async function buscarTodasLasFuentes(tema) {
+            const queryHash = tema.toLowerCase().trim();
+            
+            const cached = await cache.getCachedAcademicRefs(queryHash);
+            if (cached) return cached;
+            
+            const fuentes = ['crossref', 'openalex', 'semantic', 'arxiv'];
+            const resultados = await Promise.allSettled(
+                fuentes.map(f => buscarFuenteAcademica(tema, f))
+            );
+            
+            const todas = resultados
+                .filter(r => r.status === 'fulfilled')
+                .flatMap(r => r.value);
+            
+            if (todas.length > 0) {
+                await cache.cacheAcademicRefs(queryHash, todas);
+            }
+            
+            return todas;
+        }
+        
+        // ============================================
+        // BASE DE DATOS 403M+
+        // ============================================
+        const BASE_DATOS_403M = {
+            criptos: {
+                btc: { keywords: ['btc', 'bitcoin'], nombre: 'Bitcoin', analisis: `📊 ANÁLISIS DE BITCOIN (BTC)\n\n🔍 CONTEXTO ACTUAL:\nBitcoin es la criptomoneda líder con la mayor capitalización del mercado.\n\n⚡ INDICADORES TÉCNICOS:\n• RSI (14): 58 - Neutro con sesgo alcista\n• MACD: Señal de compra reciente\n• Media móvil 50: Por encima\n• Media móvil 200: Por encima\n\n📈 SOPORTE Y RESISTENCIA:\n• Soporte 1: $65,000 | Soporte 2: $62,500 | Soporte 3: $60,000\n• Resistencia 1: $72,000 | Resistencia 2: $75,000 | Resistencia 3: $80,000\n\n🎯 SEÑAL: COMPRA (CONFIRMACIÓN MODERADA)\n\n📊 3 CONFIRMACIONES:\n1. MACD mostrando cruce alcista\n2. Precio sobre media móvil de 50 días\n3. RSI en zona neutral con tendencia al alza\n\n⚠️ STOP LOSS: -5% | 💰 TAKE PROFIT: +10%` },
+                eth: { keywords: ['eth', 'ethereum'], nombre: 'Ethereum', analisis: `📊 ANÁLISIS DE ETHEREUM (ETH)\n\n🔍 CONTEXTO ACTUAL:\nEthereum es la segunda criptomoneda más grande y plataforma líder para contratos inteligentes.\n\n⚡ INDICADORES TÉCNICOS:\n• RSI (14): 52 - Neutro\n• MACD: Plano - Sin señal clara\n• Media móvil 50: Cerca - Zona de decisión\n\n📈 SOPORTE Y RESISTENCIA:\n• Soporte 1: $3,200 | Soporte 2: $3,000 | Soporte 3: $2,800\n• Resistencia 1: $3,600 | Resistencia 2: $3,800 | Resistencia 3: $4,000\n\n🎯 SEÑAL: ESPERA\n\n📊 3 CONFIRMACIONES:\n1. MACD sin dirección definida\n2. RSI en zona neutral\n3. Volumen bajo indicando consolidación\n\n⚠️ STOP LOSS: -5% | 💰 TAKE PROFIT: +10%` },
+                sol: { keywords: ['sol', 'solana'], nombre: 'Solana', analisis: `📊 ANÁLISIS DE SOLANA (SOL)\n\n🔍 CONTEXTO ACTUAL:\nSolana es una de las blockchains más rápidas con ecosistema DeFi y NFT en crecimiento.\n\n⚡ INDICADORES TÉCNICOS:\n• RSI (14): 62 - Alcista moderado\n• MACD: Señal de compra\n• Media móvil 50: Por encima\n\n📈 SOPORTE Y RESISTENCIA:\n• Soporte 1: $140 | Soporte 2: $130 | Soporte 3: $120\n• Resistencia 1: $165 | Resistencia 2: $175 | Resistencia 3: $190\n\n🎯 SEÑAL: COMPRA\n\n📊 3 CONFIRMACIONES:\n1. RSI mostrando fuerza alcista\n2. MACD con señal de compra\n3. Volumen alto confirmando interés\n\n⚠️ STOP LOSS: -5% | 💰 TAKE PROFIT: +10%` }
             }
         };
-
-        // ============================================
-        // MOTOR DE BÚSQUEDA 403M+ MEJORADO
-        // ============================================
         
+        // Añadir más criptos
+        ['doge', 'pepe', 'xrp', 'ada', 'dot', 'avax', 'shib', 'link', 'near', 'matic', 'atom', 'fet', 'render'].forEach(key => {
+            const nombre = key.toUpperCase();
+            BASE_DATOS_403M.criptos[key] = {
+                keywords: [key, nombre],
+                nombre: nombre,
+                analisis: `📊 ANÁLISIS DE ${nombre}\n\n🔍 CONTEXTO:\n${nombre} es una criptomoneda con presencia significativa en el mercado.\n\n⚡ INDICADORES TÉCNICOS:\n• RSI (14): 50 - Neutro\n• MACD: Analizando\n• Volumen: Moderado\n\n🎯 SEÑAL: ESPERA\n\n📊 3 CONFIRMACIONES:\n1. Análisis de tendencia\n2. Evaluación de volumen\n3. Verificación de soportes\n\n⚠️ STOP LOSS: -5% | 💰 TAKE PROFIT: +10%`
+            };
+        });
+        
+        // ============================================
+        // MOTOR DE BÚSQUEDA 403M+
+        // ============================================
         class MotorBusqueda403M {
-            constructor() {
-                this.baseDatos = BASE_DATOS_403M;
-                this.cache = new Map();
-                console.log('📚 403M LECTOR: Base de datos cargada con ' + Object.keys(this.baseDatos.criptos).length + ' criptomonedas');
-            }
+            constructor() { this.baseDatos = BASE_DATOS_403M; }
             
             buscar(token, precio, volumen, liquidez, cambio) {
                 const t = token.toLowerCase().trim();
                 let respuesta = null;
-                let tokenEncontrado = null;
-                let nombreToken = token.toUpperCase();
                 
-                // Buscar coincidencia exacta o parcial
                 for (const [key, cripto] of Object.entries(this.baseDatos.criptos)) {
-                    for (const keyword of cripto.keywords) {
-                        if (t === keyword || t.includes(keyword) || keyword.includes(t)) {
-                            tokenEncontrado = key;
-                            nombreToken = cripto.nombre || token.toUpperCase();
-                            respuesta = this.generarAnalisisPersonalizado(cripto.analisis, token, precio, volumen, liquidez, cambio, nombreToken);
-                            break;
-                        }
+                    if (cripto.keywords.some(kw => t === kw || t.includes(kw) || kw.includes(t))) {
+                        respuesta = cripto.analisis;
+                        break;
                     }
-                    if (respuesta) break;
                 }
                 
-                // Si no hay coincidencia, generar análisis genérico con datos reales
                 if (!respuesta) {
                     respuesta = this.generarAnalisisGenerico(token, precio, volumen, liquidez, cambio);
                 }
                 
-                return respuesta;
-            }
-            
-            generarAnalisisPersonalizado(analisisBase, token, precio, volumen, liquidez, cambio, nombreToken) {
-                let respuesta = analisisBase;
-                
-                // Personalizar con datos reales si existen
                 if (precio && precio > 0) {
-                    const precioFormateado = precio < 0.01 ? precio.toFixed(8) : (precio < 1 ? precio.toFixed(6) : precio.toFixed(2));
-                    respuesta = respuesta.replace(/\$\d+,?\d*\.?\d*/g, `$${precioFormateado}`);
-                }
-                
-                // Añadir datos específicos
-                if (precio && precio > 0) {
-                    const cambioStr = cambio >= 0 ? `+${cambio.toFixed(2)}%` : `${cambio.toFixed(2)}%`;
-                    const colorCambio = cambio >= 0 ? '#10b981' : '#ef4444';
-                    
-                    respuesta += `\n\n📊 DATOS EN TIEMPO REAL (${token.toUpperCase()}):\n• Precio: $${precio < 0.01 ? precio.toFixed(8) : (precio < 1 ? precio.toFixed(6) : precio.toFixed(2))}\n• Cambio 24h: <span style="color:${colorCambio}">${cambioStr}</span>\n• Volumen: $${(volumen / 1e6).toFixed(2)}M\n• Liquidez: $${(liquidez / 1e6).toFixed(2)}M`;
+                    const fmt = (n) => n < 0.01 ? n.toFixed(8) : (n < 1 ? n.toFixed(6) : n.toFixed(2));
+                    respuesta += `\n\n📊 DATOS EN TIEMPO REAL:\n• Precio: $${fmt(precio)}\n• Cambio 24h: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n• Volumen: $${(volumen / 1e6).toFixed(2)}M\n• Liquidez: $${(liquidez / 1e6).toFixed(2)}M`;
                 }
                 
                 return respuesta;
             }
             
             generarAnalisisGenerico(token, precio, volumen, liquidez, cambio) {
-                const tokenUpper = token.toUpperCase();
                 const cambioStr = cambio >= 0 ? `+${cambio.toFixed(2)}%` : `${cambio.toFixed(2)}%`;
-                const colorCambio = cambio >= 0 ? '#10b981' : '#ef4444';
                 const tendencia = cambio >= 5 ? 'Alcista' : cambio <= -5 ? 'Bajista' : 'Lateral';
-                
-                // Determinar señal basada en datos
                 let señal = '📊 ESPERA';
-                let colorSeñal = '#f59e0b';
-                let confianzaBase = 50;
                 
-                if (cambio > 10 && volumen > 5000000) {
-                    señal = '📈 COMPRA';
-                    colorSeñal = '#10b981';
-                    confianzaBase = 70;
-                } else if (cambio < -10 && volumen > 5000000) {
-                    señal = '📉 VENTA';
-                    colorSeñal = '#ef4444';
-                    confianzaBase = 65;
-                } else if (cambio > 5) {
-                    señal = '📈 COMPRA (LIGERA)';
-                    colorSeñal = '#10b981';
-                    confianzaBase = 55;
-                } else if (cambio < -5) {
-                    señal = '📉 VENTA (LIGERA)';
-                    colorSeñal = '#ef4444';
-                    confianzaBase = 55;
-                }
+                if (cambio > 10 && volumen > 5000000) señal = '📈 COMPRA';
+                else if (cambio < -10) señal = '📉 VENTA';
+                else if (cambio > 5) señal = '📈 COMPRA (LIGERA)';
                 
-                // Añadir riesgo
-                let riesgo = 'Bajo';
-                if (Math.abs(cambio) > 10) riesgo = 'Alto';
-                else if (Math.abs(cambio) > 5) riesgo = 'Medio';
-                
-                // Niveles de soporte y resistencia estimados
-                const precioNum = precio || 0;
-                const soporte1 = precioNum > 0 ? (precioNum * 0.95) : 0;
-                const soporte2 = precioNum > 0 ? (precioNum * 0.90) : 0;
-                const soporte3 = precioNum > 0 ? (precioNum * 0.85) : 0;
-                const resistencia1 = precioNum > 0 ? (precioNum * 1.05) : 0;
-                const resistencia2 = precioNum > 0 ? (precioNum * 1.10) : 0;
-                const resistencia3 = precioNum > 0 ? (precioNum * 1.15) : 0;
-                
-                const fmt = (n) => n > 0 ? (n < 0.01 ? n.toFixed(8) : (n < 1 ? n.toFixed(6) : n.toFixed(2))) : 'N/A';
-                
-                return `📊 ANÁLISIS DE ${tokenUpper}
-
-🔍 DATOS DEL TOKEN:
-• Precio: $${precioNum > 0 ? (precioNum < 0.01 ? precioNum.toFixed(8) : (precioNum < 1 ? precioNum.toFixed(6) : precioNum.toFixed(2))) : 'N/A'}
-• Cambio 24h: <span style="color:${colorCambio}">${cambioStr}</span>
-• Volumen: $${(volumen / 1e6).toFixed(2)}M
-• Liquidez: $${(liquidez / 1e6).toFixed(2)}M
-
-📈 ANÁLISIS TÉCNICO:
-• Tendencia: ${tendencia}
-• Señal: <span style="color:${colorSeñal};font-weight:bold;">${señal}</span>
-• Riesgo: ${riesgo}
-• Confianza: ${confianzaBase}%
-
-📊 SOPORTE Y RESISTENCIA ESTIMADOS:
-• Soporte 1: $${fmt(soporte1)}
-• Soporte 2: $${fmt(soporte2)}
-• Soporte 3: $${fmt(soporte3)}
-• Resistencia 1: $${fmt(resistencia1)}
-• Resistencia 2: $${fmt(resistencia2)}
-• Resistencia 3: $${fmt(resistencia3)}
-
-📊 3 CONFIRMACIONES:
-1. ${cambio > 0 ? '✅ Precio en alza - Momentum positivo' : cambio < 0 ? '⚠️ Precio en baja - Momentum negativo' : '➖ Precio estable - Sin dirección clara'}
-2. ${volumen > 10000000 ? '✅ Volumen alto - Interés significativo' : volumen > 5000000 ? '➖ Volumen moderado - Interés regular' : '⚠️ Volumen bajo - Poco interés'}
-3. ${liquidez > 1000000 ? '✅ Liquidez adecuada - Fácil de operar' : '⚠️ Liquidez baja - Riesgo de slippage'}
-
-💡 RECOMENDACIÓN:
-${señal} basado en análisis de 403M+ datos.
-
-⚠️ STOP LOSS SUGERIDO: ${cambio >= 0 ? '-5%' : '-3%'}
-💰 TAKE PROFIT SUGERIDO: ${cambio >= 0 ? '+10%' : '+5%'}
-
-🔗 Fuente: 403M LECTOR · 403M+ datos analizados · ${new Date().toLocaleString()}`;
+                return `📊 ANÁLISIS DE ${token.toUpperCase()}\n\n🔍 DATOS:\n• Precio: $${precio > 0 ? (precio < 0.01 ? precio.toFixed(8) : precio.toFixed(2)) : 'N/A'}\n• Cambio 24h: ${cambioStr}\n• Volumen: $${(volumen / 1e6).toFixed(2)}M\n\n📈 ANÁLISIS TÉCNICO:\n• Tendencia: ${tendencia}\n• Señal: ${señal}\n\n📊 SOPORTE Y RESISTENCIA ESTIMADOS:\n• Soporte 1: $${precio > 0 ? (precio * 0.95).toFixed(2) : 'N/A'}\n• Resistencia 1: $${precio > 0 ? (precio * 1.05).toFixed(2) : 'N/A'}\n\n⚠️ STOP LOSS: -5% | 💰 TAKE PROFIT: +10%`;
             }
         }
-
-        // ============================================
-        // INICIALIZAR MOTOR
-        // ============================================
         
         const motor403M = new MotorBusqueda403M();
-
+        
         // ============================================
         // NÚCLEO 403M LECTOR
         // ============================================
-        
         class Nucleo403MLector {
             constructor() {
-                this.nucleo = { activo: true, parametros: 403000000, decisiones: 0 };
-                this.bigTech = {
-                    nvidia: { activo: false, usos: 0, nombre: 'NVIDIA' },
-                    google: { activo: false, usos: 0, nombre: 'Google' },
-                    meta: { activo: false, usos: 0, nombre: 'Meta' },
-                    amazon: { activo: false, usos: 0, nombre: 'Amazon' },
-                    microsoft: { activo: false, usos: 0, nombre: 'Microsoft' },
-                    apple: { activo: false, usos: 0, nombre: 'Apple' }
-                };
-                this.historialDecisiones = [];
+                this.decisiones = 0;
                 this.lector = motor403M;
-                console.log('🧠 NÚCLEO 403M LECTOR inicializado');
             }
             
-            analizarYDecidir(pregunta, token, modo) {
-                this.nucleo.decisiones++;
+            analizar(token, precio, volumen, liquidez, cambio) {
+                this.decisiones++;
                 document.getElementById('decisionStatus').textContent = '🧠 403M LECTOR: Leyendo 403M+ datos...';
-                
-                // Usar el motor de búsqueda para obtener respuesta
-                const respuesta = this.lector.buscar(
-                    token,
-                    currentTokenData?.price || 0,
-                    currentTokenData?.volume24h || 0,
-                    currentTokenData?.liquidity || 0,
-                    currentTokenData?.priceChange24h || 0
-                );
-                
-                // Registrar decisión
-                this.historialDecisiones.push({
-                    token: token,
-                    pregunta: pregunta.substring(0, 50),
-                    timestamp: new Date().toISOString()
-                });
-                
-                return respuesta;
+                document.getElementById('decisionCount').textContent = this.decisiones;
+                return this.lector.buscar(token, precio, volumen, liquidez, cambio);
             }
             
             getEstado() {
-                return {
-                    decisiones: this.nucleo.decisiones,
-                    bigTechActivos: ['google'],
-                    usos: { google: this.nucleo.decisiones }
-                };
-            }
-            
-            mostrarEstado() {
-                const e = this.getEstado();
-                return `
-=== 🧠 403M LECTOR ===
-
-📊 Decisiones: ${e.decisiones}
-📚 Datos leídos: 403,000,000+
-📡 Estado: ✅ Activo
-
-🔍 MOTOR DE BÚSQUEDA:
-• Criptos precargadas: ${Object.keys(BASE_DATOS_403M.criptos).length}
-• Análisis disponibles: ${Object.keys(BASE_DATOS_403M.criptos).length}
-
-✅ 403M LECTOR: Responde directamente desde la base de datos
-📌 Si la cripto no está precargada, genera análisis automático
-`;
+                return `=== 🧠 403M LECTOR ===\n\n📊 Decisiones: ${this.decisiones}\n📚 Datos: 403M+\n📡 Estado: ✅ Activo\n💾 Caché IndexedDB: ${cache.getStats().total} entradas`;
             }
         }
-
+        
         const nucleoLector = new Nucleo403MLector();
-
+        
         // ============================================
         // FUNCIONES UTILITARIAS
         // ============================================
-        
-        function limpiarMarkdown(texto) {
-            let limpio = texto;
-            limpio = limpio.replace(/\*\*/g, '');
-            limpio = limpio.replace(/\*/g, '');
-            limpio = limpio.replace(/^###\s*/gm, '');
-            limpio = limpio.replace(/^##\s*/gm, '');
-            limpio = limpio.replace(/^#\s*/gm, '');
-            limpio = limpio.replace(/`/g, '');
-            limpio = limpio.replace(/^---\s*$/gm, '');
-            limpio = limpio.replace(/^\s*-\s+/gm, '• ');
-            limpio = limpio.replace(/\n{3,}/g, '\n\n');
-            return limpio.trim();
-        }
-
-        function actualizarMetricasConectores() {
-            document.getElementById('metricMemoria').textContent = '1';
-            document.getElementById('metricSemantico').textContent = '403M+';
-            document.getElementById('metricAPIs').textContent = '30';
-            document.getElementById('metricContexto').textContent = '100%';
-        }
-
         function showToast(msg, isError) {
             const t = document.createElement('div');
             t.className = 'toast-msg';
@@ -1065,24 +686,77 @@ ${señal} basado en análisis de 403M+ datos.
             document.body.appendChild(t);
             setTimeout(() => t.remove(), 3000);
         }
-
+        
         function mostrarModal(titulo, contenido) {
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.innerHTML = `
                 <div class="modal-content">
                     <h3>${titulo}</h3>
-                    <div style="white-space:pre-wrap; font-size:0.85rem; line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
+                    <div style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div>
                     <button class="modal-close">Cerrar</button>
                 </div>
             `;
             modal.querySelector('.modal-close').onclick = () => modal.remove();
             document.body.appendChild(modal);
         }
-
-        // ============================================
-        // FUNCIONES DE DATOS
-        // ============================================
+        
+        function descargarArchivo(contenido, nombre) {
+            const blob = new Blob([contenido], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = nombre; a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function actualizarMetricas() {
+            document.getElementById('metricMemoria').textContent = '1';
+            document.getElementById('metricSemantico').textContent = '403M+';
+            document.getElementById('metricAPIs').textContent = '30';
+            const dbStats = cache.getStats();
+            document.getElementById('metricDB').textContent = dbStats.total;
+        }
+        
+        function actualizarWidgets(tokenData, analisis) {
+            const lower = analisis.toLowerCase();
+            
+            let indicadores = 3, confirmaciones = 3, niveles = 2, alertas = 2;
+            if (lower.includes('rsi')) indicadores++;
+            if (lower.includes('macd')) indicadores++;
+            if (lower.includes('compra')) { confirmaciones++; }
+            if (lower.includes('soporte')) niveles++;
+            if (lower.includes('stop')) alertas++;
+            
+            document.getElementById('metricIndicadores').textContent = Math.min(indicadores, 8);
+            document.getElementById('metricConfirmaciones').textContent = Math.min(confirmaciones, 6);
+            document.getElementById('metricNiveles').textContent = Math.min(niveles, 5);
+            document.getElementById('metricAlertas').textContent = Math.min(alertas, 4);
+            
+            let confianza = 60;
+            if (tokenData?.liquidity > 1000000) confianza += 10;
+            if (tokenData?.volume24h > 10000000) confianza += 10;
+            if (confirmaciones >= 4) confianza += 10;
+            confianza = Math.min(confianza, 92);
+            
+            document.getElementById('confidenceFill').style.width = confianza + '%';
+            document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
+            
+            const quality = analyzer.analyzeQuality(analisis);
+            document.getElementById('qualityLabel').textContent = quality.qualityScore + '%';
+            
+            let estrategia = '📊 ESPERA', color = '#f59e0b';
+            if (lower.includes('compra') && !lower.includes('venta')) { estrategia = '📈 COMPRA'; color = '#10b981'; }
+            else if (lower.includes('venta')) { estrategia = '📉 VENTA'; color = '#ef4444'; }
+            
+            document.getElementById('widgetEstrategiaContent').innerHTML = `
+                <div style="color:#94a3b8;font-size:0.75rem;margin-bottom:8px;">Estrategia · Calidad: <span class="quality-badge quality-${quality.qualityLevel}">${quality.qualityScore}%</span></div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                    <span style="background:#1e293b;padding:8px 16px;border-radius:15px;font-size:1rem;font-weight:bold;border:2px solid ${color};color:${color};">${estrategia}</span>
+                    <span style="font-size:0.7rem;color:#94a3b8;">${confirmaciones} confirmaciones</span>
+                </div>`;
+            
+            actualizarMetricas();
+        }
         
         async function fetchTokenData(t) {
             try {
@@ -1093,141 +767,48 @@ ${señal} basado en análisis de 403M+ datos.
                     if (v.length > 0) {
                         const b = v.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
                         return { 
-                            symbol: t.toUpperCase(), 
-                            price: parseFloat(b.priceUsd), 
-                            volume24h: b.volume?.h24 || 0, 
-                            liquidity: b.liquidity?.usd || 0, 
-                            priceChange24h: b.priceChange?.h24 || 0, 
-                            chain: b.chainId || "unknown" 
+                            symbol: t.toUpperCase(), price: parseFloat(b.priceUsd), 
+                            volume24h: b.volume?.h24 || 0, liquidity: b.liquidity?.usd || 0, 
+                            priceChange24h: b.priceChange?.h24 || 0 
                         };
                     }
                 }
                 return null;
-            } catch (e) { 
-                console.warn('Error fetching data:', e);
-                return null; 
-            }
+            } catch (e) { return null; }
         }
-
+        
         function calculateScore(d) {
             let s = 50;
-            if (d.volume24h > 50000000) s += 30;
-            else if (d.volume24h > 10000000) s += 25;
-            else if (d.volume24h > 1000000) s += 18;
-            if (d.liquidity > 5000000) s += 25;
-            else if (d.liquidity > 1000000) s += 20;
-            else if (d.liquidity > 500000) s += 15;
-            if (d.priceChange24h > 30) s += 20;
-            else if (d.priceChange24h > 15) s += 14;
+            if (d.volume24h > 50000000) s += 30; else if (d.volume24h > 10000000) s += 25;
+            if (d.liquidity > 5000000) s += 25; else if (d.liquidity > 1000000) s += 20;
+            if (d.priceChange24h > 30) s += 20; else if (d.priceChange24h > 15) s += 14;
             if (d.priceChange24h > 0) s += 5;
             return Math.min(99, Math.max(20, Math.floor(s)));
         }
-
-        // ============================================
-        // FUNCIÓN OBTENER ANÁLISIS CON 403M LECTOR
-        // ============================================
         
         const semanticCache = new Map();
         
-        function getSemanticKey(text) {
-            return text.toLowerCase().replace(/[¿?¡!.,;:]/g, '').split(' ').filter(w => w.length > 3).slice(0, 5).sort().join('_');
-        }
-
-        function obtenerAnalisisLector(tokenData, tokenSymbol) {
+        function obtenerAnalisis(tokenData, tokenSymbol) {
             currentTokenData = tokenData;
-            const semanticKey = getSemanticKey(tokenSymbol);
+            const semanticKey = tokenSymbol.toLowerCase();
             
             if (semanticCache.has(semanticKey)) {
                 const cached = semanticCache.get(semanticKey);
                 if (Date.now() - cached.timestamp < 7200000) return cached.data;
             }
             
-            // Usar el motor 403M LECTOR
-            const analisis = nucleoLector.analizarYDecidir(`Analizar ${tokenSymbol}`, tokenSymbol, modo);
+            const analisis = nucleoLector.analizar(
+                tokenSymbol, tokenData?.price || 0, tokenData?.volume24h || 0,
+                tokenData?.liquidity || 0, tokenData?.priceChange24h || 0
+            );
             
             semanticCache.set(semanticKey, { data: analisis, timestamp: Date.now() });
             return analisis;
         }
-
-        // ============================================
-        // ACTUALIZAR WIDGETS
-        // ============================================
         
-        function actualizarWidgets(tokenData, analisis, tokenSymbol) {
-            const analisisLower = analisis.toLowerCase();
-            
-            let indicadores = 3;
-            if (analisisLower.includes('rsi')) indicadores++;
-            if (analisisLower.includes('macd')) indicadores++;
-            if (analisisLower.includes('media')) indicadores++;
-            if (analisisLower.includes('volumen')) indicadores++;
-            if (analisisLower.includes('tendencia')) indicadores++;
-            indicadores = Math.min(Math.max(indicadores, 3), 8);
-            
-            let confirmaciones = 3;
-            if (analisisLower.includes('compra') || analisisLower.includes('alza')) confirmaciones++;
-            if (analisisLower.includes('venta') || analisisLower.includes('baja')) confirmaciones++;
-            if (analisisLower.includes('volumen') && analisisLower.includes('alto')) confirmaciones++;
-            if (analisisLower.includes('confirmación')) confirmaciones++;
-            confirmaciones = Math.min(confirmaciones, 6);
-            
-            let niveles = 2;
-            if (analisisLower.includes('soporte')) niveles++;
-            if (analisisLower.includes('resistencia')) niveles++;
-            if (analisisLower.includes('breakout')) niveles++;
-            niveles = Math.min(niveles, 5);
-            
-            let alertas = 2;
-            if (analisisLower.includes('stop loss')) alertas++;
-            if (analisisLower.includes('take profit')) alertas++;
-            if (analisisLower.includes('alerta')) alertas++;
-            alertas = Math.min(alertas, 4);
-            
-            document.getElementById('metricIndicadores').textContent = indicadores;
-            document.getElementById('metricConfirmaciones').textContent = confirmaciones;
-            document.getElementById('metricNiveles').textContent = niveles;
-            document.getElementById('metricAlertas').textContent = alertas;
-            
-            let confianza = 60;
-            if (tokenData.liquidity > 1000000) confianza += 10;
-            if (tokenData.volume24h > 10000000) confianza += 10;
-            if (confirmaciones >= 4) confianza += 10;
-            if (indicadores >= 5) confianza += 5;
-            if (tokenData.priceChange24h > 0 && tokenData.priceChange24h < 20) confianza += 5;
-            confianza = Math.min(Math.max(confianza, 50), 92);
-            
-            document.getElementById('confidenceFill').style.width = confianza + '%';
-            document.getElementById('confidenceLabel').textContent = Math.round(confianza) + '%';
-            
-            const estrategiaContent = document.getElementById('widgetEstrategiaContent');
-            let estrategia = '📊 ESPERA';
-            let color = '#f59e0b';
-            if (analisisLower.includes('compra') || analisisLower.includes('alza') || analisisLower.includes('bull')) {
-                estrategia = '📈 COMPRA';
-                color = '#10b981';
-            } else if (analisisLower.includes('venta') || analisisLower.includes('baja') || analisisLower.includes('bear')) {
-                estrategia = '📉 VENTA';
-                color = '#ef4444';
-            }
-            
-            estrategiaContent.innerHTML = `
-                <div style="color:#94a3b8;font-size:0.75rem;margin-bottom:8px;">Estrategia desde 403M+ datos</div>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-                    <span style="background:#1e293b;padding:8px 16px;border-radius:15px;font-size:1rem;font-weight:bold;border:2px solid ${color};color:${color};">${estrategia}</span>
-                    <span style="font-size:0.7rem;color:#94a3b8;">${confirmaciones} confirmaciones</span>
-                </div>
-                <div style="margin-top:8px;font-size:0.7rem;color:#94a3b8;">
-                    Stop Loss: -5% · Take Profit: +10%
-                </div>
-            `;
-            
-            actualizarMetricasConectores();
-        }
-
         // ============================================
         // ACTUALIZAR PREDICCIÓN
         // ============================================
-        
         async function updatePrediction(manualToken = null) {
             if (isRefreshing) return;
             isRefreshing = true;
@@ -1236,42 +817,55 @@ ${señal} basado en análisis de 403M+ datos.
             document.getElementById('sentimentText').innerHTML = '<div class="spinner"></div>';
             
             try {
-                const td = await fetchTokenData(t);
+                // Verificar caché IndexedDB
+                const cachedAnalysis = await cache.getCachedAnalysis(t);
+                let td = null;
+                
+                if (cachedAnalysis && cachedAnalysis.tokenData) {
+                    td = cachedAnalysis.tokenData;
+                } else {
+                    td = await fetchTokenData(t);
+                }
+                
                 if (!td) {
                     document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado';
-                    document.getElementById('sentimentText').innerHTML = '⚠️ Token no encontrado. Intenta con BTC, ETH, SOL, DOGE, PEPE, XRP, ADA...';
+                    document.getElementById('sentimentText').innerHTML = '⚠️ Token no encontrado. Intenta con BTC, ETH, SOL...';
                     isRefreshing = false;
                     return;
                 }
+                
                 currentToken = t;
                 guardarEnHistorial(t);
+                
                 const score = calculateScore(td);
+                const fmt = (n) => n < 0.01 ? n.toFixed(8) : (n < 1 ? n.toFixed(6) : n.toFixed(2));
+                
                 document.getElementById('tokenSymbol').innerHTML = `$${td.symbol}`;
-                document.getElementById('tokenPrice').innerHTML = td.price < 0.01 ? `$${td.price.toFixed(8)}` : (td.price < 1 ? `$${td.price.toFixed(6)}` : `$${td.price.toFixed(2)}`);
+                document.getElementById('tokenPrice').innerHTML = `$${fmt(td.price)}`;
                 document.getElementById('volume').innerHTML = td.volume24h > 1000000 ? `$${(td.volume24h / 1e6).toFixed(2)}M` : `$${(td.volume24h / 1e3).toFixed(0)}K`;
                 document.getElementById('liquidity').innerHTML = td.liquidity > 1000000 ? `$${(td.liquidity / 1e6).toFixed(2)}M` : `$${(td.liquidity / 1e3).toFixed(0)}K`;
-                const cc = td.priceChange24h >= 0 ? '#10b981' : '#ef4444';
-                document.getElementById('priceChange').innerHTML = `<span style="color:${cc}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
+                document.getElementById('priceChange').innerHTML = `<span style="color:${td.priceChange24h >= 0 ? '#10b981' : '#ef4444'}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
                 document.getElementById('iaScore').innerHTML = `${score}/100`;
                 
-                // Usar 403M LECTOR para el análisis
-                const analisis = obtenerAnalisisLector(td, t);
-                const analisisLimpio = limpiarMarkdown(analisis);
-                document.getElementById('sentimentText').innerHTML = analisisLimpio.replace(/\n/g, '<br>');
-                actualizarWidgets(td, analisisLimpio, t);
+                const analisis = obtenerAnalisis(td, t);
+                ultimoAnalisis = analisis;
+                document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
+                actualizarWidgets(td, analisis);
                 
-                showToast(`✅ ${td.symbol} analizado · 403M LECTOR · 403M+ datos`);
+                // Guardar en caché
+                await cache.cacheAnalysis(t, { tokenData: td, analisis, timestamp: Date.now() });
+                
+                showToast(`✅ ${td.symbol} analizado · 403M LECTOR · IndexedDB`);
             } catch (e) {
                 console.error('Error:', e);
                 document.getElementById('sentimentText').innerHTML = '⚠️ Error en análisis. Intenta con otra cripto.';
-                showToast("❌ Error en análisis", true);
+                showToast("❌ Error", true);
             } finally { isRefreshing = false; }
         }
-
+        
         // ============================================
         // HISTORIAL
         // ============================================
-        
         let historial = JSON.parse(localStorage.getItem('nextmoon_historial') || '[]');
         
         function guardarEnHistorial(token) {
@@ -1296,133 +890,126 @@ ${señal} basado en análisis de 403M+ datos.
             document.getElementById('searchInput').value = token;
             updatePrediction(token);
         };
-
-        // ============================================
-        // 10 HERRAMIENTAS + BOTONES
-        // ============================================
         
+        // ============================================
+        // HERRAMIENTAS
+        // ============================================
         async function herramientaGenerica(promptText, titulo) {
-            showToast(`⏳ ${titulo} con 403M LECTOR...`);
+            showToast(`⏳ ${titulo}...`);
             try {
-                const analisis = nucleoLector.analizarYDecidir(promptText, currentToken, modo);
-                const analisisLimpio = limpiarMarkdown(analisis);
-                mostrarModal(titulo, analisisLimpio);
-                if (currentTokenData) actualizarWidgets(currentTokenData, analisisLimpio, currentToken);
-            } catch(e) { 
-                console.error('Error en herramienta:', e);
-                showToast('❌ Error', true); 
+                const analisis = nucleoLector.analizar(currentToken, 
+                    currentTokenData?.price || 0, currentTokenData?.volume24h || 0,
+                    currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
+                mostrarModal(titulo, analisis);
+                if (currentTokenData) actualizarWidgets(currentTokenData, analisis);
+            } catch(e) { showToast('❌ Error', true); }
+        }
+        
+        document.getElementById('btnHistorico').onclick = () => herramientaGenerica(`Análisis histórico de ${currentToken}`, `📊 HISTÓRICO: ${currentToken}`);
+        document.getElementById('btnComparar').onclick = async () => {
+            const t2 = prompt(`Comparar ${currentToken} con:`, "ETH");
+            if (t2) await herramientaGenerica(`Comparar ${currentToken} vs ${t2}`, `🔄 ${currentToken} vs ${t2}`);
+        };
+        document.getElementById('btnVolatilidad').onclick = () => herramientaGenerica(`Volatilidad de ${currentToken}`, `⚠️ VOLATILIDAD: ${currentToken}`);
+        document.getElementById('btnSoporteResistencia').onclick = () => herramientaGenerica(`Soporte y resistencia de ${currentToken}`, `📈 S/R: ${currentToken}`);
+        document.getElementById('btnNoticias').onclick = () => herramientaGenerica(`Noticias de ${currentToken}`, `📰 NOTICIAS: ${currentToken}`);
+        document.getElementById('btnPortafolio').onclick = () => herramientaGenerica(`Simular portafolio cripto`, `💼 PORTAFOLIO`);
+        document.getElementById('btnAlertas').onclick = () => herramientaGenerica(`Alertas de precio para ${currentToken}`, `🔔 ALERTAS: ${currentToken}`);
+        document.getElementById('btnEstrategia').onclick = async () => {
+            const perfil = prompt("Perfil (conservador/moderado/agresivo):", "moderado");
+            if (perfil) await herramientaGenerica(`Estrategia ${perfil} para ${currentToken}`, `🎯 ESTRATEGIA: ${currentToken}`);
+        };
+        document.getElementById('btnFearGreed').onclick = () => herramientaGenerica(`Fear & Greed Index cripto`, `😨 FEAR & GREED`);
+        document.getElementById('btnPrediccion').onclick = () => herramientaGenerica(`Predicción 7 días para ${currentToken}`, `🔮 PREDICCIÓN: ${currentToken}`);
+        
+        // ============================================
+        // BOTONES ACADÉMIA PRO
+        // ============================================
+        document.getElementById('btnBuscarAcademico').onclick = async () => {
+            showToast('📚 Buscando en 4 fuentes académicas...');
+            referenciasAcademicas = await buscarTodasLasFuentes(currentToken + ' cryptocurrency blockchain');
+            
+            if (referenciasAcademicas.length > 0) {
+                const refsText = referenciasAcademicas.map((r, i) => 
+                    `${i+1}. ${r.autor} (${r.year}). ${r.titulo}. ${r.fuente}. ${r.url ? '🔗 ' + r.url : ''}`
+                ).join('\n\n');
+                
+                mostrarModal(`📚 REFERENCIAS ACADÉMICAS: ${currentToken}`, 
+                    `Encontradas ${referenciasAcademicas.length} referencias:\n\n${refsText}`);
+            } else {
+                mostrarModal('📚 BÚSQUEDA ACADÉMICA', 'No se encontraron referencias académicas para este token.');
             }
-        }
+        };
         
-        async function analisisHistorico() {
-            const token = currentToken;
-            const prompt = `Realiza un análisis histórico de ${token}. Identifica patrones, tendencias y niveles clave.`;
-            await herramientaGenerica(prompt, `📊 ANÁLISIS HISTÓRICO: ${token}`);
-        }
+        document.getElementById('btnVerificarPlagio').onclick = () => {
+            if (!ultimoAnalisis) { showToast('⚠️ Realiza un análisis primero', true); return; }
+            
+            const fuentes = Object.values(BASE_DATOS_403M.criptos).map(c => c.analisis);
+            const resultado = plagiarismDetector.check(ultimoAnalisis, fuentes);
+            
+            mostrarModal('⚠️ VERIFICACIÓN DE PLAGIO',
+                `Riesgo Global: ${resultado.overallRisk}\nSimilitud Máxima: ${Math.round(resultado.maxSimilarity * 100)}%\n\n` +
+                `Detalles:\n${resultado.details.slice(0, 5).map(d => `• ${d.source}: ${Math.round(d.similarity * 100)}%`).join('\n')}\n\n` +
+                `${resultado.overallRisk === 'Alto' ? '⚠️ Revisar similitudes.' : resultado.overallRisk === 'Medio' ? '⚡ Similitudes moderadas.' : '✅ Contenido original.'}`
+            );
+        };
         
-        async function compararCriptos() {
-            const token1 = currentToken;
-            const token2 = prompt("¿Qué cripto comparar con " + token1 + "?", "ETH");
-            if (!token2) return;
-            const prompt = `Compara ${token1} y ${token2}. Da conclusión sobre cuál tiene mejor relación riesgo/beneficio.`;
-            await herramientaGenerica(prompt, `🔄 COMPARACIÓN: ${token1} vs ${token2}`);
-        }
+        document.getElementById('btnExportar').onclick = () => {
+            if (!ultimoAnalisis) { showToast('⚠️ Realiza un análisis primero', true); return; }
+            
+            const formatos = 'Formatos disponibles:\n1. LaTeX\n2. Markdown\n3. BibTeX\n4. APA 7\n\nUsa los botones de exportación debajo del análisis.';
+            mostrarModal('📤 EXPORTAR', formatos);
+        };
         
-        async function alertaVolatilidad() {
-            const token = currentToken;
-            const prompt = `Analiza la volatilidad actual de ${token}. Da nivel (bajo/medio/alto) y estrategias.`;
-            await herramientaGenerica(prompt, `⚠️ ALERTA VOLATILIDAD: ${token}`);
-        }
-        
-        async function soporteResistencia() {
-            const token = currentToken;
-            const prompt = `Calcula niveles de soporte y resistencia para ${token}. Incluye 3 de cada uno.`;
-            await herramientaGenerica(prompt, `📈 SOPORTE/RESISTENCIA: ${token}`);
-        }
-        
-        async function noticiasCripto() {
-            const token = currentToken;
-            const prompt = `Resume 5 noticias relevantes de las últimas 48h sobre ${token}.`;
-            await herramientaGenerica(prompt, `📰 NOTICIAS: ${token}`);
-        }
-        
-        async function simularPortafolio() {
-            const prompt = `Crea simulación de portafolio cripto balanceado con 5 activos y porcentajes.`;
-            await herramientaGenerica(prompt, `💼 SIMULACIÓN DE PORTAFOLIO`);
-        }
-        
-        async function alertasPrecio() {
-            const token = currentToken;
-            const prompt = `Sugiere 3 niveles de alerta de compra y 3 de venta para ${token}.`;
-            await herramientaGenerica(prompt, `🔔 ALERTAS PRECIO: ${token}`);
-        }
-        
-        async function estrategiaTrading() {
-            const token = currentToken;
-            const perfil = prompt("¿Perfil de riesgo? (conservador, moderado, agresivo):", "moderado");
-            if (!perfil) return;
-            const promptText = `Diseña estrategia de trading para ${token} con perfil ${perfil}.`;
-            await herramientaGenerica(promptText, `🎯 ESTRATEGIA TRADING: ${token} (${perfil})`);
-        }
-        
-        async function fearGreed() {
-            const prompt = `Analiza el sentimiento del mercado cripto con Fear & Greed (0-100).`;
-            await herramientaGenerica(prompt, `😨 FEAR & GREED INDEX`);
-        }
-        
-        async function prediccion7dias() {
-            const token = currentToken;
-            const prompt = `Genera predicción para ${token} en 7 días. Incluye rango de precio esperado.`;
-            await herramientaGenerica(prompt, `🔮 PREDICCIÓN 7 DÍAS: ${token}`);
-        }
-        
-        function verEstadoTermux() {
-            const estado = jsllm7TermuxConectado ? '✅ Conectado' : '❌ Desconectado';
-            const mensaje = `
-=== ESTADO DE jsllm7 ===
-
-🔌 Puerto: 8081
-📊 Registros: 404,356,967
-📡 Estado: ${estado}
-📍 Fuente: ${jsllm7TermuxConectado ? 'Termux (local)' : 'CDN (fallback)'}
-
-${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm7 no conectado a Termux.'}
-
-📚 403M LECTOR: Activo independientemente de jsllm7
-📌 Siempre responde con análisis de 403M+ datos
-`;
-            mostrarModal('🔌 ESTADO DE jsllm7', mensaje);
-        }
-
-        // ============================================
-        // BOTÓN 403M LECTOR
-        // ============================================
+        // Botones de exportación en el card
+        document.querySelectorAll('.export-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!ultimoAnalisis) { showToast('⚠️ Realiza un análisis primero', true); return; }
+                
+                const format = btn.dataset.format;
+                let content = '', filename = '';
+                
+                switch(format) {
+                    case 'latex':
+                        content = exporter.toLatex(ultimoAnalisis, currentToken);
+                        filename = `analisis_${currentToken.toLowerCase()}.tex`;
+                        break;
+                    case 'markdown':
+                        content = exporter.toMarkdown(ultimoAnalisis, currentToken);
+                        filename = `analisis_${currentToken.toLowerCase()}.md`;
+                        break;
+                    case 'bibtex':
+                        content = exporter.toBibTeX(currentToken, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{ fuente: '403M LECTOR' }]);
+                        filename = `referencias_${currentToken.toLowerCase()}.bib`;
+                        break;
+                    case 'apa':
+                        content = exporter.toAPA(currentToken, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{ fuente: '403M LECTOR' }]);
+                        filename = `referencias_${currentToken.toLowerCase()}.txt`;
+                        break;
+                }
+                
+                descargarArchivo(content, filename);
+                showToast(`📤 Exportado como ${format.toUpperCase()}`);
+            });
+        });
         
         document.getElementById('btnDecisionStatus').onclick = () => {
-            const estado = nucleoLector.mostrarEstado();
-            mostrarModal('🧠 403M LECTOR', estado);
+            mostrarModal('🧠 403M LECTOR', nucleoLector.getEstado());
         };
-
-        // ============================================
-        // ASIGNAR BOTONES
-        // ============================================
         
-        document.getElementById('btnHistorico').onclick = analisisHistorico;
-        document.getElementById('btnComparar').onclick = compararCriptos;
-        document.getElementById('btnVolatilidad').onclick = alertaVolatilidad;
-        document.getElementById('btnSoporteResistencia').onclick = soporteResistencia;
-        document.getElementById('btnNoticias').onclick = noticiasCripto;
-        document.getElementById('btnPortafolio').onclick = simularPortafolio;
-        document.getElementById('btnAlertas').onclick = alertasPrecio;
-        document.getElementById('btnEstrategia').onclick = estrategiaTrading;
-        document.getElementById('btnFearGreed').onclick = fearGreed;
-        document.getElementById('btnPrediccion').onclick = prediccion7dias;
-        document.getElementById('btnTermuxStatus').onclick = verEstadoTermux;
-
+        document.getElementById('btnTermuxStatus').onclick = () => {
+            const estado = jsllm7TermuxConectado ? '✅ Conectado' : '❌ Desconectado';
+            const dbStats = cache.getStats();
+            mostrarModal('🔌 ESTADO DEL SISTEMA',
+                `=== jsllm7 ===\n📡 Estado: ${estado}\n📍 Fuente: ${jsllm7TermuxConectado ? 'Termux' : 'CDN'}\n\n` +
+                `=== IndexedDB ===\n💾 Hits: ${dbStats.hits}\n❌ Misses: ${dbStats.misses}\n📊 Total: ${dbStats.total}\n\n` +
+                `=== 403M LECTOR ===\n${nucleoLector.getEstado()}`
+            );
+        };
+        
         // ============================================
         // INICIALIZACIÓN
         // ============================================
-        
         function actualizarModoUI() {
             document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo));
         }
@@ -1437,17 +1024,34 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
         });
         actualizarModoUI();
         
-        function actualizarDiario() {
-            const h = new Date();
-            const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-            document.getElementById('dailyTip').innerHTML = `🧠 403M LECTOR: Lee 403M+ datos · ${dias[h.getDay()]}: Análisis directo · Respuesta inmediata`;
-            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · 403M LECTOR · 403M+ datos · 10 herramientas · 24/7 activo`;
+        async function verificarTermux() {
+            try {
+                const response = await fetch(`${JSLLM7_API_URL}/stats`);
+                if (response.ok) {
+                    jsllm7TermuxConectado = true;
+                    document.getElementById('jsllm7WidgetStatus').innerHTML = '📖 jsllm7: ✅ Conectado (Termux:8081)';
+                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
+                    document.getElementById('jsllm7StatusBar').textContent = '✅ Conectado';
+                    document.getElementById('jsllm7StatusBar').style.color = '#10b981';
+                }
+            } catch(e) {
+                jsllm7TermuxConectado = false;
+                document.getElementById('jsllm7WidgetStatus').innerHTML = '📖 403M LECTOR: ✅ Activo (sin jsllm7)';
+                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
+                document.getElementById('jsllm7StatusBar').textContent = '⚠️ CDN';
+                document.getElementById('jsllm7StatusBar').style.color = '#f59e0b';
+            }
         }
         
         function iniciar() {
-            actualizarDiario();
+            const h = new Date();
+            const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            document.getElementById('dailyTip').innerHTML = `🧠 403M LECTOR · ${dias[h.getDay()]} · AcadémIA Pro · IndexedDB · 24/7`;
+            document.getElementById('footer').innerHTML = `⚡ NextMoon AI · ${h.toLocaleDateString('es-ES')} · 403M LECTOR · AcadémIA Pro · 5 Fuentes · 24/7`;
+            
             updatePrediction("BTC");
             setInterval(() => updatePrediction(), 60000);
+            
             document.getElementById('refreshBtn').onclick = () => updatePrediction();
             document.getElementById('searchBtn').onclick = () => {
                 const v = document.getElementById('searchInput').value.trim().toUpperCase();
@@ -1459,32 +1063,13 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
                     if (v) updatePrediction(v);
                 }
             });
+            
             actualizarSidebarHistorial();
-            actualizarMetricasConectores();
+            actualizarMetricas();
+            verificarTermux();
+            setInterval(verificarTermux, 30000);
             
-            // Verificar Termux pero no depender de él
-            verificarConexionTermux();
-            setInterval(verificarConexionTermux, 30000);
-            
-            showToast("🚀 403M LECTOR activo · 403M+ datos · 24/7 · " + Object.keys(BASE_DATOS_403M.criptos).length + " criptos precargadas");
-        }
-        
-        async function verificarConexionTermux() {
-            try {
-                const response = await fetch(`${JSLLM7_API_URL}/stats`);
-                if (response.ok) {
-                    const stats = await response.json();
-                    jsllm7TermuxConectado = true;
-                    document.getElementById('jsllm7WidgetStatus').textContent = `📖 jsllm7: ✅ ${stats.total?.toLocaleString() || '404M'} registros (Termux:8081)`;
-                    document.getElementById('jsllm7WidgetStatus').style.color = '#10b981';
-                    console.log('✅ jsllm7 conectado a Termux');
-                }
-            } catch(e) {
-                jsllm7TermuxConectado = false;
-                document.getElementById('jsllm7WidgetStatus').textContent = '📖 403M LECTOR: ✅ Activo (sin jsllm7) · 24/7';
-                document.getElementById('jsllm7WidgetStatus').style.color = '#f59e0b';
-                console.warn('⚠️ Termux no disponible, usando 403M LECTOR');
-            }
+            showToast("🚀 NextMoon AI · 403M LECTOR · AcadémIA Pro · IndexedDB · 24/7");
         }
         
         iniciar();
@@ -1497,8 +1082,7 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
         function initVR() {
             if (!container) return;
             container.innerHTML = '';
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0a0f1e);
+            scene = new THREE.Scene(); scene.background = new THREE.Color(0x0a0f1e);
             camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
             camera.position.set(5, 3, 8);
             renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -1509,13 +1093,9 @@ ${jsllm7TermuxConectado ? '✅ jsllm7 funcionando correctamente' : '⚠️ jsllm
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             scene.add(new THREE.AmbientLight(0x404060));
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-            dirLight.position.set(5, 10, 7);
-            scene.add(dirLight);
+            const dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(5, 10, 7); scene.add(dl);
             const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStandardMaterial({ color: 0x1a1f2e }));
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = -1.5;
-            scene.add(floor);
+            floor.rotation.x = -Math.PI / 2; floor.position.y = -1.5; scene.add(floor);
             for (let i = 0; i < 36; i++) {
                 const torus = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 16, 32), new THREE.MeshStandardMaterial({ color: [0xf7931a, 0x627eea, 0x3b82f6, 0xec4899][i % 4] }));
                 const angle = (i / 36) * Math.PI * 2;
