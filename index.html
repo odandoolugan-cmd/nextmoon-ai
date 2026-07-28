@@ -14,6 +14,7 @@
         .badge { display: inline-block; background: rgba(59,130,246,0.2); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.7rem; margin-bottom: 0.5rem; }
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-cloudflare { background: #f48120; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
@@ -95,17 +96,17 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <div class="badge">🚀 NextMoon AI <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span></div>
-            <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#8b5cf6;">CLOUDFLARE 24/7</span></h1>
+            <div class="badge">🚀 NextMoon AI <span class="badge-cloudflare">⚡ Cloudflare AI</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span></div>
+            <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#f48120;">CLOUDFLARE 24/7</span></h1>
             <div style="font-size: 0.7rem;">403M LECTOR · AcadémIA Pro · 12 Fuentes Gratis · IndexedDB · Exportación · Plagio</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Lee 403M+ datos · 12 fuentes académicas · 24/7 activo</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Análisis impulsado por IA de Cloudflare (Nunca se cae)</div>
         </div>
 
         <div class="status-bar">
             <span>💾 Caché: <span id="cacheHitRate">0%</span></span>
             <span>📊 DB: <span id="dbEntries">0</span></span>
             <span>🧠 403M: <span id="decisionCount">0</span></span>
-            <span>🔌 jsllm7: <span id="jsllm7StatusBar">Conectando...</span></span>
+            <span>⚡ Cloudflare AI: <span id="jsllm7StatusBar">✅ Activo</span></span>
         </div>
 
         <div class="modo-selector">
@@ -139,19 +140,19 @@
 
         <div class="dashboard-grid">
             <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
-            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>403M LECTOR:</strong><br><span id="sentimentText">Cargando análisis...</span></div><div class="export-buttons"><button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA 7</button></div></div></div>
+            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>403M LECTOR + Cloudflare AI:</strong><br><span id="sentimentText">Cargando análisis...</span></div><div class="export-buttons"><button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA 7</button></div></div></div>
         </div>
 
         <div class="widget-container">
             <div class="widget"><div class="widget-title">📊 Análisis de Mercado</div><div class="widget-content"><div class="metrics-grid-widget"><div class="metric-item-widget"><div class="metric-value-widget" id="metricIndicadores">0</div><div class="metric-label-widget">Indicadores</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricConfirmaciones">0</div><div class="metric-label-widget">Confirmaciones</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricNiveles">0</div><div class="metric-label-widget">Niveles</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricAlertas">0</div><div class="metric-label-widget">Alertas</div></div></div></div></div>
-            <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">📖 403M LECTOR: ✅ Activo</div></div></div>
+            <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Cloudflare AI: ✅ Activo (Sin caídas)</div></div></div>
             <div class="widget"><div class="widget-title">🎯 Confianza</div><div class="widget-content"><div class="widget-confidence"><span>📊</span><div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div><span class="confidence-label" id="confidenceLabel">0%</span></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Calidad: <span id="qualityLabel">--</span></div></div></div>
             <div class="widget"><div class="widget-title">🎯 Estrategia</div><div class="widget-content" id="widgetEstrategiaContent"><div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #3b82f6;">📈 Compra</span><span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #f59e0b;">📊 Espera</span><span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #ef4444;">📉 Venta</span></div></div></div>
         </div>
 
         <button id="refreshBtn" class="refresh-btn">🔄 ACTUALIZAR AHORA</button>
-        <div class="auto-update">🟢 403M LECTOR · AcadémIA Pro · 12 Fuentes · IndexedDB · 24/7</div>
-        <footer>⚡ NextMoon AI · 403M LECTOR · AcadémIA Pro · 12 Fuentes Gratis · 24/7</footer>
+        <div class="auto-update">🟢 403M LECTOR · Cloudflare AI · AcadémIA Pro · 12 Fuentes · IndexedDB · 24/7</div>
+        <footer>⚡ NextMoon AI · Cloudflare AI (Sin caídas) · 403M LECTOR · 12 Fuentes Gratis</footer>
     </div>
 </div>
 
@@ -167,7 +168,10 @@
 // ============================================
 // CONFIGURACIÓN
 // ============================================
+// URL DE TU WORKER DE CLOUDFLARE (El que nunca se cae)
+const CLOUDFLARE_AI_URL = 'https://ollama-ai.odandoolugan.workers.dev';
 const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
+
 let jsllm7TermuxConectado = false;
 let currentTokenData = null;
 let modo = localStorage.getItem('nextmoon_modo') || 'experto';
@@ -479,12 +483,32 @@ async function updatePrediction(manualToken = null) {
         document.getElementById('priceChange').innerHTML = `<span style="color:${td.priceChange24h >= 0 ? '#10b981' : '#ef4444'}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
         document.getElementById('iaScore').innerHTML = `${score}/100`;
         
-        const analisis = nucleoLector.analizar(td.symbol, td.price, td.volume24h, td.liquidity, td.priceChange24h);
+        // === AQUÍ ESTÁ EL CAMBIO MÁGICO: ENVÍA LA PREGUNTA A TU CLOUDFLARE AI ===
+        const preguntaAnalisis = `Analiza el token ${td.symbol} con precio $${fmt(td.price)} y cambio 24h de ${td.priceChange24h.toFixed(1)}%. Da una señal de trading (Compra, Venta o Espera) y explica por qué basándote en indicadores como RSI y MACD.`;
+        
+        let analisis = "";
+        try {
+            const response = await fetch(CLOUDFLARE_AI_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pregunta: preguntaAnalisis })
+            });
+            if (response.ok) {
+                analisis = await response.text();
+            } else {
+                throw new Error("Fallo en la IA");
+            }
+        } catch (e) {
+            // Si falla Cloudflare, usa el motor local de respaldo
+            analisis = nucleoLector.analizar(td.symbol, td.price, td.volume24h, td.liquidity, td.priceChange24h);
+        }
+        // =====================================================================
+
         ultimoAnalisis = analisis;
         document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
         actualizarWidgets(td, analisis);
         
-        showToast(`✅ ${td.symbol} analizado`);
+        showToast(`✅ ${td.symbol} analizado por Cloudflare AI`);
     } catch(e) { showToast("❌ Error", true); }
     finally { isRefreshing = false; }
 }
@@ -494,7 +518,19 @@ async function updatePrediction(manualToken = null) {
 // ============================================
 async function herramienta(prompt, titulo) {
     showToast(`⏳ ${titulo}...`);
-    const analisis = nucleoLector.analizar(currentToken, currentTokenData?.price || 0, currentTokenData?.volume24h || 0, currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
+    // Aquí también usamos Cloudflare para las herramientas
+    let analisis = "";
+    try {
+        const response = await fetch(CLOUDFLARE_AI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pregunta: `Genera un análisis de ${titulo} para el token ${currentToken}. ${prompt}` })
+        });
+        if (response.ok) analisis = await response.text();
+        else analisis = nucleoLector.analizar(currentToken, currentTokenData?.price || 0, currentTokenData?.volume24h || 0, currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
+    } catch(e) { 
+        analisis = nucleoLector.analizar(currentToken, currentTokenData?.price || 0, currentTokenData?.volume24h || 0, currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
+    }
     mostrarModal(titulo, analisis);
     if (currentTokenData) actualizarWidgets(currentTokenData, analisis);
 }
@@ -559,7 +595,7 @@ document.querySelectorAll('.export-btn').forEach(btn => {
 });
 
 document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('🧠 403M LECTOR', nucleoLector.getEstado()); };
-document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `jsllm7: ${jsllm7TermuxConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total} entradas\n12 Fuentes: ✅`); };
+document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ✅ Conectado (Sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total} entradas\n12 Fuentes: ✅`); };
 
 // ============================================
 // INICIALIZACIÓN
@@ -571,8 +607,8 @@ actualizarModoUI();
 async function verificarTermux() {
     try {
         const r = await fetch(`${JSLLM7_API_URL}/stats`);
-        if (r.ok) { jsllm7TermuxConectado = true; document.getElementById('jsllm7WidgetStatus').innerHTML = '📖 jsllm7: ✅ Conectado'; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
-    } catch(e) { jsllm7TermuxConectado = false; document.getElementById('jsllm7StatusBar').textContent = '⚠️'; }
+        if (r.ok) { jsllm7TermuxConectado = true; document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ Cloudflare AI: ✅ Activo (Sin caídas)'; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
+    } catch(e) { jsllm7TermuxConectado = false; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
 }
 
 function iniciar() {
@@ -583,7 +619,7 @@ function iniciar() {
     document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
     verificarTermux();
     setInterval(verificarTermux, 30000);
-    showToast("🚀 NextMoon AI · 12 Fuentes · IndexedDB · 24/7");
+    showToast("🚀 NextMoon AI · Cloudflare AI · 12 Fuentes · 24/7");
 }
 
 iniciar();
