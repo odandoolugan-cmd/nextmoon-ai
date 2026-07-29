@@ -342,11 +342,38 @@ class PersistentCache {
 const cache = new PersistentCache();
 
 // ============================================
-// ANALIZADOR + PLAGIO + EXPORTADOR
+// ANALIZADOR + PLAGIO + EXPORTADOR (MEJORADO)
 // ============================================
 class ContentAnalyzer {
-    constructor() { this.stopWords = new Set(['el','la','los','las','un','una','de','del','en','con','por','para','que','es','se','su','al','lo','como','más','y','o','pero','si','no']); this.financialWords = { 'soporte':3,'resistencia':3,'tendencia':3,'volumen':2.5,'indicador':2.5,'rsi':3,'macd':3,'media':2,'análisis':2.5,'señal':3,'estrategia':2.5,'riesgo':2,'beneficio':2,'stop':3,'profit':3,'compra':2.5,'venta':2.5 }; }
-    analyzeQuality(text) { const w = text.toLowerCase().split(/\s+/); const f = w.filter(w => !this.stopWords.has(w)); let s = 0; f.forEach(w => { if (this.financialWords[w]) s += this.financialWords[w]; }); const q = Math.min((s / Math.max(f.length, 1)) * 100 + 30, 100); return { qualityScore: Math.round(q), qualityLevel: q > 70 ? 'alta' : q > 40 ? 'media' : 'baja' }; }
+    constructor() {
+        this.stopWords = new Set(['el','la','los','las','un','una','de','del','en','con','por','para','que','es','se','su','al','lo','como','más','y','o','pero','si','no']);
+        this.financialWords = {
+            'soporte':3,'resistencia':3,'tendencia':3,'volumen':2.5,'indicador':2.5,
+            'rsi':3,'macd':3,'media':2,'análisis':2.5,'señal':3,'estrategia':2.5,
+            'riesgo':2,'beneficio':2,'stop':3,'profit':3,'compra':2.5,'venta':2.5
+        };
+    }
+    analyzeQuality(text) {
+        const words = text.toLowerCase().split(/\s+/);
+        const filtered = words.filter(w => !this.stopWords.has(w));
+        let score = 0;
+        filtered.forEach(w => { if (this.financialWords[w]) score += this.financialWords[w]; });
+        
+        // Bonificación por estructura de análisis
+        let estructuraBonus = 0;
+        const lowerText = text.toLowerCase();
+        if (lowerText.includes('señal')) estructuraBonus += 10;
+        if (lowerText.includes('indicador')) estructuraBonus += 10;
+        if (lowerText.includes('soporte')) estructuraBonus += 10;
+        if (lowerText.includes('resistencia')) estructuraBonus += 10;
+        if (lowerText.includes('conclusión')) estructuraBonus += 10;
+        if (lowerText.includes('1.')) estructuraBonus += 5;
+        if (lowerText.includes('2.')) estructuraBonus += 5;
+        
+        const finalScore = (score / Math.max(filtered.length, 1)) * 100 + 30 + estructuraBonus;
+        const q = Math.min(Math.round(finalScore), 100);
+        return { qualityScore: q, qualityLevel: q > 75 ? 'alta' : q > 50 ? 'media' : 'baja' };
+    }
 }
 const analyzer = new ContentAnalyzer();
 
@@ -529,6 +556,58 @@ async function updatePrediction(manualToken = null) {
         document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
         actualizarWidgets(td, analisis);
         
+        // ================================
+        // MEJORA: Agregar un botón para cargar Análisis Relacionados bajo demanda
+        // ================================
+        const sentimentContainer = document.getElementById('sentimentContainer');
+        sentimentContainer.innerHTML += `
+            <br><br>
+            <div style="background: rgba(139, 92, 246, 0.1); border-radius: 0.8rem; padding: 1rem; text-align: center; border: 1px dashed #8b5cf6;">
+                <button id="btnCargarAnalisisRel" style="background: #8b5cf6; border: none; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">
+                    📈 Cargar Análisis Avanzado
+                </button>
+                <div id="contenedorAnalisisRel" style="margin-top: 10px; display: none;"></div>
+            </div>
+        `;
+
+        // Agregar el evento clic al botón que acabamos de crear
+        setTimeout(() => {
+            document.getElementById('btnCargarAnalisisRel').addEventListener('click', async function() {
+                this.disabled = true;
+                this.innerText = 'Cargando...';
+                const contenedor = document.getElementById('contenedorAnalisisRel');
+                contenedor.style.display = 'block';
+                contenedor.innerHTML = '<span class="loading-spinner"></span> Generando análisis avanzado...';
+
+                try {
+                    const respuestaAnalisisRel = await fetch(CLOUDFLARE_AI_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            pregunta: `Basándote en el análisis de ${td.symbol}, genera 3 estrategias de trading alternativas o complementarias. Proporciona solo los títulos y una breve descripción.`
+                        })
+                    });
+                    if (respuestaAnalisisRel.ok) {
+                        const analisisRelTexto = await respuestaAnalisisRel.text();
+                        contenedor.innerHTML = `
+                            <div style="background: rgba(139, 92, 246, 0.2); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; text-align: left;">
+                                <strong style="color: #a78bfa;">📈 Estrategias alternativas sugeridas:</strong><br>
+                                <span style="color: #eef2ff; font-size: 0.9rem; line-height: 1.6;">${analisisRelTexto}</span>
+                            </div>
+                        `;
+                    } else {
+                        contenedor.innerHTML = '⚠️ No se pudieron cargar las estrategias en este momento.';
+                    }
+                } catch (e) {
+                    contenedor.innerHTML = '❌ Error al conectar con el servidor.';
+                } finally {
+                    this.disabled = false;
+                    this.innerText = '📈 Cargar Análisis Avanzado';
+                }
+            });
+        }, 100);
+        // =====================================================================
+
         showToast(`✅ ${td.symbol} analizado con datos académicos y de mercado reales`);
     } catch(e) { showToast("❌ Error", true); }
     finally { isRefreshing = false; }
