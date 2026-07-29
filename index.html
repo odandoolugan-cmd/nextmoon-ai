@@ -483,8 +483,29 @@ async function updatePrediction(manualToken = null) {
         document.getElementById('priceChange').innerHTML = `<span style="color:${td.priceChange24h >= 0 ? '#10b981' : '#ef4444'}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
         document.getElementById('iaScore').innerHTML = `${score}/100`;
         
-        // === AQUÍ ESTÁ EL CAMBIO MÁGICO: ENVÍA LA PREGUNTA A TU CLOUDFLARE AI ===
-        const preguntaAnalisis = `Analiza el token ${td.symbol} con precio $${fmt(td.price)} y cambio 24h de ${td.priceChange24h.toFixed(1)}%. Da una señal de trading (Compra, Venta o Espera) y explica por qué basándote en indicadores como RSI y MACD.`;
+        // === FASE 2 y 3: Búsqueda en 12 fuentes + Envío de contexto a la IA ===
+        const resultados12 = await fuentes12.buscarTodasLasFuentes(t.symbol + ' cryptocurrency');
+        
+        let contextoAcademico = "";
+        if (resultados12.resumen.total_resultados > 0) {
+            contextoAcademico = `\n\n--- INICIO DE ANÁLISIS ACADÉMICO SOBRE ${t.symbol} ---\n`;
+            contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos sobre esta cripto.\n\n`;
+            
+            const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+            fuentesPrioritarias.forEach(key => {
+                const f = resultados12.fuentes[key];
+                if (f && f.exito && f.count > 0) {
+                    contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                    f.data.slice(0, 2).forEach(r => {
+                        contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
+                        contextoAcademico += `  Resumen: ${(r.abstract || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
+                    });
+                }
+            });
+            contextoAcademico += `\n--- FIN DE ANÁLISIS ACADÉMICO ---\n\n`;
+        }
+
+        const preguntaAnalisis = `Contexto académico:\n${contextoAcademico}\n\nDatos de mercado actuales del token ${td.symbol}:\nPrecio: $${fmt(td.price)}\nCambio 24h: ${td.priceChange24h.toFixed(1)}%\nVolumen: $${(td.volume24h/1e6).toFixed(2)}M\nLiquidez: $${(td.liquidity/1e6).toFixed(2)}M\n\nBasándote en los datos de mercado y en la información académica proporcionada, genera un análisis de trading profesional. Incluye:\n1. Una señal clara (Compra, Venta o Espera).\n2. Un análisis detallado de indicadores técnicos (RSI, MACD, etc.).\n3. Niveles de Soporte y Resistencia.\n4. Conclusión final.`;
         
         let analisis = "";
         try {
@@ -508,7 +529,7 @@ async function updatePrediction(manualToken = null) {
         document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
         actualizarWidgets(td, analisis);
         
-        showToast(`✅ ${td.symbol} analizado por Cloudflare AI`);
+        showToast(`✅ ${td.symbol} analizado con datos académicos y de mercado reales`);
     } catch(e) { showToast("❌ Error", true); }
     finally { isRefreshing = false; }
 }
