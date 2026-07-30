@@ -15,6 +15,7 @@
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-cloudflare { background: #f48120; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
+        .badge-china { background: #DE2910; color: #FFDE00; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #FFDE00; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
@@ -59,7 +60,7 @@
         .connector-metric .value { font-size: 1rem; font-weight: bold; color: #60a5fa; }
         .connector-metric .label { font-size: 0.55rem; color: #94a3b8; }
         
-        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.6; max-height: 500px; overflow-y: auto; }
+        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.6; max-height: 600px; overflow-y: auto; }
         .export-buttons { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
         .export-btn { background: #334155; border: 1px solid #475569; padding: 4px 12px; border-radius: 15px; font-size: 0.6rem; cursor: pointer; color: #94a3b8; transition: 0.2s; }
         .export-btn:hover { background: #8b5cf6; color: white; }
@@ -88,7 +89,6 @@
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
         
-        /* Botón de análisis avanzado */
         .analisis-avanzado-btn {
             background: #8b5cf6;
             border: none;
@@ -141,10 +141,10 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <div class="badge">🚀 NextMoon AI <span class="badge-cloudflare">⚡ Cloudflare AI</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span></div>
+            <div class="badge">🚀 NextMoon AI <span class="badge-cloudflare">⚡ Cloudflare AI</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-china">🇨🇳 ENFOQUE CHINA</span></div>
             <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#f48120;">CLOUDFLARE 24/7</span></h1>
-            <div style="font-size: 0.7rem;">403M LECTOR · AcadémIA Pro · 12 Fuentes Gratis · IndexedDB · Exportación · Plagio</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Análisis impulsado por IA de Cloudflare (Nunca se cae)</div>
+            <div style="font-size: 0.7rem;">403M LECTOR · AcadémIA Pro · 12 Fuentes Gratis · IndexedDB · Exportación · Plagio · 🇨🇳 Enfoque China</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR: Análisis impulsado por IA de Cloudflare (Nunca se cae) · Enfoque en China</div>
         </div>
 
         <div class="status-bar">
@@ -196,8 +196,8 @@
         </div>
 
         <button id="refreshBtn" class="refresh-btn">🔄 ACTUALIZAR AHORA</button>
-        <div class="auto-update">🟢 403M LECTOR · Cloudflare AI · AcadémIA Pro · 12 Fuentes · IndexedDB · 24/7</div>
-        <footer>⚡ NextMoon AI · Cloudflare AI (Sin caídas) · 403M LECTOR · 12 Fuentes Gratis</footer>
+        <div class="auto-update">🟢 403M LECTOR · Cloudflare AI · AcadémIA Pro · 12 Fuentes · IndexedDB · 24/7 · 🇨🇳 Enfoque China</div>
+        <footer>⚡ NextMoon AI · Cloudflare AI (Sin caídas) · 403M LECTOR · 12 Fuentes Gratis · 🇨🇳</footer>
     </div>
 </div>
 
@@ -216,6 +216,7 @@
 // URL DE TU WORKER DE CLOUDFLARE (El que nunca se cae)
 const CLOUDFLARE_AI_URL = 'https://ollama-ai.odandoolugan.workers.dev';
 const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
+const PAIS_FIJO = 'china';
 
 let jsllm7TermuxConectado = false;
 let currentTokenData = null;
@@ -279,8 +280,8 @@ class FuentesGratuitas12 {
             return d.hits?.map(h => ({ titulo: h.title, autor: h.author, puntos: h.points, fuente: 'Hacker News', url: h.url || `https://news.ycombinator.com/item?id=${h.objectID}` })) || [];
         } catch(e) { return []; }
     }
-    async buscarGoogleScholar(tema) { return [{ titulo: `${tema}: Análisis cripto`, autor: 'Scholar', year: '2024', fuente: 'Google Scholar', url: '#' }]; }
-    async buscarResearchGate(tema) { return [{ titulo: `Crypto Research: ${tema}`, autor: 'ResearchGate', year: '2024', fuente: 'ResearchGate', url: '#' }]; }
+    async buscarGoogleScholar(tema) { return [{ titulo: `${tema}: análisis cripto en china`, autor: 'scholar', year: '2024', fuente: 'google scholar', url: '#' }]; }
+    async buscarResearchGate(tema) { return [{ titulo: `crypto research: ${tema}`, autor: 'researchgate', year: '2024', fuente: 'researchgate', url: '#' }]; }
     
     async buscarTodasLasFuentes(tema) {
         const cacheKey = `12f_${tema}`;
@@ -317,9 +318,9 @@ class FuentesGratuitas12 {
     }
     
     formatearResultados(resultados) {
-        const nombres = { semanticScholar: '📚 Semantic Scholar', core: '📖 CORE', arxiv: '📐 arXiv', internetArchive: '🏛️ Internet Archive', wikipedia: '🌐 Wikipedia', wikidata: '🔗 Wikidata', pubmed: '🏥 PubMed', doaj: '📂 DOAJ', openLibrary: '📚 Open Library', hackerNews: '💻 Hacker News', googleScholar: '🎓 Google Scholar', researchGate: '🔬 ResearchGate' };
+        const nombres = { semanticScholar: '📚 semantic scholar', core: '📖 core', arxiv: '📐 arxiv', internetArchive: '🏛️ internet archive', wikipedia: '🌐 wikipedia', wikidata: '🔗 wikidata', pubmed: '🏥 pubmed', doaj: '📂 doaj', openLibrary: '📚 open library', hackerNews: '💻 hacker news', googleScholar: '🎓 google scholar', researchGate: '🔬 researchgate' };
         
-        let html = `<div style="max-height:65vh;overflow-y:auto;"><h3 style="color:#10b981;">🔬 12 FUENTES ACADÉMICAS - ${resultados.tema}</h3><p style="color:#94a3b8;font-size:0.75rem;">Exitosas: <strong style="color:#10b981;">${resultados.resumen.fuentes_exitosas}/12</strong> | Resultados: <strong>${resultados.resumen.total_resultados}</strong></p>`;
+        let html = `<div style="max-height:65vh;overflow-y:auto;"><h3 style="color:#10b981;">🔬 12 fuentes académicas - ${resultados.tema}</h3><p style="color:#94a3b8;font-size:0.75rem;">exitosas: <strong style="color:#10b981;">${resultados.resumen.fuentes_exitosas}/12</strong> | resultados: <strong>${resultados.resumen.total_resultados}</strong></p>`;
         
         html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;">';
         Object.entries(resultados.fuentes).forEach(([k, f]) => {
@@ -337,7 +338,7 @@ class FuentesGratuitas12 {
             }
         });
         
-        html += `<div style="margin-top:12px;padding:8px;background:rgba(16,185,129,0.1);border-radius:6px;font-size:0.7rem;color:#94a3b8;">💡 <strong style="color:#10b981;">100% GRATIS</strong> · Sin API Key · ${resultados.resumen.total_resultados} resultados</div></div>`;
+        html += `<div style="margin-top:12px;padding:8px;background:rgba(16,185,129,0.1);border-radius:6px;font-size:0.7rem;color:#94a3b8;">💡 <strong style="color:#10b981;">100% gratis</strong> · sin api key · ${resultados.resumen.total_resultados} resultados</div></div>`;
         return html;
     }
 }
@@ -387,7 +388,7 @@ class PersistentCache {
 const cache = new PersistentCache();
 
 // ============================================
-// ANALIZADOR + PLAGIO + EXPORTADOR (MEJORADO)
+// ANALIZADOR + PLAGIO + EXPORTADOR
 // ============================================
 class ContentAnalyzer {
     constructor() {
@@ -424,15 +425,15 @@ const analyzer = new ContentAnalyzer();
 class PlagiarismDetector {
     createShingles(text, size = 3) { const w = text.toLowerCase().split(/\s+/); const s = []; for (let i = 0; i < w.length - size + 1; i++) s.push(w.slice(i, i + size).join(' ')); return new Set(s); }
     calculateSimilarity(t1, t2) { const s1 = this.createShingles(t1), s2 = this.createShingles(t2); const i = new Set([...s1].filter(x => s2.has(x))); const u = new Set([...s1, ...s2]); return u.size > 0 ? i.size / u.size : 0; }
-    check(text, sources) { const r = sources.map(s => ({ source: s.substring(0, 60), similarity: this.calculateSimilarity(text.substring(0, 500), s.substring(0, 500)) })); const m = Math.max(...r.map(r => r.similarity), 0); return { overallRisk: m > 0.3 ? 'Alto' : m > 0.15 ? 'Medio' : 'Bajo', maxSimilarity: m, details: r.sort((a, b) => b.similarity - a.similarity) }; }
+    check(text, sources) { const r = sources.map(s => ({ source: s.substring(0, 60), similarity: this.calculateSimilarity(text.substring(0, 500), s.substring(0, 500)) })); const m = Math.max(...r.map(r => r.similarity), 0); return { overallRisk: m > 0.3 ? 'alto' : m > 0.15 ? 'medio' : 'bajo', maxSimilarity: m, details: r.sort((a, b) => b.similarity - a.similarity) }; }
 }
 const plagiarismDetector = new PlagiarismDetector();
 
 class Exporter {
-    toLatex(c, t) { return `\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[spanish]{babel}\n\n\\title{Análisis de ${t}}\n\\author{NextMoon AI + AcadémIA Pro}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\n${c.replace(/[#%&_{}]/g,'\\$&')}\n\n\\end{document}`; }
-    toMarkdown(c, t) { return `# Análisis de ${t}\n\n*NextMoon AI + AcadémIA Pro*\n\n${c}`; }
-    toBibTeX(t, r) { return r.map((ref, i) => `@misc{ref${i+1},\n  author = {{NextMoon AI}},\n  title = {Análisis de ${t}},\n  year = {${new Date().getFullYear()}},\n  note = {Fuente: ${ref.fuente || '403M LECTOR'}}\n}`).join('\n\n'); }
-    toAPA(t, r) { return r.map((ref, i) => `NextMoon AI (${new Date().getFullYear()}). Análisis de ${t}. ${ref.fuente || '403M LECTOR'}.`).join('\n\n'); }
+    toLatex(c, t) { return `\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[spanish]{babel}\n\n\\title{análisis de ${t}}\n\\author{nextmoon ai + académia pro}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\n${c.replace(/[#%&_{}]/g,'\\$&')}\n\n\\end{document}`; }
+    toMarkdown(c, t) { return `# análisis de ${t}\n\n*nextmoon ai + académia pro*\n\n${c}`; }
+    toBibTeX(t, r) { return r.map((ref, i) => `@misc{ref${i+1},\n  author = {{nextmoon ai}},\n  title = {análisis de ${t}},\n  year = {${new Date().getFullYear()}},\n  note = {fuente: ${ref.fuente || '403m lector'}}\n}`).join('\n\n'); }
+    toAPA(t, r) { return r.map((ref, i) => `nextmoon ai (${new Date().getFullYear()}). análisis de ${t}. ${ref.fuente || '403m lector'}.`).join('\n\n'); }
 }
 const exporter = new Exporter();
 
@@ -441,23 +442,23 @@ const exporter = new Exporter();
 // ============================================
 const BASE_DATOS_403M = {
     criptos: {
-        btc: { keywords: ['btc','bitcoin'], nombre: 'Bitcoin', analisis: `📊 ANÁLISIS DE BITCOIN (BTC)\n\n🔍 CONTEXTO:\nBitcoin es la criptomoneda líder con mayor capitalización.\n\n⚡ INDICADORES:\n• RSI (14): 58 - Neutro alcista\n• MACD: Señal de compra\n• MA50: Por encima\n• MA200: Por encima\n\n📈 S/R:\n• S1: $65,000 | S2: $62,500\n• R1: $72,000 | R2: $75,000\n\n🎯 SEÑAL: COMPRA\n\n⚠️ SL: -5% | 💰 TP: +10%` },
-        eth: { keywords: ['eth','ethereum'], nombre: 'Ethereum', analisis: `📊 ANÁLISIS DE ETHEREUM (ETH)\n\n🔍 CONTEXTO:\nEthereum es la segunda criptomoneda y plataforma DeFi líder.\n\n⚡ INDICADORES:\n• RSI (14): 52 - Neutro\n• MACD: Plano\n• MA50: Zona de decisión\n\n📈 S/R:\n• S1: $3,200 | S2: $3,000\n• R1: $3,600 | R2: $3,800\n\n🎯 SEÑAL: ESPERA\n\n⚠️ SL: -5% | 💰 TP: +10%` },
-        sol: { keywords: ['sol','solana'], nombre: 'Solana', analisis: `📊 ANÁLISIS DE SOLANA (SOL)\n\n🔍 CONTEXTO:\nSolana es una blockchain rápida con ecosistema DeFi creciente.\n\n⚡ INDICADORES:\n• RSI (14): 62 - Alcista\n• MACD: Señal de compra\n• MA50: Por encima\n\n📈 S/R:\n• S1: $140 | S2: $130\n• R1: $165 | R2: $175\n\n🎯 SEÑAL: COMPRA\n\n⚠️ SL: -5% | 💰 TP: +10%` }
+        btc: { keywords: ['btc','bitcoin'], nombre: 'bitcoin', analisis: `📊 análisis de bitcoin (btc)\n\n🔍 contexto:\nbitcoin es la criptomoneda líder con mayor capitalización.\n\n⚡ indicadores:\n• rsi (14): 58 - neutro alcista\n• macd: señal de compra\n• ma50: por encima\n• ma200: por encima\n\n📈 s/r:\n• s1: $65,000 | s2: $62,500\n• r1: $72,000 | r2: $75,000\n\n🎯 señal: compra\n\n⚠️ sl: -5% | 💰 tp: +10%` },
+        eth: { keywords: ['eth','ethereum'], nombre: 'ethereum', analisis: `📊 análisis de ethereum (eth)\n\n🔍 contexto:\nethereum es la segunda criptomoneda y plataforma defi líder.\n\n⚡ indicadores:\n• rsi (14): 52 - neutro\n• macd: plano\n• ma50: zona de decisión\n\n📈 s/r:\n• s1: $3,200 | s2: $3,000\n• r1: $3,600 | r2: $3,800\n\n🎯 señal: espera\n\n⚠️ sl: -5% | 💰 tp: +10%` },
+        sol: { keywords: ['sol','solana'], nombre: 'solana', analisis: `📊 análisis de solana (sol)\n\n🔍 contexto:\nsolana es una blockchain rápida con ecosistema defi creciente.\n\n⚡ indicadores:\n• rsi (14): 62 - alcista\n• macd: señal de compra\n• ma50: por encima\n\n📈 s/r:\n• s1: $140 | s2: $130\n• r1: $165 | r2: $175\n\n🎯 señal: compra\n\n⚠️ sl: -5% | 💰 tp: +10%` }
     }
 };
 
 ['doge','pepe','xrp','ada','dot','avax','shib','link','near','matic','atom','fet','render'].forEach(key => {
-    BASE_DATOS_403M.criptos[key] = { keywords: [key, key.toUpperCase()], nombre: key.toUpperCase(), analisis: `📊 ANÁLISIS DE ${key.toUpperCase()}\n\n⚡ INDICADORES:\n• RSI: 50 - Neutro\n• MACD: Analizando\n\n🎯 SEÑAL: ESPERA\n\n⚠️ SL: -5% | 💰 TP: +10%` };
+    BASE_DATOS_403M.criptos[key] = { keywords: [key, key.toUpperCase()], nombre: key.toUpperCase(), analisis: `📊 análisis de ${key.toUpperCase()}\n\n⚡ indicadores:\n• rsi: 50 - neutro\n• macd: analizando\n\n🎯 señal: espera\n\n⚠️ sl: -5% | 💰 tp: +10%` };
 });
 
 class MotorBusqueda403M {
     constructor() { this.baseDatos = BASE_DATOS_403M; }
     buscar(token, precio, volumen, liquidez, cambio) {
         const t = token.toLowerCase().trim();
-        for (const [key, c] of Object.entries(this.baseDatos.criptos)) { if (c.keywords.some(kw => t === kw || t.includes(kw))) return c.analisis + (precio > 0 ? `\n\n📊 DATOS:\n• Precio: $${precio < 0.01 ? precio.toFixed(8) : precio.toFixed(2)}\n• Cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n• Vol: $${(volumen/1e6).toFixed(2)}M\n• Liq: $${(liquidez/1e6).toFixed(2)}M` : ''); }
+        for (const [key, c] of Object.entries(this.baseDatos.criptos)) { if (c.keywords.some(kw => t === kw || t.includes(kw))) return c.analisis + (precio > 0 ? `\n\n📊 datos:\n• precio: $${precio < 0.01 ? precio.toFixed(8) : precio.toFixed(2)}\n• cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n• vol: $${(volumen/1e6).toFixed(2)}M\n• liq: $${(liquidez/1e6).toFixed(2)}M` : ''); }
         const fmt = (n) => n < 0.01 ? n.toFixed(8) : n.toFixed(2);
-        return `📊 ANÁLISIS DE ${token.toUpperCase()}\n\n📊 DATOS:\n• Precio: $${precio > 0 ? fmt(precio) : 'N/A'}\n• Cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n\n🎯 SEÑAL: ${cambio > 5 ? '📈 COMPRA' : cambio < -5 ? '📉 VENTA' : '📊 ESPERA'}\n\n⚠️ SL: -5% | 💰 TP: +10%`;
+        return `📊 análisis de ${token.toUpperCase()}\n\n📊 datos:\n• precio: $${precio > 0 ? fmt(precio) : 'n/a'}\n• cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n\n🎯 señal: ${cambio > 5 ? '📈 compra' : cambio < -5 ? '📉 venta' : '📊 espera'}\n\n⚠️ sl: -5% | 💰 tp: +10%`;
     }
 }
 
@@ -466,7 +467,7 @@ const motor403M = new MotorBusqueda403M();
 class Nucleo403MLector {
     constructor() { this.decisiones = 0; }
     analizar(token, precio, volumen, liquidez, cambio) { this.decisiones++; document.getElementById('decisionCount').textContent = this.decisiones; return motor403M.buscar(token, precio, volumen, liquidez, cambio); }
-    getEstado() { return `=== 🧠 403M LECTOR ===\n📊 Decisiones: ${this.decisiones}\n💾 Caché: ${cache.getStats().total} entradas\n📡 Estado: ✅ Activo`; }
+    getEstado() { return `=== 🧠 403m lector ===\n📊 decisiones: ${this.decisiones}\n💾 caché: ${cache.getStats().total} entradas\n📡 estado: ✅ activo`; }
 }
 
 const nucleoLector = new Nucleo403MLector();
@@ -478,7 +479,7 @@ function showToast(msg, isErr) { const t = document.createElement('div'); t.clas
 
 function mostrarModal(titulo, contenido) {
     const modal = document.createElement('div'); modal.className = 'modal-overlay';
-    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button></div>`;
+    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">cerrar</button></div>`;
     document.body.appendChild(modal);
     const textoDiv = modal.querySelector('#modalTexto');
     typeWriter(textoDiv, contenido, 15);
@@ -506,9 +507,9 @@ function actualizarWidgets(tokenData, analisis) {
     const q = analyzer.analyzeQuality(analisis);
     document.getElementById('qualityLabel').textContent = q.qualityScore + '%';
     
-    let est = '📊 ESPERA', col = '#f59e0b';
-    if (lower.includes('compra') && !lower.includes('venta')) { est = '📈 COMPRA'; col = '#10b981'; }
-    else if (lower.includes('venta')) { est = '📉 VENTA'; col = '#ef4444'; }
+    let est = '📊 espera', col = '#f59e0b';
+    if (lower.includes('compra') && !lower.includes('venta')) { est = '📈 compra'; col = '#10b981'; }
+    else if (lower.includes('venta')) { est = '📉 venta'; col = '#ef4444'; }
     document.getElementById('widgetEstrategiaContent').innerHTML = `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><span style="background:#1e293b;padding:8px 16px;border-radius:15px;font-size:1rem;font-weight:bold;border:2px solid ${col};color:${col};">${est}</span><span style="font-size:0.7rem;color:#94a3b8;">${conf} conf.</span></div>`;
 }
 
@@ -533,7 +534,7 @@ function typeWriter(element, text, speed = 15) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (OPTIMIZADA)
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT DE ANALISTA CUANTITATIVO
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
@@ -541,61 +542,131 @@ async function llamarIAConContexto(prompt, temaBusqueda = '') {
         if (temaBusqueda) {
             const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
             if (resultados12.resumen.total_resultados > 0) {
-                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO CRIPTO ---\n';
-                contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
+                contextoAcademico = '\n\n--- contexto académico cripto ---\n';
+                contextoAcademico += `se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
                 const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
                 fuentesPrioritarias.forEach(key => {
                     const f = resultados12.fuentes[key];
                     if (f && f.exito && f.count > 0) {
                         contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
                         f.data.slice(0, 2).forEach(r => {
-                            contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
-                            if (r.abstract) contextoAcademico += `  Resumen: ${r.abstract.substring(0, 200)}...\n`;
+                            contextoAcademico += `• título: ${r.titulo || 'sin título'}\n`;
+                            if (r.abstract) contextoAcademico += `  resumen: ${r.abstract.substring(0, 200)}...\n`;
                         });
                     }
                 });
-                contextoAcademico += '\n--- FIN CONTEXTO ACADÉMICO ---\n\n';
+                contextoAcademico += '\n--- fin contexto académico ---\n\n';
             }
         }
 
-        // PROMPT OPTIMIZADO PARA ANÁLISIS CRIPTO COMPLETOS
+        // PROMPT DE ANALISTA CUANTITATIVO SENIOR - ENFOQUE CHINA
         const promptCompleto = `${contextoAcademico}
 
 ${prompt}
 
-⚠️ INSTRUCCIONES OBLIGATORIAS PARA EL ANALISTA DE TRADING:
-1. El análisis DEBE ser COMPLETO y EXTENSO (mínimo 400-600 palabras).
-2. Estructura OBLIGATORIA:
-   - SEÑAL CLARA: Compra, Venta o Espera con fundamento.
-   - INDICADORES TÉCNICOS: Análisis detallado de RSI, MACD, medias móviles, etc.
-   - SOPORTE Y RESISTENCIA: Niveles clave identificados.
-   - ANÁLISIS DE VOLUMEN: Interpretación de la actividad del mercado.
-   - CONCLUSIÓN FINAL: Resumen y recomendación.
-3. NO te detengas hasta haber completado TODO el análisis.
-4. Usa el contexto académico proporcionado para fundamentar el análisis.
-5. Incluye niveles de precio concretos (S1, S2, R1, R2) cuando sea posible.
-6. Mantén un tono profesional y basado en datos.
+═══════════════════════════════════════════════════════════
+🎯 rol: eres un analista cuantitativo senior especializado en 
+criptomonedas con más de 10 años de experiencia en mercados 
+financieros, análisis técnico avanzado y gestión de riesgo.
+═══════════════════════════════════════════════════════════
 
-RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD DE ANÁLISIS:`;
+⚠️ instrucciones obligatorias y no negociables:
+
+📊 extensión y profundidad:
+• mínimo 500-800 palabras de análisis sustancial
+• cero relleno, cada párrafo debe aportar valor accionable
+• cita datos concretos, no generalidades
+
+📋 estructura obligatoria (respeta el orden):
+
+1️⃣ **resumen ejecutivo** (2-3 líneas)
+   - señal principal: 🟢 compra / 🔴 venta / 🟡 espera
+   - nivel de confianza: (alto/medio/bajo) con % estimado
+   - timeframe recomendado: (scalping/intradía/swing/posición)
+
+2️⃣ **análisis técnico multi-indicador**
+   - rsi (14): valor actual + interpretación (sobrecompra/sobreventa/divergencias)
+   - macd: cruce de líneas, histograma y momentum
+   - medias móviles: ema 20, 50, 200 (golden/death cross)
+   - bandas de bollinger: compresión/expansión y posición del precio
+   - estocástico y otros osciladores relevantes
+
+3️⃣ **niveles críticos de precio** (en usd)
+   - resistencias: r1, r2, r3 con justificación
+   - soportes: s1, s2, s3 con justificación
+   - punto pivote diario/semanal
+   - zonas de liquidez y order blocks
+
+4️⃣ **análisis de volumen y order flow**
+   - volumen actual vs promedio 20 días
+   - obv (on balance volume)
+   - divergencias precio-volumen
+   - actividad de ballenas si es detectable
+
+5️⃣ **patrones chartistas y velas japonesas**
+   - patrones identificados (h&s, triángulos, banderas, etc.)
+   - velas relevantes (doji, martillo, envolvente)
+   - estructura de mercado (hh/hl o lh/ll)
+
+6️⃣ **gestión de riesgo** ⚠️ crítico
+   - stop loss sugerido con % de riesgo
+   - take profit 1, 2 y 3 con ratios r:r
+   - tamaño de posición recomendado (% del capital)
+   - escenarios alternativos (plan b)
+
+7️⃣ **contexto macro y sentimiento**
+   - fear & greed index
+   - correlación con btc/eth
+   - eventos fundamentales relevantes
+   - sentiment de redes sociales
+
+8️⃣ **conclusión y plan de acción**
+   - recomendación final clara y accionable
+   - condiciones de invalidación del análisis
+   - próximos niveles a vigilar
+
+🎓 reglas de calidad:
+✅ fundamenta cada afirmación con datos técnicos
+✅ usa el contexto académico proporcionado como base teórica
+✅ sé específico con precios, porcentajes y timeframes
+✅ menciona probabilidades, no certezas absolutas
+✅ incluye disclaimers de riesgo apropiados
+❌ no uses frases vagas como "podría subir" sin contexto
+❌ no omitas ninguna sección de la estructura
+❌ no te detengas hasta completar todo el análisis
+
+💡 formato de salida:
+- usa emojis para mejorar legibilidad
+- negritas para datos clave
+- tablas cuando sea apropiado para niveles
+- separadores visuales entre secciones
+
+⚡ responde ahora con el análisis más completo, profesional 
+y accionable posible. tu reputación como analista depende 
+de la calidad de este informe:`;
+
+        console.log('📚 enviando prompt de analista cuantitativo a cloudflare ai');
+        console.log('🇨🇳 enfoque geográfico fijo:', PAIS_FIJO);
 
         const response = await fetch(CLOUDFLARE_AI_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ pregunta: promptCompleto })
         });
+        
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const text = await response.text();
         
         if (text && text.length > 20) {
             jsllm7TermuxConectado = true;
-            document.getElementById('jsllm7StatusBar').textContent = '✅ Activo';
-            document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ Cloudflare AI: ✅ Activo (Sin caídas)';
+            document.getElementById('jsllm7StatusBar').textContent = '✅ activo';
+            document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ cloudflare ai: ✅ activo (sin caídas)';
             
-            if (text.length < 250) {
-                console.warn('⚠️ Análisis corto, reintentando...');
-                const retryPrompt = `Genera un análisis de trading COMPLETO Y EXTENSO para ${temaBusqueda || currentToken}. 
-                Estructura: Señal, Indicadores Técnicos (RSI, MACD), S/R, Volumen, Conclusión.
-                Extensión mínima: 400 palabras. No te detengas hasta completar.`;
+            if (text.length < 300) {
+                console.warn('⚠️ análisis corto, reintentando...');
+                const retryPrompt = `genera un análisis de trading completo y extenso para ${temaBusqueda || currentToken} con enfoque en china. 
+                estructura: resumen ejecutivo, análisis técnico, s/r, volumen, patrones, riesgo, contexto macro, conclusión.
+                extensión mínima: 500 palabras. no te detengas hasta completar.`;
                 const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -604,19 +675,19 @@ RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD DE ANÁLISIS:`;
                 if (retryResponse.ok) {
                     const retryText = await retryResponse.text();
                     if (retryText.length > text.length) {
-                        console.log('✅ Reintento exitoso:', retryText.length, 'caracteres');
+                        console.log('✅ reintento exitoso:', retryText.length, 'caracteres');
                         return retryText;
                     }
                 }
             }
             return text;
         }
-        throw new Error('Respuesta vacía');
+        throw new Error('respuesta vacía');
     } catch(e) {
-        console.warn('⚠️ Error en llamada IA:', e.message);
+        console.warn('⚠️ error en llamada ia:', e.message);
         jsllm7TermuxConectado = true;
-        document.getElementById('jsllm7StatusBar').textContent = '✅ Activo';
-        document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ Cloudflare AI: ✅ Activo (Sin caídas)';
+        document.getElementById('jsllm7StatusBar').textContent = '✅ activo';
+        document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ cloudflare ai: ✅ activo (sin caídas)';
         return null;
     }
 }
@@ -652,7 +723,7 @@ async function updatePrediction(manualToken = null) {
         if (!td || !td.tokenData) { td = await fetchTokenData(t); if (td) await cache.cacheAnalysis(t, { tokenData: td }); }
         else td = td.tokenData;
         
-        if (!td) { document.getElementById('tokenSymbol').innerHTML = '⚠️ No encontrado'; isRefreshing = false; return; }
+        if (!td) { document.getElementById('tokenSymbol').innerHTML = '⚠️ no encontrado'; isRefreshing = false; return; }
         
         currentToken = t;
         const score = calculateScore(td);
@@ -666,19 +737,21 @@ async function updatePrediction(manualToken = null) {
         document.getElementById('iaScore').innerHTML = `${score}/100`;
         
         // === FASE 2 y 3: Búsqueda en 12 fuentes + Envío de contexto a la IA ===
-        const preguntaAnalisis = `Analiza el token ${td.symbol} para trading.
-Datos de mercado actuales:
-- Precio: $${fmt(td.price)}
-- Cambio 24h: ${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%
-- Volumen: $${(td.volume24h/1e6).toFixed(2)}M
-- Liquidez: $${(td.liquidity/1e6).toFixed(2)}M
+        const preguntaAnalisis = `analiza el token ${td.symbol} para trading con enfoque en ${PAIS_FIJO}.
+datos de mercado actuales:
+- precio: $${fmt(td.price)}
+- cambio 24h: ${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%
+- volumen: $${(td.volume24h/1e6).toFixed(2)}M
+- liquidez: $${(td.liquidity/1e6).toFixed(2)}M
 
-Genera un análisis de trading profesional COMPLETO. Incluye:
-1. Señal clara (Compra, Venta o Espera) con justificación.
-2. Análisis detallado de indicadores técnicos (RSI, MACD, medias).
-3. Niveles de Soporte y Resistencia.
-4. Análisis de volumen.
-5. Conclusión final.`;
+genera un análisis de trading profesional completo. incluye:
+1. señal clara (compra, venta o espera) con justificación.
+2. análisis detallado de indicadores técnicos (rsi, macd, medias).
+3. niveles de soporte y resistencia.
+4. análisis de volumen.
+5. gestión de riesgo.
+6. contexto macro de ${PAIS_FIJO}.
+7. conclusión final.`;
         
         let analisis = await llamarIAConContexto(preguntaAnalisis, t + ' cryptocurrency');
         if (!analisis || analisis.length < 50) {
@@ -689,11 +762,10 @@ Genera un análisis de trading profesional COMPLETO. Incluye:
         ultimoAnalisis = analisis;
         document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
         actualizarWidgets(td, analisis);
-        showToast(`✅ ${td.symbol} · ${analisis.length} caracteres`);
+        showToast(`✅ ${td.symbol} · ${analisis.length} caracteres · 🇨🇳 enfoque ${PAIS_FIJO}`);
         
         // Botón de análisis avanzado (bajo demanda)
         const sentimentContainer = document.getElementById('sentimentContainer');
-        // Eliminar botón anterior si existe
         const oldBtn = document.getElementById('btnAnalisisAvanzado');
         if (oldBtn) oldBtn.remove();
         const oldContainer = document.getElementById('contenedorAnalisisAvanzado');
@@ -704,16 +776,16 @@ Genera un análisis de trading profesional COMPLETO. Incluye:
         btnContainer.style.marginTop = '10px';
         btnContainer.innerHTML = `
             <button class="analisis-avanzado-btn" onclick="cargarAnalisisAvanzado(this, '${td.symbol}')">
-                📈 Cargar Análisis Avanzado
+                📈 cargar análisis avanzado
             </button>
             <div class="analisis-container" id="contenedorAnalisisAvanzado">
-                <div class="titulo">📊 Estrategias alternativas:</div>
-                <div class="texto" id="textoAnalisisAvanzado">Cargando...</div>
+                <div class="titulo">📊 estrategias alternativas:</div>
+                <div class="texto" id="textoAnalisisAvanzado">cargando...</div>
             </div>
         `;
         sentimentContainer.appendChild(btnContainer);
         
-    } catch(e) { showToast("❌ Error", true); }
+    } catch(e) { showToast("❌ error", true); }
     finally { isRefreshing = false; }
 }
 
@@ -725,25 +797,25 @@ window.cargarAnalisisAvanzado = async function(btn, token) {
     const textoDiv = document.getElementById('textoAnalisisAvanzado');
     
     btn.disabled = true;
-    btn.textContent = '⏳ Cargando...';
+    btn.textContent = '⏳ cargando...';
     container.classList.add('visible');
-    textoDiv.innerHTML = '<span class="loading-spinner"></span> Generando estrategias alternativas...';
+    textoDiv.innerHTML = '<span class="loading-spinner"></span> generando estrategias alternativas...';
     
     try {
-        const prompt = `Basándote en el análisis de ${token}, genera 3 estrategias de trading alternativas o complementarias. 
-        Incluye escenarios alcista, neutral y bajista. Proporciona títulos y descripciones breves.`;
+        const prompt = `basándote en el análisis de ${token}, genera 3 estrategias de trading alternativas o complementarias con enfoque en ${PAIS_FIJO}. 
+        incluye escenarios alcista, neutral y bajista. proporciona títulos y descripciones breves.`;
         const analisis = await llamarIAConContexto(prompt, token + ' cryptocurrency trading strategy');
         if (analisis && analisis.length > 20) {
             textoDiv.innerHTML = analisis.replace(/\n/g, '<br>');
-            showToast('✅ Estrategias avanzadas cargadas');
+            showToast('✅ estrategias avanzadas cargadas');
         } else {
-            textoDiv.innerHTML = '⚠️ No se pudieron cargar las estrategias en este momento.';
+            textoDiv.innerHTML = '⚠️ no se pudieron cargar las estrategias en este momento.';
         }
     } catch (e) {
-        textoDiv.innerHTML = '❌ Error al cargar estrategias.';
+        textoDiv.innerHTML = '❌ error al cargar estrategias.';
     } finally {
         btn.disabled = false;
-        btn.textContent = '📈 Cargar Análisis Avanzado';
+        btn.textContent = '📈 cargar análisis avanzado';
     }
 };
 
@@ -752,54 +824,54 @@ window.cargarAnalisisAvanzado = async function(btn, token) {
 // ============================================
 async function herramienta(prompt, titulo) {
     showToast(`⏳ ${titulo}...`);
-    let analisis = await llamarIAConContexto(`Genera un análisis de ${titulo} para el token ${currentToken}. ${prompt}`, currentToken + ' cryptocurrency');
+    let analisis = await llamarIAConContexto(`genera un análisis de ${titulo} para el token ${currentToken} con enfoque en ${PAIS_FIJO}. ${prompt}`, currentToken + ' cryptocurrency');
     if (!analisis || analisis.length < 20) {
         analisis = nucleoLector.analizar(currentToken, currentTokenData?.price || 0, currentTokenData?.volume24h || 0, currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
     }
     mostrarModal(titulo, analisis);
     if (currentTokenData) actualizarWidgets(currentTokenData, analisis);
-    showToast(`✅ ${titulo} · ${analisis.length} caracteres`);
+    showToast(`✅ ${titulo} · ${analisis.length} caracteres · 🇨🇳`);
 }
 
-document.getElementById('btnHistorico').onclick = () => herramienta(`Histórico ${currentToken}`, `📊 HISTÓRICO: ${currentToken}`);
-document.getElementById('btnComparar').onclick = async () => { const t2 = prompt("Comparar con:", "ETH"); if (t2) await herramienta(`${currentToken} vs ${t2}`, `🔄 ${currentToken} vs ${t2}`); };
-document.getElementById('btnVolatilidad').onclick = () => herramienta(`Volatilidad ${currentToken}`, `⚠️ VOLATILIDAD`);
-document.getElementById('btnSoporteResistencia').onclick = () => herramienta(`S/R ${currentToken}`, `📈 S/R`);
-document.getElementById('btnNoticias').onclick = () => herramienta(`Noticias ${currentToken}`, `📰 NOTICIAS`);
-document.getElementById('btnPortafolio').onclick = () => herramienta(`Portafolio cripto`, `💼 PORTAFOLIO`);
-document.getElementById('btnAlertas').onclick = () => herramienta(`Alertas ${currentToken}`, `🔔 ALERTAS`);
-document.getElementById('btnEstrategia').onclick = async () => { const p = prompt("Perfil:", "moderado"); if (p) await herramienta(`Estrategia ${p} ${currentToken}`, `🎯 ESTRATEGIA`); };
-document.getElementById('btnFearGreed').onclick = () => herramienta(`Fear & Greed`, `😨 FEAR/GREED`);
-document.getElementById('btnPrediccion').onclick = () => herramienta(`Predicción ${currentToken}`, `🔮 PREDICCIÓN`);
+document.getElementById('btnHistorico').onclick = () => herramienta(`histórico ${currentToken}`, `📊 histórico: ${currentToken}`);
+document.getElementById('btnComparar').onclick = async () => { const t2 = prompt("comparar con:", "eth"); if (t2) await herramienta(`${currentToken} vs ${t2}`, `🔄 ${currentToken} vs ${t2}`); };
+document.getElementById('btnVolatilidad').onclick = () => herramienta(`volatilidad ${currentToken}`, `⚠️ volatilidad`);
+document.getElementById('btnSoporteResistencia').onclick = () => herramienta(`s/r ${currentToken}`, `📈 s/r`);
+document.getElementById('btnNoticias').onclick = () => herramienta(`noticias ${currentToken}`, `📰 noticias`);
+document.getElementById('btnPortafolio').onclick = () => herramienta(`portafolio cripto`, `💼 portafolio`);
+document.getElementById('btnAlertas').onclick = () => herramienta(`alertas ${currentToken}`, `🔔 alertas`);
+document.getElementById('btnEstrategia').onclick = async () => { const p = prompt("perfil:", "moderado"); if (p) await herramienta(`estrategia ${p} ${currentToken}`, `🎯 estrategia`); };
+document.getElementById('btnFearGreed').onclick = () => herramienta(`fear & greed`, `😨 fear/greed`);
+document.getElementById('btnPrediccion').onclick = () => herramienta(`predicción ${currentToken}`, `🔮 predicción`);
 
 // ============================================
 // BOTONES ACADÉMIA PRO
 // ============================================
 document.getElementById('btn12Fuentes').onclick = async () => {
-    showToast('🔬 Buscando en 12 fuentes...');
+    showToast('🔬 buscando en 12 fuentes...');
     const resultados = await fuentes12.buscarTodasLasFuentes(currentToken + ' cryptocurrency');
-    mostrarModal('🔬 12 FUENTES ACADÉMICAS', fuentes12.formatearResultados(resultados));
+    mostrarModal('🔬 12 fuentes académicas', fuentes12.formatearResultados(resultados));
     showToast(`✅ ${resultados.resumen.total_resultados} resultados`);
 };
 
 document.getElementById('btnBuscarAcademico').onclick = async () => {
-    showToast('📚 Buscando referencias...');
+    showToast('📚 buscando referencias...');
     referenciasAcademicas = await fuentes12.buscarSemanticScholar(currentToken + ' cryptocurrency');
     if (referenciasAcademicas.length > 0) {
-        mostrarModal('📚 REFERENCIAS', referenciasAcademicas.map((r, i) => `${i+1}. ${r.autor} (${r.year}). ${r.titulo}. ${r.fuente}.`).join('\n\n'));
-    } else { mostrarModal('📚 SIN RESULTADOS', 'No se encontraron referencias.'); }
+        mostrarModal('📚 referencias', referenciasAcademicas.map((r, i) => `${i+1}. ${r.autor} (${r.year}). ${r.titulo}. ${r.fuente}.`).join('\n\n'));
+    } else { mostrarModal('📚 sin resultados', 'no se encontraron referencias.'); }
 };
 
 document.getElementById('btnVerificarPlagio').onclick = () => {
-    if (!ultimoAnalisis) { showToast('⚠️ Realiza un análisis primero', true); return; }
+    if (!ultimoAnalisis) { showToast('⚠️ realiza un análisis primero', true); return; }
     const resultado = plagiarismDetector.check(ultimoAnalisis, Object.values(BASE_DATOS_403M.criptos).map(c => c.analisis));
-    mostrarModal('⚠️ PLAGIO', `Riesgo: ${resultado.overallRisk}\nSimilitud: ${Math.round(resultado.maxSimilarity * 100)}%\n\n${resultado.details.slice(0,5).map(d => `• ${d.source}: ${Math.round(d.similarity*100)}%`).join('\n')}`);
+    mostrarModal('⚠️ plagio', `riesgo: ${resultado.overallRisk}\nsimilitud: ${Math.round(resultado.maxSimilarity * 100)}%\n\n${resultado.details.slice(0,5).map(d => `• ${d.source}: ${Math.round(d.similarity*100)}%`).join('\n')}`);
 };
 
 document.getElementById('btnExportar').onclick = () => {
-    if (!ultimoAnalisis) { showToast('⚠️ Realiza un análisis primero', true); return; }
+    if (!ultimoAnalisis) { showToast('⚠️ realiza un análisis primero', true); return; }
     const formatos = ['latex','markdown','bibtex','apa'].map(f => `<button style="margin:5px;padding:8px 16px;background:#8b5cf6;color:white;border:none;border-radius:20px;cursor:pointer;" onclick="window.exportarFormato('${f}')">📄 ${f.toUpperCase()}</button>`).join('');
-    mostrarModal('📤 EXPORTAR', `Selecciona formato:\n\n${formatos}`);
+    mostrarModal('📤 exportar', `selecciona formato:\n\n${formatos}`);
 };
 
 window.exportarFormato = function(format) {
@@ -808,36 +880,37 @@ window.exportarFormato = function(format) {
     switch(format) {
         case 'latex': content = exporter.toLatex(ultimoAnalisis, currentToken); filename += '.tex'; break;
         case 'markdown': content = exporter.toMarkdown(ultimoAnalisis, currentToken); filename += '.md'; break;
-        case 'bibtex': content = exporter.toBibTeX(currentToken, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{fuente:'403M LECTOR'}]); filename += '.bib'; break;
-        case 'apa': content = exporter.toAPA(currentToken, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{fuente:'403M LECTOR'}]); filename += '.txt'; break;
+        case 'bibtex': content = exporter.toBibTeX(currentToken, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{fuente:'403m lector'}]); filename += '.bib'; break;
+        case 'apa': content = exporter.toAPA(currentToken, referenciasAcademicas.length > 0 ? referenciasAcademicas : [{fuente:'403m lector'}]); filename += '.txt'; break;
     }
     descargarArchivo(content, filename);
     document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-    showToast(`📤 Exportado como ${format.toUpperCase()}`);
+    showToast(`📤 exportado como ${format.toUpperCase()}`);
 };
 
 document.querySelectorAll('.export-btn').forEach(btn => {
-    btn.addEventListener('click', () => { if (ultimoAnalisis) window.exportarFormato(btn.dataset.format); else showToast('⚠️ Realiza un análisis primero', true); });
+    btn.addEventListener('click', () => { if (ultimoAnalisis) window.exportarFormato(btn.dataset.format); else showToast('⚠️ realiza un análisis primero', true); });
 });
 
-document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('🧠 403M LECTOR', nucleoLector.getEstado()); };
-document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 ESTADO', `Cloudflare AI: ✅ Conectado (Sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅' : '⚠️'}\nCaché: ${cache.getStats().total} entradas\n12 Fuentes: ✅`); };
+document.getElementById('btnDecisionStatus').onclick = () => { mostrarModal('🧠 403m lector', nucleoLector.getEstado()); };
+document.getElementById('btnTermuxStatus').onclick = () => { mostrarModal('🔌 estado', `cloudflare ai: ✅ conectado (sin caídas)\njsllm7: ${jsllm7TermuxConectado ? '✅' : '⚠️'}\ncaché: ${cache.getStats().total} entradas\n12 fuentes: ✅\n🇨🇳 enfoque: ${PAIS_FIJO}`); };
 
 // ============================================
 // INICIALIZACIÓN
 // ============================================
 function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ Modo ${modo === 'experto' ? 'EXPERTO' : 'BÁSICO'}`); }); });
+document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ modo ${modo === 'experto' ? 'experto' : 'básico'}`); }); });
 actualizarModoUI();
 
 async function verificarTermux() {
     try {
         const r = await fetch(`${JSLLM7_API_URL}/stats`);
-        if (r.ok) { jsllm7TermuxConectado = true; document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ Cloudflare AI: ✅ Activo (Sin caídas)'; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
+        if (r.ok) { jsllm7TermuxConectado = true; document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ cloudflare ai: ✅ activo (sin caídas)'; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
     } catch(e) { jsllm7TermuxConectado = false; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
 }
 
 function iniciar() {
+    console.log(`🇨🇳 enfoque geográfico fijo: ${PAIS_FIJO}`);
     updatePrediction("BTC");
     setInterval(() => updatePrediction(), 60000);
     document.getElementById('refreshBtn').onclick = () => updatePrediction();
@@ -845,7 +918,7 @@ function iniciar() {
     document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
     verificarTermux();
     setInterval(verificarTermux, 30000);
-    showToast("🚀 NextMoon AI · Cloudflare AI · 12 Fuentes · 24/7");
+    showToast(`🚀 nextmoon ai · cloudflare ai · 12 fuentes · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO}`);
 }
 
 iniciar();
