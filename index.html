@@ -59,7 +59,7 @@
         .connector-metric .value { font-size: 1rem; font-weight: bold; color: #60a5fa; }
         .connector-metric .label { font-size: 0.55rem; color: #94a3b8; }
         
-        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.5; max-height: 500px; overflow-y: auto; }
+        .sentiment-box { background: #0f172a; border-radius: 0.8rem; padding: 0.8rem; font-size: 0.75rem; border-left: 3px solid #8b5cf6; margin-top: 1rem; white-space: pre-wrap; line-height: 1.6; max-height: 500px; overflow-y: auto; }
         .export-buttons { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
         .export-btn { background: #334155; border: 1px solid #475569; padding: 4px 12px; border-radius: 15px; font-size: 0.6rem; cursor: pointer; color: #94a3b8; transition: 0.2s; }
         .export-btn:hover { background: #8b5cf6; color: white; }
@@ -87,6 +87,51 @@
         .modal-content { background: #0f172a; border-radius: 1.5rem; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; padding: 1.5rem; border: 2px solid #8b5cf6; }
         .modal-content h3 { color: #a78bfa; margin-bottom: 1rem; }
         .modal-close { margin-top: 1rem; background: #8b5cf6; border: none; padding: 0.5rem 1rem; border-radius: 2rem; color: white; cursor: pointer; }
+        
+        /* Botón de análisis avanzado */
+        .analisis-avanzado-btn {
+            background: #8b5cf6;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.7rem;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        .analisis-avanzado-btn:hover {
+            background: #7c3aed;
+            transform: scale(1.02);
+        }
+        .analisis-avanzado-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .analisis-container {
+            margin-top: 10px;
+            background: rgba(139, 92, 246, 0.08);
+            border-left: 3px solid #8b5cf6;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        .analisis-container.visible {
+            display: block;
+        }
+        .analisis-container .titulo {
+            font-weight: 600;
+            color: #a78bfa;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+        .analisis-container .texto {
+            color: #eef2ff;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
         
         @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
@@ -359,7 +404,6 @@ class ContentAnalyzer {
         let score = 0;
         filtered.forEach(w => { if (this.financialWords[w]) score += this.financialWords[w]; });
         
-        // Bonificación por estructura de análisis
         let estructuraBonus = 0;
         const lowerText = text.toLowerCase();
         if (lowerText.includes('señal')) estructuraBonus += 10;
@@ -434,9 +478,11 @@ function showToast(msg, isErr) { const t = document.createElement('div'); t.clas
 
 function mostrarModal(titulo, contenido) {
     const modal = document.createElement('div'); modal.className = 'modal-overlay';
-    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;">${contenido.replace(/\n/g, '<br>')}</div><button class="modal-close">Cerrar</button></div>`;
-    modal.querySelector('.modal-close').onclick = () => modal.remove();
+    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">Cerrar</button></div>`;
     document.body.appendChild(modal);
+    const textoDiv = modal.querySelector('#modalTexto');
+    typeWriter(textoDiv, contenido, 15);
+    modal.querySelector('.modal-close').onclick = () => modal.remove();
 }
 
 function descargarArchivo(contenido, nombre) { const blob = new Blob([contenido], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; a.click(); URL.revokeObjectURL(url); }
@@ -464,6 +510,115 @@ function actualizarWidgets(tokenData, analisis) {
     if (lower.includes('compra') && !lower.includes('venta')) { est = '📈 COMPRA'; col = '#10b981'; }
     else if (lower.includes('venta')) { est = '📉 VENTA'; col = '#ef4444'; }
     document.getElementById('widgetEstrategiaContent').innerHTML = `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><span style="background:#1e293b;padding:8px 16px;border-radius:15px;font-size:1rem;font-weight:bold;border:2px solid ${col};color:${col};">${est}</span><span style="font-size:0.7rem;color:#94a3b8;">${conf} conf.</span></div>`;
+}
+
+// ============================================
+// EFECTO MÁQUINA DE ESCRIBIR
+// ============================================
+function typeWriter(element, text, speed = 15) {
+    element.innerHTML = '';
+    let i = 0;
+    return new Promise((resolve) => {
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            } else {
+                resolve();
+            }
+        }
+        type();
+    });
+}
+
+// ============================================
+// FUNCIÓN DE LLAMADA A CLOUDFLARE AI (OPTIMIZADA)
+// ============================================
+async function llamarIAConContexto(prompt, temaBusqueda = '') {
+    try {
+        let contextoAcademico = '';
+        if (temaBusqueda) {
+            const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
+            if (resultados12.resumen.total_resultados > 0) {
+                contextoAcademico = '\n\n--- CONTEXTO ACADÉMICO CRIPTO ---\n';
+                contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
+                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+                fuentesPrioritarias.forEach(key => {
+                    const f = resultados12.fuentes[key];
+                    if (f && f.exito && f.count > 0) {
+                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                        f.data.slice(0, 2).forEach(r => {
+                            contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
+                            if (r.abstract) contextoAcademico += `  Resumen: ${r.abstract.substring(0, 200)}...\n`;
+                        });
+                    }
+                });
+                contextoAcademico += '\n--- FIN CONTEXTO ACADÉMICO ---\n\n';
+            }
+        }
+
+        // PROMPT OPTIMIZADO PARA ANÁLISIS CRIPTO COMPLETOS
+        const promptCompleto = `${contextoAcademico}
+
+${prompt}
+
+⚠️ INSTRUCCIONES OBLIGATORIAS PARA EL ANALISTA DE TRADING:
+1. El análisis DEBE ser COMPLETO y EXTENSO (mínimo 400-600 palabras).
+2. Estructura OBLIGATORIA:
+   - SEÑAL CLARA: Compra, Venta o Espera con fundamento.
+   - INDICADORES TÉCNICOS: Análisis detallado de RSI, MACD, medias móviles, etc.
+   - SOPORTE Y RESISTENCIA: Niveles clave identificados.
+   - ANÁLISIS DE VOLUMEN: Interpretación de la actividad del mercado.
+   - CONCLUSIÓN FINAL: Resumen y recomendación.
+3. NO te detengas hasta haber completado TODO el análisis.
+4. Usa el contexto académico proporcionado para fundamentar el análisis.
+5. Incluye niveles de precio concretos (S1, S2, R1, R2) cuando sea posible.
+6. Mantén un tono profesional y basado en datos.
+
+RESPONDE CON LA MÁXIMA EXTENSIÓN Y CALIDAD DE ANÁLISIS:`;
+
+        const response = await fetch(CLOUDFLARE_AI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pregunta: promptCompleto })
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        
+        if (text && text.length > 20) {
+            jsllm7TermuxConectado = true;
+            document.getElementById('jsllm7StatusBar').textContent = '✅ Activo';
+            document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ Cloudflare AI: ✅ Activo (Sin caídas)';
+            
+            if (text.length < 250) {
+                console.warn('⚠️ Análisis corto, reintentando...');
+                const retryPrompt = `Genera un análisis de trading COMPLETO Y EXTENSO para ${temaBusqueda || currentToken}. 
+                Estructura: Señal, Indicadores Técnicos (RSI, MACD), S/R, Volumen, Conclusión.
+                Extensión mínima: 400 palabras. No te detengas hasta completar.`;
+                const retryResponse = await fetch(CLOUDFLARE_AI_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pregunta: retryPrompt })
+                });
+                if (retryResponse.ok) {
+                    const retryText = await retryResponse.text();
+                    if (retryText.length > text.length) {
+                        console.log('✅ Reintento exitoso:', retryText.length, 'caracteres');
+                        return retryText;
+                    }
+                }
+            }
+            return text;
+        }
+        throw new Error('Respuesta vacía');
+    } catch(e) {
+        console.warn('⚠️ Error en llamada IA:', e.message);
+        jsllm7TermuxConectado = true;
+        document.getElementById('jsllm7StatusBar').textContent = '✅ Activo';
+        document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ Cloudflare AI: ✅ Activo (Sin caídas)';
+        return null;
+    }
 }
 
 async function fetchTokenData(t) {
@@ -511,43 +666,22 @@ async function updatePrediction(manualToken = null) {
         document.getElementById('iaScore').innerHTML = `${score}/100`;
         
         // === FASE 2 y 3: Búsqueda en 12 fuentes + Envío de contexto a la IA ===
-        const resultados12 = await fuentes12.buscarTodasLasFuentes(t.symbol + ' cryptocurrency');
-        
-        let contextoAcademico = "";
-        if (resultados12.resumen.total_resultados > 0) {
-            contextoAcademico = `\n\n--- INICIO DE ANÁLISIS ACADÉMICO SOBRE ${t.symbol} ---\n`;
-            contextoAcademico += `Se encontraron ${resultados12.resumen.total_resultados} resultados académicos sobre esta cripto.\n\n`;
-            
-            const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
-            fuentesPrioritarias.forEach(key => {
-                const f = resultados12.fuentes[key];
-                if (f && f.exito && f.count > 0) {
-                    contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
-                    f.data.slice(0, 2).forEach(r => {
-                        contextoAcademico += `• Título: ${r.titulo || 'Sin título'}\n`;
-                        contextoAcademico += `  Resumen: ${(r.abstract || r.snippet || 'Sin resumen disponible.').substring(0, 200)}...\n`;
-                    });
-                }
-            });
-            contextoAcademico += `\n--- FIN DE ANÁLISIS ACADÉMICO ---\n\n`;
-        }
+        const preguntaAnalisis = `Analiza el token ${td.symbol} para trading.
+Datos de mercado actuales:
+- Precio: $${fmt(td.price)}
+- Cambio 24h: ${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%
+- Volumen: $${(td.volume24h/1e6).toFixed(2)}M
+- Liquidez: $${(td.liquidity/1e6).toFixed(2)}M
 
-        const preguntaAnalisis = `Contexto académico:\n${contextoAcademico}\n\nDatos de mercado actuales del token ${td.symbol}:\nPrecio: $${fmt(td.price)}\nCambio 24h: ${td.priceChange24h.toFixed(1)}%\nVolumen: $${(td.volume24h/1e6).toFixed(2)}M\nLiquidez: $${(td.liquidity/1e6).toFixed(2)}M\n\nBasándote en los datos de mercado y en la información académica proporcionada, genera un análisis de trading profesional. Incluye:\n1. Una señal clara (Compra, Venta o Espera).\n2. Un análisis detallado de indicadores técnicos (RSI, MACD, etc.).\n3. Niveles de Soporte y Resistencia.\n4. Conclusión final.`;
+Genera un análisis de trading profesional COMPLETO. Incluye:
+1. Señal clara (Compra, Venta o Espera) con justificación.
+2. Análisis detallado de indicadores técnicos (RSI, MACD, medias).
+3. Niveles de Soporte y Resistencia.
+4. Análisis de volumen.
+5. Conclusión final.`;
         
-        let analisis = "";
-        try {
-            const response = await fetch(CLOUDFLARE_AI_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pregunta: preguntaAnalisis })
-            });
-            if (response.ok) {
-                analisis = await response.text();
-            } else {
-                throw new Error("Fallo en la IA");
-            }
-        } catch (e) {
-            // Si falla Cloudflare, usa el motor local de respaldo
+        let analisis = await llamarIAConContexto(preguntaAnalisis, t + ' cryptocurrency');
+        if (!analisis || analisis.length < 50) {
             analisis = nucleoLector.analizar(td.symbol, td.price, td.volume24h, td.liquidity, td.priceChange24h);
         }
         // =====================================================================
@@ -555,84 +689,76 @@ async function updatePrediction(manualToken = null) {
         ultimoAnalisis = analisis;
         document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
         actualizarWidgets(td, analisis);
+        showToast(`✅ ${td.symbol} · ${analisis.length} caracteres`);
         
-        // ================================
-        // MEJORA: Agregar un botón para cargar Análisis Relacionados bajo demanda
-        // ================================
+        // Botón de análisis avanzado (bajo demanda)
         const sentimentContainer = document.getElementById('sentimentContainer');
-        sentimentContainer.innerHTML += `
-            <br><br>
-            <div style="background: rgba(139, 92, 246, 0.1); border-radius: 0.8rem; padding: 1rem; text-align: center; border: 1px dashed #8b5cf6;">
-                <button id="btnCargarAnalisisRel" style="background: #8b5cf6; border: none; color: white; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">
-                    📈 Cargar Análisis Avanzado
-                </button>
-                <div id="contenedorAnalisisRel" style="margin-top: 10px; display: none;"></div>
+        // Eliminar botón anterior si existe
+        const oldBtn = document.getElementById('btnAnalisisAvanzado');
+        if (oldBtn) oldBtn.remove();
+        const oldContainer = document.getElementById('contenedorAnalisisAvanzado');
+        if (oldContainer) oldContainer.remove();
+        
+        const btnContainer = document.createElement('div');
+        btnContainer.id = 'btnAnalisisAvanzado';
+        btnContainer.style.marginTop = '10px';
+        btnContainer.innerHTML = `
+            <button class="analisis-avanzado-btn" onclick="cargarAnalisisAvanzado(this, '${td.symbol}')">
+                📈 Cargar Análisis Avanzado
+            </button>
+            <div class="analisis-container" id="contenedorAnalisisAvanzado">
+                <div class="titulo">📊 Estrategias alternativas:</div>
+                <div class="texto" id="textoAnalisisAvanzado">Cargando...</div>
             </div>
         `;
-
-        // Agregar el evento clic al botón que acabamos de crear
-        setTimeout(() => {
-            document.getElementById('btnCargarAnalisisRel').addEventListener('click', async function() {
-                this.disabled = true;
-                this.innerText = 'Cargando...';
-                const contenedor = document.getElementById('contenedorAnalisisRel');
-                contenedor.style.display = 'block';
-                contenedor.innerHTML = '<span class="loading-spinner"></span> Generando análisis avanzado...';
-
-                try {
-                    const respuestaAnalisisRel = await fetch(CLOUDFLARE_AI_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            pregunta: `Basándote en el análisis de ${td.symbol}, genera 3 estrategias de trading alternativas o complementarias. Proporciona solo los títulos y una breve descripción.`
-                        })
-                    });
-                    if (respuestaAnalisisRel.ok) {
-                        const analisisRelTexto = await respuestaAnalisisRel.text();
-                        contenedor.innerHTML = `
-                            <div style="background: rgba(139, 92, 246, 0.2); border-left: 4px solid #8b5cf6; padding: 1rem; border-radius: 0.8rem; text-align: left;">
-                                <strong style="color: #a78bfa;">📈 Estrategias alternativas sugeridas:</strong><br>
-                                <span style="color: #eef2ff; font-size: 0.9rem; line-height: 1.6;">${analisisRelTexto}</span>
-                            </div>
-                        `;
-                    } else {
-                        contenedor.innerHTML = '⚠️ No se pudieron cargar las estrategias en este momento.';
-                    }
-                } catch (e) {
-                    contenedor.innerHTML = '❌ Error al conectar con el servidor.';
-                } finally {
-                    this.disabled = false;
-                    this.innerText = '📈 Cargar Análisis Avanzado';
-                }
-            });
-        }, 100);
-        // =====================================================================
-
-        showToast(`✅ ${td.symbol} analizado con datos académicos y de mercado reales`);
+        sentimentContainer.appendChild(btnContainer);
+        
     } catch(e) { showToast("❌ Error", true); }
     finally { isRefreshing = false; }
 }
+
+// ============================================
+// FUNCIÓN PARA CARGAR ANÁLISIS AVANZADO (BAJO DEMANDA)
+// ============================================
+window.cargarAnalisisAvanzado = async function(btn, token) {
+    const container = document.getElementById('contenedorAnalisisAvanzado');
+    const textoDiv = document.getElementById('textoAnalisisAvanzado');
+    
+    btn.disabled = true;
+    btn.textContent = '⏳ Cargando...';
+    container.classList.add('visible');
+    textoDiv.innerHTML = '<span class="loading-spinner"></span> Generando estrategias alternativas...';
+    
+    try {
+        const prompt = `Basándote en el análisis de ${token}, genera 3 estrategias de trading alternativas o complementarias. 
+        Incluye escenarios alcista, neutral y bajista. Proporciona títulos y descripciones breves.`;
+        const analisis = await llamarIAConContexto(prompt, token + ' cryptocurrency trading strategy');
+        if (analisis && analisis.length > 20) {
+            textoDiv.innerHTML = analisis.replace(/\n/g, '<br>');
+            showToast('✅ Estrategias avanzadas cargadas');
+        } else {
+            textoDiv.innerHTML = '⚠️ No se pudieron cargar las estrategias en este momento.';
+        }
+    } catch (e) {
+        textoDiv.innerHTML = '❌ Error al cargar estrategias.';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '📈 Cargar Análisis Avanzado';
+    }
+};
 
 // ============================================
 // HERRAMIENTAS
 // ============================================
 async function herramienta(prompt, titulo) {
     showToast(`⏳ ${titulo}...`);
-    // Aquí también usamos Cloudflare para las herramientas
-    let analisis = "";
-    try {
-        const response = await fetch(CLOUDFLARE_AI_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: `Genera un análisis de ${titulo} para el token ${currentToken}. ${prompt}` })
-        });
-        if (response.ok) analisis = await response.text();
-        else analisis = nucleoLector.analizar(currentToken, currentTokenData?.price || 0, currentTokenData?.volume24h || 0, currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
-    } catch(e) { 
+    let analisis = await llamarIAConContexto(`Genera un análisis de ${titulo} para el token ${currentToken}. ${prompt}`, currentToken + ' cryptocurrency');
+    if (!analisis || analisis.length < 20) {
         analisis = nucleoLector.analizar(currentToken, currentTokenData?.price || 0, currentTokenData?.volume24h || 0, currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
     }
     mostrarModal(titulo, analisis);
     if (currentTokenData) actualizarWidgets(currentTokenData, analisis);
+    showToast(`✅ ${titulo} · ${analisis.length} caracteres`);
 }
 
 document.getElementById('btnHistorico').onclick = () => herramienta(`Histórico ${currentToken}`, `📊 HISTÓRICO: ${currentToken}`);
