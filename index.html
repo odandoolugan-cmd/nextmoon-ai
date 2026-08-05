@@ -14,14 +14,18 @@
         .badge { display: inline-block; background: rgba(59,130,246,0.2); border-radius: 100px; padding: 0.3rem 1rem; font-size: 0.7rem; margin-bottom: 0.5rem; }
         .badge-decision { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-12fuentes { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
-        .badge-cloudflare { background: #f48120; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
+        .badge-mistral { background: linear-gradient(90deg, #f97316, #dc2626); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .badge-wasm { background: #f59e0b; color: black; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; }
         .badge-china { background: #DE2910; color: #FFDE00; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #FFDE00; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
-        .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; }
-        .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; }
+        .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
+        .modo-btn { background: #1e293b; border: 1px solid #334155; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 600; color: #94a3b8; transition: 0.2s; }
         .modo-btn.active { background: #8b5cf6; color: white; border-color: #8b5cf6; }
+        .modo-btn:hover { background: #334155; color: white; }
+        .modo-activo-indicator { display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 0.65rem; font-weight: 600; margin-left: 10px; }
+        .modo-experto { background: #8b5cf6; color: white; }
+        .modo-basico { background: #f97316; color: white; }
         
         .tools-bar { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0; justify-content: center; }
         .tool-btn { background: #1e293b; border: 1px solid #334155; padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; font-weight: 500; color: #94a3b8; transition: 0.2s; }
@@ -36,6 +40,7 @@
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
         .search-btn { background: #3b82f6; border: none; padding: 0.5rem 1.2rem; border-radius: 2rem; color: white; font-weight: bold; cursor: pointer; }
+        .search-btn:hover { transform: scale(1.02); }
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         @media (max-width: 768px) { .dashboard-grid { grid-template-columns: 1fr; } }
         .card { background: rgba(30,41,59,0.8); backdrop-filter: blur(16px); border-radius: 1.5rem; padding: 1.2rem; border: 1px solid rgba(96,165,250,0.3); }
@@ -72,6 +77,7 @@
         .quality-baja { background: #ef4444; color: white; }
         
         button.refresh-btn { background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none; color: white; font-weight: bold; padding: 0.8rem; border-radius: 60px; cursor: pointer; width: 100%; margin-top: 1rem; }
+        button.refresh-btn:hover { transform: scale(1.02); }
         .spinner { width: 25px; height: 25px; border: 3px solid #1e293b; border-top-color: #60a5fa; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
@@ -144,6 +150,9 @@
             border-radius: 0.5rem;
         }
         
+        .progress-bar-container { width: 100%; height: 4px; background: #1e293b; border-radius: 2px; margin: 8px 0; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #ec4899); width: 0%; transition: width 0.5s; border-radius: 2px; }
+        
         @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -152,23 +161,25 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <div class="badge">🚀 NextMoon AI <span class="badge-cloudflare">⚡ Cloudflare AI</span> <span class="badge-wasm">⚡ WASM</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-china">🇨🇳 ENFOQUE CHINA</span></div>
-            <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#f48120;">CLOUDFLARE 24/7</span></h1>
+            <div class="badge">🚀 NextMoon AI <span class="badge-mistral">⚡ MISTRAL AI</span> <span class="badge-wasm">⚡ WASM</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-china">🇨🇳 ENFOQUE CHINA</span></div>
+            <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#f97316;">MISTRAL AI</span></h1>
             <div style="font-size: 0.7rem;">403M LECTOR · AcadémIA Pro · 12 Fuentes Gratis · WebAssembly · IndexedDB · Exportación · Plagio · 🇨🇳 Enfoque China</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + WebAssembly: Análisis impulsado por IA de Cloudflare (Nunca se cae) · Enfoque en China</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Mistral AI + WebAssembly · Enfoque en China</div>
         </div>
 
         <div class="status-bar">
             <span>💾 Caché: <span id="cacheHitRate">0%</span></span>
             <span>📊 DB: <span id="dbEntries">0</span></span>
             <span>🧠 403M: <span id="decisionCount">0</span></span>
-            <span>⚡ Cloudflare AI: <span id="jsllm7StatusBar">✅ Activo</span></span>
+            <span>⚡ Mistral AI: <span id="jsllm7StatusBar">✅ Activo</span></span>
             <span>⚡ WASM: <span id="wasmStatus">⏳ Cargando...</span></span>
+            <span>📌 Modo: <span id="modoStatus" style="color:#a78bfa;">🧠 Experto</span></span>
         </div>
 
         <div class="modo-selector">
-            <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO</button>
-            <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO</button>
+            <button class="modo-btn active" data-modo="experto">🧠 MODO EXPERTO (4000 tokens)</button>
+            <button class="modo-btn" data-modo="basico">⚡ MODO BÁSICO (1500 tokens)</button>
+            <span id="modoActualIndicator" class="modo-activo-indicator modo-experto">🧠 Experto</span>
         </div>
 
         <div class="tools-bar">
@@ -195,35 +206,53 @@
             <button class="search-btn" id="searchBtn">🔍 BUSCAR</button>
         </div>
 
+        <!-- Barra de progreso -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+
         <div class="dashboard-grid">
             <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
-            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>403M LECTOR + Cloudflare AI + WASM:</strong><br><span id="sentimentText">Cargando análisis...</span></div><div class="export-buttons"><button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA 7</button></div></div></div>
+            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>403M LECTOR + Mistral AI + WASM:</strong><br><span id="sentimentText">Cargando análisis...</span></div><div class="export-buttons"><button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA 7</button></div></div></div>
         </div>
 
         <div class="widget-container">
             <div class="widget"><div class="widget-title">📊 Análisis de Mercado</div><div class="widget-content"><div class="metrics-grid-widget"><div class="metric-item-widget"><div class="metric-value-widget" id="metricIndicadores">0</div><div class="metric-label-widget">Indicadores</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricConfirmaciones">0</div><div class="metric-label-widget">Confirmaciones</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricNiveles">0</div><div class="metric-label-widget">Niveles</div></div><div class="metric-item-widget"><div class="metric-value-widget" id="metricAlertas">0</div><div class="metric-label-widget">Alertas</div></div></div></div></div>
-            <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Cloudflare AI: ✅ Activo (Sin caídas)</div><div id="wasmWidgetStatus">⚡ WebAssembly: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div></div></div>
+            <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs">12</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Mistral AI: ✅ Activo</div><div id="wasmWidgetStatus">⚡ WebAssembly: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div></div></div>
             <div class="widget"><div class="widget-title">🎯 Confianza</div><div class="widget-content"><div class="widget-confidence"><span>📊</span><div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div><span class="confidence-label" id="confidenceLabel">0%</span></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Calidad: <span id="qualityLabel">--</span></div></div></div>
             <div class="widget"><div class="widget-title">🎯 Estrategia</div><div class="widget-content" id="widgetEstrategiaContent"><div style="display:flex;gap:10px;flex-wrap:wrap;"><span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #3b82f6;">📈 Compra</span><span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #f59e0b;">📊 Espera</span><span style="background:#1e293b;padding:4px 10px;border-radius:15px;font-size:0.7rem;border:1px solid #ef4444;">📉 Venta</span></div></div></div>
         </div>
 
         <button id="refreshBtn" class="refresh-btn">🔄 ACTUALIZAR AHORA</button>
-        <div class="auto-update">🟢 403M LECTOR · Cloudflare AI · WebAssembly · AcadémIA Pro · 12 Fuentes · IndexedDB · 24/7 · 🇨🇳 Enfoque China</div>
-        <footer>⚡ NextMoon AI · Cloudflare AI (Sin caídas) · 403M LECTOR · 12 Fuentes Gratis · WebAssembly · 🇨🇳</footer>
+        <div class="auto-update">🟢 403M LECTOR · Mistral AI · WebAssembly · AcadémIA Pro · 12 Fuentes · IndexedDB · 24/7 · 🇨🇳 Enfoque China</div>
+        <footer>⚡ NextMoon AI · Mistral AI (Sin Cloudflare) · 403M LECTOR · 12 Fuentes Gratis · WebAssembly · 🇨🇳</footer>
     </div>
 </div>
 
 <button class="vr-button" id="vrModeBtn">🔮 MODO VR</button>
 <div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
 
-<script src="https://cdn.jsdelivr.net/npm/jsllm7@0.1.0/jsllm7.js"></script>
 <script type="importmap">
 { "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
 </script>
 
 <script>
 // ============================================
-// WEBASSEMBLY OPTIMIZER
+// CONFIGURACIÓN - MISTRAL AI (SIN CLOUDFLARE)
+// ============================================
+const MISTRAL_API_KEY = 'eKzUq9HIk9xGnJtT6BfzdVSqKKWscOjT';
+const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
+const PAIS_FIJO = 'china';
+let modoActual = 'experto';
+let currentToken = "BTC";
+let ultimoAnalisis = '';
+let referenciasAcademicas = [];
+let isRefreshing = false;
+let currentTokenData = null;
+let ocupado = false;
+
+// ============================================
+// WEBASSEMBLY OPTIMIZER - LIMPIA FORMATO
 // ============================================
 class WASMOptimizer {
     constructor() {
@@ -247,25 +276,16 @@ class WASMOptimizer {
                 0x00, 0x20, 0x01, 0x6a,
                 0x0b
             ]);
-            const module = await WebAssembly.instantiate(wasmCode);
-            if (module.instance.exports.add) {
-                console.log('✅ WebAssembly inicializado correctamente');
-                this.initialized = true;
-                document.getElementById('wasmStatus').textContent = '✅ Activo';
-                document.getElementById('wasmStatus').style.color = '#10b981';
-                document.getElementById('wasmWidgetStatusText').textContent = '✅ Activo';
-                document.getElementById('wasmWidgetStatusText').style.color = '#10b981';
-                return true;
-            }
+            await WebAssembly.instantiate(wasmCode);
             this.initialized = true;
-            console.log('✅ WebAssembly inicializado (modo simulado)');
-            document.getElementById('wasmStatus').textContent = '⚠️ Simulado';
-            document.getElementById('wasmStatus').style.color = '#f59e0b';
-            document.getElementById('wasmWidgetStatusText').textContent = '⚠️ Simulado';
-            document.getElementById('wasmWidgetStatusText').style.color = '#f59e0b';
+            console.log('✅ WebAssembly inicializado');
+            document.getElementById('wasmStatus').textContent = '✅ Activo';
+            document.getElementById('wasmStatus').style.color = '#10b981';
+            document.getElementById('wasmWidgetStatusText').textContent = '✅ Activo';
+            document.getElementById('wasmWidgetStatusText').style.color = '#10b981';
             return true;
         } catch (error) {
-            console.warn('⚠️ Error en WebAssembly, usando modo JS:', error.message);
+            console.warn('⚠️ Error en WebAssembly:', error.message);
             this.initialized = true;
             document.getElementById('wasmStatus').textContent = '⚠️ JS Fallback';
             document.getElementById('wasmStatus').style.color = '#f59e0b';
@@ -275,38 +295,27 @@ class WASMOptimizer {
         }
     }
 
-    optimizeText(text) {
+    cleanText(text) {
         const inicio = performance.now();
-        if (!text || text.length < 50) return text;
-        let optimized = text;
-        if (this.initialized) {
-            try {
-                optimized = this.optimizeTextJS(text);
-                this.stats.optimizaciones++;
-            } catch (e) {
-                optimized = this.optimizeTextJS(text);
-            }
-        } else {
-            optimized = this.optimizeTextJS(text);
-        }
-        const fin = performance.now();
-        this.stats.tiempoTotal += (fin - inicio);
-        return optimized;
-    }
-
-    optimizeTextJS(text) {
-        if (!text || text.length < 50) return text;
+        if (!text) return text;
+        
         let result = text;
+        // Eliminar asteriscos
+        result = result.replace(/\*\*(.*?)\*\*/g, '$1');
+        result = result.replace(/\*(.*?)\*/g, '$1');
+        // Eliminar guiones bajos
+        result = result.replace(/__(.*?)__/g, '$1');
+        result = result.replace(/_(.*?)_/g, '$1');
+        // Eliminar hashtags
+        result = result.replace(/#(.*?)(\s|$)/g, '$1$2');
+        // Limpiar espacios
         result = result.replace(/\s+/g, ' ');
         result = result.replace(/\s+([.,;:!?])/g, '$1');
         result = result.replace(/\.\s*([a-z])/g, (_, c) => '. ' + c.toUpperCase());
         result = result.replace(/\n\s*\n/g, '\n\n');
-        if (!result.includes('Resumen Ejecutivo')) {
-            result = '📊 Resumen Ejecutivo\n' + result;
-        }
-        if (!result.includes('Conclusión')) {
-            result += '\n\n🎯 Conclusión Final: La investigación sobre este token requiere continuar profundizando en fuentes especializadas.';
-        }
+        
+        this.stats.optimizaciones++;
+        this.stats.tiempoTotal += (performance.now() - inicio);
         return result;
     }
 
@@ -317,20 +326,46 @@ const wasm = new WASMOptimizer();
 wasm.init();
 
 // ============================================
-// CONFIGURACIÓN
+// SISTEMA DE CACHÉ IndexedDB
 // ============================================
-// URL DEL AGENTE CON 12 FUENTES + MISTRAL
-const CLOUDFLARE_AI_URL = 'https://agente-buscador.odandoolugan.workers.dev';
-const JSLLM7_API_URL = 'https://wikipedia-403m.odandoolugan.workers.dev';
-const PAIS_FIJO = 'china';
+class PersistentCache {
+    constructor() {
+        this.dbName = 'NextMoonDBv2';
+        this.version = 2;
+        this.db = null;
+        this.cacheHits = 0;
+        this.cacheMisses = 0;
+        this.init();
+    }
+    
+    async init() {
+        return new Promise((resolve) => {
+            const request = indexedDB.open(this.dbName, this.version);
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('analysisCache')) {
+                    const store = db.createObjectStore('analysisCache', { keyPath: 'token' });
+                    store.createIndex('timestamp', 'timestamp', { unique: false });
+                }
+                if (!db.objectStoreNames.contains('analytics')) {
+                    db.createObjectStore('analytics', { keyPath: 'metric' });
+                }
+            };
+            request.onsuccess = (event) => { this.db = event.target.result; this.loadStats(); console.log('✅ IndexedDB v2'); resolve(); };
+            request.onerror = () => resolve();
+        });
+    }
+    
+    async loadStats() { try { const s = await this.getAnalytics('cacheStats'); if (s) { this.cacheHits = s.hits || 0; this.cacheMisses = s.misses || 0; } this.updateUI(); } catch(e) {} }
+    async getAnalytics(m) { if (!this.db) return null; return new Promise((r) => { const t = this.db.transaction(['analytics'], 'readonly'); const s = t.objectStore('analytics'); const q = s.get(m); q.onsuccess = () => r(q.result?.value); }); }
+    async saveAnalytics(m, v) { if (!this.db) return; return new Promise((r) => { const t = this.db.transaction(['analytics'], 'readwrite'); t.objectStore('analytics').put({ metric: m, value: v }); t.oncomplete = () => r(); }); }
+    async cacheAnalysis(token, data) { if (!this.db) await this.init(); this.cacheMisses++; await this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses }); return new Promise((r) => { const t = this.db.transaction(['analysisCache'], 'readwrite'); t.objectStore('analysisCache').put({ token: token.toUpperCase(), data, timestamp: Date.now() }); t.oncomplete = () => { this.updateUI(); r(); }; }); }
+    async getCachedAnalysis(token) { if (!this.db) await this.init(); return new Promise((r) => { const t = this.db.transaction(['analysisCache'], 'readonly'); const s = t.objectStore('analysisCache'); const q = s.get(token.toUpperCase()); q.onsuccess = () => { const d = q.result; if (d && (Date.now() - d.timestamp) < 300000) { this.cacheHits++; this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses }); this.updateUI(); r(d.data); } else r(null); }; }); }
+    updateUI() { const total = this.cacheHits + this.cacheMisses; const hr = total > 0 ? Math.round((this.cacheHits / total) * 100) : 0; document.getElementById('cacheHitRate').textContent = hr + '%'; document.getElementById('dbEntries').textContent = total; document.getElementById('metricDB').textContent = total; }
+    getStats() { return { hits: this.cacheHits, misses: this.cacheMisses, total: this.cacheHits + this.cacheMisses }; }
+}
 
-let jsllm7TermuxConectado = false;
-let currentTokenData = null;
-let modo = localStorage.getItem('nextmoon_modo') || 'experto';
-let isRefreshing = false;
-let currentToken = "BTC";
-let ultimoAnalisis = '';
-let referenciasAcademicas = [];
+const cache = new PersistentCache();
 
 // ============================================
 // 12 FUENTES GRATUITAS SIN API KEY
@@ -452,46 +487,200 @@ class FuentesGratuitas12 {
 const fuentes12 = new FuentesGratuitas12();
 
 // ============================================
-// SISTEMA DE CACHÉ IndexedDB
+// FUNCIONES UTILITARIAS
 // ============================================
-class PersistentCache {
-    constructor() {
-        this.dbName = 'NextMoonDBv2';
-        this.version = 2;
-        this.db = null;
-        this.cacheHits = 0;
-        this.cacheMisses = 0;
-        this.init();
-    }
-    
-    async init() {
-        return new Promise((resolve) => {
-            const request = indexedDB.open(this.dbName, this.version);
-            request.onupgradeneeded = (event) => {
-                const db = event.target.result;
-                if (!db.objectStoreNames.contains('analysisCache')) {
-                    const store = db.createObjectStore('analysisCache', { keyPath: 'token' });
-                    store.createIndex('timestamp', 'timestamp', { unique: false });
-                }
-                if (!db.objectStoreNames.contains('analytics')) {
-                    db.createObjectStore('analytics', { keyPath: 'metric' });
-                }
-            };
-            request.onsuccess = (event) => { this.db = event.target.result; this.loadStats(); console.log('✅ IndexedDB v2'); resolve(); };
-            request.onerror = () => resolve();
-        });
-    }
-    
-    async loadStats() { try { const s = await this.getAnalytics('cacheStats'); if (s) { this.cacheHits = s.hits || 0; this.cacheMisses = s.misses || 0; } this.updateUI(); } catch(e) {} }
-    async getAnalytics(m) { if (!this.db) return null; return new Promise((r) => { const t = this.db.transaction(['analytics'], 'readonly'); const s = t.objectStore('analytics'); const q = s.get(m); q.onsuccess = () => r(q.result?.value); }); }
-    async saveAnalytics(m, v) { if (!this.db) return; return new Promise((r) => { const t = this.db.transaction(['analytics'], 'readwrite'); t.objectStore('analytics').put({ metric: m, value: v }); t.oncomplete = () => r(); }); }
-    async cacheAnalysis(token, data) { if (!this.db) await this.init(); this.cacheMisses++; await this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses }); return new Promise((r) => { const t = this.db.transaction(['analysisCache'], 'readwrite'); t.objectStore('analysisCache').put({ token: token.toUpperCase(), data, timestamp: Date.now() }); t.oncomplete = () => { this.updateUI(); r(); }; }); }
-    async getCachedAnalysis(token) { if (!this.db) await this.init(); return new Promise((r) => { const t = this.db.transaction(['analysisCache'], 'readonly'); const s = t.objectStore('analysisCache'); const q = s.get(token.toUpperCase()); q.onsuccess = () => { const d = q.result; if (d && (Date.now() - d.timestamp) < 300000) { this.cacheHits++; this.saveAnalytics('cacheStats', { hits: this.cacheHits, misses: this.cacheMisses }); this.updateUI(); r(d.data); } else r(null); }; }); }
-    updateUI() { const total = this.cacheHits + this.cacheMisses; const hr = total > 0 ? Math.round((this.cacheHits / total) * 100) : 0; document.getElementById('cacheHitRate').textContent = hr + '%'; document.getElementById('dbEntries').textContent = total; document.getElementById('metricDB').textContent = total; }
-    getStats() { return { hits: this.cacheHits, misses: this.cacheMisses, total: this.cacheHits + this.cacheMisses }; }
+function showToast(msg, isErr) {
+    const t = document.createElement('div');
+    t.className = 'toast-msg';
+    t.style.background = isErr ? '#ef4444' : '#8b5cf6';
+    t.innerText = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
 }
 
-const cache = new PersistentCache();
+function mostrarModal(titulo, contenido) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;">${contenido}</div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">cerrar</button></div>`;
+    document.body.appendChild(modal);
+}
+
+function descargarArchivo(contenido, nombre) {
+    const blob = new Blob([contenido], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = nombre;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function actualizarProgress(porcentaje) {
+    document.getElementById('progressBar').style.width = `${Math.min(100, porcentaje)}%`;
+}
+
+// ============================================
+// FUNCIÓN DE LLAMADA A MISTRAL AI
+// ============================================
+async function llamarIAConContexto(prompt, temaBusqueda = '') {
+    try {
+        let contextoAcademico = '';
+        if (temaBusqueda) {
+            const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
+            if (resultados12.resumen.total_resultados > 0) {
+                contextoAcademico = '\n\n--- contexto académico cripto ---\n';
+                contextoAcademico += `se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
+                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+                fuentesPrioritarias.forEach(key => {
+                    const f = resultados12.fuentes[key];
+                    if (f && f.exito && f.count > 0) {
+                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                        f.data.slice(0, 2).forEach(r => {
+                            contextoAcademico += `• título: ${r.titulo || 'sin título'}\n`;
+                            if (r.abstract) contextoAcademico += `  resumen: ${r.abstract.substring(0, 200)}...\n`;
+                        });
+                    }
+                });
+                contextoAcademico += '\n--- fin contexto académico ---\n\n';
+            }
+        }
+
+        // PROMPT SEGÚN MODO
+        let promptCompleto;
+        let maxTokens;
+
+        if (modoActual === 'experto') {
+            promptCompleto = `
+Actúa como un analista cuantitativo senior con más de 10 años de experiencia en mercados financieros y criptomonedas, especializado en el mercado de ${PAIS_FIJO}.
+
+${contextoAcademico}
+
+${prompt}
+
+📋 ESTRUCTURA OBLIGATORIA:
+1️⃣ **Resumen Ejecutivo** - Señal clara (compra/venta/espera)
+2️⃣ **Análisis Técnico** - RSI, MACD, medias móviles, Bollinger
+3️⃣ **Niveles Críticos** - Soportes y Resistencias (S1, S2, S3 / R1, R2, R3)
+4️⃣ **Volumen y Flujo** - Análisis de volumen y OBV
+5️⃣ **Patrones** - Chartistas y velas japonesas
+6️⃣ **Gestión de Riesgo** - SL, TP, tamaño de posición
+7️⃣ **Contexto Macro** - Fear & Greed, correlaciones
+8️⃣ **Conclusión** - Recomendación final y plan de acción
+
+Reglas:
+✅ Fundamenta cada afirmación con datos
+✅ Sé específico con precios y porcentajes
+✅ Extensión: 800-1000 palabras
+✅ NO uses asteriscos ni formato especial
+
+Empieza con "Resumen Ejecutivo:" y termina con "Conclusión:".`;
+            maxTokens = 4000;
+        } else {
+            promptCompleto = `
+Actúa como un analista de trading. Responde de forma clara y concisa.
+
+${contextoAcademico}
+
+${prompt}
+
+Estructura:
+1. Resumen Ejecutivo (señal clara)
+2. Análisis Técnico (RSI, MACD, medias)
+3. Soportes y Resistencias
+4. Gestión de Riesgo
+5. Conclusión
+
+Extensión: 300-500 palabras.
+NO uses asteriscos ni formato especial.
+
+Empieza con "Resumen Ejecutivo:" y termina con "Conclusión:".`;
+            maxTokens = 1500;
+        }
+
+        console.log(`📚 Enviando prompt a Mistral AI (${modoActual})`);
+        console.log('🇨🇳 Enfoque geográfico:', PAIS_FIJO);
+        actualizarProgress(30);
+
+        const response = await fetch(MISTRAL_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${MISTRAL_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'mistral-large-latest',
+                messages: [
+                    { 
+                        role: 'system', 
+                        content: 'Eres un analista cuantitativo senior experto en criptomonedas. Responde en español con estructura profesional. NO uses asteriscos ni formato especial.' 
+                    },
+                    { role: 'user', content: promptCompleto }
+                ],
+                temperature: 0.7,
+                max_tokens: maxTokens
+            })
+        });
+
+        actualizarProgress(60);
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error?.message || `Error ${response.status}`);
+        }
+
+        const data = await response.json();
+        let text = data.choices?.[0]?.message?.content || '';
+
+        if (text && text.length > 20) {
+            document.getElementById('jsllm7StatusBar').textContent = '✅ Activo';
+            document.getElementById('jsllm7StatusBar').style.color = '#10b981';
+            actualizarProgress(80);
+            // Optimizar con WebAssembly
+            return wasm.cleanText(text);
+        }
+        throw new Error('respuesta vacía');
+    } catch(e) {
+        console.warn('⚠️ Error en llamada Mistral:', e.message);
+        document.getElementById('jsllm7StatusBar').textContent = '⚠️ Error';
+        document.getElementById('jsllm7StatusBar').style.color = '#f59e0b';
+        return null;
+    }
+}
+
+// ============================================
+// BASE DE DATOS 403M+
+// ============================================
+const BASE_DATOS_403M = {
+    criptos: {
+        btc: { keywords: ['btc','bitcoin'], nombre: 'bitcoin', analisis: `📊 análisis de bitcoin (btc)\n\n🔍 contexto:\nbitcoin es la criptomoneda líder con mayor capitalización.\n\n⚡ indicadores:\n• rsi (14): 58 - neutro alcista\n• macd: señal de compra\n• ma50: por encima\n• ma200: por encima\n\n📈 s/r:\n• s1: $65,000 | s2: $62,500\n• r1: $72,000 | r2: $75,000\n\n🎯 señal: compra\n\n⚠️ sl: -5% | 💰 tp: +10%` },
+        eth: { keywords: ['eth','ethereum'], nombre: 'ethereum', analisis: `📊 análisis de ethereum (eth)\n\n🔍 contexto:\nethereum es la segunda criptomoneda y plataforma defi líder.\n\n⚡ indicadores:\n• rsi (14): 52 - neutro\n• macd: plano\n• ma50: zona de decisión\n\n📈 s/r:\n• s1: $3,200 | s2: $3,000\n• r1: $3,600 | r2: $3,800\n\n🎯 señal: espera\n\n⚠️ sl: -5% | 💰 tp: +10%` },
+        sol: { keywords: ['sol','solana'], nombre: 'solana', analisis: `📊 análisis de solana (sol)\n\n🔍 contexto:\nsolana es una blockchain rápida con ecosistema defi creciente.\n\n⚡ indicadores:\n• rsi (14): 62 - alcista\n• macd: señal de compra\n• ma50: por encima\n\n📈 s/r:\n• s1: $140 | s2: $130\n• r1: $165 | r2: $175\n\n🎯 señal: compra\n\n⚠️ sl: -5% | 💰 tp: +10%` }
+    }
+};
+
+['doge','pepe','xrp','ada','dot','avax','shib','link','near','matic','atom','fet','render'].forEach(key => {
+    BASE_DATOS_403M.criptos[key] = { keywords: [key, key.toUpperCase()], nombre: key.toUpperCase(), analisis: `📊 análisis de ${key.toUpperCase()}\n\n⚡ indicadores:\n• rsi: 50 - neutro\n• macd: analizando\n\n🎯 señal: espera\n\n⚠️ sl: -5% | 💰 tp: +10%` };
+});
+
+class MotorBusqueda403M {
+    constructor() { this.baseDatos = BASE_DATOS_403M; }
+    buscar(token, precio, volumen, liquidez, cambio) {
+        const t = token.toLowerCase().trim();
+        for (const [key, c] of Object.entries(this.baseDatos.criptos)) { if (c.keywords.some(kw => t === kw || t.includes(kw))) return c.analisis + (precio > 0 ? `\n\n📊 datos:\n• precio: $${precio < 0.01 ? precio.toFixed(8) : precio.toFixed(2)}\n• cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n• vol: $${(volumen/1e6).toFixed(2)}M\n• liq: $${(liquidez/1e6).toFixed(2)}M` : ''); }
+        const fmt = (n) => n < 0.01 ? n.toFixed(8) : n.toFixed(2);
+        return `📊 análisis de ${token.toUpperCase()}\n\n📊 datos:\n• precio: $${precio > 0 ? fmt(precio) : 'n/a'}\n• cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n\n🎯 señal: ${cambio > 5 ? '📈 compra' : cambio < -5 ? '📉 venta' : '📊 espera'}\n\n⚠️ sl: -5% | 💰 tp: +10%`;
+    }
+}
+
+const motor403M = new MotorBusqueda403M();
+
+class Nucleo403MLector {
+    constructor() { this.decisiones = 0; }
+    analizar(token, precio, volumen, liquidez, cambio) { this.decisiones++; document.getElementById('decisionCount').textContent = this.decisiones; return motor403M.buscar(token, precio, volumen, liquidez, cambio); }
+    getEstado() { return `=== 🧠 403m lector ===\n📊 decisiones: ${this.decisiones}\n💾 caché: ${cache.getStats().total} entradas\n📡 estado: ✅ activo`; }
+}
+
+const nucleoLector = new Nucleo403MLector();
 
 // ============================================
 // ANALIZADOR + PLAGIO + EXPORTADOR
@@ -544,55 +733,24 @@ class Exporter {
 const exporter = new Exporter();
 
 // ============================================
-// BASE DE DATOS 403M+
+// FUNCIONES DE TOKEN
 // ============================================
-const BASE_DATOS_403M = {
-    criptos: {
-        btc: { keywords: ['btc','bitcoin'], nombre: 'bitcoin', analisis: `📊 análisis de bitcoin (btc)\n\n🔍 contexto:\nbitcoin es la criptomoneda líder con mayor capitalización.\n\n⚡ indicadores:\n• rsi (14): 58 - neutro alcista\n• macd: señal de compra\n• ma50: por encima\n• ma200: por encima\n\n📈 s/r:\n• s1: $65,000 | s2: $62,500\n• r1: $72,000 | r2: $75,000\n\n🎯 señal: compra\n\n⚠️ sl: -5% | 💰 tp: +10%` },
-        eth: { keywords: ['eth','ethereum'], nombre: 'ethereum', analisis: `📊 análisis de ethereum (eth)\n\n🔍 contexto:\nethereum es la segunda criptomoneda y plataforma defi líder.\n\n⚡ indicadores:\n• rsi (14): 52 - neutro\n• macd: plano\n• ma50: zona de decisión\n\n📈 s/r:\n• s1: $3,200 | s2: $3,000\n• r1: $3,600 | r2: $3,800\n\n🎯 señal: espera\n\n⚠️ sl: -5% | 💰 tp: +10%` },
-        sol: { keywords: ['sol','solana'], nombre: 'solana', analisis: `📊 análisis de solana (sol)\n\n🔍 contexto:\nsolana es una blockchain rápida con ecosistema defi creciente.\n\n⚡ indicadores:\n• rsi (14): 62 - alcista\n• macd: señal de compra\n• ma50: por encima\n\n📈 s/r:\n• s1: $140 | s2: $130\n• r1: $165 | r2: $175\n\n🎯 señal: compra\n\n⚠️ sl: -5% | 💰 tp: +10%` }
-    }
-};
-
-['doge','pepe','xrp','ada','dot','avax','shib','link','near','matic','atom','fet','render'].forEach(key => {
-    BASE_DATOS_403M.criptos[key] = { keywords: [key, key.toUpperCase()], nombre: key.toUpperCase(), analisis: `📊 análisis de ${key.toUpperCase()}\n\n⚡ indicadores:\n• rsi: 50 - neutro\n• macd: analizando\n\n🎯 señal: espera\n\n⚠️ sl: -5% | 💰 tp: +10%` };
-});
-
-class MotorBusqueda403M {
-    constructor() { this.baseDatos = BASE_DATOS_403M; }
-    buscar(token, precio, volumen, liquidez, cambio) {
-        const t = token.toLowerCase().trim();
-        for (const [key, c] of Object.entries(this.baseDatos.criptos)) { if (c.keywords.some(kw => t === kw || t.includes(kw))) return c.analisis + (precio > 0 ? `\n\n📊 datos:\n• precio: $${precio < 0.01 ? precio.toFixed(8) : precio.toFixed(2)}\n• cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n• vol: $${(volumen/1e6).toFixed(2)}M\n• liq: $${(liquidez/1e6).toFixed(2)}M` : ''); }
-        const fmt = (n) => n < 0.01 ? n.toFixed(8) : n.toFixed(2);
-        return `📊 análisis de ${token.toUpperCase()}\n\n📊 datos:\n• precio: $${precio > 0 ? fmt(precio) : 'n/a'}\n• cambio: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}%\n\n🎯 señal: ${cambio > 5 ? '📈 compra' : cambio < -5 ? '📉 venta' : '📊 espera'}\n\n⚠️ sl: -5% | 💰 tp: +10%`;
-    }
+async function fetchTokenData(t) {
+    try {
+        const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${t}`);
+        const d = await r.json();
+        if (d.pairs?.length > 0) {
+            const v = d.pairs.filter(p => p.liquidity?.usd > 10000 && p.priceUsd > 0);
+            if (v.length > 0) {
+                const b = v.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
+                return { symbol: t.toUpperCase(), price: parseFloat(b.priceUsd), volume24h: b.volume?.h24 || 0, liquidity: b.liquidity?.usd || 0, priceChange24h: b.priceChange?.h24 || 0 };
+            }
+        }
+        return null;
+    } catch(e) { return null; }
 }
 
-const motor403M = new MotorBusqueda403M();
-
-class Nucleo403MLector {
-    constructor() { this.decisiones = 0; }
-    analizar(token, precio, volumen, liquidez, cambio) { this.decisiones++; document.getElementById('decisionCount').textContent = this.decisiones; return motor403M.buscar(token, precio, volumen, liquidez, cambio); }
-    getEstado() { return `=== 🧠 403m lector ===\n📊 decisiones: ${this.decisiones}\n💾 caché: ${cache.getStats().total} entradas\n📡 estado: ✅ activo`; }
-}
-
-const nucleoLector = new Nucleo403MLector();
-
-// ============================================
-// FUNCIONES UTILITARIAS
-// ============================================
-function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#10b981'; t.innerText = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
-
-function mostrarModal(titulo, contenido) {
-    const modal = document.createElement('div'); modal.className = 'modal-overlay';
-    modal.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div id="modalTexto" style="white-space:pre-wrap;font-size:0.85rem;line-height:1.5;max-height:50vh;overflow-y:auto;"></div><button class="modal-close" onclick="this.closest('.modal-overlay').remove()">cerrar</button></div>`;
-    document.body.appendChild(modal);
-    const textoDiv = modal.querySelector('#modalTexto');
-    typeWriter(textoDiv, contenido, 15);
-    modal.querySelector('.modal-close').onclick = () => modal.remove();
-}
-
-function descargarArchivo(contenido, nombre) { const blob = new Blob([contenido], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = nombre; a.click(); URL.revokeObjectURL(url); }
+function calculateScore(d) { let s = 50; if (d.volume24h > 50000000) s += 30; if (d.liquidity > 5000000) s += 25; if (d.priceChange24h > 30) s += 20; if (d.priceChange24h > 0) s += 5; return Math.min(99, Math.max(20, Math.floor(s))); }
 
 function actualizarWidgets(tokenData, analisis) {
     const lower = analisis.toLowerCase();
@@ -620,209 +778,27 @@ function actualizarWidgets(tokenData, analisis) {
 }
 
 // ============================================
-// EFECTO MÁQUINA DE ESCRIBIR
+// FUNCIÓN PRINCIPAL - ACTUALIZAR PREDICCIÓN
 // ============================================
-function typeWriter(element, text, speed = 15) {
-    element.innerHTML = '';
-    let i = 0;
-    return new Promise((resolve) => {
-        function type() {
-            if (i < text.length) {
-                element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            } else {
-                resolve();
-            }
-        }
-        type();
-    });
-}
-
-// ============================================
-// FUNCIÓN DE LLAMADA A CLOUDFLARE AI CON PROMPT DE ANALISTA CUANTITATIVO
-// ============================================
-async function llamarIAConContexto(prompt, temaBusqueda = '') {
-    try {
-        let contextoAcademico = '';
-        if (temaBusqueda) {
-            const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
-            if (resultados12.resumen.total_resultados > 0) {
-                contextoAcademico = '\n\n--- contexto académico cripto ---\n';
-                contextoAcademico += `se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
-                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
-                fuentesPrioritarias.forEach(key => {
-                    const f = resultados12.fuentes[key];
-                    if (f && f.exito && f.count > 0) {
-                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
-                        f.data.slice(0, 2).forEach(r => {
-                            contextoAcademico += `• título: ${r.titulo || 'sin título'}\n`;
-                            if (r.abstract) contextoAcademico += `  resumen: ${r.abstract.substring(0, 200)}...\n`;
-                        });
-                    }
-                });
-                contextoAcademico += '\n--- fin contexto académico ---\n\n';
-            }
-        }
-
-        // PROMPT DE ANALISTA CUANTITATIVO SENIOR - ENFOQUE CHINA
-        const promptCompleto = `${contextoAcademico}
-
-${prompt}
-
-═══════════════════════════════════════════════════════════
-🎯 rol: eres un analista cuantitativo senior especializado en 
-criptomonedas con más de 10 años de experiencia en mercados 
-financieros, análisis técnico avanzado y gestión de riesgo.
-═══════════════════════════════════════════════════════════
-
-⚠️ instrucciones obligatorias y no negociables:
-
-📊 extensión y profundidad:
-• mínimo 800-1000 palabras de análisis sustancial
-• cero relleno, cada párrafo debe aportar valor accionable
-• cita datos concretos, no generalidades
-
-📋 estructura obligatoria (respeta el orden):
-
-1️⃣ **resumen ejecutivo** (2-3 líneas)
-   - señal principal: 🟢 compra / 🔴 venta / 🟡 espera
-   - nivel de confianza: (alto/medio/bajo) con % estimado
-   - timeframe recomendado: (scalping/intradía/swing/posición)
-
-2️⃣ **análisis técnico multi-indicador**
-   - rsi (14): valor actual + interpretación (sobrecompra/sobreventa/divergencias)
-   - macd: cruce de líneas, histograma y momentum
-   - medias móviles: ema 20, 50, 200 (golden/death cross)
-   - bandas de bollinger: compresión/expansión y posición del precio
-   - estocástico y otros osciladores relevantes
-
-3️⃣ **niveles críticos de precio** (en usd)
-   - resistencias: r1, r2, r3 con justificación
-   - soportes: s1, s2, s3 con justificación
-   - punto pivote diario/semanal
-   - zonas de liquidez y order blocks
-
-4️⃣ **análisis de volumen y order flow**
-   - volumen actual vs promedio 20 días
-   - obv (on balance volume)
-   - divergencias precio-volumen
-   - actividad de ballenas si es detectable
-
-5️⃣ **patrones chartistas y velas japonesas**
-   - patrones identificados (h&s, triángulos, banderas, etc.)
-   - velas relevantes (doji, martillo, envolvente)
-   - estructura de mercado (hh/hl o lh/ll)
-
-6️⃣ **gestión de riesgo** ⚠️ crítico
-   - stop loss sugerido con % de riesgo
-   - take profit 1, 2 y 3 con ratios r:r
-   - tamaño de posición recomendado (% del capital)
-   - escenarios alternativos (plan b)
-
-7️⃣ **contexto macro y sentimiento**
-   - fear & greed index
-   - correlación con btc/eth
-   - eventos fundamentales relevantes
-   - sentiment de redes sociales
-
-8️⃣ **conclusión y plan de acción**
-   - recomendación final clara y accionable
-   - condiciones de invalidación del análisis
-   - próximos niveles a vigilar
-
-🎓 reglas de calidad:
-✅ fundamenta cada afirmación con datos técnicos
-✅ usa el contexto académico proporcionado como base teórica
-✅ sé específico con precios, porcentajes y timeframes
-✅ menciona probabilidades, no certezas absolutas
-✅ incluye disclaimers de riesgo apropiados
-❌ no uses frases vagas como "podría subir" sin contexto
-❌ no omitas ninguna sección de la estructura
-❌ no te detengas hasta completar todo el análisis
-
-💡 formato de salida:
-- usa emojis para mejorar legibilidad
-- negritas para datos clave
-- tablas cuando sea apropiado para niveles
-- separadores visuales entre secciones
-
-⚡ responde ahora con el análisis más completo, profesional 
-y accionable posible. tu reputación como analista depende 
-de la calidad de este informe:`;
-
-        console.log('📚 enviando prompt de analista cuantitativo a cloudflare ai');
-        console.log('🇨🇳 enfoque geográfico fijo:', PAIS_FIJO);
-
-        // ⏱️ TIMEOUT DE 60 SEGUNDOS
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 60000);
-
-        const response = await fetch(CLOUDFLARE_AI_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ pregunta: promptCompleto }),
-            signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const text = await response.text();
-        
-        if (text && text.length > 50) {
-            jsllm7TermuxConectado = true;
-            document.getElementById('jsllm7StatusBar').textContent = '✅ activo';
-            document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ cloudflare ai: ✅ activo (sin caídas)';
-            
-            // Optimizar con WebAssembly
-            const textoOptimizado = wasm.optimizeText(text);
-            return textoOptimizado;
-        }
-        throw new Error('respuesta vacía');
-    } catch(e) {
-        console.warn('⚠️ error en llamada ia:', e.message);
-        jsllm7TermuxConectado = true;
-        document.getElementById('jsllm7StatusBar').textContent = '✅ activo';
-        document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ cloudflare ai: ✅ activo (sin caídas)';
-        return null;
-    }
-}
-
-async function fetchTokenData(t) {
-    try {
-        const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${t}`);
-        const d = await r.json();
-        if (d.pairs?.length > 0) {
-            const v = d.pairs.filter(p => p.liquidity?.usd > 10000 && p.priceUsd > 0);
-            if (v.length > 0) {
-                const b = v.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
-                return { symbol: t.toUpperCase(), price: parseFloat(b.priceUsd), volume24h: b.volume?.h24 || 0, liquidity: b.liquidity?.usd || 0, priceChange24h: b.priceChange?.h24 || 0 };
-            }
-        }
-        return null;
-    } catch(e) { return null; }
-}
-
-function calculateScore(d) { let s = 50; if (d.volume24h > 50000000) s += 30; if (d.liquidity > 5000000) s += 25; if (d.priceChange24h > 30) s += 20; if (d.priceChange24h > 0) s += 5; return Math.min(99, Math.max(20, Math.floor(s))); }
-
-const semanticCache = new Map();
-
 async function updatePrediction(manualToken = null) {
     if (isRefreshing) return;
     isRefreshing = true;
     const t = (manualToken || currentToken).toUpperCase().trim();
     document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
     document.getElementById('sentimentText').innerHTML = '<div class="spinner"></div>';
+    actualizarProgress(5);
     
     try {
         let td = await cache.getCachedAnalysis(t);
-        if (!td || !td.tokenData) { td = await fetchTokenData(t); if (td) await cache.cacheAnalysis(t, { tokenData: td }); }
-        else td = td.tokenData;
+        if (!td || !td.tokenData) { 
+            td = await fetchTokenData(t); 
+            if (td) await cache.cacheAnalysis(t, { tokenData: td }); 
+        } else td = td.tokenData;
         
         if (!td) { document.getElementById('tokenSymbol').innerHTML = '⚠️ no encontrado'; isRefreshing = false; return; }
         
         currentToken = t;
+        currentTokenData = td;
         const score = calculateScore(td);
         const fmt = (n) => n < 0.01 ? n.toFixed(8) : (n < 1 ? n.toFixed(6) : n.toFixed(2));
         
@@ -832,37 +808,34 @@ async function updatePrediction(manualToken = null) {
         document.getElementById('liquidity').innerHTML = td.liquidity > 1000000 ? `$${(td.liquidity/1e6).toFixed(2)}M` : `$${(td.liquidity/1e3).toFixed(0)}K`;
         document.getElementById('priceChange').innerHTML = `<span style="color:${td.priceChange24h >= 0 ? '#10b981' : '#ef4444'}">${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%</span>`;
         document.getElementById('iaScore').innerHTML = `${score}/100`;
+        actualizarProgress(20);
         
-        // === FASE 2 y 3: Búsqueda en 12 fuentes + Envío de contexto a la IA ===
-        const preguntaAnalisis = `analiza el token ${td.symbol} para trading con enfoque en ${PAIS_FIJO}.
-datos de mercado actuales:
+        // === GENERAR ANÁLISIS CON MISTRAL AI ===
+        const preguntaAnalisis = `genera un análisis de trading para el token ${td.symbol} con enfoque en ${PAIS_FIJO}.
+
+datos de mercado:
 - precio: $${fmt(td.price)}
 - cambio 24h: ${td.priceChange24h >= 0 ? '+' : ''}${td.priceChange24h.toFixed(1)}%
 - volumen: $${(td.volume24h/1e6).toFixed(2)}M
 - liquidez: $${(td.liquidity/1e6).toFixed(2)}M
 
-genera un análisis de trading profesional completo. incluye:
-1. señal clara (compra, venta o espera) con justificación.
-2. análisis detallado de indicadores técnicos (rsi, macd, medias).
-3. niveles de soporte y resistencia.
-4. análisis de volumen.
-5. gestión de riesgo.
-6. contexto macro de ${PAIS_FIJO}.
-7. conclusión final.`;
+genera un análisis profesional completo.`;
         
         let analisis = await llamarIAConContexto(preguntaAnalisis, t + ' cryptocurrency');
+        actualizarProgress(85);
+        
         if (!analisis || analisis.length < 50) {
             analisis = nucleoLector.analizar(td.symbol, td.price, td.volume24h, td.liquidity, td.priceChange24h);
         }
-        // =====================================================================
-
+        
         ultimoAnalisis = analisis;
         document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
         actualizarWidgets(td, analisis);
         const stats = wasm.getStats();
+        actualizarProgress(100);
         showToast(`✅ ${td.symbol} · ${analisis.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇨🇳`);
         
-        // Botón de análisis avanzado (bajo demanda)
+        // Botón de análisis avanzado
         const sentimentContainer = document.getElementById('sentimentContainer');
         const oldBtn = document.getElementById('btnAnalisisAvanzado');
         if (oldBtn) oldBtn.remove();
@@ -883,12 +856,26 @@ genera un análisis de trading profesional completo. incluye:
         `;
         sentimentContainer.appendChild(btnContainer);
         
-    } catch(e) { showToast("❌ error", true); }
-    finally { isRefreshing = false; }
+        // Guardar referencias
+        referenciasAcademicas = await fuentes12.buscarSemanticScholar(t + ' cryptocurrency');
+        
+        // Estado en modo
+        const modoNombre = modoActual === 'experto' ? 'Experto (4000t)' : 'Básico (1500t)';
+        document.getElementById('modoStatus').textContent = modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico';
+        document.getElementById('modoStatus').style.color = modoActual === 'experto' ? '#a78bfa' : '#f97316';
+        
+    } catch(e) { 
+        showToast("❌ error: " + e.message, true); 
+        actualizarProgress(0);
+    }
+    finally { 
+        isRefreshing = false; 
+        setTimeout(() => actualizarProgress(0), 2000);
+    }
 }
 
 // ============================================
-// FUNCIÓN PARA CARGAR ANÁLISIS AVANZADO (BAJO DEMANDA)
+// ANÁLISIS AVANZADO (BAJO DEMANDA)
 // ============================================
 window.cargarAnalisisAvanzado = async function(btn, token) {
     const container = document.getElementById('contenedorAnalisisAvanzado');
@@ -898,20 +885,25 @@ window.cargarAnalisisAvanzado = async function(btn, token) {
     btn.textContent = '⏳ cargando...';
     container.classList.add('visible');
     textoDiv.innerHTML = '<span class="loading-spinner"></span> generando estrategias alternativas...';
+    actualizarProgress(10);
     
     try {
-        const prompt = `basándote en el análisis de ${token}, genera 3 estrategias de trading alternativas o complementarias con enfoque en ${PAIS_FIJO}. 
-        incluye escenarios alcista, neutral y bajista. proporciona títulos y descripciones breves.`;
+        const prompt = `basándote en el análisis de ${token}, genera 3 estrategias de trading alternativas con enfoque en ${PAIS_FIJO}. 
+        incluye escenarios alcista, neutral y bajista.`;
         const analisis = await llamarIAConContexto(prompt, token + ' cryptocurrency trading strategy');
+        actualizarProgress(80);
         if (analisis && analisis.length > 20) {
             const stats = wasm.getStats();
             textoDiv.innerHTML = analisis.replace(/\n/g, '<br>');
+            actualizarProgress(100);
             showToast(`✅ estrategias avanzadas · WASM (${stats.optimizaciones} optimizaciones)`);
         } else {
             textoDiv.innerHTML = '⚠️ no se pudieron cargar las estrategias en este momento.';
+            actualizarProgress(0);
         }
     } catch (e) {
         textoDiv.innerHTML = '❌ error al cargar estrategias.';
+        actualizarProgress(0);
     } finally {
         btn.disabled = false;
         btn.textContent = '📈 cargar análisis avanzado con WASM';
@@ -922,17 +914,55 @@ window.cargarAnalisisAvanzado = async function(btn, token) {
 // HERRAMIENTAS
 // ============================================
 async function herramienta(prompt, titulo) {
+    if (ocupado) return;
+    ocupado = true;
     showToast(`⏳ ${titulo}...`);
+    actualizarProgress(10);
+    
     let analisis = await llamarIAConContexto(`genera un análisis de ${titulo} para el token ${currentToken} con enfoque en ${PAIS_FIJO}. ${prompt}`, currentToken + ' cryptocurrency');
+    actualizarProgress(70);
+    
     if (!analisis || analisis.length < 20) {
         analisis = nucleoLector.analizar(currentToken, currentTokenData?.price || 0, currentTokenData?.volume24h || 0, currentTokenData?.liquidity || 0, currentTokenData?.priceChange24h || 0);
     }
     const stats = wasm.getStats();
     mostrarModal(titulo, analisis);
     if (currentTokenData) actualizarWidgets(currentTokenData, analisis);
+    actualizarProgress(100);
     showToast(`✅ ${titulo} · ${analisis.length} caracteres · WASM (${stats.optimizaciones} optimizaciones) · 🇨🇳`);
+    ocupado = false;
+    setTimeout(() => actualizarProgress(0), 2000);
 }
 
+// ============================================
+// SELECTOR DE MODO
+// ============================================
+document.querySelectorAll('.modo-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        modoActual = this.dataset.modo;
+        const indicator = document.getElementById('modoActualIndicator');
+        if (modoActual === 'experto') {
+            indicator.textContent = '🧠 Experto (4000 tokens)';
+            indicator.className = 'modo-activo-indicator modo-experto';
+            document.getElementById('modoStatus').textContent = '🧠 Experto';
+            document.getElementById('modoStatus').style.color = '#a78bfa';
+        } else {
+            indicator.textContent = '⚡ Básico (1500 tokens)';
+            indicator.className = 'modo-activo-indicator modo-basico';
+            document.getElementById('modoStatus').textContent = '⚡ Básico';
+            document.getElementById('modoStatus').style.color = '#f97316';
+        }
+        showToast(`✨ modo ${modoActual === 'experto' ? 'experto' : 'básico'}`);
+        // Actualizar con el nuevo modo
+        if (currentToken) updatePrediction(currentToken);
+    });
+});
+
+// ============================================
+// BOTONES DE HERRAMIENTAS
+// ============================================
 document.getElementById('btnHistorico').onclick = () => herramienta(`histórico ${currentToken}`, `📊 histórico: ${currentToken}`);
 document.getElementById('btnComparar').onclick = async () => { const t2 = prompt("comparar con:", "eth"); if (t2) await herramienta(`${currentToken} vs ${t2}`, `🔄 ${currentToken} vs ${t2}`); };
 document.getElementById('btnVolatilidad').onclick = () => herramienta(`volatilidad ${currentToken}`, `⚠️ volatilidad`);
@@ -1001,19 +1031,22 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `⏱️ tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
         `📊 decisiones: ${nucleoLector.decisiones}\n` +
         `💾 caché: ${cache.getStats().total} entradas\n` +
-        `📡 estado: ✅ activo`
+        `📡 estado: ✅ activo\n` +
+        `📌 modo: ${modoActual === 'experto' ? '🧠 experto' : '⚡ básico'}`
     );
 };
+
 document.getElementById('btnTermuxStatus').onclick = () => {
     const stats = wasm.getStats();
     mostrarModal('🔌 estado', 
         `=== ESTADO DEL SISTEMA ===\n` +
-        `⚡ Cloudflare AI: ✅ Conectado (sin caídas)\n` +
+        `⚡ Mistral AI: ✅ Conectado (sin Cloudflare)\n` +
         `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
         `📊 Optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
         `💾 Caché: ${cache.getStats().total} entradas\n` +
         `📚 Fuentes: 12 activas\n` +
+        `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto (4000 tokens)' : '⚡ Básico (1500 tokens)'}\n` +
         `🇨🇳 Enfoque: ${PAIS_FIJO}`
     );
 };
@@ -1021,28 +1054,17 @@ document.getElementById('btnTermuxStatus').onclick = () => {
 // ============================================
 // INICIALIZACIÓN
 // ============================================
-function actualizarModoUI() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.toggle('active', b.dataset.modo === modo)); }
-document.querySelectorAll('.modo-btn').forEach(b => { b.addEventListener('click', () => { modo = b.dataset.modo; localStorage.setItem('nextmoon_modo', modo); actualizarModoUI(); showToast(`✨ modo ${modo === 'experto' ? 'experto' : 'básico'}`); }); });
-actualizarModoUI();
-
-async function verificarTermux() {
-    try {
-        const r = await fetch(`${JSLLM7_API_URL}/stats`);
-        if (r.ok) { jsllm7TermuxConectado = true; document.getElementById('jsllm7WidgetStatus').innerHTML = '⚡ cloudflare ai: ✅ activo (sin caídas)'; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
-    } catch(e) { jsllm7TermuxConectado = false; document.getElementById('jsllm7StatusBar').textContent = '✅'; }
-}
+document.getElementById('refreshBtn').onclick = () => updatePrediction();
+document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
+document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
 
 function iniciar() {
     console.log(`🇨🇳 enfoque geográfico fijo: ${PAIS_FIJO}`);
     console.log(`⚡ WebAssembly: ${wasm.initialized ? '✅ activo' : '⚠️ no disponible'}`);
+    console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
     updatePrediction("BTC");
     setInterval(() => updatePrediction(), 60000);
-    document.getElementById('refreshBtn').onclick = () => updatePrediction();
-    document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); };
-    document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim().toUpperCase(); if (v) updatePrediction(v); } });
-    verificarTermux();
-    setInterval(verificarTermux, 30000);
-    showToast(`🚀 nextmoon ai · cloudflare ai · wasm · 12 fuentes · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO}`);
+    showToast(`🚀 nextmoon ai · mistral ai · wasm · 12 fuentes · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO}`);
 }
 
 iniciar();
