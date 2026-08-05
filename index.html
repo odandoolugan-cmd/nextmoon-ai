@@ -330,7 +330,6 @@ class WASMOptimizer {
         }
     }
 
-    // ===== LIMPIEZA =====
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -349,7 +348,6 @@ class WASMOptimizer {
         return result;
     }
 
-    // ===== DETECCIÓN DE IDIOMA =====
     detectarIdioma(texto) {
         if (!texto || texto.length < 5) return 'es';
         const patrones = {
@@ -379,7 +377,6 @@ class WASMOptimizer {
         return mejorIdioma;
     }
 
-    // ===== CONTAR PALABRAS =====
     contarPalabras(texto) {
         const palabras = texto.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\-\']+/g) || [];
         return {
@@ -391,13 +388,11 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR CITAS APA =====
     contarCitasAPA(texto) {
         const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
         return { total: citas.length, citas: citas };
     }
 
-    // ===== VALIDAR ESTRUCTURA =====
     validarEstructura(texto) {
         const tieneResumen = /resumen ejecutivo:/i.test(texto);
         const tieneTecnico = /análisis técnico:/i.test(texto);
@@ -413,7 +408,6 @@ class WASMOptimizer {
         };
     }
 
-    // ===== CONTAR PALABRAS POR SECCIÓN =====
     contarPalabrasPorSeccion(texto) {
         const secciones = { resumen: 0, tecnico: 0, conclusion: 0 };
         const resMatch = texto.match(/resumen ejecutivo:([\s\S]*?)(?=análisis técnico:|conclusión:|$)/i);
@@ -425,7 +419,6 @@ class WASMOptimizer {
         return secciones;
     }
 
-    // ===== EXTRAER KEYWORDS =====
     extraerKeywords(texto, cantidad = 5) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const stopwords = ['el', 'la', 'los', 'las', 'un', 'una', 'y', 'o', 'pero', 'que', 'es', 'en', 'por', 'para', 'con', 'como', 'más', 'sobre', 'sin', 'de', 'del', 'al', 'lo', 'le', 'se', 'me', 'te', 'nos', 'su', 'sus', 'mi', 'tu', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella'];
@@ -439,7 +432,6 @@ class WASMOptimizer {
         return sorted.slice(0, cantidad).map(([palabra, frecuencia]) => ({ palabra, frecuencia }));
     }
 
-    // ===== DETECTAR REPETICIONES =====
     detectarRepeticiones(texto) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const frecuencias = {};
@@ -451,7 +443,6 @@ class WASMOptimizer {
         return repetidas.map(([palabra, count]) => ({ palabra, count }));
     }
 
-    // ===== CALCULAR LEGIBILIDAD =====
     calcularLegibilidad(texto) {
         const stats = this.contarPalabras(texto);
         const silabas = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
@@ -466,7 +457,6 @@ class WASMOptimizer {
         return { score: Math.max(0, Math.min(100, score)), nivel };
     }
 
-    // ===== ANALIZAR SENTIMIENTO =====
     analizarSentimiento(texto) {
         const palabrasPositivas = ['alcista', 'compra', 'subida', 'ganancia', 'optimista', 'fuerte', 'soporte', 'resistencia', 'rompimiento', 'momentum'];
         const palabrasNegativas = ['bajista', 'venta', 'caída', 'pérdida', 'riesgo', 'incertidumbre', 'corrección', 'liquidación', 'pánico', 'sobrecompra'];
@@ -485,7 +475,6 @@ class WASMOptimizer {
         return 'Equilibrado y analítico';
     }
 
-    // ===== TIEMPO DE LECTURA =====
     calcularTiempoLectura(texto) {
         const palabras = this.contarPalabras(texto).total;
         const minutos = Math.round(palabras / 200);
@@ -505,34 +494,28 @@ wasm.init();
 function actualizarAnalisisAutomatico(texto, idioma) {
     if (!texto || texto === '---' || texto.length < 20) return;
     
-    // 1. Contar palabras
     const stats = wasm.contarPalabras(texto);
     document.getElementById('metricPalabras').textContent = stats.total;
     document.getElementById('metricUnicas').textContent = stats.unicas;
     document.getElementById('metricMemoria').textContent = stats.total;
     
-    // 2. Contar citas APA
     const citas = wasm.contarCitasAPA(texto);
     document.getElementById('metricCitas').textContent = citas.total;
     document.getElementById('metricDB').textContent = citas.total;
     
-    // 3. Validar estructura
     const estructura = wasm.validarEstructura(texto);
     
-    // 4. Contar palabras por sección
     const secciones = wasm.contarPalabrasPorSeccion(texto);
     document.getElementById('resumenPalabras').textContent = secciones.resumen || 0;
     document.getElementById('tecnicoPalabras').textContent = secciones.tecnico || 0;
     document.getElementById('conclusionPalabras').textContent = secciones.conclusion || 0;
     
-    // 5. Extraer keywords
     const keywords = wasm.extraerKeywords(texto, 5);
     const keywordsHtml = keywords.map(kw => 
         `<span class="keyword-tag">🏷️ ${kw.palabra} (${kw.frecuencia})</span>`
     ).join(' ');
     document.getElementById('keywordsWidget').innerHTML = keywordsHtml || '<span style="color:#94a3b8;font-size:0.6rem;">🏷️ Keywords: --</span>';
     
-    // 6. Detectar repeticiones
     const repeticiones = wasm.detectarRepeticiones(texto);
     if (repeticiones.length > 0) {
         const repText = repeticiones.map(r => `${r.palabra} (${r.count})`).join(', ');
@@ -543,20 +526,16 @@ function actualizarAnalisisAutomatico(texto, idioma) {
         document.getElementById('repeticionesWidget').style.color = '#10b981';
     }
     
-    // 7. Calcular legibilidad
     const legibilidad = wasm.calcularLegibilidad(texto);
     document.getElementById('legibilidadScore').textContent = `${legibilidad.nivel} (${Math.round(legibilidad.score)})`;
     document.getElementById('legibilidadScore').style.color = legibilidad.score > 60 ? '#10b981' : legibilidad.score > 40 ? '#f59e0b' : '#ef4444';
     
-    // 8. Analizar sentimiento
     const sentimiento = wasm.analizarSentimiento(texto);
     document.getElementById('sentimientoAnalisis').textContent = `🎯 Tono: ${sentimiento}`;
     
-    // 9. Tiempo de lectura
     const tiempoLectura = wasm.calcularTiempoLectura(texto);
     document.getElementById('tiempoLectura').textContent = `⏱️ ${tiempoLectura} de lectura`;
     
-    // 10. Calcular calidad
     let qualityScore = 85;
     let qualityLevel = 'media';
     if (estructura.valida && citas.total >= 2 && stats.total >= 400) {
@@ -575,19 +554,12 @@ function actualizarAnalisisAutomatico(texto, idioma) {
     document.getElementById('qualityLabel').textContent = qualityScore + '%';
     document.getElementById('qualityLabel').style.color = qualityLevel === 'alta' ? '#10b981' : qualityLevel === 'media' ? '#f59e0b' : '#ef4444';
     
-    // 11. Detectar idioma
     const idiomaDet = idioma || wasm.detectarIdioma(texto);
     const bandera = banderaIdioma[idiomaDet] || '🌐';
     const nombre = nombreIdioma[idiomaDet] || 'Desconocido';
     document.getElementById('idiomaIndicator').textContent = `${bandera} ${nombre}`;
     document.getElementById('idiomaStatus').textContent = `${bandera} ${nombre}`;
     document.getElementById('idiomaStatus').style.color = '#3b82f6';
-    
-    // 12. Mostrar advertencias de estructura
-    if (!estructura.valida) {
-        document.getElementById('widgetEstrategiaContent').innerHTML = 
-            `⚠️ Estructura: faltan ${estructura.faltantes.join(', ')}`;
-    }
 }
 
 // ============================================
@@ -785,28 +757,33 @@ function actualizarProgress(porcentaje) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A MISTRAL AI
+// FUNCIÓN DE LLAMADA A MISTRAL AI (SIMPLIFICADA)
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
         let contextoAcademico = '';
+        // Intentar obtener contexto académico, pero no fallar si no se puede
         if (temaBusqueda) {
-            const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
-            if (resultados12.resumen.total_resultados > 0) {
-                contextoAcademico = '\n\n--- contexto académico cripto ---\n';
-                contextoAcademico += `se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
-                const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
-                fuentesPrioritarias.forEach(key => {
-                    const f = resultados12.fuentes[key];
-                    if (f && f.exito && f.count > 0) {
-                        contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
-                        f.data.slice(0, 2).forEach(r => {
-                            contextoAcademico += `• título: ${r.titulo || 'sin título'}\n`;
-                            if (r.abstract) contextoAcademico += `  resumen: ${r.abstract.substring(0, 200)}...\n`;
-                        });
-                    }
-                });
-                contextoAcademico += '\n--- fin contexto académico ---\n\n';
+            try {
+                const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
+                if (resultados12.resumen.total_resultados > 0) {
+                    contextoAcademico = '\n\n--- contexto académico cripto ---\n';
+                    contextoAcademico += `se encontraron ${resultados12.resumen.total_resultados} resultados académicos.\n\n`;
+                    const fuentesPrioritarias = ['semanticScholar', 'core', 'arxiv', 'wikipedia'];
+                    fuentesPrioritarias.forEach(key => {
+                        const f = resultados12.fuentes[key];
+                        if (f && f.exito && f.count > 0) {
+                            contextoAcademico += `\n[${key.toUpperCase()} - ${f.count} resultados]:\n`;
+                            f.data.slice(0, 2).forEach(r => {
+                                contextoAcademico += `• título: ${r.titulo || 'sin título'}\n`;
+                                if (r.abstract) contextoAcademico += `  resumen: ${r.abstract.substring(0, 200)}...\n`;
+                            });
+                        }
+                    });
+                    contextoAcademico += '\n--- fin contexto académico ---\n\n';
+                }
+            } catch(e) {
+                console.warn('⚠️ No se pudo obtener contexto académico:', e.message);
             }
         }
 
@@ -822,14 +799,14 @@ ${contextoAcademico}
 ${prompt}
 
 📋 ESTRUCTURA OBLIGATORIA:
-1️⃣ **Resumen Ejecutivo** - Señal clara (compra/venta/espera)
-2️⃣ **Análisis Técnico** - RSI, MACD, medias móviles, Bollinger
-3️⃣ **Niveles Críticos** - Soportes y Resistencias (S1, S2, S3 / R1, R2, R3)
-4️⃣ **Volumen y Flujo** - Análisis de volumen y OBV
-5️⃣ **Patrones** - Chartistas y velas japonesas
-6️⃣ **Gestión de Riesgo** - SL, TP, tamaño de posición
-7️⃣ **Contexto Macro** - Fear & Greed, correlaciones
-8️⃣ **Conclusión** - Recomendación final y plan de acción
+1️⃣ Resumen Ejecutivo - Señal clara (compra/venta/espera)
+2️⃣ Análisis Técnico - RSI, MACD, medias móviles, Bollinger
+3️⃣ Niveles Críticos - Soportes y Resistencias (S1, S2, S3 / R1, R2, R3)
+4️⃣ Volumen y Flujo - Análisis de volumen y OBV
+5️⃣ Patrones - Chartistas y velas japonesas
+6️⃣ Gestión de Riesgo - SL, TP, tamaño de posición
+7️⃣ Contexto Macro - Fear & Greed, correlaciones
+8️⃣ Conclusión - Recomendación final y plan de acción
 
 Reglas:
 ✅ Fundamenta cada afirmación con datos
@@ -1016,14 +993,6 @@ async function fetchTokenData(t) {
 function calculateScore(d) { let s = 50; if (d.volume24h > 50000000) s += 30; if (d.liquidity > 5000000) s += 25; if (d.priceChange24h > 30) s += 20; if (d.priceChange24h > 0) s += 5; return Math.min(99, Math.max(20, Math.floor(s))); }
 
 function actualizarWidgets(tokenData, analisis) {
-    const lower = analisis.toLowerCase();
-    let ind = 3, conf = 3, niv = 2, alr = 2;
-    if (lower.includes('rsi')) ind++; if (lower.includes('macd')) ind++; if (lower.includes('compra')) conf++; if (lower.includes('soporte')) niv++; if (lower.includes('stop')) alr++;
-    document.getElementById('metricIndicadores').textContent = Math.min(ind, 8);
-    document.getElementById('metricConfirmaciones').textContent = Math.min(conf, 6);
-    document.getElementById('metricNiveles').textContent = Math.min(niv, 5);
-    document.getElementById('metricAlertas').textContent = Math.min(alr, 4);
-    
     let confianza = 60;
     if (tokenData?.liquidity > 1000000) confianza += 10;
     if (tokenData?.volume24h > 10000000) confianza += 10;
@@ -1033,11 +1002,6 @@ function actualizarWidgets(tokenData, analisis) {
     
     const q = analyzer.analyzeQuality(analisis);
     document.getElementById('qualityLabel').textContent = q.qualityScore + '%';
-    
-    let est = '📊 espera', col = '#f59e0b';
-    if (lower.includes('compra') && !lower.includes('venta')) { est = '📈 compra'; col = '#10b981'; }
-    else if (lower.includes('venta')) { est = '📉 venta'; col = '#ef4444'; }
-    document.getElementById('widgetEstrategiaContent').innerHTML = `<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;"><span style="background:#1e293b;padding:8px 16px;border-radius:15px;font-size:1rem;font-weight:bold;border:2px solid ${col};color:${col};">${est}</span><span style="font-size:0.7rem;color:#94a3b8;">${conf} conf.</span></div>`;
 }
 
 // ============================================
@@ -1125,16 +1089,19 @@ genera un análisis profesional completo.`;
         sentimentContainer.appendChild(btnContainer);
         
         // Guardar referencias
-        referenciasAcademicas = await fuentes12.buscarSemanticScholar(t + ' cryptocurrency');
+        try {
+            referenciasAcademicas = await fuentes12.buscarSemanticScholar(t + ' cryptocurrency');
+        } catch(e) { referenciasAcademicas = []; }
         
         // Estado en modo
-        const modoNombre = modoActual === 'experto' ? 'Experto (4000t)' : 'Básico (1500t)';
         document.getElementById('modoStatus').textContent = modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico';
         document.getElementById('modoStatus').style.color = modoActual === 'experto' ? '#a78bfa' : '#f97316';
         
     } catch(e) { 
         showToast("❌ error: " + e.message, true); 
         actualizarProgress(0);
+        // Mostrar un mensaje de fallback en el análisis
+        document.getElementById('sentimentText').innerHTML = '⚠️ Error al obtener datos. Intenta de nuevo.';
     }
     finally { 
         isRefreshing = false; 
@@ -1353,7 +1320,12 @@ function iniciar() {
     console.log(`⚡ WebAssembly: ${wasm.initialized ? '✅ activo' : '⚠️ no disponible'}`);
     console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
     console.log(`📊 Funciones WASM: Limpieza, Idioma, Keywords, Legibilidad, Sentimiento, Repeticiones, Tiempo Lectura`);
-    updatePrediction("BTC");
+    // Iniciar con un análisis de BTC, pero con manejo de errores
+    setTimeout(() => {
+        updatePrediction("BTC").catch(() => {
+            document.getElementById('sentimentText').innerHTML = '📊 Análisis de BTC disponible. Haz clic en Actualizar.';
+        });
+    }, 1000);
     setInterval(() => updatePrediction(), 60000);
     showToast(`🚀 nextmoon ai · mistral ai · wasm · 12 fuentes · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO} · 📊 analytics`);
 }
