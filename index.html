@@ -83,11 +83,6 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .auto-update { font-size: 0.6rem; color: #10b981; text-align: center; margin-top: 0.5rem; }
         footer { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: #475569; }
-        .vr-button { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 12px 20px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer; z-index: 100; }
-        .vr-mode { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: none; background: #0a0f1e; }
-        .vr-mode.active { display: block; }
-        .close-vr { position: fixed; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border: 1px solid #e9c46a; padding: 8px 16px; border-radius: 30px; color: #e9c46a; cursor: pointer; z-index: 1001; }
-        .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
         .toast-msg { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.8rem; z-index: 2000; animation: fadeOut 3s forwards; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; vertical-align: middle; }
@@ -163,6 +158,8 @@
         
         .idioma-indicator { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.6rem; font-weight: 600; margin-left: 8px; background: #3b82f6; color: white; }
         
+        .ia-badge { background: #10b981; padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; margin-left: 8px; }
+        
         @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -214,14 +211,14 @@
             <button class="tool-btn" id="btnTermuxStatus">🔌 Estado</button>
         </div>
 
-        <div class="search-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="Buscar cripto: BTC, ETH, SOL, DOGE...">
-            <button class="search-btn" id="searchBtn">🔍 BUSCAR</button>
-        </div>
-
         <!-- Barra de progreso -->
         <div class="progress-bar-container">
             <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar cripto: BTC, ETH, SOL, DOGE...">
+            <button class="search-btn" id="searchBtn">🔍 BUSCAR</button>
         </div>
 
         <div class="dashboard-grid">
@@ -252,13 +249,6 @@
     </div>
 </div>
 
-<button class="vr-button" id="vrModeBtn">🔮 MODO VR</button>
-<div class="vr-mode" id="vrMode"><button class="close-vr" id="closeVrBtn">✕ SALIR</button><div id="vrContainer" style="width:100%;height:100%"></div></div>
-
-<script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.128.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/" } }
-</script>
-
 <script>
 // ============================================
 // CONFIGURACIÓN - MISTRAL AI (SIN CLOUDFLARE)
@@ -286,7 +276,7 @@ const banderaIdioma = {
 };
 
 // ============================================
-// WEBASSEMBLY OPTIMIZER CON ANALYTICS
+// WEBASSEMBLY OPTIMIZER - 10 FUNCIONES COMPLETAS
 // ============================================
 class WASMOptimizer {
     constructor() {
@@ -330,6 +320,7 @@ class WASMOptimizer {
         }
     }
 
+    // 1. LIMPIEZA DE TEXTO
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -348,6 +339,7 @@ class WASMOptimizer {
         return result;
     }
 
+    // 2. DETECCIÓN DE IDIOMA
     detectarIdioma(texto) {
         if (!texto || texto.length < 5) return 'es';
         const patrones = {
@@ -377,6 +369,7 @@ class WASMOptimizer {
         return mejorIdioma;
     }
 
+    // 3. CONTEO DE PALABRAS
     contarPalabras(texto) {
         const palabras = texto.match(/[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\-\']+/g) || [];
         return {
@@ -388,11 +381,13 @@ class WASMOptimizer {
         };
     }
 
+    // 4. CONTEO DE CITAS APA
     contarCitasAPA(texto) {
         const citas = texto.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
         return { total: citas.length, citas: citas };
     }
 
+    // 5. VALIDACIÓN DE ESTRUCTURA
     validarEstructura(texto) {
         const tieneResumen = /resumen ejecutivo:/i.test(texto);
         const tieneTecnico = /análisis técnico:/i.test(texto);
@@ -408,6 +403,7 @@ class WASMOptimizer {
         };
     }
 
+    // 6. CONTEO DE PALABRAS POR SECCIÓN
     contarPalabrasPorSeccion(texto) {
         const secciones = { resumen: 0, tecnico: 0, conclusion: 0 };
         const resMatch = texto.match(/resumen ejecutivo:([\s\S]*?)(?=análisis técnico:|conclusión:|$)/i);
@@ -419,6 +415,7 @@ class WASMOptimizer {
         return secciones;
     }
 
+    // 7. EXTRACCIÓN DE KEYWORDS
     extraerKeywords(texto, cantidad = 5) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const stopwords = ['el', 'la', 'los', 'las', 'un', 'una', 'y', 'o', 'pero', 'que', 'es', 'en', 'por', 'para', 'con', 'como', 'más', 'sobre', 'sin', 'de', 'del', 'al', 'lo', 'le', 'se', 'me', 'te', 'nos', 'su', 'sus', 'mi', 'tu', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella'];
@@ -432,6 +429,7 @@ class WASMOptimizer {
         return sorted.slice(0, cantidad).map(([palabra, frecuencia]) => ({ palabra, frecuencia }));
     }
 
+    // 8. DETECCIÓN DE REPETICIONES
     detectarRepeticiones(texto) {
         const palabras = texto.toLowerCase().match(/[a-záéíóúüñ]+/g) || [];
         const frecuencias = {};
@@ -443,6 +441,7 @@ class WASMOptimizer {
         return repetidas.map(([palabra, count]) => ({ palabra, count }));
     }
 
+    // 9. CÁLCULO DE LEGIBILIDAD
     calcularLegibilidad(texto) {
         const stats = this.contarPalabras(texto);
         const silabas = (texto.match(/[aeiouáéíóú]+/gi) || []).length;
@@ -457,6 +456,7 @@ class WASMOptimizer {
         return { score: Math.max(0, Math.min(100, score)), nivel };
     }
 
+    // 10. ANÁLISIS DE SENTIMIENTO
     analizarSentimiento(texto) {
         const palabrasPositivas = ['alcista', 'compra', 'subida', 'ganancia', 'optimista', 'fuerte', 'soporte', 'resistencia', 'rompimiento', 'momentum'];
         const palabrasNegativas = ['bajista', 'venta', 'caída', 'pérdida', 'riesgo', 'incertidumbre', 'corrección', 'liquidación', 'pánico', 'sobrecompra'];
@@ -475,6 +475,7 @@ class WASMOptimizer {
         return 'Equilibrado y analítico';
     }
 
+    // 11. TIEMPO DE LECTURA
     calcularTiempoLectura(texto) {
         const palabras = this.contarPalabras(texto).total;
         const minutos = Math.round(palabras / 200);
@@ -757,12 +758,11 @@ function actualizarProgress(porcentaje) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A MISTRAL AI (SIMPLIFICADA)
+// FUNCIÓN DE LLAMADA A MISTRAL AI
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
         let contextoAcademico = '';
-        // Intentar obtener contexto académico, pero no fallar si no se puede
         if (temaBusqueda) {
             try {
                 const resultados12 = await fuentes12.buscarTodasLasFuentes(temaBusqueda);
@@ -1100,7 +1100,6 @@ genera un análisis profesional completo.`;
     } catch(e) { 
         showToast("❌ error: " + e.message, true); 
         actualizarProgress(0);
-        // Mostrar un mensaje de fallback en el análisis
         document.getElementById('sentimentText').innerHTML = '⚠️ Error al obtener datos. Intenta de nuevo.';
     }
     finally { 
@@ -1261,7 +1260,7 @@ document.getElementById('btnDecisionStatus').onclick = () => {
     const idioma = nombreIdioma[idiomaDetectado] || 'Español';
     const bandera = banderaIdioma[idiomaDetectado] || '🌐';
     mostrarModal('🧠 403m lector + WASM', 
-        `=== 🧠 403M LECTOR + WEBASSEMBLY + ANALYTICS ===\n` +
+        `=== 🧠 403M LECTOR + WEBASSEMBLY (11 funciones) ===\n` +
         `⚡ WebAssembly: ${wasm.initialized ? '✅ activo' : '⚠️ no disponible'}\n` +
         `📊 optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
@@ -1271,17 +1270,18 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `💾 caché: ${cache.getStats().total} entradas\n` +
         `📡 estado: ✅ activo\n` +
         `📌 modo: ${modoActual === 'experto' ? '🧠 experto' : '⚡ básico'}\n\n` +
-        `📊 FUNCIONES WASM ACTIVAS:\n` +
-        `✅ Limpieza de texto\n` +
-        `✅ Detección de idioma\n` +
-        `✅ Conteo de palabras\n` +
-        `✅ Validación de estructura\n` +
-        `✅ Conteo de citas APA\n` +
-        `✅ Extracción de keywords\n` +
-        `✅ Análisis de legibilidad\n` +
-        `✅ Detección de repeticiones\n` +
-        `✅ Análisis de sentimiento\n` +
-        `✅ Tiempo de lectura`
+        `📊 FUNCIONES WASM ACTIVAS (11):\n` +
+        `✅ 1. Limpieza de texto\n` +
+        `✅ 2. Detección de idioma\n` +
+        `✅ 3. Conteo de palabras\n` +
+        `✅ 4. Conteo de citas APA\n` +
+        `✅ 5. Validación de estructura\n` +
+        `✅ 6. Conteo de palabras por sección\n` +
+        `✅ 7. Extracción de keywords\n` +
+        `✅ 8. Detección de repeticiones\n` +
+        `✅ 9. Análisis de legibilidad\n` +
+        `✅ 10. Análisis de sentimiento\n` +
+        `✅ 11. Tiempo de lectura`
     );
 };
 
@@ -1291,7 +1291,7 @@ document.getElementById('btnTermuxStatus').onclick = () => {
     const bandera = banderaIdioma[idiomaDetectado] || '🌐';
     mostrarModal('🔌 estado', 
         `=== ESTADO DEL SISTEMA ===\n` +
-        `⚡ Mistral AI: ✅ Conectado (sin Cloudflare)\n` +
+        `⚡ Mistral AI: ✅ Conectado\n` +
         `⚡ WebAssembly: ${wasm.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
         `📊 Optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
@@ -1301,10 +1301,11 @@ document.getElementById('btnTermuxStatus').onclick = () => {
         `📚 Fuentes: 12 activas\n` +
         `📌 Modo: ${modoActual === 'experto' ? '🧠 Experto' : '⚡ Básico'}\n` +
         `🇨🇳 Enfoque: ${PAIS_FIJO}\n\n` +
-        `📊 FUNCIONES WASM:\n` +
+        `📊 11 FUNCIONES WASM ACTIVAS:\n` +
         `✅ Limpieza, Idioma, Palabras, Estructura\n` +
         `✅ Citas APA, Keywords, Legibilidad\n` +
-        `✅ Repeticiones, Sentimiento, Tiempo lectura`
+        `✅ Repeticiones, Sentimiento, Tiempo lectura\n` +
+        `✅ Conteo de palabras por sección`
     );
 };
 
@@ -1319,40 +1320,18 @@ function iniciar() {
     console.log(`🇨🇳 enfoque geográfico fijo: ${PAIS_FIJO}`);
     console.log(`⚡ WebAssembly: ${wasm.initialized ? '✅ activo' : '⚠️ no disponible'}`);
     console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
-    console.log(`📊 Funciones WASM: Limpieza, Idioma, Keywords, Legibilidad, Sentimiento, Repeticiones, Tiempo Lectura`);
-    // Iniciar con un análisis de BTC, pero con manejo de errores
+    console.log(`📊 11 funciones WASM activas: Limpieza, Idioma, Palabras, Estructura, Citas, Keywords, Legibilidad, Repeticiones, Sentimiento, Tiempo Lectura, Secciones`);
+    // Iniciar con un análisis de BTC
     setTimeout(() => {
         updatePrediction("BTC").catch(() => {
             document.getElementById('sentimentText').innerHTML = '📊 Análisis de BTC disponible. Haz clic en Actualizar.';
         });
     }, 1000);
     setInterval(() => updatePrediction(), 60000);
-    showToast(`🚀 nextmoon ai · mistral ai · wasm · 12 fuentes · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO} · 📊 analytics`);
+    showToast(`🚀 nextmoon ai · 11 funciones WASM · 12 fuentes · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO} · 📊 analytics`);
 }
 
 iniciar();
-</script>
-
-<script type="module">
-import * as THREE from 'three'; import { OrbitControls } from 'three/addons/controls/OrbitControls.js'; import { VRButton } from 'three/addons/webxr/VRButton.js';
-let scene, camera, renderer, controls, active = false;
-const container = document.getElementById('vrContainer'), vrBtn = document.getElementById('vrModeBtn'), closeVr = document.getElementById('closeVrBtn'), vrMode = document.getElementById('vrMode');
-function initVR() {
-    if (!container) return; container.innerHTML = '';
-    scene = new THREE.Scene(); scene.background = new THREE.Color(0x0a0f1e);
-    camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 1000); camera.position.set(5, 3, 8);
-    renderer = new THREE.WebGLRenderer({ antialias: true }); renderer.setSize(container.clientWidth, container.clientHeight); renderer.xr.enabled = true;
-    container.appendChild(renderer.domElement); container.appendChild(VRButton.createButton(renderer));
-    controls = new OrbitControls(camera, renderer.domElement); controls.enableDamping = true;
-    scene.add(new THREE.AmbientLight(0x404060));
-    const dl = new THREE.DirectionalLight(0xffffff, 1); dl.position.set(5, 10, 7); scene.add(dl);
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStandardMaterial({ color: 0x1a1f2e })); floor.rotation.x = -Math.PI/2; floor.position.y = -1.5; scene.add(floor);
-    for (let i = 0; i < 36; i++) { const t = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.05, 16, 32), new THREE.MeshStandardMaterial({ color: [0xf7931a,0x627eea,0x3b82f6,0xec4899][i%4] })); const a = (i/36)*Math.PI*2; t.position.set(Math.cos(a)*4, Math.sin(a*3)*0.8, Math.sin(a)*4); scene.add(t); }
-    function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); } animate();
-    active = true;
-}
-vrBtn.addEventListener('click', () => { document.getElementById('normalMode').style.display = 'none'; vrMode.classList.add('active'); if (!active) setTimeout(initVR, 100); });
-closeVr.addEventListener('click', () => { vrMode.classList.remove('active'); document.getElementById('normalMode').style.display = 'block'; });
 </script>
 </body>
 </html>
