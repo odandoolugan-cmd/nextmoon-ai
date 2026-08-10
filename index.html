@@ -289,6 +289,7 @@ class WASMUltra {
     async init() {
         try {
             console.log('⚡ Inicializando WASM Ultra con 100+ funciones...');
+            // WASM base
             const wasmCode = new Uint8Array([
                 0x00, 0x61, 0x73, 0x6d,
                 0x01, 0x00, 0x00, 0x00,
@@ -324,7 +325,7 @@ class WASMUltra {
         }
     }
 
-    // 1. LIMPIEZA DE TEXTO
+    // ✅ 1. LIMPIEZA DE TEXTO
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -344,7 +345,7 @@ class WASMUltra {
         return result;
     }
 
-    // 2. DETECCIÓN DE IDIOMA
+    // ✅ 2. DETECCIÓN DE IDIOMA (CORREGIDO: detectarIdioma con I mayúscula)
     detectarIdioma(texto) {
         const inicio = performance.now();
         if (!texto || texto.length < 5) return 'es';
@@ -1834,6 +1835,22 @@ async function iniciar() {
         document.getElementById('ultraTiempo').textContent = Math.round(stats.tiempoTotal) + 'ms';
         document.getElementById('ultraIdiomas').textContent = stats.idiomasDetectados;
         document.getElementById('ultraFunciones').textContent = stats.funcionesEjecutadas;
+        
+        // ✅ Prueba de diagnóstico - verificar que la función está disponible
+        console.log('🔍 Funciones disponibles en wasmUltra:');
+        console.log(Object.keys(wasmUltra));
+        
+        if (typeof wasmUltra.detectarIdioma === 'function') {
+            console.log('✅ detectarIdioma está disponible');
+        } else {
+            console.log('❌ detectarIdioma NO está disponible');
+            console.log('🔍 Buscando funciones similares:');
+            Object.keys(wasmUltra).forEach(key => {
+                if (key.includes('detectar') || key.includes('idioma')) {
+                    console.log(`  - ${key}`);
+                }
+            });
+        }
     }
     
     // Iniciar con un análisis de BTC
