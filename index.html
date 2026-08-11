@@ -56,6 +56,21 @@
         .metric-label { font-size: 0.6rem; color: #94a3b8; }
         .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
         
+        /* Señal de trading destacada */
+        .signal-box { 
+            background: rgba(0,0,0,0.4); 
+            border-radius: 0.8rem; 
+            padding: 0.8rem; 
+            margin-top: 0.5rem; 
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 2px solid #f59e0b;
+        }
+        .signal-box .signal-compra { color: #10b981; }
+        .signal-box .signal-venta { color: #ef4444; }
+        .signal-box .signal-espera { color: #f59e0b; }
+        
         .widget-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0; }
         .widget { background: rgba(30, 41, 59, 0.9); border: 1px solid #3b82f6; border-radius: 12px; padding: 15px; transition: all 0.3s; backdrop-filter: blur(10px); }
         .widget:hover { border-color: #8b5cf6; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.1); transform: translateY(-2px); }
@@ -242,7 +257,14 @@
 
         <div class="dashboard-grid">
             <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
-            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer"><div class="sentiment-box">🤖 <strong>403M LECTOR + Mistral AI + WASM ULTRA:</strong><br><span id="sentimentText">Cargando análisis...</span></div><div class="export-buttons"><button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA 7</button></div></div></div>
+            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer">
+                <div class="sentiment-box">🤖 <strong>403M LECTOR + Mistral AI + WASM ULTRA:</strong><br><span id="sentimentText">Cargando análisis...</span></div>
+                <!-- Señal destacada -->
+                <div id="signalDisplay" class="signal-box" style="display:none;">
+                    🎯 SEÑAL: <span id="signalText">---</span>
+                </div>
+                <div class="export-buttons"><button class="export-btn" data-format="latex">📄 LaTeX</button><button class="export-btn" data-format="markdown">📝 Markdown</button><button class="export-btn" data-format="bibtex">📚 BibTeX</button><button class="export-btn" data-format="apa">📋 APA 7</button></div>
+            </div></div>
         </div>
 
         <div class="widget-container">
@@ -1462,6 +1484,7 @@ async function updatePrediction(manualToken = null) {
     const t = (manualToken || currentToken).toUpperCase().trim();
     document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
     document.getElementById('sentimentText').innerHTML = '<div class="spinner"></div>';
+    document.getElementById('signalDisplay').style.display = 'none';
     actualizarProgress(5);
     
     try {
@@ -1495,7 +1518,7 @@ datos de mercado:
 - volumen: $${(td.volume24h/1e6).toFixed(2)}M
 - liquidez: $${(td.liquidity/1e6).toFixed(2)}M
 
-genera un análisis profesional completo.`;
+genera un análisis profesional completo con señal clara de COMPRA, VENTA o ESPERA.`;
         
         let analisis = await llamarIAConContexto(preguntaAnalisis, t + ' cryptocurrency');
         actualizarProgress(85);
@@ -1507,6 +1530,28 @@ genera un análisis profesional completo.`;
         ultimoAnalisis = analisis;
         document.getElementById('sentimentText').innerHTML = analisis.replace(/\n/g, '<br>');
         actualizarWidgets(td, analisis);
+        
+        // ===== DETECTAR SEÑAL DEL ANÁLISIS =====
+        let signal = 'ESPERA';
+        let signalColor = '#f59e0b';
+        const lowerAnalisis = analisis.toLowerCase();
+        if (lowerAnalisis.includes('compra') || lowerAnalisis.includes('alcista') || lowerAnalisis.includes('bullish')) {
+            signal = '📈 COMPRA';
+            signalColor = '#10b981';
+        } else if (lowerAnalisis.includes('venta') || lowerAnalisis.includes('bajista') || lowerAnalisis.includes('bearish')) {
+            signal = '📉 VENTA';
+            signalColor = '#ef4444';
+        } else if (lowerAnalisis.includes('espera') || lowerAnalisis.includes('neutral') || lowerAnalisis.includes('mantener')) {
+            signal = '⏳ ESPERA';
+            signalColor = '#f59e0b';
+        }
+        
+        // Mostrar señal destacada
+        const signalDisplay = document.getElementById('signalDisplay');
+        const signalText = document.getElementById('signalText');
+        signalDisplay.style.display = 'block';
+        signalText.textContent = signal;
+        signalText.style.color = signalColor;
         
         // ===== ANÁLISIS AUTOMÁTICO COMPLETO =====
         const idiomaDet = wasmUltra.detectarIdioma(analisis);
