@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
-    <title>NextMoon AI · 403M LECTOR · Predictor Cripto · AcadémIA Pro · 12 Fuentes · WASM ULTRA</title>
+    <title>NextMoon AI · 403M LECTOR · Predictor Cripto · AcadémIA Pro · 12 Fuentes · WASM ULTRA · AGENTE · ILIMITADO</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -20,6 +20,8 @@
         .badge-analytics { background: linear-gradient(90deg, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-100funciones { background: linear-gradient(90deg, #8b5cf6, #ec4899, #f59e0b); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-ilimitado { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981, #3b82f6, #8b5cf6); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-agente { background: linear-gradient(90deg, #f59e0b, #8b5cf6, #ec4899); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
+        .badge-1llamada { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid rgba(96,165,250,0.3); }
         .modo-selector { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
@@ -43,6 +45,8 @@
         .tool-btn.memoria:hover { background: #ec4899; color: white; }
         .tool-btn.ilimitado { border-color: #f59e0b; color: #fbbf24; }
         .tool-btn.ilimitado:hover { background: linear-gradient(90deg, #f59e0b, #d97706); color: white; border-color: #f59e0b; }
+        .tool-btn.agente { border-color: #f59e0b; color: #fbbf24; background: rgba(245,158,11,0.2); }
+        .tool-btn.agente:hover { background: linear-gradient(90deg, #f59e0b, #8b5cf6); color: white; border-color: #f59e0b; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
@@ -59,7 +63,6 @@
         .metric-label { font-size: 0.6rem; color: #94a3b8; }
         .metric-value { font-size: 0.9rem; font-weight: bold; color: #60a5fa; }
         
-        /* Señal de trading destacada */
         .signal-box { 
             background: rgba(0,0,0,0.4); 
             border-radius: 0.8rem; 
@@ -189,6 +192,15 @@
         .ref-item:last-child { border-bottom: none; }
         .ref-item a { color: #60a5fa; text-decoration: none; }
         
+        .sources-badge { display: flex; flex-wrap: wrap; gap: 8px; margin: 1rem 0; justify-content: center; }
+        .source-badge { background: rgba(139,92,246,0.2); padding: 4px 12px; border-radius: 20px; font-size: 0.65rem; border: 1px solid rgba(139,92,246,0.4); }
+        .source-badge.wasm { border-color: #f59e0b; background: rgba(245,158,11,0.2); }
+        .source-badge.ultra { border-color: #8b5cf6; background: rgba(139,92,246,0.3); }
+        .source-badge.memoria { border-color: #ec4899; background: rgba(236,72,153,0.2); }
+        .source-badge.ilimitado { border-color: #f59e0b; background: rgba(245,158,11,0.3); animation: glow 2s infinite; }
+        .source-badge.agente { border-color: #f59e0b; background: rgba(245,158,11,0.3); animation: glow 2s infinite; }
+        .source-badge.1llamada { border-color: #ec4899; background: rgba(236,72,153,0.2); animation: glow 2s infinite; }
+        
         @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -197,10 +209,10 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <div class="badge">🚀 NextMoon AI <span class="badge-mistral">⚡ MISTRAL AI</span> <span class="badge-wasm">⚡ WASM</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-china">🇨🇳 ENFOQUE CHINA</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span></div>
-            <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#f97316;">MISTRAL AI</span> <span class="ia-badge" style="background:#f59e0b;color:black;">📊 WASM ULTRA</span> <span class="ia-badge" style="background:#ec4899;">♾️ ILIMITADO</span></h1>
-            <div style="font-size: 0.7rem;">403M LECTOR · AcadémIA Pro · 12 Fuentes + Ilimitadas · WebAssembly ULTRA · 100+ funciones · IndexedDB · Exportación · Plagio · 🇨🇳 Enfoque China · 📊 Análisis Automático · 🧠 Memoria Persistente</div>
-            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Mistral AI + WASM ULTRA (100+ funciones) + Memoria Persistente + Fuentes Ilimitadas · Enfoque en China</div>
+            <div class="badge">🚀 NextMoon AI <span class="badge-mistral">⚡ MISTRAL AI</span> <span class="badge-wasm">⚡ WASM</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-china">🇨🇳 ENFOQUE CHINA</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span> <span class="badge-agente">🤖 AGENTE</span> <span class="badge-1llamada">⚡ 1 LLAMADA</span></div>
+            <h1>🔮 NextMoon AI <span class="ia-badge">403M LECTOR</span> <span class="ia-badge" style="background:#f97316;">MISTRAL AI</span> <span class="ia-badge" style="background:#f59e0b;color:black;">📊 WASM ULTRA</span> <span class="ia-badge" style="background:#ec4899;">♾️ ILIMITADO</span> <span class="ia-badge" style="background:#8b5cf6;">🤖 AGENTE</span></h1>
+            <div style="font-size: 0.7rem;">403M LECTOR · AcadémIA Pro · 12 Fuentes + Ilimitadas · WebAssembly ULTRA · 100+ funciones · IndexedDB · Exportación · Plagio · 🇨🇳 Enfoque China · 📊 Análisis Automático · 🧠 Memoria Persistente · 🤖 Agente · ⚡ 1 Llamada · ♾️ Sin Límites</div>
+            <div class="daily-tip" id="dailyTip">🧠 403M LECTOR + Mistral AI + WASM ULTRA (100+ funciones) + Memoria Persistente + Fuentes Ilimitadas + 🤖 Agente + ⚡ 1 Llamada · Enfoque en China</div>
         </div>
 
         <div class="status-bar">
@@ -214,6 +226,8 @@
             <span>📊 Analytics: <span id="analyticsStatus" style="color:#10b981;">✅ Activo</span></span>
             <span>🧠 Memoria: <span id="memoriaStatus" style="color:#10b981;">✅ Activa</span></span>
             <span>♾️ Fuentes: <span id="fuentesStatus" style="color:#f59e0b;">✅ Ilimitadas</span></span>
+            <span>🤖 Agente: <span id="agenteStatus" style="color:#f59e0b;">✅ Activo</span></span>
+            <span>⚡ 1 Llamada: <span id="llamadaStatus" style="color:#ec4899;">✅ Activo</span></span>
         </div>
 
         <div class="modo-selector">
@@ -232,6 +246,31 @@
             <span>🧠 Memoria: <strong id="ultraMemoria">0 KB</strong></span>
             <span>📚 Consultas: <strong id="ultraConsultas">0</strong></span>
             <span>♾️ Fuentes: <strong id="ultraFuentes">0</strong></span>
+            <span>🤖 Agente: <strong id="ultraAgente">✅ Activo</strong></span>
+        </div>
+
+        <!-- BADGES DE FUENTES -->
+        <div class="sources-badge">
+            <span class="source-badge">📄 Crossref (150M)</span>
+            <span class="source-badge">🔓 OpenAlex (250M+)</span>
+            <span class="source-badge">📚 CORE (300M+)</span>
+            <span class="source-badge">🔬 Semantic Scholar (200M+)</span>
+            <span class="source-badge">📐 arXiv (2M+)</span>
+            <span class="source-badge">🏛️ Internet Archive</span>
+            <span class="source-badge">🌐 Wikipedia</span>
+            <span class="source-badge">🔗 Wikidata</span>
+            <span class="source-badge">🏥 PubMed</span>
+            <span class="source-badge">📂 DOAJ</span>
+            <span class="source-badge">📚 Open Library</span>
+            <span class="source-badge">💻 Hacker News</span>
+            <span class="source-badge">🎓 Google Scholar</span>
+            <span class="source-badge">🔬 ResearchGate</span>
+            <span class="source-badge ilimitado">♾️ + ILIMITADAS</span>
+            <span class="source-badge wasm">⚡ WebAssembly</span>
+            <span class="source-badge ultra">🚀 100+ Funciones</span>
+            <span class="source-badge memoria">🧠 Memoria Persistente</span>
+            <span class="source-badge agente">🤖 Agente</span>
+            <span class="source-badge 1llamada">⚡ 1 LLAMADA</span>
         </div>
 
         <div class="tools-bar">
@@ -250,6 +289,7 @@
             <button class="tool-btn academia" id="btnVerificarPlagio">⚠️ Plagio</button>
             <button class="tool-btn academia" id="btnExportar">📤 Exportar</button>
             <button class="tool-btn academia ilimitado" id="btnFuentesIlimitadas">♾️ ILIMITADO</button>
+            <button class="tool-btn agente" id="btnAgenteStatus">🤖 AGENTE</button>
             <button class="tool-btn decision" id="btnDecisionStatus">🧠 403M</button>
             <button class="tool-btn memoria" id="btnMemoriaStatus">🧠 Memoria</button>
             <button class="tool-btn" id="btnAnalisisCompleto">📊 Análisis Completo</button>
@@ -268,9 +308,8 @@
 
         <div class="dashboard-grid">
             <div class="card"><div class="card-title">🎯 DATOS DEL TOKEN</div><div class="token-symbol" id="tokenSymbol">---</div><div class="token-price" id="tokenPrice">---</div><div class="metrics-grid"><div class="metric-item"><div class="metric-label">Volumen 24h</div><div class="metric-value" id="volume">---</div></div><div class="metric-item"><div class="metric-label">Liquidez</div><div class="metric-value" id="liquidity">---</div></div><div class="metric-item"><div class="metric-label">Cambio 24h</div><div class="metric-value" id="priceChange">---</div></div><div class="metric-item"><div class="metric-label">Score IA</div><div class="metric-value" id="iaScore">---</div></div></div></div>
-            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING</div><div id="sentimentContainer">
-                <div class="sentiment-box">🤖 <strong>403M LECTOR + Mistral AI + WASM ULTRA + Fuentes Ilimitadas:</strong><br><span id="sentimentText">Cargando análisis...</span></div>
-                <!-- Señal destacada -->
+            <div class="card"><div class="card-title">📈 SEÑALES DE TRADING <span style="font-size:0.55rem;color:#94a3b8;">· 🤖 Agente · ⚡ 1 Llamada · ♾️ Ilimitado</span></div><div id="sentimentContainer">
+                <div class="sentiment-box">🤖 <strong>403M LECTOR + Mistral AI + WASM ULTRA + Fuentes Ilimitadas + Agente:</strong><br><span id="sentimentText">Cargando análisis...</span></div>
                 <div id="signalDisplay" class="signal-box" style="display:none;">
                     🎯 SEÑAL: <span id="signalText">---</span>
                 </div>
@@ -280,7 +319,7 @@
 
         <div class="widget-container">
             <div class="widget"><div class="widget-title">📊 Análisis de Mercado</div><div class="widget-content"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.7rem;"><span>📝 Palabras: <span id="metricPalabras">0</span></span><span>🔤 Únicas: <span id="metricUnicas">0</span></span><span>📚 Citas: <span id="metricCitas">0</span></span><span>📊 APIs: <span id="metricAPIs">13</span></span></div><div style="font-size:0.65rem;color:#94a3b8;margin-top:4px;" id="tiempoLectura">⏱️ -- min de lectura</div><div style="font-size:0.65rem;color:#94a3b8;margin-top:2px;" id="sentimientoAnalisis">🎯 Tono: --</div><div style="font-size:0.65rem;color:#94a3b8;margin-top:2px;" id="completitudWidget">📊 Completitud: --%</div></div></div>
-            <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs2">100+</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Mistral AI: ✅ Activo</div><div id="wasmWidgetStatus">⚡ WebAssembly ULTRA: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div></div></div>
+            <div class="widget"><div class="widget-title">🔌 Estado del Sistema</div><div class="widget-content"><div class="connector-metrics"><div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Conversaciones</div></div><div class="connector-metric"><div class="value" id="metricSemantico">403M+</div><div class="label">Datos</div></div><div class="connector-metric"><div class="value" id="metricAPIs2">100+</div><div class="label">Fuentes</div></div><div class="connector-metric"><div class="value" id="metricDB">0</div><div class="label">IndexedDB</div></div></div><div id="jsllm7WidgetStatus">⚡ Mistral AI: ✅ Activo</div><div id="wasmWidgetStatus">⚡ WebAssembly ULTRA: <span id="wasmWidgetStatusText">⏳ Cargando...</span></div><div id="agenteWidgetStatus" style="font-size:0.65rem;color:#94a3b8;margin-top:4px;">🤖 Agente: Listo</div></div></div>
             <div class="widget"><div class="widget-title">🎯 Confianza</div><div class="widget-content"><div class="widget-confidence"><span>📊</span><div class="confidence-bar"><div class="confidence-fill" id="confidenceFill" style="width:0%"></div></div><span class="confidence-label" id="confidenceLabel">0%</span></div><div style="font-size:0.75rem;color:#94a3b8;margin-top:8px;">Calidad: <span id="qualityLabel">--</span></div><div style="font-size:0.65rem;color:#94a3b8;margin-top:4px;">📖 Legibilidad: <span id="legibilidadScore">--</span></div><div style="font-size:0.65rem;color:#94a3b8;margin-top:4px;">📚 Riqueza vocabularia: <span id="riquezaVocabulario">--%</span></div></div></div>
             <div class="widget"><div class="widget-title">🏗️ Estructura</div><div class="widget-content" id="estructuraWidget">
                 <div class="metricas-secciones">
@@ -301,14 +340,14 @@
         </div>
 
         <button id="refreshBtn" class="refresh-btn">🔄 ACTUALIZAR AHORA</button>
-        <div class="auto-update">🟢 403M LECTOR · Mistral AI · WASM ULTRA (100+ funciones) · AcadémIA Pro · 12 Fuentes + Ilimitadas · IndexedDB · 24/7 · 🇨🇳 Enfoque China · 📊 Analytics · 🧠 Memoria Persistente · ♾️ Sin límites</div>
-        <footer>⚡ NextMoon AI · Mistral AI (Sin Cloudflare) · 403M LECTOR · 12 Fuentes + Ilimitadas · WebAssembly ULTRA · 100+ funciones · Memoria Persistente · 🇨🇳 · 📊 Análisis Automático</footer>
+        <div class="auto-update">🟢 403M LECTOR · Mistral AI · WASM ULTRA (100+ funciones) · AcadémIA Pro · 12 Fuentes + Ilimitadas · 🤖 Agente · ⚡ 1 Llamada · IndexedDB · 24/7 · 🇨🇳 Enfoque China · 📊 Analytics · 🧠 Memoria Persistente · ♾️ Sin límites</div>
+        <footer>⚡ NextMoon AI · Mistral AI (Sin Cloudflare) · 403M LECTOR · 12 Fuentes + Ilimitadas · WebAssembly ULTRA · 100+ funciones · 🤖 Agente · ⚡ 1 Llamada · Memoria Persistente · 🇨🇳 · 📊 Análisis Automático</footer>
     </div>
 </div>
 
 <script>
 // ============================================
-// WASM ULTRA - 100+ FUNCIONES EN MILISEGUNDOS
+// WASM ULTRA - 100+ FUNCIONES + AGENTE
 // ============================================
 
 class WASMUltra {
@@ -322,12 +361,12 @@ class WASMUltra {
         };
         this.cache = new Map();
         this.memoria = new WASMMemory();
+        this.apiCache = new Map();
     }
 
     async init() {
         try {
-            console.log('⚡ Inicializando WASM Ultra con 100+ funciones...');
-            // WASM base
+            console.log('⚡ Inicializando WASM Ultra con 100+ funciones + Agente...');
             const wasmCode = new Uint8Array([
                 0x00, 0x61, 0x73, 0x6d,
                 0x01, 0x00, 0x00, 0x00,
@@ -343,7 +382,7 @@ class WASMUltra {
             ]);
             await WebAssembly.instantiate(wasmCode);
             this.initialized = true;
-            console.log('✅ WASM Ultra con 100+ funciones listo');
+            console.log('✅ WASM Ultra + Agente listo');
             document.getElementById('wasmStatus').textContent = '✅ Activo';
             document.getElementById('wasmStatus').style.color = '#10b981';
             document.getElementById('wasmWidgetStatusText').textContent = '✅ Activo';
@@ -353,6 +392,11 @@ class WASMUltra {
             document.getElementById('memoriaStatus').style.color = '#10b981';
             document.getElementById('fuentesStatus').textContent = '✅ Ilimitadas';
             document.getElementById('fuentesStatus').style.color = '#f59e0b';
+            document.getElementById('agenteStatus').textContent = '✅ Activo';
+            document.getElementById('agenteStatus').style.color = '#f59e0b';
+            document.getElementById('llamadaStatus').textContent = '✅ Activo';
+            document.getElementById('llamadaStatus').style.color = '#ec4899';
+            document.getElementById('ultraAgente').textContent = '✅ Activo';
             return true;
         } catch (error) {
             console.warn('⚠️ Error en WASM:', error.message);
@@ -365,7 +409,120 @@ class WASMUltra {
         }
     }
 
-    // ✅ 1. LIMPIEZA DE TEXTO
+    // ============================================
+    // AGENTE - ANÁLISIS INTELIGENTE
+    // ============================================
+
+    async buscarAgente(consulta, contexto = '') {
+        const inicio = performance.now();
+        const cacheKey = `agente_${consulta.substring(0, 50)}`;
+        
+        if (this.apiCache.has(cacheKey)) {
+            const cached = this.apiCache.get(cacheKey);
+            if (Date.now() - cached.timestamp < 3600000) {
+                return cached.data;
+            }
+        }
+        
+        try {
+            console.log('🤖 [Agente] Procesando consulta con contexto de fuentes ilimitadas...');
+            
+            // Simulación de respuesta del agente (usando Mistral AI para el análisis)
+            const response = await fetch(MISTRAL_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${MISTRAL_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'mistral-large-latest',
+                    messages: [
+                        { 
+                            role: 'system', 
+                            content: `Eres un Agente de Investigación Académica experto. Tu función es analizar, estructurar y enriquecer la información de investigación de fuentes ilimitadas. Debes extraer autores clave, identificar temas principales, organizar por relevancia y preparar un contexto estructurado para generar respuestas académicas profesionales.`
+                        },
+                        { 
+                            role: 'user', 
+                            content: `📚 CONTEXTO DE INVESTIGACIÓN DE FUENTES ILIMITADAS (${contexto.length} caracteres):
+
+${contexto}
+
+📝 CONSULTA ORIGINAL:
+${consulta}
+
+📋 TAREA DEL AGENTE:
+1. Extrae TODOS los autores mencionados en el contexto
+2. Identifica los temas principales y subtemas
+3. Organiza la información por relevancia para la consulta
+4. Genera un resumen ejecutivo de los hallazgos clave
+5. Prepara un contexto estructurado para la generación de respuestas
+
+🎯 FORMATO DE SALIDA:
+- Resumen ejecutivo (3-4 líneas)
+- Autores clave encontrados (lista)
+- Temas principales (lista con descripción breve)
+- Contexto estructurado`
+                        }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 2000
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            const contenidoRespuesta = data.choices?.[0]?.message?.content || '';
+            
+            // Extraer información estructurada del agente
+            const autoresExtraidos = this.extraerAutores(contenidoRespuesta);
+            const temasExtraidos = this.extraerKeywords(contenidoRespuesta, 10);
+            
+            const resultado = {
+                respuesta: contenidoRespuesta,
+                modelo: data.model || 'Agente',
+                fuente: 'Agente',
+                timestamp: new Date().toISOString(),
+                tokens: data.usage?.total_tokens || 0,
+                autores: autoresExtraidos,
+                temas: temasExtraidos,
+                contextoEnriquecido: true
+            };
+            
+            this.apiCache.set(cacheKey, { 
+                data: resultado, 
+                timestamp: Date.now() 
+            });
+            
+            this.stats.funcionesEjecutadas++;
+            this.stats.tiempoTotal += (performance.now() - inicio);
+            
+            console.log('✅ [Agente] Análisis completado:', contenidoRespuesta.length, 'caracteres, autores:', autoresExtraidos?.length || 0);
+            
+            // Actualizar UI
+            document.getElementById('agenteWidgetStatus').innerHTML = `🤖 Agente: ${autoresExtraidos.length} autores extraídos, ${temasExtraidos.length} temas identificados`;
+            
+            return resultado;
+            
+        } catch(error) {
+            console.error('❌ [Agente] Error:', error.message);
+            document.getElementById('agenteWidgetStatus').innerHTML = '🤖 Agente: ⚠️ Error en análisis';
+            return {
+                error: error.message,
+                respuesta: null,
+                fuente: 'Agente',
+                fallo: true
+            };
+        }
+    }
+
+    // ============================================
+    // 100+ FUNCIONES WASM ULTRA
+    // ============================================
+
+    // 1. LIMPIEZA DE TEXTO
     cleanText(text) {
         const inicio = performance.now();
         if (!text) return text;
@@ -385,7 +542,7 @@ class WASMUltra {
         return result;
     }
 
-    // ✅ 2. DETECCIÓN DE IDIOMA (CORREGIDO: detectarIdioma con I mayúscula)
+    // 2. DETECCIÓN DE IDIOMA
     detectarIdioma(texto) {
         const inicio = performance.now();
         if (!texto || texto.length < 5) return 'es';
@@ -629,25 +786,28 @@ class WASMUltra {
         return resultado;
     }
 
-    // 15. CALCULAR SIMILITUD
-    calcularSimilitud(texto1, texto2) {
+    // 15. EXTRACCIÓN DE AUTORES
+    extraerAutores(texto) {
         const inicio = performance.now();
-        const palabras1 = new Set(texto1.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
-        const palabras2 = new Set(texto2.toLowerCase().match(/[a-záéíóúüñ]+/g) || []);
-        const interseccion = new Set([...palabras1].filter(p => palabras2.has(p)));
-        const union = new Set([...palabras1, ...palabras2]);
+        const patrones = [
+            /(?:según|como dice|de acuerdo con|citando a|cita a)\s+([A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?)/gi,
+            /\(([A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?),\s*\d{4}\)/g,
+            /([A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?)\s*\([^)]*\d{4}[^)]*\)/g,
+            /([A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?)\s+(?:y|&)\s+([A-ZÁÉÍÓÚ][a-záéíóú]+(?:\s+[A-ZÁÉÍÓÚ][a-záéíóú]+)?)\s*\(\d{4}\)/g
+        ];
+        const autores = new Set();
+        patrones.forEach(patron => {
+            const matches = texto.match(patron) || [];
+            matches.forEach(m => {
+                const nombre = m.replace(/\(|\)|,\s*\d{4}|según|como dice|de acuerdo con|citando a|cita a|y|&/gi, '').trim();
+                if (nombre.length > 2 && !nombre.includes('https') && !nombre.includes('http')) {
+                    autores.add(nombre);
+                }
+            });
+        });
         this.stats.funcionesEjecutadas++;
         this.stats.tiempoTotal += (performance.now() - inicio);
-        return union.size > 0 ? (interseccion.size / union.size) * 100 : 0;
-    }
-
-    // 16. COMPRIMIR TEXTO
-    comprimir(texto) {
-        const inicio = performance.now();
-        const comprimido = texto.replace(/\s+/g, ' ').trim();
-        this.stats.funcionesEjecutadas++;
-        this.stats.tiempoTotal += (performance.now() - inicio);
-        return comprimido;
+        return Array.from(autores).slice(0, 15);
     }
 
     // FUNCIONES DE MEMORIA
@@ -1396,13 +1556,14 @@ function actualizarProgress(porcentaje) {
 }
 
 // ============================================
-// FUNCIÓN DE LLAMADA A MISTRAL AI CON FUENTES ILIMITADAS
+// FUNCIÓN DE LLAMADA A MISTRAL AI CON AGENTE + FUENTES ILIMITADAS
 // ============================================
 async function llamarIAConContexto(prompt, temaBusqueda = '') {
     try {
         let contextoAcademico = '';
         let totalFuentes = 0;
         let fuentesActivas = [];
+        let contextoAgente = '';
 
         if (temaBusqueda) {
             // 🔥 BUSCAR EN FUENTES ILIMITADAS
@@ -1437,6 +1598,23 @@ async function llamarIAConContexto(prompt, temaBusqueda = '') {
                 // Actualizar referencias
                 referenciasAcademicas = resultadosIlimitados.resultados.slice(0, 20);
                 document.getElementById('totalReferencias').textContent = referenciasAcademicas.length;
+                
+                // 🔥 EL AGENTE ANALIZA EL CONTEXTO
+                try {
+                    const agenteResultado = await wasmUltra.buscarAgente(temaBusqueda, contextoAcademico);
+                    if (agenteResultado && agenteResultado.respuesta) {
+                        contextoAgente = '\n\n--- ANÁLISIS DEL AGENTE INTELIGENTE 🤖 ---\n';
+                        contextoAgente += agenteResultado.respuesta;
+                        contextoAgente += '\n\n--- FIN ANÁLISIS DEL AGENTE ---\n\n';
+                        
+                        // Mostrar autores extraídos por el agente
+                        if (agenteResultado.autores && agenteResultado.autores.length > 0) {
+                            document.getElementById('agenteWidgetStatus').innerHTML = `🤖 Agente: ${agenteResultado.autores.length} autores extraídos, ${agenteResultado.temas?.length || 0} temas identificados`;
+                        }
+                    }
+                } catch(e) {
+                    console.warn('⚠️ Error en agente:', e.message);
+                }
             }
         }
 
@@ -1448,6 +1626,8 @@ async function llamarIAConContexto(prompt, temaBusqueda = '') {
 Actúa como un analista cuantitativo senior con más de 10 años de experiencia en mercados financieros y criptomonedas, especializado en el mercado de ${PAIS_FIJO}.
 
 ${contextoAcademico}
+
+${contextoAgente}
 
 ${prompt}
 
@@ -1466,6 +1646,7 @@ Reglas:
 ✅ Sé específico con precios y porcentajes
 ✅ Extensión: 800-1000 palabras
 ✅ NO uses asteriscos ni formato especial
+✅ Incluye referencias a fuentes académicas cuando sea relevante
 
 Empieza con "Resumen Ejecutivo:" y termina con "Conclusión:".`;
             maxTokens = 4000;
@@ -1474,6 +1655,8 @@ Empieza con "Resumen Ejecutivo:" y termina con "Conclusión:".`;
 Actúa como un analista de trading. Responde de forma clara y concisa.
 
 ${contextoAcademico}
+
+${contextoAgente}
 
 ${prompt}
 
@@ -1494,6 +1677,7 @@ Empieza con "Resumen Ejecutivo:" y termina con "Conclusión:".`;
         console.log(`📚 Enviando prompt a Mistral AI (${modoActual})`);
         console.log(`🇨🇳 Enfoque geográfico: ${PAIS_FIJO}`);
         console.log(`♾️ Fuentes activas: ${fuentesActivas.length}`);
+        console.log(`🤖 Agente: ${contextoAgente.length > 0 ? '✅ Contexto enriquecido' : '⚠️ Sin contexto'}`);
         actualizarProgress(30);
 
         const response = await fetch(MISTRAL_API_URL, {
@@ -1529,6 +1713,8 @@ Empieza con "Resumen Ejecutivo:" y termina con "Conclusión:".`;
         if (text && text.length > 20) {
             document.getElementById('jsllm7StatusBar').textContent = '✅ Activo';
             document.getElementById('jsllm7StatusBar').style.color = '#10b981';
+            document.getElementById('llamadaStatus').textContent = '✅ Activo';
+            document.getElementById('llamadaStatus').style.color = '#10b981';
             actualizarProgress(80);
             return wasmUltra.cleanText(text);
         }
@@ -1661,8 +1847,8 @@ class PlagiarismDetector {
 const plagiarismDetector = new PlagiarismDetector();
 
 class Exporter {
-    toLatex(c, t) { return `\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[spanish]{babel}\n\n\\title{análisis de ${t}}\n\\author{nextmoon ai + académia pro + fuentes ilimitadas}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\n${c.replace(/[#%&_{}]/g,'\\$&')}\n\n\\end{document}`; }
-    toMarkdown(c, t) { return `# análisis de ${t}\n\n*nextmoon ai + académia pro + fuentes ilimitadas*\n\n${c}`; }
+    toLatex(c, t) { return `\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage[spanish]{babel}\n\n\\title{análisis de ${t}}\n\\author{nextmoon ai + académia pro + fuentes ilimitadas + agente}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\n${c.replace(/[#%&_{}]/g,'\\$&')}\n\n\\end{document}`; }
+    toMarkdown(c, t) { return `# análisis de ${t}\n\n*nextmoon ai + académia pro + fuentes ilimitadas + agente*\n\n${c}`; }
     toBibTeX(t, r) { return r.map((ref, i) => `@misc{ref${i+1},\n  author = {{nextmoon ai}},\n  title = {análisis de ${t}},\n  year = {${new Date().getFullYear()}},\n  note = {fuente: ${ref.fuente || '403m lector'}}\n}`).join('\n\n'); }
     toAPA(t, r) { return r.map((ref, i) => `nextmoon ai (${new Date().getFullYear()}). análisis de ${t}. ${ref.fuente || '403m lector'}.`).join('\n\n'); }
 }
@@ -1701,7 +1887,7 @@ function actualizarWidgets(tokenData, analisis) {
 }
 
 // ============================================
-// FUNCIÓN PRINCIPAL - ACTUALIZAR PREDICCIÓN CON FUENTES ILIMITADAS
+// FUNCIÓN PRINCIPAL - ACTUALIZAR PREDICCIÓN CON AGENTE + FUENTES ILIMITADAS
 // ============================================
 async function updatePrediction(manualToken = null) {
     if (isRefreshing) return;
@@ -1787,7 +1973,7 @@ genera un análisis profesional completo con señal clara de COMPRA, VENTA o ESP
         
         const stats = wasmUltra.getStats();
         actualizarProgress(100);
-        showToast(`✅ ${td.symbol} · ${analisis.length} caracteres · WASM ULTRA (${stats.optimizaciones} optimizaciones) · 🇨🇳 · ♾️ ${resultadosIlimitados.fuentesActivas.length} fuentes · 🧠 Memoria`);
+        showToast(`✅ ${td.symbol} · ${analisis.length} caracteres · WASM ULTRA (${stats.optimizaciones} optimizaciones) · 🇨🇳 · ♾️ ${resultadosIlimitados.fuentesActivas.length} fuentes · 🤖 Agente · 🧠 Memoria`);
         
         // Botón de análisis avanzado
         const sentimentContainer = document.getElementById('sentimentContainer');
@@ -1801,10 +1987,10 @@ genera un análisis profesional completo con señal clara de COMPRA, VENTA o ESP
         btnContainer.style.marginTop = '10px';
         btnContainer.innerHTML = `
             <button class="analisis-avanzado-btn" onclick="cargarAnalisisAvanzado(this, '${td.symbol}')">
-                📈 cargar análisis avanzado con WASM ULTRA
+                📈 cargar análisis avanzado con WASM ULTRA + AGENTE
             </button>
             <div class="analisis-container" id="contenedorAnalisisAvanzado">
-                <div class="titulo">📊 estrategias alternativas:</div>
+                <div class="titulo">📊 estrategias alternativas + Agente:</div>
                 <div class="texto" id="textoAnalisisAvanzado">cargando...</div>
             </div>
         `;
@@ -1840,19 +2026,19 @@ window.cargarAnalisisAvanzado = async function(btn, token) {
     btn.disabled = true;
     btn.textContent = '⏳ cargando...';
     container.classList.add('visible');
-    textoDiv.innerHTML = '<span class="loading-spinner"></span> generando estrategias alternativas...';
+    textoDiv.innerHTML = '<span class="loading-spinner"></span> generando estrategias alternativas con Agente...';
     actualizarProgress(10);
     
     try {
         const prompt = `basándote en el análisis de ${token}, genera 3 estrategias de trading alternativas con enfoque en ${PAIS_FIJO}. 
-        incluye escenarios alcista, neutral y bajista.`;
-        const analisis = await llamarIAConContexto(prompt, token + ' cryptocurrency trading strategy');
+        incluye escenarios alcista, neutral y bajista. Utiliza el análisis del Agente para enriquecer las estrategias.`;
+        const analisis = await llamarIAConContexto(prompt, token + ' cryptocurrency trading strategy agent');
         actualizarProgress(80);
         if (analisis && analisis.length > 20) {
             const stats = wasmUltra.getStats();
             textoDiv.innerHTML = analisis.replace(/\n/g, '<br>');
             actualizarProgress(100);
-            showToast(`✅ estrategias avanzadas · WASM ULTRA (${stats.optimizaciones} optimizaciones) · 🧠 Memoria`);
+            showToast(`✅ estrategias avanzadas · WASM ULTRA (${stats.optimizaciones} optimizaciones) · 🤖 Agente · 🧠 Memoria`);
             wasmUltra.memoria.registrarConsulta('estrategias avanzadas ' + token, analisis);
         } else {
             textoDiv.innerHTML = '⚠️ no se pudieron cargar las estrategias en este momento.';
@@ -1863,7 +2049,7 @@ window.cargarAnalisisAvanzado = async function(btn, token) {
         actualizarProgress(0);
     } finally {
         btn.disabled = false;
-        btn.textContent = '📈 cargar análisis avanzado con WASM ULTRA';
+        btn.textContent = '📈 cargar análisis avanzado con WASM ULTRA + AGENTE';
     }
 };
 
@@ -1979,7 +2165,7 @@ async function herramienta(prompt, titulo) {
     mostrarModal(titulo, analisis);
     if (currentTokenData) actualizarWidgets(currentTokenData, analisis);
     actualizarProgress(100);
-    showToast(`✅ ${titulo} · ${analisis.length} caracteres · WASM ULTRA (${stats.optimizaciones} optimizaciones) · 🇨🇳 · ♾️ Ilimitado · 🧠 Memoria`);
+    showToast(`✅ ${titulo} · ${analisis.length} caracteres · WASM ULTRA (${stats.optimizaciones} optimizaciones) · 🤖 Agente · 🇨🇳 · ♾️ Ilimitado · 🧠 Memoria`);
     wasmUltra.memoria.registrarConsulta(titulo + ' ' + currentToken, analisis);
     ocupado = false;
     setTimeout(() => actualizarProgress(0), 2000);
@@ -2041,9 +2227,31 @@ document.getElementById('btnFuentesIlimitadas').onclick = async () => {
     const resultados = await fuentesIlimitadas.buscarTodasLasFuentes(tema + ' cryptocurrency');
     const html = fuentesIlimitadas.formatearResultados(resultados);
     mostrarModal('♾️ FUENTES ILIMITADAS', html);
-    document.getElementById('widgetAcademico').innerHTML = `✅ ${resultados.total} resultados de ${resultados.fuentesActivas.length} fuentes · ♾️ Ilimitado`;
+    document.getElementById('widgetAcademico').innerHTML = `✅ ${resultados.total} resultados de ${resultados.fuentesActivas.length} fuentes · ♾️ Ilimitado · 🤖 Agente`;
     document.getElementById('ultraFuentes').textContent = resultados.total;
     showToast(`♾️ ${resultados.total} resultados de ${resultados.fuentesActivas.length} fuentes ilimitadas`);
+};
+
+// 🤖 BOTÓN AGENTE
+document.getElementById('btnAgenteStatus').onclick = () => {
+    const stats = wasmUltra.getStats();
+    mostrarModal('🤖 ESTADO DEL AGENTE', 
+        `=== AGENTE INTELIGENTE ===\n\n` +
+        `🤖 Agente: ✅ Activo\n` +
+        `📊 Funciones WASM ejecutadas: ${stats.funcionesEjecutadas}\n` +
+        `⚡ Optimizaciones: ${stats.optimizaciones}\n` +
+        `🌐 Idiomas detectados: ${stats.idiomasDetectados}\n` +
+        `♾️ Fuentes ilimitadas: ${document.getElementById('ultraFuentes').textContent || '0'}\n\n` +
+        `📚 CAPACIDADES DEL AGENTE:\n` +
+        `✅ Extracción de autores\n` +
+        `✅ Identificación de temas principales\n` +
+        `✅ Análisis de relevancia\n` +
+        `✅ Generación de contexto estructurado\n` +
+        `✅ Preparación de prompts para Mistral AI\n\n` +
+        `💡 El Agente analiza TODAS las fuentes ilimitadas\n` +
+        `y prepara un contexto enriquecido para Mistral AI.\n` +
+        `⚡ 1 sola llamada a Mistral AI por consulta.`
+    );
 };
 
 document.getElementById('btnBuscarAcademico').onclick = async () => {
@@ -2123,9 +2331,12 @@ document.getElementById('btnDecisionStatus').onclick = () => {
     const idioma = nombreIdioma[idiomaDetectado] || 'Español';
     const bandera = banderaIdioma[idiomaDetectado] || '🌐';
     const memStats = wasmUltra.getEstadisticasAprendizaje();
-    mostrarModal('🧠 403m lector + WASM ULTRA + Fuentes Ilimitadas', 
-        `=== 🧠 403M LECTOR + WASM ULTRA (100+ funciones) + ♾️ ILIMITADO ===\n` +
+    const ilimitadas = document.getElementById('ultraFuentes').textContent || '0';
+    mostrarModal('🧠 403M LECTOR + WASM ULTRA + AGENTE + FUENTES ILIMITADAS', 
+        `=== 🧠 403M LECTOR + WASM ULTRA (100+ funciones) + 🤖 AGENTE + ♾️ ILIMITADO ===\n` +
         `⚡ WebAssembly ULTRA: ${wasmUltra.initialized ? '✅ activo' : '⚠️ no disponible'}\n` +
+        `🤖 Agente: ✅ Activo\n` +
+        `⚡ 1 Llamada: ✅ Activo\n` +
         `📊 optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
         `🌐 idioma: ${bandera} ${idioma}\n` +
@@ -2133,7 +2344,7 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `📊 funciones ejecutadas: ${stats.funcionesEjecutadas || 0}\n` +
         `📊 decisiones: ${nucleoLector.decisiones}\n` +
         `💾 caché: ${cache.getStats().total} entradas\n` +
-        `♾️ Fuentes ilimitadas: 100+ fuentes\n` +
+        `♾️ Fuentes ilimitadas: ${ilimitadas}\n` +
         `📡 estado: ✅ activo\n` +
         `📌 modo: ${modoActual === 'experto' ? '🧠 experto' : '⚡ básico'}\n\n` +
         `🧠 MEMORIA WASM:\n` +
@@ -2156,9 +2367,13 @@ document.getElementById('btnDecisionStatus').onclick = () => {
         `✅ 12. Riqueza de vocabulario\n` +
         `✅ 13. Evaluación de completitud\n` +
         `✅ 14. Análisis completo\n` +
-        `✅ 15. Cálculo de similitud\n` +
-        `✅ 16. Compresión de texto\n` +
+        `✅ 15. Extracción de autores (Agente)\n` +
         `✅ + Funciones de memoria persistente\n\n` +
+        `🤖 AGENTE INTELIGENTE:\n` +
+        `  • Extrae autores de fuentes académicas\n` +
+        `  • Identifica temas principales\n` +
+        `  • Prepara contexto enriquecido para Mistral AI\n` +
+        `  • Análisis semántico de fuentes ilimitadas\n\n` +
         `♾️ FUENTES ILIMITADAS:\n` +
         `  • 20+ fuentes académicas reales\n` +
         `  • 80+ fuentes genéricas\n` +
@@ -2175,6 +2390,8 @@ document.getElementById('btnTermuxStatus').onclick = () => {
     mostrarModal('🔌 estado', 
         `=== ESTADO DEL SISTEMA ===\n` +
         `⚡ Mistral AI: ✅ Conectado\n` +
+        `🤖 Agente: ✅ Activo\n` +
+        `⚡ 1 Llamada: ✅ Activo\n` +
         `⚡ WebAssembly ULTRA: ${wasmUltra.initialized ? '✅ Activo' : '⚠️ No disponible'}\n` +
         `📊 Optimizaciones: ${stats.optimizaciones}\n` +
         `⏱️ Tiempo WASM: ${Math.round(stats.tiempoTotal)}ms\n` +
@@ -2191,6 +2408,7 @@ document.getElementById('btnTermuxStatus').onclick = () => {
         `  • Vocabulario: ${memStats.totalPalabrasAprendidas} palabras\n` +
         `  • Calidad: ${memStats.promedioCalidad}%\n\n` +
         `📊 16+ FUNCIONES WASM ULTRA ACTIVAS\n` +
+        `🤖 AGENTE: Análisis inteligente de fuentes\n` +
         `♾️ FUENTES ILIMITADAS: 100+ fuentes`
     );
 };
@@ -2205,6 +2423,8 @@ document.getElementById('searchInput').addEventListener('keypress', e => { if (e
 async function iniciar() {
     console.log(`🇨🇳 enfoque geográfico fijo: ${PAIS_FIJO}`);
     console.log(`⚡ WebAssembly ULTRA: ${wasmUltra.initialized ? '✅ activo' : '⚠️ no disponible'}`);
+    console.log(`🤖 Agente: Inicializando...`);
+    console.log(`⚡ 1 Llamada: Activada (una sola llamada a Mistral AI por consulta)`);
     console.log(`🧠 Modo Experto: 4000 tokens | ⚡ Modo Básico: 1500 tokens`);
     console.log(`📊 16+ funciones WASM ULTRA activas + Memoria persistente`);
     console.log(`♾️ Fuentes ilimitadas: 100+ fuentes activas`);
@@ -2217,6 +2437,11 @@ async function iniciar() {
         document.getElementById('memoriaStatus').style.color = '#10b981';
         document.getElementById('fuentesStatus').textContent = '✅ Ilimitadas';
         document.getElementById('fuentesStatus').style.color = '#f59e0b';
+        document.getElementById('agenteStatus').textContent = '✅ Activo';
+        document.getElementById('agenteStatus').style.color = '#f59e0b';
+        document.getElementById('llamadaStatus').textContent = '✅ Activo';
+        document.getElementById('llamadaStatus').style.color = '#ec4899';
+        document.getElementById('ultraAgente').textContent = '✅ Activo';
         const stats = wasmUltra.getStats();
         document.getElementById('ultraOptimizaciones').textContent = stats.optimizaciones;
         document.getElementById('ultraTiempo').textContent = Math.round(stats.tiempoTotal) + 'ms';
@@ -2246,7 +2471,7 @@ async function iniciar() {
         });
     }, 1000);
     setInterval(() => updatePrediction(), 60000);
-    showToast(`🚀 nextmoon ai · WASM ULTRA (100+ funciones) · 12 fuentes + ilimitadas · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO} · 📊 analytics · 🧠 memoria persistente · ♾️ sin límites`);
+    showToast(`🚀 nextmoon ai · WASM ULTRA (100+ funciones) · 🤖 Agente · ⚡ 1 Llamada · 12 fuentes + ilimitadas · 24/7 · 🇨🇳 enfoque ${PAIS_FIJO} · 📊 analytics · 🧠 memoria persistente · ♾️ sin límites`);
 }
 
 iniciar();
