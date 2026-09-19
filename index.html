@@ -155,7 +155,7 @@
             <div class="badge">🚀 NextMoon AI <span class="badge-rustwasm">🦀 WASM RUST</span> <span class="badge-multiia">🔄 MULTI-IA</span> <span class="badge-core">🧬 CORE 403M</span> <span class="badge-agentreach">🔌 AGENT-REACH</span> <span class="badge-wasm">⚡ WASM EXTREMO</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span> <span class="badge-1llamada">⚡ 1 LLAMADA</span> <span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span></div>
             <h1>🔮 NextMoon AI <span class="badge" style="background:#ce422b;">🦀 WASM RUST</span> <span class="badge" style="background:#10b981;">🔄 MULTI-IA</span> <span class="badge" style="background:#8b5cf6;">🧬 CORE 403M</span> <span class="badge" style="background:#f59e0b;">🔌 AGENT-REACH</span> <span class="badge" style="background:#ec4899;">♾️ ILIMITADO</span> <span class="badge" style="background:#000;color:#FFCC00;border:1px solid #FFCC00;">🇩🇪</span></h1>
             <div style="font-size: 0.7rem;">WASM Rust real · Multi-IA · Core 403M auto-evolutivo · Agent-Reach · 12 Fuentes Cripto · 50x más rápido · 🇩🇪 Enfoque Alemania · ⚡ 1 Llamada · ♾️ Sin Límites</div>
-            <div class="daily-tip">🦀 <strong>WASM Rust REAL</strong> · 🔄 Multi-IA con fallback (Mistral → OpenRouter) · 🧬 <strong>Core 403M</strong> en 2do plano (auto-evolución) · 🔌 <strong>Agent-Reach</strong> (GitHub, Reddit, Wikipedia, etc.) · 🔬 12 Fuentes · 💰 Cualquier cripto (BTC, ETH, SOL, DOGE...)</div>
+            <div class="daily-tip">🦀 <strong>WASM Rust REAL</strong> · 🔄 Multi-IA con fallback (9 proveedores) · 🧬 <strong>Core 403M</strong> en 2do plano (auto-evolución) · 🔌 <strong>Agent-Reach</strong> (GitHub, Reddit, Wikipedia, etc.) · 🔬 12 Fuentes · 💰 Cualquier cripto (BTC, ETH, SOL, DOGE...)</div>
         </div>
 
         <!-- CORE 403M STATUS -->
@@ -410,22 +410,18 @@ class Core403M {
     }
 
     iniciarEnBackground() {
-        // Agente 1: Procesar cola
         this.agentes.push({
             id: 'procesador', nombre: '⚙️ Procesador',
             intervalo: setInterval(() => this.procesarCola(), 30000)
         });
-        // Agente 2: Evolucionar
         this.agentes.push({
             id: 'evolucionador', nombre: '🧬 Evolucionador',
             intervalo: setInterval(() => this.evolucionar(), 120000)
         });
-        // Agente 3: Auto-mejora
         this.agentes.push({
             id: 'optimizador', nombre: '🧠 Optimizador',
             intervalo: setInterval(() => this.autoMejora(), 180000)
         });
-        // Agente 4: Estadísticas
         this.agentes.push({
             id: 'estadisticas', nombre: '📊 Estadísticas',
             intervalo: setInterval(() => this.actualizarEstadisticas(), 60000)
@@ -614,11 +610,83 @@ class AgentReach {
 const agentReach = new AgentReach();
 
 // ============================================
-// 🔄 MULTI-IA CON FALLBACK
+// 🔄 MULTI-IA CON FALLBACK — TODOS LOS PROVEEDORES
 // ============================================
 const IA_PROVEEDORES = [
-    { nombre: 'Mistral AI', url: 'https://api.mistral.ai/v1/chat/completions', key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW', modelos: ['mistral-small-latest', 'mistral-large-latest', 'open-mistral-7b'], color: '#f97316' },
-    { nombre: 'OpenRouter', url: 'https://openrouter.ai/api/v1/chat/completions', key: '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', modelos: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3.1-8b-instruct:free', 'google/gemma-2-9b-it:free', 'qwen/qwen-2.5-7b-instruct:free'], color: '#10b981', extraHeaders: { 'HTTP-Referer': 'https://nextmoon-ai.local', 'X-Title': 'NextMoon AI' } }
+    // ---- Google Gemini (Free) ----
+    {
+        nombre: 'Google',
+        url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
+        key: 'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
+        modelos: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-04-17'],
+        color: '#4285F4',
+        tipo: 'google'
+    },
+    // ---- Cerebras (Free) ----
+    {
+        nombre: 'Cerebras',
+        url: 'https://api.cerebras.ai/v1/chat/completions',
+        key: 'csk-jntkcrk4ev8vk35fhy6ctf4f6y2hdfp5h4f2khvwtdy82kcv',
+        modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b', 'qwen-2.5-coder-32b'],
+        color: '#FF6B35'
+    },
+    // ---- Z.ai (Free) ----
+    {
+        nombre: 'Z.ai',
+        url: 'https://api.z.ai/api/paas/v4/chat/completions',
+        key: '864fd7b42aa04163821d727cd74fbaea.GaPaxOmiAJUpm2TP',
+        modelos: ['glm-4-flash', 'glm-4.5-flash'],
+        color: '#7C3AED'
+    },
+    // ---- Mistral (Free) ----
+    {
+        nombre: 'Mistral AI',
+        url: 'https://api.mistral.ai/v1/chat/completions',
+        key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
+        modelos: ['mistral-small-latest', 'mistral-large-latest', 'open-mistral-7b'],
+        color: '#f97316'
+    },
+    // ---- GitHub (Free) ----
+    {
+        nombre: 'GitHub',
+        url: 'https://models.inference.ai.azure.com/chat/completions',
+        key: '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',
+        modelos: ['gpt-4o-mini', 'Phi-3.5-mini-instruct', 'Meta-Llama-3.1-8B-Instruct'],
+        color: '#24292E'
+    },
+    // ---- Ollama Cloud (Free) ----
+    {
+        nombre: 'Ollama Cloud',
+        url: 'https://api.ollama.cloud/v1/chat/completions',
+        key: '0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3',
+        modelos: ['llama3.2', 'mistral', 'gemma2', 'qwen2.5'],
+        color: '#333333'
+    },
+    // ---- Kiro (Free) ----
+    {
+        nombre: 'Kiro',
+        url: 'https://api.kiro.ai/v1/chat/completions',
+        key: 'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139',
+        modelos: ['kiro-chat', 'kiro-pro'],
+        color: '#00A3FF'
+    },
+    // ---- Orca Router (Free) ----
+    {
+        nombre: 'Orca Router',
+        url: 'https://api.orcarouter.ai/v1/chat/completions',
+        key: 'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk',
+        modelos: ['orca-mini', 'orca-2-7b', 'orca-2-13b'],
+        color: '#8B5CF6'
+    },
+    // ---- OpenRouter (Free) ----
+    {
+        nombre: 'OpenRouter',
+        url: 'https://openrouter.ai/api/v1/chat/completions',
+        key: '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',
+        modelos: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3.1-8b-instruct:free', 'google/gemma-2-9b-it:free', 'qwen/qwen-2.5-7b-instruct:free'],
+        color: '#10b981',
+        extraHeaders: { 'HTTP-Referer': 'https://nextmoon-ai.local', 'X-Title': 'NextMoon AI' }
+    }
 ];
 const PAIS_FIJO = 'Alemania';
 let ocupado = false, modoActual = 'experto', idiomaDetectado = 'es', proveedorActual = null, isRefreshing = false;
@@ -648,14 +716,46 @@ async function llamarIA(messages, maxTokens = 3000) {
                 console.log(`🔄 Probando ${prov.nombre} (${modelo})...`);
                 const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${prov.key}` };
                 if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
+
+                let body;
+                let url = prov.url;
+
+                // ---- Google Gemini ----
+                if (prov.tipo === 'google') {
+                    url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${prov.key}`;
+                    body = {
+                        contents: messages.map(m => ({
+                            role: m.role === 'assistant' ? 'model' : m.role,
+                            parts: [{ text: m.content }]
+                        })),
+                        generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 }
+                    };
+                } else {
+                    body = {
+                        model: modelo,
+                        messages: messages,
+                        temperature: 0.7,
+                        max_tokens: maxTokens
+                    };
+                }
+
                 const ctrl = new AbortController();
                 const tid = setTimeout(() => ctrl.abort(), 60000);
-                const resp = await fetch(prov.url, { method: 'POST', headers, body: JSON.stringify({ model: modelo, messages, temperature: 0.7, max_tokens: maxTokens }), signal: ctrl.signal });
+                const resp = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body), signal: ctrl.signal });
                 clearTimeout(tid);
+
                 if ([401, 403, 429].includes(resp.status)) { console.warn(`⚠️ ${prov.nombre}/${modelo} → ${resp.status}`); ultimoError = `${resp.status} en ${prov.nombre}`; continue; }
                 if (!resp.ok) { const err = await resp.json().catch(() => ({})); ultimoError = err.error?.message || `Error ${resp.status}`; continue; }
+
                 const data = await resp.json();
-                const texto = data.choices?.[0]?.message?.content || '';
+                let texto = '';
+
+                if (prov.tipo === 'google') {
+                    texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                } else {
+                    texto = data.choices?.[0]?.message?.content || '';
+                }
+
                 if (texto.length < 50) { ultimoError = 'Respuesta muy corta'; continue; }
                 console.log(`✅ ${prov.nombre} (${modelo}): ${texto.length} chars`);
                 actualizarProveedor(prov.nombre);
@@ -887,13 +987,9 @@ const fuentes12 = new FuentesCripto12();
 async function generarAnalisisConAgente(symbol, tokenData) {
     console.log('🔬 Buscando en 12 fuentes + Agent-Reach...');
     
-    // 1. 12 fuentes académicas
     const resultados12 = await fuentes12.buscarTodas(symbol);
-    
-    // 2. Agent-Reach (GitHub, Reddit, Wikipedia)
     const resultadosAgentReach = await agentReach.buscar(symbol);
     
-    // 3. Construir contexto
     let contexto = `TOKEN: ${symbol.toUpperCase()}\n\n`;
     contexto += `DATOS DE MERCADO:\n`;
     contexto += `- Precio: $${tokenData.price}\n`;
@@ -928,7 +1024,6 @@ async function generarAnalisisConAgente(symbol, tokenData) {
         resultadosAgentReach.wiki.slice(0, 3).forEach(r => { contexto += `• ${r.titulo}\n`; });
     }
     
-    // 4. Procesar con WASM Rust
     if (rustWASM.cargado) {
         try {
             const keywords = rustWASM.keywords(contexto, 10);
@@ -936,7 +1031,6 @@ async function generarAnalisisConAgente(symbol, tokenData) {
         } catch(e) {}
     }
     
-    // 5. Prompt
     const prompt = `Actúa como analista profesional de criptomonedas. Da una recomendación CLARA de COMPRAR o NO COMPRAR.
 
 TOKEN: ${symbol.toUpperCase()} (${tokenData.name})
@@ -981,17 +1075,13 @@ IMPORTANTE:
 - NO uses asteriscos
 - Enfócate en el mercado alemán/europeo`;
 
-    // 6. Una sola llamada a Multi-IA
     const maxTokens = modoActual === 'experto' ? 4000 : 2000;
     const resultado = await llamarIA([
         { role: 'system', content: 'Eres un analista profesional de criptomonedas. Das recomendaciones CLARAS de COMPRAR o NO COMPRAR. NO usas asteriscos.' },
         { role: 'user', content: prompt }
     ], maxTokens);
     
-    // 7. Registrar en Core 403M
     core403M.registrarConsulta(symbol, resultado.texto);
-    
-    // 8. Cache
     rustWASM.cache(`analisis_${symbol}_${Date.now()}`, resultado.texto.substring(0, 5000));
     
     return {
@@ -1058,7 +1148,6 @@ async function buscarCripto(symbol) {
         ultimoAnalisis = analisisLimpio;
         document.getElementById('sentimentText').innerHTML = analisisLimpio.replace(/\n/g, '<br>');
         
-        // Detectar señal
         const analisisLower = analisisLimpio.toLowerCase();
         let señal = 'ANALIZAR', color = '#f59e0b', icono = '⏳';
         const recMatch = analisisLimpio.match(/RECOMENDACIÓN:\s*(COMPRAR|NO\s+COMPRAR)/i);
@@ -1074,7 +1163,6 @@ async function buscarCripto(symbol) {
         signalText.innerHTML = `${icono} ${señal}`;
         signalText.style.color = color;
         
-        // Riesgo
         const riesgoMatch = analisisLimpio.match(/NIVEL DE RIESGO:\s*(BAJO|MEDIO|ALTO)/i);
         if (riesgoMatch) {
             const riesgo = riesgoMatch[1].toUpperCase();
@@ -1084,7 +1172,6 @@ async function buscarCripto(symbol) {
         document.getElementById('recomendacionBadge').textContent = señal;
         document.getElementById('recomendacionBadge').style.color = color;
         
-        // Widgets
         const stats = rustWASM.contarPalabras(analisisLimpio);
         document.getElementById('metricPalabras').textContent = stats.palabras;
         document.getElementById('metricUnicas').textContent = stats.unicas;
@@ -1100,7 +1187,6 @@ async function buscarCripto(symbol) {
         document.getElementById('confidenceLabel').textContent = conf + '%';
         document.getElementById('qualityLabel').textContent = analisisLimpio.length > 800 ? 'Alta' : 'Media';
         
-        // Referencias
         const refs = resultado.contexto12.fuentes['Semantic Scholar']?.data || [];
         referenciasAcademicas = refs;
         if (refs.length > 0) {
@@ -1110,7 +1196,6 @@ async function buscarCripto(symbol) {
             ).join('');
         }
         
-        // WASM stats
         document.getElementById('ultraOptimizaciones').textContent = rustWASM.stats.optimizaciones;
         document.getElementById('ultraTiempo').textContent = Math.round(rustWASM.stats.tiempo) + 'ms';
         document.getElementById('ultraFunciones').textContent = rustWASM.stats.funciones;
@@ -1122,7 +1207,6 @@ async function buscarCripto(symbol) {
         actualizarProgress(100);
         showToast(`✅ ${sym} · ${resultado.proveedor} · ${señal} · ${resultado.contexto12.resumen.total_resultados + resultado.contextoAgentReach.github.length + resultado.contextoAgentReach.reddit.length + resultado.contextoAgentReach.wiki.length} fuentes`);
         
-        // Guardar caché
         cacheInvestigaciones.unshift({ symbol: sym, analisis: analisisLimpio, fecha: new Date().toISOString(), señal });
         if (cacheInvestigaciones.length > 30) cacheInvestigaciones.pop();
         try { localStorage.setItem('nextmoon_cache', JSON.stringify(cacheInvestigaciones)); } catch(e) {}
@@ -1195,11 +1279,15 @@ document.getElementById('btnRustTest').onclick = () => {
 };
 
 document.getElementById('btnMultiIA').onclick = () => {
-    mostrarModal('🔄 Multi-IA',
-        `🥇 Mistral AI\n• Modelos: ${IA_PROVEEDORES[0].modelos.join(', ')}\n• Estado: ${proveedorActual === 'Mistral AI' ? '✅ Activo' : '⏳ Espera'}\n\n` +
-        `🥈 OpenRouter\n• Modelos: ${IA_PROVEEDORES[1].modelos.join(', ')}\n• Estado: ${proveedorActual === 'OpenRouter' ? '✅ Activo' : '⏳ Espera'}\n\n` +
-        `🔧 Fallback automático`
-    );
+    let info = '🔄 Multi-IA con fallback automático\n\n';
+    IA_PROVEEDORES.forEach((p, i) => {
+        const emoji = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'][i] || '🔹';
+        info += `${emoji} ${p.nombre}\n`;
+        info += `   • Modelos: ${p.modelos.join(', ')}\n`;
+        info += `   • Estado: ${proveedorActual === p.nombre ? '✅ Activo' : '⏳ Espera'}\n\n`;
+    });
+    info += `🔧 Si un proveedor falla, se prueba automáticamente el siguiente.`;
+    mostrarModal('🔄 Multi-IA — Todos los proveedores', info);
 };
 
 document.getElementById('btnCoreStatus').onclick = () => {
@@ -1303,6 +1391,7 @@ document.getElementById('btnEstado').onclick = () => {
 // ============================================
 (async () => {
     console.log('🚀 NextMoon AI · WASM Rust + Multi-IA + Core 403M + Agent-Reach');
+    console.log('📊 9 proveedores IA · 13 funciones Rust · 12 fuentes cripto · 6 idiomas');
     await rustWASM.cargar();
     if (rustWASM.cargado) {
         showToast('🦀 WASM Rust cargado · 🧬 Core 403M activo · 🔌 Agent-Reach listo');
