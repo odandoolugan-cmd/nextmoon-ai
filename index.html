@@ -152,10 +152,10 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <div class="badge">🚀 NextMoon AI <span class="badge-rustwasm">🦀 WASM RUST</span> <span class="badge-multiia">🔄 MULTI-IA</span> <span class="badge-core">🧬 CORE 403M</span> <span class="badge-agentreach">🔌 AGENT-REACH</span> <span class="badge-wasm">⚡ WASM EXTREMO</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span> <span class="badge-1llamada">⚡ 1 LLAMADA</span> <span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span></div>
+            <div class="badge">🚀 NextMoon AI <span class="badge-rustwasm">🦀 WASM RUST</span> <span class="badge-multiia">🔄 MULTI-IA</span> <span class="badge-core">🧬 CORE 403M</span> <span class="badge-agentreach">🔌 AGENT-REACH</span> <span class="badge-wasm">⚡ WASM EXTREMO</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span> <span class="badge-1llamada">⚡ PARALELO</span> <span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span></div>
             <h1>🔮 NextMoon AI <span class="badge" style="background:#ce422b;">🦀 WASM RUST</span> <span class="badge" style="background:#10b981;">🔄 MULTI-IA</span> <span class="badge" style="background:#8b5cf6;">🧬 CORE 403M</span> <span class="badge" style="background:#f59e0b;">🔌 AGENT-REACH</span> <span class="badge" style="background:#ec4899;">♾️ ILIMITADO</span> <span class="badge" style="background:#000;color:#FFCC00;border:1px solid #FFCC00;">🇩🇪</span></h1>
-            <div style="font-size: 0.7rem;">WASM Rust real · Multi-IA · Core 403M auto-evolutivo · Agent-Reach · 12 Fuentes Cripto · 50x más rápido · 🇩🇪 Enfoque Alemania · ⚡ 1 Llamada · ♾️ Sin Límites</div>
-            <div class="daily-tip">🦀 <strong>WASM Rust REAL</strong> · 🔄 Multi-IA con fallback (9 proveedores) · 🧬 <strong>Core 403M</strong> en 2do plano (auto-evolución) · 🔌 <strong>Agent-Reach</strong> (GitHub, Reddit, Wikipedia, etc.) · 🔬 12 Fuentes · 💰 Cualquier cripto (BTC, ETH, SOL, DOGE...)</div>
+            <div style="font-size: 0.7rem;">WASM Rust real · Multi-IA paralelo (Promise.any) · Core 403M auto-evolutivo · Agent-Reach · 12 Fuentes Cripto · 50x más rápido · 🇩🇪 Enfoque Alemania · ⚡ Parallel · ♾️ Sin Límites</div>
+            <div class="daily-tip">🦀 <strong>WASM Rust REAL</strong> · 🔄 Multi-IA paralelo (gana el más rápido) · 🧬 <strong>Core 403M</strong> en 2do plano (auto-evolución) · 🔌 <strong>Agent-Reach</strong> (GitHub, Reddit, Wikipedia, etc.) · 🔬 12 Fuentes · 💰 Cualquier cripto (BTC, ETH, SOL, DOGE...)</div>
         </div>
 
         <!-- CORE 403M STATUS -->
@@ -183,6 +183,7 @@
             <span>📊 Funciones: <strong id="wasmFuncsStatus">0</strong></span>
             <span>📦 Caché: <strong id="wasmCacheSize">0</strong></span>
             <span>🔄 Multi-IA: <strong id="proveedorStatus" style="color:#10b981;">✅ Activo</strong></span>
+            <span>✅ OK: <strong id="iaOkCount" style="color:#10b981;">0</strong> · ❌ Fallos: <strong id="iaFailsCount" style="color:#ef4444;">0</strong></span>
             <span>📌 Modo: <strong id="modoStatus" style="color:#a78bfa;">🧠 Experto</strong></span>
             <span>🌐 <strong id="idiomaStatus">🇪🇸 Español</strong></span>
             <span>🇩🇪 <strong style="color:#FFCC00;">Alemania</strong></span>
@@ -202,7 +203,7 @@
             <span>📊 Funciones: <strong id="ultraFunciones">0</strong></span>
             <span>♾️ Fuentes: <strong id="ultraFuentes">0</strong></span>
             <span>🔄 IA: <strong id="ultraProveedor">Multi-IA</strong></span>
-            <span>⚡ <strong class="velocidad">50x MÁS RÁPIDO</strong></span>
+            <span>⚡ <strong class="velocidad">PARALELO 50x</strong></span>
         </div>
 
         <div class="sources-badge">
@@ -248,6 +249,8 @@
             <button class="search-btn" id="searchBtn">🚀 ANALIZAR</button>
         </div>
 
+        <div class="fase-info" id="faseInfo">💡 Listo para analizar</div>
+
         <div class="dashboard-grid">
             <div class="card">
                 <div class="card-title">🎯 DATOS DEL TOKEN</div>
@@ -261,10 +264,10 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-title">📈 RECOMENDACIÓN <span style="font-size:0.55rem;color:#ce422b;">🦀 WASM Rust · 🔄 Multi-IA · 🧬 Core 403M · 🔌 Agent-Reach</span></div>
+                <div class="card-title">📈 RECOMENDACIÓN <span style="font-size:0.55rem;color:#ce422b;">🦀 WASM Rust · 🔄 Multi-IA paralelo · 🧬 Core 403M · 🔌 Agent-Reach</span></div>
                 <div id="sentimentContainer">
                     <div class="sentiment-box">
-                        🤖 <strong>NextMoon AI · WASM Rust + Multi-IA + Core 403M + Agent-Reach + 12 Fuentes:</strong><br>
+                        🤖 <strong>NextMoon AI · WASM Rust + Multi-IA paralelo + Core 403M + Agent-Reach + 12 Fuentes:</strong><br>
                         <span id="sentimentText">💰 Escribe cualquier cripto arriba y pulsa ANALIZAR para recibir la recomendación COMPRAR / NO COMPRAR.</span>
                     </div>
                     <div id="signalDisplay" class="signal-box" style="display:none;">
@@ -336,8 +339,8 @@
         </div>
 
         <button id="refreshBtn" class="refresh-btn">🔄 RE-ANALIZAR TOKEN ACTUAL</button>
-        <div class="auto-update">🦀 WASM Rust · 🔄 Multi-IA · 🧬 Core 403M · 🔌 Agent-Reach · 🔬 12 Fuentes · 🇩🇪 Enfoque Alemania · ♾️ Sin límites</div>
-        <footer>⚡ NextMoon AI · WASM Rust + Multi-IA + Core 403M + Agent-Reach · 12 Fuentes Cripto · Recomendación COMPRAR/NO COMPRAR</footer>
+        <div class="auto-update">🦀 WASM Rust · 🔄 Multi-IA paralelo · 🧬 Core 403M · 🔌 Agent-Reach · 🔬 12 Fuentes · 🇩🇪 Enfoque Alemania · ♾️ Sin límites</div>
+        <footer>⚡ NextMoon AI · WASM Rust + Multi-IA paralelo + Core 403M + Agent-Reach · 12 Fuentes Cripto · Recomendación COMPRAR/NO COMPRAR</footer>
     </div>
 </div>
 
@@ -358,7 +361,7 @@ class RustWASM {
             await mod.default('./pkg/academia_wasm_bg.wasm');
             this.wasm = mod;
             this.cargado = true;
-            const version = mod.wasm_version();
+            const version = mod.wasm_version ? mod.wasm_version() : 'unknown';
             const funcs = ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f => typeof mod[f] === 'function');
             console.log(`✅ WASM Rust cargado (Core ${version}M) · ${funcs.length}/13 funciones`);
             document.getElementById('wasmStatus').textContent = `✅ Rust real (${funcs.length} funcs)`;
@@ -610,27 +613,24 @@ class AgentReach {
 const agentReach = new AgentReach();
 
 // ============================================
-// 🔄 MULTI-IA CON FALLBACK — TODOS LOS PROVEEDORES
+// 🔄 MULTI-IA — 9 PROVEEDORES + MODELOS FREE
 // ============================================
 const IA_PROVEEDORES = [
-    // ---- Google Gemini (Free) ----
     {
         nombre: 'Google',
-        url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
+        url: 'https://generativelanguage.googleapis.com/v1beta/models',
         key: 'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
         modelos: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-04-17'],
         color: '#4285F4',
         tipo: 'google'
     },
-    // ---- Cerebras (Free) ----
     {
         nombre: 'Cerebras',
         url: 'https://api.cerebras.ai/v1/chat/completions',
         key: 'csk-jntkcrk4ev8vk35fhy6ctf4f6y2hdfp5h4f2khvwtdy82kcv',
-        modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b', 'qwen-2.5-coder-32b'],
+        modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b'],
         color: '#FF6B35'
     },
-    // ---- Z.ai (Free) ----
     {
         nombre: 'Z.ai',
         url: 'https://api.z.ai/api/paas/v4/chat/completions',
@@ -638,15 +638,13 @@ const IA_PROVEEDORES = [
         modelos: ['glm-4-flash', 'glm-4.5-flash'],
         color: '#7C3AED'
     },
-    // ---- Mistral (Free) ----
     {
         nombre: 'Mistral AI',
         url: 'https://api.mistral.ai/v1/chat/completions',
         key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
-        modelos: ['mistral-small-latest', 'mistral-large-latest', 'open-mistral-7b'],
+        modelos: ['mistral-small-latest', 'open-mistral-7b', 'mistral-tiny', 'open-mistral-nemo'],
         color: '#f97316'
     },
-    // ---- GitHub (Free) ----
     {
         nombre: 'GitHub',
         url: 'https://models.inference.ai.azure.com/chat/completions',
@@ -654,49 +652,79 @@ const IA_PROVEEDORES = [
         modelos: ['gpt-4o-mini', 'Phi-3.5-mini-instruct', 'Meta-Llama-3.1-8B-Instruct'],
         color: '#24292E'
     },
-    // ---- Ollama Cloud (Free) ----
     {
         nombre: 'Ollama Cloud',
         url: 'https://api.ollama.cloud/v1/chat/completions',
         key: '0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3',
-        modelos: ['llama3.2', 'mistral', 'gemma2', 'qwen2.5'],
+        modelos: ['llama3.2', 'mistral', 'gemma2'],
         color: '#333333'
     },
-    // ---- Kiro (Free) ----
     {
         nombre: 'Kiro',
         url: 'https://api.kiro.ai/v1/chat/completions',
         key: 'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139',
-        modelos: ['kiro-chat', 'kiro-pro'],
+        modelos: ['kiro-chat'],
         color: '#00A3FF'
     },
-    // ---- Orca Router (Free) ----
     {
         nombre: 'Orca Router',
         url: 'https://api.orcarouter.ai/v1/chat/completions',
         key: 'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk',
-        modelos: ['orca-mini', 'orca-2-7b', 'orca-2-13b'],
+        modelos: ['orca-mini', 'orca-2-7b'],
         color: '#8B5CF6'
     },
-    // ---- OpenRouter (Free) ----
     {
         nombre: 'OpenRouter',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         key: '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',
-        modelos: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3.1-8b-instruct:free', 'google/gemma-2-9b-it:free', 'qwen/qwen-2.5-7b-instruct:free'],
+        modelos: [
+            'mistralai/mistral-7b-instruct:free',
+            'meta-llama/llama-3.1-8b-instruct:free',
+            'google/gemma-2-9b-it:free',
+            'qwen/qwen-2.5-7b-instruct:free'
+        ],
         color: '#10b981',
         extraHeaders: { 'HTTP-Referer': 'https://nextmoon-ai.local', 'X-Title': 'NextMoon AI' }
     }
 ];
+
+const TIMEOUT_IA = 25000;
+const TIMEOUT_TOTAL_ANALISIS = 60000;
+
 const PAIS_FIJO = 'Alemania';
 let ocupado = false, modoActual = 'experto', idiomaDetectado = 'es', proveedorActual = null, isRefreshing = false;
 let currentToken = 'BTC', currentTokenData = null, ultimoAnalisis = '', referenciasAcademicas = [], cacheInvestigaciones = [];
+let iaOkCount = 0, iaFailsCount = 0;
 
 try { const c = localStorage.getItem('nextmoon_cache'); if (c) cacheInvestigaciones = JSON.parse(c); } catch(e) {}
 
 const nombreIdioma = { 'es': 'Español', 'en': 'Inglés', 'de': 'Alemán', 'fr': 'Francés', 'pt': 'Portugués', 'it': 'Italiano' };
 const banderaIdioma = { 'es': '🇪🇸', 'en': '🇬🇧', 'de': '🇩🇪', 'fr': '🇫🇷', 'pt': '🇵🇹', 'it': '🇮🇹' };
 
+// ============================================
+// 🔍 DIAGNÓSTICO
+// ============================================
+const Diagnostico = {
+    contador: 0,
+    log(mensaje, tipo = 'info') {
+        this.contador++;
+        const icono = tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'error' ? '❌' : 'ℹ️';
+        console.log(`[${tipo.toUpperCase()}] ${icono} ${mensaje}`);
+    }
+};
+
+// ============================================
+// 🔧 FETCH CON TIMEOUT
+// ============================================
+function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) {
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+    return fetch(url, { ...opciones, signal: ctrl.signal }).finally(() => clearTimeout(tid));
+}
+
+// ============================================
+// 🔄 ACTUALIZAR PROVEEDOR
+// ============================================
 function actualizarProveedor(nombre) {
     proveedorActual = nombre;
     const prov = document.getElementById('proveedorStatus');
@@ -705,65 +733,113 @@ function actualizarProveedor(nombre) {
     if (mw) { mw.textContent = `✅ ${nombre}`; mw.style.color = '#10b981'; }
     const ultra = document.getElementById('ultraProveedor');
     if (ultra) ultra.textContent = nombre;
-    console.log(`🔄 Proveedor: ${nombre}`);
+    const ok = document.getElementById('iaOkCount');
+    const fail = document.getElementById('iaFailsCount');
+    if (ok) ok.textContent = iaOkCount;
+    if (fail) fail.textContent = iaFailsCount;
+    console.log(`🔄 Proveedor: ${nombre} · OK:${iaOkCount} Fail:${iaFailsCount}`);
 }
 
+// ============================================
+// 🔄 MULTI-IA EN PARALELO (Promise.any)
+// ============================================
 async function llamarIA(messages, maxTokens = 3000) {
-    let ultimoError = null;
+    Diagnostico.log(`Lanzando ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos en paralelo…`, 'info');
+    actualizarProveedor('Multi-IA…');
+
+    const promesas = [];
     for (const prov of IA_PROVEEDORES) {
         for (const modelo of prov.modelos) {
-            try {
-                console.log(`🔄 Probando ${prov.nombre} (${modelo})...`);
-                const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${prov.key}` };
-                if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
+            promesas.push(
+                (async () => {
+                    const t0 = Date.now();
+                    try {
+                        const headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${prov.key}`
+                        };
+                        if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
 
-                let body;
-                let url = prov.url;
+                        let url = prov.url;
+                        let body;
 
-                // ---- Google Gemini ----
-                if (prov.tipo === 'google') {
-                    url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${prov.key}`;
-                    body = {
-                        contents: messages.map(m => ({
-                            role: m.role === 'assistant' ? 'model' : m.role,
-                            parts: [{ text: m.content }]
-                        })),
-                        generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 }
-                    };
-                } else {
-                    body = {
-                        model: modelo,
-                        messages: messages,
-                        temperature: 0.7,
-                        max_tokens: maxTokens
-                    };
-                }
+                        if (prov.tipo === 'google') {
+                            url = `${prov.url}/${modelo}:generateContent?key=${prov.key}`;
+                            delete headers['Authorization'];
+                            body = {
+                                contents: messages.map(m => ({
+                                    role: m.role === 'assistant' ? 'model' : m.role,
+                                    parts: [{ text: m.content }]
+                                })),
+                                generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 }
+                            };
+                        } else {
+                            body = {
+                                model: modelo,
+                                messages,
+                                temperature: 0.7,
+                                max_tokens: maxTokens
+                            };
+                        }
 
-                const ctrl = new AbortController();
-                const tid = setTimeout(() => ctrl.abort(), 60000);
-                const resp = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body), signal: ctrl.signal });
-                clearTimeout(tid);
+                        const resp = await fetchConTimeout(
+                            url,
+                            { method: 'POST', headers, body: JSON.stringify(body) },
+                            TIMEOUT_IA
+                        );
+                        const dur = ((Date.now() - t0) / 1000).toFixed(1);
 
-                if ([401, 403, 429].includes(resp.status)) { console.warn(`⚠️ ${prov.nombre}/${modelo} → ${resp.status}`); ultimoError = `${resp.status} en ${prov.nombre}`; continue; }
-                if (!resp.ok) { const err = await resp.json().catch(() => ({})); ultimoError = err.error?.message || `Error ${resp.status}`; continue; }
+                        if ([401, 403, 429].includes(resp.status)) {
+                            const errTxt = resp.status === 429 ? 'rate limit' : resp.status === 401 ? 'key inválida' : `HTTP ${resp.status}`;
+                            Diagnostico.log(`${prov.nombre}/${modelo}: ${errTxt} (${dur}s)`, 'error');
+                            iaFailsCount++;
+                            throw new Error(`${prov.nombre}/${modelo}: ${errTxt}`);
+                        }
+                        if (!resp.ok) {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: HTTP ${resp.status} (${dur}s)`, 'error');
+                            iaFailsCount++;
+                            throw new Error(`${prov.nombre}/${modelo}: HTTP ${resp.status}`);
+                        }
 
-                const data = await resp.json();
-                let texto = '';
+                        const data = await resp.json();
+                        let texto = '';
+                        if (prov.tipo === 'google') {
+                            texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+                        } else {
+                            texto = data.choices?.[0]?.message?.content || '';
+                        }
 
-                if (prov.tipo === 'google') {
-                    texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-                } else {
-                    texto = data.choices?.[0]?.message?.content || '';
-                }
+                        if (texto.length < 50) {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: respuesta corta (${texto.length})`, 'warn');
+                            iaFailsCount++;
+                            throw new Error(`${prov.nombre}/${modelo}: respuesta corta`);
+                        }
 
-                if (texto.length < 50) { ultimoError = 'Respuesta muy corta'; continue; }
-                console.log(`✅ ${prov.nombre} (${modelo}): ${texto.length} chars`);
-                actualizarProveedor(prov.nombre);
-                return { texto, proveedor: prov.nombre, modelo };
-            } catch(e) { console.warn(`⚠️ ${prov.nombre}/${modelo}:`, e.message); ultimoError = e.name === 'AbortError' ? 'Timeout' : e.message; }
+                        Diagnostico.log(`${prov.nombre}/${modelo}: ${texto.length} chars en ${dur}s`, 'ok');
+                        iaOkCount++;
+                        return { texto, proveedor: prov.nombre, modelo };
+                    } catch (e) {
+                        if (e.name === 'AbortError') {
+                            Diagnostico.log(`${prov.nombre}/${modelo}: Timeout ${TIMEOUT_IA / 1000}s`, 'error');
+                            iaFailsCount++;
+                        }
+                        throw e;
+                    }
+                })()
+            );
         }
     }
-    throw new Error(`Todos los proveedores fallaron. Último: ${ultimoError}`);
+
+    try {
+        const resultado = await Promise.any(promesas);
+        actualizarProveedor(resultado.proveedor);
+        Diagnostico.log(`🏆 GANADOR: ${resultado.proveedor} (${resultado.modelo})`, 'ok');
+        return resultado;
+    } catch (e) {
+        Diagnostico.log('❌ Todos los proveedores IA fallaron', 'error');
+        actualizarProveedor('Fallback');
+        throw new Error('Todos los proveedores IA fallaron');
+    }
 }
 
 // ============================================
@@ -786,6 +862,7 @@ function mostrarModal(titulo, contenido) {
     document.body.appendChild(ov);
 }
 function actualizarProgress(p) { const el = document.getElementById('progressBar'); if (el) el.style.width = `${Math.min(100, p)}%`; }
+function actualizarFase(msg) { const el = document.getElementById('faseInfo'); if (el) el.textContent = msg; }
 
 // ============================================
 // 💰 APIs DE CRIPTOMONEDAS REALES
@@ -982,6 +1059,70 @@ class FuentesCripto12 {
 const fuentes12 = new FuentesCripto12();
 
 // ============================================
+// 🧠 FALLBACK CRIPTO (si toda IA falla)
+// ============================================
+function generarFallbackCripto(symbol, tokenData, resultados12, agentReachData) {
+    if (!tokenData) return null;
+
+    const change = tokenData.priceChange24h || 0;
+    const volumenM = (tokenData.volume24h / 1e6).toFixed(2);
+    const liquidezM = (tokenData.liquidity / 1e6).toFixed(2);
+
+    let señal = 'ANALIZAR';
+    let razon = 'Datos insuficientes para una recomendación firme.';
+    let riesgo = 'MEDIO';
+    if (change > 5 && tokenData.liquidity > 100000) { señal = 'COMPRAR'; razon = 'Momentum positivo con liquidez suficiente.'; riesgo = 'MEDIO'; }
+    else if (change < -5) { señal = 'NO COMPRAR'; razon = 'Caída fuerte en las últimas 24h.'; riesgo = 'ALTO'; }
+    else if (tokenData.liquidity < 50000) { señal = 'NO COMPRAR'; razon = 'Liquidez demasiado baja, alto riesgo.'; riesgo = 'ALTO'; }
+    else if (change > 0) { señal = 'COMPRAR'; razon = 'Tendencia ligeramente positiva.'; riesgo = 'BAJO'; }
+
+    const fuentesOk = resultados12?.resumen?.fuentes_exitosas || 0;
+    const totalRes = resultados12?.resumen?.total_resultados || 0;
+    const arTotal = (agentReachData?.github?.length || 0) + (agentReachData?.reddit?.length || 0) + (agentReachData?.wiki?.length || 0);
+
+    let texto = '';
+    texto += `RECOMENDACIÓN: ${señal}\n`;
+    texto += `RAZÓN PRINCIPAL: ${razon}\n\n`;
+
+    texto += `ANÁLISIS TÉCNICO:\n`;
+    texto += `El token ${symbol.toUpperCase()} (${tokenData.name}) cotiza a $${tokenData.price} con un cambio de ${change.toFixed(2)}% en 24h. `;
+    texto += `El volumen de ${volumenM}M y la liquidez de ${liquidezM}M indican un mercado ${tokenData.liquidity > 500000 ? 'consolidado' : 'limitado'}. `;
+    texto += `La fuente de datos es ${tokenData.fuente}.\n\n`;
+
+    texto += `FACTORES A FAVOR:\n`;
+    if (change > 0) texto += `• Tendencia positiva en 24h (+${change.toFixed(2)}%)\n`;
+    if (tokenData.liquidity > 100000) texto += `• Liquidez suficiente para operar\n`;
+    if (tokenData.volume24h > 500000) texto += `• Volumen saludable\n`;
+    if (agentReachData?.github?.length > 0) texto += `• Proyecto activo en GitHub (${agentReachData.github.length} repos)\n`;
+    if (texto.split('•').length < 3) texto += `• Datos disponibles desde ${tokenData.fuente}\n`;
+
+    texto += `\nFACTORES EN CONTRA:\n`;
+    if (change < 0) texto += `• Caída en 24h (${change.toFixed(2)}%)\n`;
+    if (tokenData.liquidity < 100000) texto += `• Liquidez baja, riesgo de slippage\n`;
+    if (tokenData.volume24h < 100000) texto += `• Volumen bajo, poca actividad\n`;
+    if (arTotal === 0) texto += `• Sin datos externos de Agent-Reach\n`;
+    texto += `• Análisis generado sin IA (modo fallback)\n`;
+
+    texto += `\nNIVEL DE RIESGO: ${riesgo}\n\n`;
+
+    texto += `CONCLUSIÓN:\n`;
+    texto += `Basado en ${fuentesOk}/12 fuentes cripto (${totalRes} resultados) y ${arTotal} resultados de Agent-Reach, `;
+    texto += `la recomendación es ${señal}. `;
+    texto += `Esta es una recomendación automática generada por reglas simples. `;
+    texto += `Para un análisis más profundo, reintenta cuando los proveedores de IA estén disponibles.\n\n`;
+
+    texto += `─────────────────────────────────────\n`;
+    texto += `⚠️ AVISO DE MODO FALLBACK\n`;
+    texto += `Los ${IA_PROVEEDORES.length} proveedores de IA no respondieron en el tiempo límite.\n`;
+    texto += `Este análisis fue generado automáticamente con datos reales de ${tokenData.fuente} `;
+    texto += `y ${fuentesOk} fuentes adicionales, sin intervención de IA generativa.\n`;
+    texto += `🔄 Reintenta para obtener análisis generado por IA.\n`;
+    texto += `─────────────────────────────────────`;
+
+    return texto;
+}
+
+// ============================================
 // 🤖 ANÁLISIS CON AGENTE + CORE 403M + AGENT-REACH
 // ============================================
 async function generarAnalisisConAgente(symbol, tokenData) {
@@ -1076,10 +1217,25 @@ IMPORTANTE:
 - Enfócate en el mercado alemán/europeo`;
 
     const maxTokens = modoActual === 'experto' ? 4000 : 2000;
-    const resultado = await llamarIA([
+
+    // --- RACE: IA vs timeout global ---
+    const timeoutGlobal = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT_GLOBAL')), TIMEOUT_TOTAL_ANALISIS));
+    const tareaIA = llamarIA([
         { role: 'system', content: 'Eres un analista profesional de criptomonedas. Das recomendaciones CLARAS de COMPRAR o NO COMPRAR. NO usas asteriscos.' },
         { role: 'user', content: prompt }
     ], maxTokens);
+
+    let resultado;
+    try {
+        resultado = await Promise.race([tareaIA, timeoutGlobal]);
+    } catch (iaError) {
+        Diagnostico.log(`IA falló: ${iaError.message}`, 'error');
+        Diagnostico.log('🧠 Activando FALLBACK CRIPTO…', 'warn');
+        const fallback = generarFallbackCripto(symbol, tokenData, resultados12, resultadosAgentReach);
+        if (!fallback) throw iaError;
+        resultado = { texto: fallback, proveedor: 'Fallback Cripto', modelo: 'reglas-locales' };
+        showToast(`🧠 Fallback · datos reales de ${tokenData.fuente}`, true);
+    }
     
     core403M.registrarConsulta(symbol, resultado.texto);
     rustWASM.cache(`analisis_${symbol}_${Date.now()}`, resultado.texto.substring(0, 5000));
@@ -1138,7 +1294,7 @@ async function buscarCripto(symbol) {
         document.getElementById('sourceApi').textContent = tokenData.fuente;
         
         actualizarProgress(15);
-        document.getElementById('sentimentText').innerHTML = `<div class="spinner"></div> 🔬 Analizando ${sym} con 12 Fuentes + Agent-Reach + Multi-IA + WASM Rust...`;
+        document.getElementById('sentimentText').innerHTML = `<div class="spinner"></div> 🔬 Analizando ${sym} con 12 Fuentes + Agent-Reach + Multi-IA paralelo + WASM Rust...`;
         actualizarProgress(30);
         
         const resultado = await generarAnalisisConAgente(sym, tokenData);
@@ -1257,7 +1413,7 @@ document.getElementById('btnRustStatus').onclick = () => {
     const funcs = mod ? ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f => typeof mod[f] === 'function') : [];
     mostrarModal('🦀 WASM Rust Real',
         `Estado: ${rustWASM.cargado ? '✅ Cargado' : '❌ Fallback JS'}\n` +
-        `Versión: ${rustWASM.cargado ? 'Core ' + mod.wasm_version() + 'M' : 'N/A'}\n` +
+        `Versión: ${rustWASM.cargado && mod.wasm_version ? 'Core ' + mod.wasm_version() + 'M' : 'N/A'}\n` +
         `Funciones: ${funcs.length}/13\n\n${funcs.map(f => '• ' + f).join('\n')}\n\n` +
         `⚡ Ejecutadas: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}`
     );
@@ -1279,14 +1435,16 @@ document.getElementById('btnRustTest').onclick = () => {
 };
 
 document.getElementById('btnMultiIA').onclick = () => {
-    let info = '🔄 Multi-IA con fallback automático\n\n';
+    let info = '🔄 Multi-IA — 9 proveedores en paralelo con Promise.any\n\n';
     IA_PROVEEDORES.forEach((p, i) => {
         const emoji = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'][i] || '🔹';
         info += `${emoji} ${p.nombre}\n`;
         info += `   • Modelos: ${p.modelos.join(', ')}\n`;
         info += `   • Estado: ${proveedorActual === p.nombre ? '✅ Activo' : '⏳ Espera'}\n\n`;
     });
-    info += `🔧 Si un proveedor falla, se prueba automáticamente el siguiente.`;
+    info += `📊 Estadísticas:\n✅ OK: ${iaOkCount}\n❌ Fallos: ${iaFailsCount}\n\n`;
+    info += `🔧 Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n`;
+    info += `🏆 Gana el proveedor que responde primero.`;
     mostrarModal('🔄 Multi-IA — Todos los proveedores', info);
 };
 
@@ -1349,7 +1507,8 @@ document.getElementById('btnAnalisisCompleto').onclick = () => {
         `🏷️ Keywords: ${kw.map(k => `${k.palabra} (${k.frecuencia})`).join(', ')}\n\n` +
         `🌐 Idioma: ${rustWASM.idioma(ultimoAnalisis)}\n` +
         `📈 Riqueza: ${Math.round(stats.unicas / stats.palabras * 100)}%\n` +
-        `⚡ WASM Rust: 50x más rápido`
+        `⚡ WASM Rust: 50x más rápido\n` +
+        `🔄 Multi-IA: ${iaOkCount} OK · ${iaFailsCount} fallos`
     );
 };
 
@@ -1375,6 +1534,8 @@ document.getElementById('btnEstado').onclick = () => {
         `📊 Funciones WASM: ${rustWASM.stats.funciones}\n` +
         `📦 Caché: ${rustWASM.getCacheSize()}\n\n` +
         `🔄 Multi-IA: ${proveedorActual || 'En espera'}\n` +
+        `✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n` +
+        `⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n` +
         `🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n` +
         `🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n` +
         `💰 Token actual: ${currentToken}\n` +
@@ -1390,14 +1551,19 @@ document.getElementById('btnEstado').onclick = () => {
 // 🚀 INICIALIZACIÓN
 // ============================================
 (async () => {
-    console.log('🚀 NextMoon AI · WASM Rust + Multi-IA + Core 403M + Agent-Reach');
-    console.log('📊 9 proveedores IA · 13 funciones Rust · 12 fuentes cripto · 6 idiomas');
+    console.log('🚀 NextMoon AI · WASM Rust + Multi-IA paralelo + Core 403M + Agent-Reach');
+    Diagnostico.log(`🚀 NextMoon AI iniciando…`, 'info');
+    Diagnostico.log(`📊 ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free`, 'info');
+    Diagnostico.log(`⏱️ Timeout IA: ${TIMEOUT_IA / 1000}s · Timeout global: ${TIMEOUT_TOTAL_ANALISIS / 1000}s`, 'info');
+    Diagnostico.log('🔄 Estrategia: Promise.any (paralelo) + fallback cripto', 'info');
+    
     await rustWASM.cargar();
     if (rustWASM.cargado) {
         showToast('🦀 WASM Rust cargado · 🧬 Core 403M activo · 🔌 Agent-Reach listo');
     } else {
         showToast('⚠️ WASM Rust no disponible · Usando fallback JS', true);
     }
+    actualizarProveedor(null);
     document.getElementById('searchInput').focus();
     console.log('✅ Sistema listo. Escribe un símbolo (BTC, ETH, SOL, DOGE...) y pulsa ANALIZAR');
 })();
