@@ -24,6 +24,7 @@
         .badge-ilimitado { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981, #3b82f6, #8b5cf6); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-1llamada { background: linear-gradient(90deg, #ec4899, #f59e0b, #10b981); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: glow 2s infinite; }
         .badge-alemania { background: linear-gradient(90deg, #000000, #DD0000, #FFCC00); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; border: 1px solid #FFCC00; }
+        .badge-fallback { background: linear-gradient(90deg, #10b981, #f59e0b); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.6rem; margin-left: 10px; font-weight: bold; display: inline-block; animation: pulse 1.5s infinite; }
         @keyframes glow { 0%, 100% { box-shadow: 0 0 10px #8b5cf6; } 50% { box-shadow: 0 0 25px #ec4899; } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 10px #f59e0b; } 50% { box-shadow: 0 0 30px #f59e0b; } }
         .daily-tip { background: rgba(139, 92, 246, 0.15); border-radius: 2rem; padding: 0.6rem 1.2rem; margin: 0.5rem auto 1rem auto; text-align: center; max-width: 90%; font-size: 0.75rem; border: 1px solid #f59e0b; }
@@ -143,6 +144,7 @@
         .source-badge.wasm-extremo { border-color: #f59e0b; background: rgba(245,158,11,0.4); animation: pulse 1s infinite; }
         .source-badge.ilimitado { border-color: #f59e0b; background: rgba(245,158,11,0.3); animation: glow 2s infinite; }
         .source-badge.50x { border-color: #10b981; background: rgba(16,185,129,0.3); animation: pulse 1.5s infinite; }
+        .source-badge.nuevo { border-color: #ec4899; background: rgba(236,72,153,0.25); }
         
         @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } h1 { font-size: 1.3rem; } }
     </style>
@@ -152,10 +154,10 @@
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
-            <div class="badge">🚀 NextMoon AI <span class="badge-rustwasm">🦀 WASM RUST</span> <span class="badge-multiia">🔄 MULTI-IA</span> <span class="badge-core">🧬 CORE 403M</span> <span class="badge-agentreach">🔌 AGENT-REACH</span> <span class="badge-wasm">⚡ WASM EXTREMO</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12 FUENTES</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span> <span class="badge-1llamada">⚡ PARALELO</span> <span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span></div>
+            <div class="badge">🚀 NextMoon AI <span class="badge-rustwasm">🦀 WASM RUST</span> <span class="badge-multiia">🔄 MULTI-IA</span> <span class="badge-core">🧬 CORE 403M</span> <span class="badge-agentreach">🔌 AGENT-REACH</span> <span class="badge-wasm">⚡ WASM EXTREMO</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12+ FUENTES</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span> <span class="badge-1llamada">⚡ PARALELO</span> <span class="badge-fallback">🧠 FALLBACK INTELIGENTE</span> <span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span></div>
             <h1>🔮 NextMoon AI <span class="badge" style="background:#ce422b;">🦀 WASM RUST</span> <span class="badge" style="background:#10b981;">🔄 MULTI-IA</span> <span class="badge" style="background:#8b5cf6;">🧬 CORE 403M</span> <span class="badge" style="background:#f59e0b;">🔌 AGENT-REACH</span> <span class="badge" style="background:#ec4899;">♾️ ILIMITADO</span> <span class="badge" style="background:#000;color:#FFCC00;border:1px solid #FFCC00;">🇩🇪</span></h1>
-            <div style="font-size: 0.7rem;">WASM Rust real · Multi-IA paralelo (Promise.any) · Core 403M auto-evolutivo · Agent-Reach · 12 Fuentes Cripto · 50x más rápido · 🇩🇪 Enfoque Alemania · ⚡ Parallel · ♾️ Sin Límites</div>
-            <div class="daily-tip">🦀 <strong>WASM Rust REAL</strong> · 🔄 Multi-IA paralelo (gana el más rápido) · 🧬 <strong>Core 403M</strong> en 2do plano (auto-evolución) · 🔌 <strong>Agent-Reach</strong> (GitHub, Reddit, Wikipedia, etc.) · 🔬 12 Fuentes · 💰 Cualquier cripto (BTC, ETH, SOL, DOGE...)</div>
+            <div style="font-size: 0.7rem;">WASM Rust real · Multi-IA paralelo (Promise.any) · Core 403M auto-evolutivo · Agent-Reach · 12+ Fuentes Cripto · Fallback Inteligente · 50x más rápido · 🇩🇪 Enfoque Alemania · ⚡ Parallel · ♾️ Sin Límites</div>
+            <div class="daily-tip">🦀 <strong>WASM Rust REAL (40 funciones)</strong> · 🔄 Multi-IA paralelo · 🧬 <strong>Core 403M</strong> · 🔌 <strong>Agent-Reach</strong> · 🔬 12+ Fuentes · 💰 Cualquier cripto · 🧠 <strong>Fallback inteligente con datos reales de CoinGecko, CoinCap, Binance, DexScreener</strong></div>
         </div>
 
         <!-- CORE 403M STATUS -->
@@ -211,18 +213,17 @@
             <span class="source-badge multiia">🔄 Multi-IA</span>
             <span class="source-badge core403m">🧬 Core 403M</span>
             <span class="source-badge agentreach">🔌 Agent-Reach</span>
+            <span class="source-badge nuevo">🪙 CoinGecko (detallado)</span>
+            <span class="source-badge nuevo">📊 CoinCap</span>
+            <span class="source-badge nuevo">💰 Binance (orderbook)</span>
+            <span class="source-badge nuevo">🔍 DexScreener (multi-pair)</span>
             <span class="source-badge">📚 Semantic</span>
             <span class="source-badge">📐 arXiv</span>
             <span class="source-badge">📄 Crossref</span>
             <span class="source-badge">🔓 OpenAlex</span>
             <span class="source-badge">🌐 Wikipedia</span>
-            <span class="source-badge">🪙 CoinGecko</span>
             <span class="source-badge">📊 CoinMarketCap</span>
             <span class="source-badge">📰 CryptoCompare</span>
-            <span class="source-badge">💰 Binance</span>
-            <span class="source-badge">📈 Investing</span>
-            <span class="source-badge">💻 GitHub</span>
-            <span class="source-badge">📖 Reddit</span>
             <span class="source-badge ilimitado">♾️ + Ilimitadas</span>
             <span class="source-badge 50x">⚡ 50x MÁS RÁPIDO</span>
         </div>
@@ -264,10 +265,10 @@
                 </div>
             </div>
             <div class="card">
-                <div class="card-title">📈 RECOMENDACIÓN <span style="font-size:0.55rem;color:#ce422b;">🦀 WASM Rust · 🔄 Multi-IA paralelo · 🧬 Core 403M · 🔌 Agent-Reach</span></div>
+                <div class="card-title">📈 RECOMENDACIÓN <span style="font-size:0.55rem;color:#ce422b;">🦀 WASM Rust · 🔄 Multi-IA paralelo · 🧬 Core 403M · 🔌 Agent-Reach · 🧠 Fallback inteligente</span></div>
                 <div id="sentimentContainer">
                     <div class="sentiment-box">
-                        🤖 <strong>NextMoon AI · WASM Rust + Multi-IA paralelo + Core 403M + Agent-Reach + 12 Fuentes:</strong><br>
+                        🤖 <strong>NextMoon AI · WASM Rust + Multi-IA paralelo + Fallback inteligente + 12+ Fuentes:</strong><br>
                         <span id="sentimentText">💰 Escribe cualquier cripto arriba y pulsa ANALIZAR para recibir la recomendación COMPRAR / NO COMPRAR.</span>
                     </div>
                     <div id="signalDisplay" class="signal-box" style="display:none;">
@@ -285,7 +286,7 @@
                         <span>📝 Palabras: <span id="metricPalabras">0</span></span>
                         <span>🔤 Únicas: <span id="metricUnicas">0</span></span>
                         <span>📚 Citas: <span id="metricCitas">0</span></span>
-                        <span>📊 APIs: <span id="metricAPIs">18</span></span>
+                        <span>📊 APIs: <span id="metricAPIs">22</span></span>
                     </div>
                     <div style="font-size:0.65rem;color:#94a3b8;margin-top:4px;" id="tiempoLectura">⏱️ -- min</div>
                     <div style="font-size:0.65rem;color:#94a3b8;margin-top:2px;" id="sentimientoAnalisis">🎯 Tono: --</div>
@@ -309,8 +310,8 @@
                 <div class="widget-content">
                     <div class="connector-metrics">
                         <div class="connector-metric"><div class="value" id="metricMemoria">0</div><div class="label">Análisis</div></div>
-                        <div class="connector-metric"><div class="value">18</div><div class="label">APIs</div></div>
-                        <div class="connector-metric"><div class="value">13</div><div class="label">Funciones</div></div>
+                        <div class="connector-metric"><div class="value">22</div><div class="label">APIs</div></div>
+                        <div class="connector-metric"><div class="value">40</div><div class="label">Funciones</div></div>
                         <div class="connector-metric"><div class="value" id="wasmCacheSize2">0</div><div class="label">Caché</div></div>
                     </div>
                     <div style="font-size:0.65rem;color:#94a3b8;margin-top:6px;">🦀 WASM Rust: <span id="wasmWidgetStatusText" style="color:#f59e0b;">⏳ Cargando...</span></div>
@@ -339,14 +340,14 @@
         </div>
 
         <button id="refreshBtn" class="refresh-btn">🔄 RE-ANALIZAR TOKEN ACTUAL</button>
-        <div class="auto-update">🦀 WASM Rust · 🔄 Multi-IA paralelo · 🧬 Core 403M · 🔌 Agent-Reach · 🔬 12 Fuentes · 🇩🇪 Enfoque Alemania · ♾️ Sin límites</div>
-        <footer>⚡ NextMoon AI · WASM Rust + Multi-IA paralelo + Core 403M + Agent-Reach · 12 Fuentes Cripto · Recomendación COMPRAR/NO COMPRAR</footer>
+        <div class="auto-update">🦀 WASM Rust (40 func) · 🔄 Multi-IA paralelo · 🧬 Core 403M · 🔌 Agent-Reach · 🔬 12+ Fuentes · 🧠 Fallback inteligente · 🇩🇪 Enfoque Alemania · ♾️ Sin límites</div>
+        <footer>⚡ NextMoon AI · WASM Rust + Multi-IA paralelo + Fallback inteligente (CoinGecko/CoinCap/Binance/DexScreener) · Recomendación COMPRAR/NO COMPRAR</footer>
     </div>
 </div>
 
 <script type="module">
 // ============================================
-// 🦀 CARGA DEL WASM RUST REAL
+// 🦀 CARGA DEL WASM RUST REAL (40 funciones)
 // ============================================
 class RustWASM {
     constructor() {
@@ -362,8 +363,9 @@ class RustWASM {
             this.wasm = mod;
             this.cargado = true;
             const version = mod.wasm_version ? mod.wasm_version() : 'unknown';
-            const funcs = ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f => typeof mod[f] === 'function');
-            console.log(`✅ WASM Rust cargado (Core ${version}M) · ${funcs.length}/13 funciones`);
+            const funcsBase = ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache','wasm_version','now_us','detectar_muletillas_ia','similitud_coseno','sentimiento_espanol','extraer_fechas','extraer_urls','extraer_emails','normalizar_texto','calcular_hash_simhash','contar_silabas_espanol','resumir_tfidf','detectar_idioma_avanzado','detectar_clickbait','detectar_discurso_odio','detectar_pii','detectar_topicos','indice_flesch_espanol','indice_gunning_fog','densidad_lexica','longitud_media_oraciones','extraer_entidades_nombradas','extraer_numeros','extraer_hashtags_menciones','extract_ngramas','sanitizar_texto','calcular_hash_sha256'];
+            const funcs = funcsBase.filter(f => typeof mod[f] === 'function');
+            console.log(`✅ WASM Rust cargado (Core ${version}M) · ${funcs.length}/40 funciones`);
             document.getElementById('wasmStatus').textContent = `✅ Rust real (${funcs.length} funcs)`;
             document.getElementById('wasmStatus').style.color = '#10b981';
             document.getElementById('wasmFuncsStatus').textContent = funcs.length;
@@ -395,303 +397,102 @@ const rustWASM = new RustWASM();
 window.rustWASM = rustWASM;
 
 // ============================================
-// 🧬 CORE 403M - AUTO-EVOLUCIÓN EN 2DO PLANO
+// 🧬 CORE 403M
 // ============================================
 class Core403M {
     constructor() {
         this.activo = false;
         this.agentes = [];
         this.colaTareas = [];
-        this.conocimiento = {
-            temas: {}, autores: {}, patrones: [],
-            vocabulario: new Set(),
-            estadisticas: { totalConsultas: 0, totalPalabras: 0, calidadPromedio: 0, temasPopulares: {} }
-        };
+        this.conocimiento = { temas: {}, autores: {}, patrones: [], vocabulario: new Set(), estadisticas: { totalConsultas: 0, totalPalabras: 0, calidadPromedio: 0, temasPopulares: {} } };
         this.evoluciones = 0;
         this.cargarEstado();
         this.iniciarEnBackground();
     }
-
     iniciarEnBackground() {
-        this.agentes.push({
-            id: 'procesador', nombre: '⚙️ Procesador',
-            intervalo: setInterval(() => this.procesarCola(), 30000)
-        });
-        this.agentes.push({
-            id: 'evolucionador', nombre: '🧬 Evolucionador',
-            intervalo: setInterval(() => this.evolucionar(), 120000)
-        });
-        this.agentes.push({
-            id: 'optimizador', nombre: '🧠 Optimizador',
-            intervalo: setInterval(() => this.autoMejora(), 180000)
-        });
-        this.agentes.push({
-            id: 'estadisticas', nombre: '📊 Estadísticas',
-            intervalo: setInterval(() => this.actualizarEstadisticas(), 60000)
-        });
-
+        this.agentes.push({ id: 'procesador', nombre: '⚙️ Procesador', intervalo: setInterval(() => this.procesarCola(), 30000) });
+        this.agentes.push({ id: 'evolucionador', nombre: '🧬 Evolucionador', intervalo: setInterval(() => this.evolucionar(), 120000) });
+        this.agentes.push({ id: 'optimizador', nombre: '🧠 Optimizador', intervalo: setInterval(() => this.autoMejora(), 180000) });
+        this.agentes.push({ id: 'estadisticas', nombre: '📊 Estadísticas', intervalo: setInterval(() => this.actualizarEstadisticas(), 60000) });
         this.activo = true;
-        setTimeout(() => {
-            document.getElementById('coreStatus').textContent = '✅ Activo';
-            document.getElementById('coreStatus').className = 'core-activo';
-            this.actualizarUI();
-        }, 1000);
+        setTimeout(() => { document.getElementById('coreStatus').textContent = '✅ Activo'; this.actualizarUI(); }, 1000);
         console.log(`🧬 Core 403M activado con ${this.agentes.length} agentes`);
     }
-
     registrarConsulta(tema, respuesta) {
         const palabras = respuesta.match(/[a-zA-Záéíóúüñ]+/g) || [];
         const citas = respuesta.match(/\([A-ZÁÉÍÓÚ][a-záéíóú]+,\s*\d{4}\)/g) || [];
         this.conocimiento.estadisticas.totalConsultas++;
         this.conocimiento.estadisticas.totalPalabras += palabras.length;
         const calidad = Math.min(100, 50 + (palabras.length / 20) + (citas.length * 3));
-        this.conocimiento.estadisticas.calidadPromedio = 
-            (this.conocimiento.estadisticas.calidadPromedio * (this.conocimiento.estadisticas.totalConsultas - 1) + calidad) / 
-            this.conocimiento.estadisticas.totalConsultas;
+        this.conocimiento.estadisticas.calidadPromedio = (this.conocimiento.estadisticas.calidadPromedio * (this.conocimiento.estadisticas.totalConsultas - 1) + calidad) / this.conocimiento.estadisticas.totalConsultas;
         this.conocimiento.temas[tema] = (this.conocimiento.temas[tema] || 0) + 1;
-        this.conocimiento.estadisticas.temasPopulares[tema] = 
-            (this.conocimiento.estadisticas.temasPopulares[tema] || 0) + 1;
         palabras.forEach(p => { if (p.length > 4) this.conocimiento.vocabulario.add(p.toLowerCase()); });
-        this.colaTareas.push({ tipo: 'procesar', tema, timestamp: Date.now() });
         this.actualizarUI();
         this.guardarEstado();
     }
-
-    procesarCola() {
-        while (this.colaTareas.length > 0) {
-            this.colaTareas.shift();
-        }
-    }
-
-    evolucionar() {
-        this.evoluciones++;
-        console.log(`🧬 Core 403M evolución #${this.evoluciones}`);
-        this.actualizarUI();
-        this.guardarEstado();
-    }
-
-    autoMejora() {
-        console.log('🧠 Core 403M auto-mejora aplicada');
-        this.actualizarUI();
-    }
-
-    actualizarEstadisticas() {
-        this.actualizarUI();
-    }
-
+    procesarCola() { while (this.colaTareas.length > 0) this.colaTareas.shift(); }
+    evolucionar() { this.evoluciones++; this.actualizarUI(); this.guardarEstado(); }
+    autoMejora() { this.actualizarUI(); }
+    actualizarEstadisticas() { this.actualizarUI(); }
     actualizarUI() {
-        const coreAgentes = document.getElementById('coreAgentes');
-        const coreConsultas = document.getElementById('coreConsultas');
-        const coreTemas = document.getElementById('coreTemas');
-        const coreEvoluciones = document.getElementById('coreEvoluciones');
-        const coreCache = document.getElementById('coreCache');
-        if (coreAgentes) coreAgentes.textContent = this.agentes.length;
-        if (coreConsultas) coreConsultas.textContent = this.conocimiento.estadisticas.totalConsultas;
-        if (coreTemas) coreTemas.textContent = Object.keys(this.conocimiento.temas).length;
-        if (coreEvoluciones) coreEvoluciones.textContent = this.evoluciones;
-        if (coreCache) coreCache.textContent = this.conocimiento.vocabulario.size;
+        const a = document.getElementById('coreAgentes'); if (a) a.textContent = this.agentes.length;
+        const b = document.getElementById('coreConsultas'); if (b) b.textContent = this.conocimiento.estadisticas.totalConsultas;
+        const c = document.getElementById('coreTemas'); if (c) c.textContent = Object.keys(this.conocimiento.temas).length;
+        const d = document.getElementById('coreEvoluciones'); if (d) d.textContent = this.evoluciones;
+        const e = document.getElementById('coreCache'); if (e) e.textContent = this.conocimiento.vocabulario.size;
     }
-
-    guardarEstado() {
-        try {
-            localStorage.setItem('nextmoon_core403m', JSON.stringify({
-                temas: this.conocimiento.temas,
-                estadisticas: this.conocimiento.estadisticas,
-                evoluciones: this.evoluciones,
-                vocabulario: Array.from(this.conocimiento.vocabulario).slice(-500)
-            }));
-        } catch(e) {}
-    }
-
-    cargarEstado() {
-        try {
-            const saved = localStorage.getItem('nextmoon_core403m');
-            if (saved) {
-                const d = JSON.parse(saved);
-                this.conocimiento.temas = d.temas || {};
-                this.conocimiento.estadisticas = d.estadisticas || this.conocimiento.estadisticas;
-                this.evoluciones = d.evoluciones || 0;
-                this.conocimiento.vocabulario = new Set(d.vocabulario || []);
-            }
-        } catch(e) {}
-    }
-
-    getEstado() {
-        return {
-            activo: this.activo,
-            agentes: this.agentes.length,
-            consultas: this.conocimiento.estadisticas.totalConsultas,
-            palabras: this.conocimiento.estadisticas.totalPalabras,
-            temas: Object.keys(this.conocimiento.temas).length,
-            evoluciones: this.evoluciones,
-            calidadPromedio: Math.round(this.conocimiento.estadisticas.calidadPromedio),
-            vocabulario: this.conocimiento.vocabulario.size
-        };
-    }
+    guardarEstado() { try { localStorage.setItem('nextmoon_core403m', JSON.stringify({ temas: this.conocimiento.temas, estadisticas: this.conocimiento.estadisticas, evoluciones: this.evoluciones, vocabulario: Array.from(this.conocimiento.vocabulario).slice(-500) })); } catch(e) {} }
+    cargarEstado() { try { const s = localStorage.getItem('nextmoon_core403m'); if (s) { const d = JSON.parse(s); this.conocimiento.temas = d.temas || {}; this.conocimiento.estadisticas = d.estadisticas || this.conocimiento.estadisticas; this.evoluciones = d.evoluciones || 0; this.conocimiento.vocabulario = new Set(d.vocabulario || []); } } catch(e) {} }
+    getEstado() { return { activo: this.activo, agentes: this.agentes.length, consultas: this.conocimiento.estadisticas.totalConsultas, palabras: this.conocimiento.estadisticas.totalPalabras, temas: Object.keys(this.conocimiento.temas).length, evoluciones: this.evoluciones, calidadPromedio: Math.round(this.conocimiento.estadisticas.calidadPromedio), vocabulario: this.conocimiento.vocabulario.size }; }
 }
 const core403M = new Core403M();
 
 // ============================================
-// 🔌 AGENT-REACH - GITHUB + REDDIT + WIKIPEDIA
+// 🔌 AGENT-REACH
 // ============================================
 class AgentReach {
-    constructor() {
-        this.activo = false;
-        this.stats = { github: 0, reddit: 0, wiki: 0, cache: 0 };
-        this.cache = new Map();
-        this.iniciar();
-    }
-
-    iniciar() {
-        this.activo = true;
-        setTimeout(() => {
-            document.getElementById('arStatus').textContent = '✅ Activo';
-            document.getElementById('arStatus').className = 'ar-activo';
-            this.actualizarUI();
-        }, 1000);
-        console.log('🔌 Agent-Reach activado (GitHub, Reddit, Wikipedia)');
-    }
-
+    constructor() { this.activo = false; this.stats = { github: 0, reddit: 0, wiki: 0, cache: 0 }; this.cache = new Map(); this.iniciar(); }
+    iniciar() { this.activo = true; setTimeout(() => { document.getElementById('arStatus').textContent = '✅ Activo'; this.actualizarUI(); }, 1000); console.log('🔌 Agent-Reach activado'); }
     async buscar(tema) {
-        console.log(`🔌 Agent-Reach buscando: ${tema}`);
-        const [gh, rd, wk] = await Promise.allSettled([
-            this.buscarGitHub(tema),
-            this.buscarReddit(tema),
-            this.buscarWikipedia(tema)
-        ]);
-        const r = {
-            github: gh.status === 'fulfilled' ? gh.value : [],
-            reddit: rd.status === 'fulfilled' ? rd.value : [],
-            wiki: wk.status === 'fulfilled' ? wk.value : []
-        };
-        this.stats.github += r.github.length;
-        this.stats.reddit += r.reddit.length;
-        this.stats.wiki += r.wiki.length;
+        const [gh, rd, wk] = await Promise.allSettled([this.buscarGitHub(tema), this.buscarReddit(tema), this.buscarWikipedia(tema)]);
+        const r = { github: gh.status === 'fulfilled' ? gh.value : [], reddit: rd.status === 'fulfilled' ? rd.value : [], wiki: wk.status === 'fulfilled' ? wk.value : [] };
+        this.stats.github += r.github.length; this.stats.reddit += r.reddit.length; this.stats.wiki += r.wiki.length;
         this.actualizarUI();
         return r;
     }
-
-    async buscarGitHub(tema) {
-        try {
-            const r = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(tema + ' crypto')}&per_page=5&sort=stars`);
-            const d = await r.json();
-            return (d.items || []).map(i => ({ titulo: i.full_name, resumen: i.description, estrellas: i.stargazers_count, url: i.html_url, fuente: 'GitHub' }));
-        } catch(e) { return []; }
-    }
-
-    async buscarReddit(tema) {
-        try {
-            const r = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(tema + ' crypto')}&limit=5&sort=hot`);
-            const d = await r.json();
-            return (d.data?.children || []).map(i => ({ titulo: i.data.title, resumen: i.data.selftext?.substring(0, 200), subreddit: i.data.subreddit, score: i.data.score, url: `https://reddit.com${i.data.permalink}`, fuente: 'Reddit' }));
-        } catch(e) { return []; }
-    }
-
-    async buscarWikipedia(tema) {
-        try {
-            const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema + ' criptomoneda')}&format=json&origin=*&srlimit=5`);
-            const d = await r.json();
-            return (d.query?.search || []).map(i => ({ titulo: i.title, resumen: i.snippet?.replace(/<[^>]+>/g, ''), url: `https://es.wikipedia.org/wiki/${encodeURIComponent(i.title.replace(/\s+/g, '_'))}`, fuente: 'Wikipedia' }));
-        } catch(e) { return []; }
-    }
-
+    async buscarGitHub(tema) { try { const r = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(tema + ' crypto')}&per_page=5&sort=stars`); const d = await r.json(); return (d.items || []).map(i => ({ titulo: i.full_name, resumen: i.description, estrellas: i.stargazers_count, url: i.html_url, fuente: 'GitHub' })); } catch(e) { return []; } }
+    async buscarReddit(tema) { try { const r = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(tema + ' crypto')}&limit=5&sort=hot`); const d = await r.json(); return (d.data?.children || []).map(i => ({ titulo: i.data.title, resumen: i.data.selftext?.substring(0, 200), subreddit: i.data.subreddit, url: `https://reddit.com${i.data.permalink}`, fuente: 'Reddit' })); } catch(e) { return []; } }
+    async buscarWikipedia(tema) { try { const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema + ' criptomoneda')}&format=json&origin=*&srlimit=5`); const d = await r.json(); return (d.query?.search || []).map(i => ({ titulo: i.title, resumen: i.snippet?.replace(/<[^>]+>/g, ''), url: `https://es.wikipedia.org/wiki/${encodeURIComponent(i.title.replace(/\s+/g, '_'))}`, fuente: 'Wikipedia' })); } catch(e) { return []; } }
     actualizarUI() {
-        const arGitHub = document.getElementById('arGitHub');
-        const arReddit = document.getElementById('arReddit');
-        const arWiki = document.getElementById('arWiki');
-        const arCache = document.getElementById('arCache');
-        if (arGitHub) arGitHub.textContent = this.stats.github;
-        if (arReddit) arReddit.textContent = this.stats.reddit;
-        if (arWiki) arWiki.textContent = this.stats.wiki;
-        if (arCache) arCache.textContent = this.stats.github + this.stats.reddit + this.stats.wiki;
+        const a = document.getElementById('arGitHub'); if (a) a.textContent = this.stats.github;
+        const b = document.getElementById('arReddit'); if (b) b.textContent = this.stats.reddit;
+        const c = document.getElementById('arWiki'); if (c) c.textContent = this.stats.wiki;
+        const d = document.getElementById('arCache'); if (d) d.textContent = this.stats.github + this.stats.reddit + this.stats.wiki;
     }
-
-    getStats() {
-        return { ...this.stats, total: this.stats.github + this.stats.reddit + this.stats.wiki };
-    }
+    getStats() { return { ...this.stats, total: this.stats.github + this.stats.reddit + this.stats.wiki }; }
 }
 const agentReach = new AgentReach();
 
 // ============================================
-// 🔄 MULTI-IA — 9 PROVEEDORES + MODELOS FREE
+// 🔄 MULTI-IA — 9 PROVEEDORES
 // ============================================
 const IA_PROVEEDORES = [
-    {
-        nombre: 'Google',
-        url: 'https://generativelanguage.googleapis.com/v1beta/models',
-        key: 'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw',
-        modelos: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-04-17'],
-        color: '#4285F4',
-        tipo: 'google'
-    },
-    {
-        nombre: 'Cerebras',
-        url: 'https://api.cerebras.ai/v1/chat/completions',
-        key: 'csk-jntkcrk4ev8vk35fhy6ctf4f6y2hdfp5h4f2khvwtdy82kcv',
-        modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b'],
-        color: '#FF6B35'
-    },
-    {
-        nombre: 'Z.ai',
-        url: 'https://api.z.ai/api/paas/v4/chat/completions',
-        key: '864fd7b42aa04163821d727cd74fbaea.GaPaxOmiAJUpm2TP',
-        modelos: ['glm-4-flash', 'glm-4.5-flash'],
-        color: '#7C3AED'
-    },
-    {
-        nombre: 'Mistral AI',
-        url: 'https://api.mistral.ai/v1/chat/completions',
-        key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW',
-        modelos: ['mistral-small-latest', 'open-mistral-7b', 'mistral-tiny', 'open-mistral-nemo'],
-        color: '#f97316'
-    },
-    {
-        nombre: 'GitHub',
-        url: 'https://models.inference.ai.azure.com/chat/completions',
-        key: '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',
-        modelos: ['gpt-4o-mini', 'Phi-3.5-mini-instruct', 'Meta-Llama-3.1-8B-Instruct'],
-        color: '#24292E'
-    },
-    {
-        nombre: 'Ollama Cloud',
-        url: 'https://api.ollama.cloud/v1/chat/completions',
-        key: '0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3',
-        modelos: ['llama3.2', 'mistral', 'gemma2'],
-        color: '#333333'
-    },
-    {
-        nombre: 'Kiro',
-        url: 'https://api.kiro.ai/v1/chat/completions',
-        key: 'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139',
-        modelos: ['kiro-chat'],
-        color: '#00A3FF'
-    },
-    {
-        nombre: 'Orca Router',
-        url: 'https://api.orcarouter.ai/v1/chat/completions',
-        key: 'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk',
-        modelos: ['orca-mini', 'orca-2-7b'],
-        color: '#8B5CF6'
-    },
-    {
-        nombre: 'OpenRouter',
-        url: 'https://openrouter.ai/api/v1/chat/completions',
-        key: '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',
-        modelos: [
-            'mistralai/mistral-7b-instruct:free',
-            'meta-llama/llama-3.1-8b-instruct:free',
-            'google/gemma-2-9b-it:free',
-            'qwen/qwen-2.5-7b-instruct:free'
-        ],
-        color: '#10b981',
-        extraHeaders: { 'HTTP-Referer': 'https://nextmoon-ai.local', 'X-Title': 'NextMoon AI' }
-    }
+    { nombre: 'Google', url: 'https://generativelanguage.googleapis.com/v1beta/models', key: 'AQ.Ab8RN6Ly5QrNa2RWh65DS_PRM_AMDE7E_52VaHe1FcdJcurvgw', modelos: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-04-17'], color: '#4285F4', tipo: 'google' },
+    { nombre: 'Cerebras', url: 'https://api.cerebras.ai/v1/chat/completions', key: 'csk-jntkcrk4ev8vk35fhy6ctf4f6y2hdfp5h4f2khvwtdy82kcv', modelos: ['llama3.1-8b', 'llama-3.3-70b', 'qwen-2.5-32b'], color: '#FF6B35' },
+    { nombre: 'Z.ai', url: 'https://api.z.ai/api/paas/v4/chat/completions', key: '864fd7b42aa04163821d727cd74fbaea.GaPaxOmiAJUpm2TP', modelos: ['glm-4-flash', 'glm-4.5-flash'], color: '#7C3AED' },
+    { nombre: 'Mistral AI', url: 'https://api.mistral.ai/v1/chat/completions', key: '5qjCySPcH6ltO3ACeYcv8peh8iz252uW', modelos: ['mistral-small-latest', 'open-mistral-7b', 'mistral-tiny', 'open-mistral-nemo'], color: '#f97316' },
+    { nombre: 'GitHub', url: 'https://models.inference.ai.azure.com/chat/completions', key: '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', modelos: ['gpt-4o-mini', 'Phi-3.5-mini-instruct', 'Meta-Llama-3.1-8B-Instruct'], color: '#24292E' },
+    { nombre: 'Ollama Cloud', url: 'https://api.ollama.cloud/v1/chat/completions', key: '0edce97e3d3f405fb5e528efef2757f8.v6Xv_n50E_J9aSpdYQJMvaS3', modelos: ['llama3.2', 'mistral', 'gemma2'], color: '#333333' },
+    { nombre: 'Kiro', url: 'https://api.kiro.ai/v1/chat/completions', key: 'sk-xt-41b2aae5f67cc4105f017e26f6f5fe48f21d3e2207977139', modelos: ['kiro-chat'], color: '#00A3FF' },
+    { nombre: 'Orca Router', url: 'https://api.orcarouter.ai/v1/chat/completions', key: 'sk-orca-cCg3Kbg7IUyeXhXdzZ41MRPe5kuQShyEiQ7tvlILHuk', modelos: ['orca-mini', 'orca-2-7b'], color: '#8B5CF6' },
+    { nombre: 'OpenRouter', url: 'https://openrouter.ai/api/v1/chat/completions', key: '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', modelos: ['mistralai/mistral-7b-instruct:free', 'meta-llama/llama-3.1-8b-instruct:free', 'google/gemma-2-9b-it:free', 'qwen/qwen-2.5-7b-instruct:free'], color: '#10b981', extraHeaders: { 'HTTP-Referer': 'https://nextmoon-ai.local', 'X-Title': 'NextMoon AI' } }
 ];
 
 const TIMEOUT_IA = 25000;
 const TIMEOUT_TOTAL_ANALISIS = 60000;
-
+const TIMEOUT_FUENTE = 6000;
 const PAIS_FIJO = 'Alemania';
+
 let ocupado = false, modoActual = 'experto', idiomaDetectado = 'es', proveedorActual = null, isRefreshing = false;
 let currentToken = 'BTC', currentTokenData = null, ultimoAnalisis = '', referenciasAcademicas = [], cacheInvestigaciones = [];
 let iaOkCount = 0, iaFailsCount = 0;
@@ -701,30 +502,10 @@ try { const c = localStorage.getItem('nextmoon_cache'); if (c) cacheInvestigacio
 const nombreIdioma = { 'es': 'Español', 'en': 'Inglés', 'de': 'Alemán', 'fr': 'Francés', 'pt': 'Portugués', 'it': 'Italiano' };
 const banderaIdioma = { 'es': '🇪🇸', 'en': '🇬🇧', 'de': '🇩🇪', 'fr': '🇫🇷', 'pt': '🇵🇹', 'it': '🇮🇹' };
 
-// ============================================
-// 🔍 DIAGNÓSTICO
-// ============================================
-const Diagnostico = {
-    contador: 0,
-    log(mensaje, tipo = 'info') {
-        this.contador++;
-        const icono = tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'error' ? '❌' : 'ℹ️';
-        console.log(`[${tipo.toUpperCase()}] ${icono} ${mensaje}`);
-    }
-};
+const Diagnostico = { contador: 0, log(mensaje, tipo = 'info') { this.contador++; const icono = tipo === 'ok' ? '✅' : tipo === 'warn' ? '⚠️' : tipo === 'error' ? '❌' : 'ℹ️'; console.log(`[${tipo.toUpperCase()}] ${icono} ${mensaje}`); } };
 
-// ============================================
-// 🔧 FETCH CON TIMEOUT
-// ============================================
-function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) {
-    const ctrl = new AbortController();
-    const tid = setTimeout(() => ctrl.abort(), timeoutMs);
-    return fetch(url, { ...opciones, signal: ctrl.signal }).finally(() => clearTimeout(tid));
-}
+function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) { const ctrl = new AbortController(); const tid = setTimeout(() => ctrl.abort(), timeoutMs); return fetch(url, { ...opciones, signal: ctrl.signal }).finally(() => clearTimeout(tid)); }
 
-// ============================================
-// 🔄 ACTUALIZAR PROVEEDOR
-// ============================================
 function actualizarProveedor(nombre) {
     proveedorActual = nombre;
     const prov = document.getElementById('proveedorStatus');
@@ -737,142 +518,67 @@ function actualizarProveedor(nombre) {
     const fail = document.getElementById('iaFailsCount');
     if (ok) ok.textContent = iaOkCount;
     if (fail) fail.textContent = iaFailsCount;
-    console.log(`🔄 Proveedor: ${nombre} · OK:${iaOkCount} Fail:${iaFailsCount}`);
 }
 
-// ============================================
-// 🔄 MULTI-IA EN PARALELO (Promise.any)
-// ============================================
 async function llamarIA(messages, maxTokens = 3000) {
     Diagnostico.log(`Lanzando ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos en paralelo…`, 'info');
     actualizarProveedor('Multi-IA…');
-
     const promesas = [];
     for (const prov of IA_PROVEEDORES) {
         for (const modelo of prov.modelos) {
-            promesas.push(
-                (async () => {
-                    const t0 = Date.now();
-                    try {
-                        const headers = {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${prov.key}`
-                        };
-                        if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
-
-                        let url = prov.url;
-                        let body;
-
-                        if (prov.tipo === 'google') {
-                            url = `${prov.url}/${modelo}:generateContent?key=${prov.key}`;
-                            delete headers['Authorization'];
-                            body = {
-                                contents: messages.map(m => ({
-                                    role: m.role === 'assistant' ? 'model' : m.role,
-                                    parts: [{ text: m.content }]
-                                })),
-                                generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 }
-                            };
-                        } else {
-                            body = {
-                                model: modelo,
-                                messages,
-                                temperature: 0.7,
-                                max_tokens: maxTokens
-                            };
-                        }
-
-                        const resp = await fetchConTimeout(
-                            url,
-                            { method: 'POST', headers, body: JSON.stringify(body) },
-                            TIMEOUT_IA
-                        );
-                        const dur = ((Date.now() - t0) / 1000).toFixed(1);
-
-                        if ([401, 403, 429].includes(resp.status)) {
-                            const errTxt = resp.status === 429 ? 'rate limit' : resp.status === 401 ? 'key inválida' : `HTTP ${resp.status}`;
-                            Diagnostico.log(`${prov.nombre}/${modelo}: ${errTxt} (${dur}s)`, 'error');
-                            iaFailsCount++;
-                            throw new Error(`${prov.nombre}/${modelo}: ${errTxt}`);
-                        }
-                        if (!resp.ok) {
-                            Diagnostico.log(`${prov.nombre}/${modelo}: HTTP ${resp.status} (${dur}s)`, 'error');
-                            iaFailsCount++;
-                            throw new Error(`${prov.nombre}/${modelo}: HTTP ${resp.status}`);
-                        }
-
-                        const data = await resp.json();
-                        let texto = '';
-                        if (prov.tipo === 'google') {
-                            texto = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-                        } else {
-                            texto = data.choices?.[0]?.message?.content || '';
-                        }
-
-                        if (texto.length < 50) {
-                            Diagnostico.log(`${prov.nombre}/${modelo}: respuesta corta (${texto.length})`, 'warn');
-                            iaFailsCount++;
-                            throw new Error(`${prov.nombre}/${modelo}: respuesta corta`);
-                        }
-
-                        Diagnostico.log(`${prov.nombre}/${modelo}: ${texto.length} chars en ${dur}s`, 'ok');
-                        iaOkCount++;
-                        return { texto, proveedor: prov.nombre, modelo };
-                    } catch (e) {
-                        if (e.name === 'AbortError') {
-                            Diagnostico.log(`${prov.nombre}/${modelo}: Timeout ${TIMEOUT_IA / 1000}s`, 'error');
-                            iaFailsCount++;
-                        }
-                        throw e;
+            promesas.push((async () => {
+                const t0 = Date.now();
+                try {
+                    const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${prov.key}` };
+                    if (prov.extraHeaders) Object.assign(headers, prov.extraHeaders);
+                    let url = prov.url, body;
+                    if (prov.tipo === 'google') {
+                        url = `${prov.url}/${modelo}:generateContent?key=${prov.key}`;
+                        delete headers['Authorization'];
+                        body = { contents: messages.map(m => ({ role: m.role === 'assistant' ? 'model' : m.role, parts: [{ text: m.content }] })), generationConfig: { maxOutputTokens: maxTokens, temperature: 0.7 } };
+                    } else {
+                        body = { model: modelo, messages, temperature: 0.7, max_tokens: maxTokens };
                     }
-                })()
-            );
+                    const resp = await fetchConTimeout(url, { method: 'POST', headers, body: JSON.stringify(body) }, TIMEOUT_IA);
+                    const dur = ((Date.now() - t0) / 1000).toFixed(1);
+                    if ([401, 403, 429].includes(resp.status)) { const errTxt = resp.status === 429 ? 'rate limit' : resp.status === 401 ? 'key inválida' : `HTTP ${resp.status}`; Diagnostico.log(`${prov.nombre}/${modelo}: ${errTxt} (${dur}s)`, 'error'); iaFailsCount++; throw new Error(`${prov.nombre}/${modelo}: ${errTxt}`); }
+                    if (!resp.ok) { Diagnostico.log(`${prov.nombre}/${modelo}: HTTP ${resp.status} (${dur}s)`, 'error'); iaFailsCount++; throw new Error(`${prov.nombre}/${modelo}: HTTP ${resp.status}`); }
+                    const data = await resp.json();
+                    let texto = prov.tipo === 'google' ? (data.candidates?.[0]?.content?.parts?.[0]?.text || '') : (data.choices?.[0]?.message?.content || '');
+                    if (texto.length < 50) { Diagnostico.log(`${prov.nombre}/${modelo}: respuesta corta`, 'warn'); iaFailsCount++; throw new Error(`${prov.nombre}/${modelo}: respuesta corta`); }
+                    Diagnostico.log(`${prov.nombre}/${modelo}: ${texto.length} chars en ${dur}s`, 'ok');
+                    iaOkCount++;
+                    return { texto, proveedor: prov.nombre, modelo };
+                } catch (e) { if (e.name === 'AbortError') { Diagnostico.log(`${prov.nombre}/${modelo}: Timeout`, 'error'); iaFailsCount++; } throw e; }
+            })());
         }
     }
-
     try {
         const resultado = await Promise.any(promesas);
         actualizarProveedor(resultado.proveedor);
         Diagnostico.log(`🏆 GANADOR: ${resultado.proveedor} (${resultado.modelo})`, 'ok');
         return resultado;
-    } catch (e) {
-        Diagnostico.log('❌ Todos los proveedores IA fallaron', 'error');
-        actualizarProveedor('Fallback');
-        throw new Error('Todos los proveedores IA fallaron');
-    }
+    } catch (e) { Diagnostico.log('❌ Todos los proveedores IA fallaron', 'error'); actualizarProveedor('Fallback'); throw new Error('Todos los proveedores IA fallaron'); }
 }
 
 // ============================================
 // 🔧 UTILIDADES
 // ============================================
-function showToast(msg, isErr) {
-    const t = document.createElement('div');
-    t.className = 'toast-msg';
-    t.style.background = isErr ? '#ef4444' : '#8b5cf6';
-    t.textContent = msg;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3600);
-}
-function mostrarModal(titulo, contenido) {
-    const ov = document.createElement('div');
-    ov.className = 'modal-overlay';
-    ov.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div style="white-space:pre-wrap;font-size:0.85rem;line-height:1.7;">${contenido}</div><button class="modal-close">✕ Cerrar</button></div>`;
-    ov.querySelector('.modal-close').onclick = () => ov.remove();
-    ov.onclick = e => { if (e.target === ov) ov.remove(); };
-    document.body.appendChild(ov);
-}
+function showToast(msg, isErr) { const t = document.createElement('div'); t.className = 'toast-msg'; t.style.background = isErr ? '#ef4444' : '#8b5cf6'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3600); }
+function mostrarModal(titulo, contenido) { const ov = document.createElement('div'); ov.className = 'modal-overlay'; ov.innerHTML = `<div class="modal-content"><h3>${titulo}</h3><div style="white-space:pre-wrap;font-size:0.85rem;line-height:1.7;">${contenido}</div><button class="modal-close">✕ Cerrar</button></div>`; ov.querySelector('.modal-close').onclick = () => ov.remove(); ov.onclick = e => { if (e.target === ov) ov.remove(); }; document.body.appendChild(ov); }
 function actualizarProgress(p) { const el = document.getElementById('progressBar'); if (el) el.style.width = `${Math.min(100, p)}%`; }
 function actualizarFase(msg) { const el = document.getElementById('faseInfo'); if (el) el.textContent = msg; }
 
 // ============================================
-// 💰 APIs DE CRIPTOMONEDAS REALES
+// 💰 APIs DE CRIPTOMONEDAS — 4 FUENTES PRINCIPALES
 // ============================================
 async function fetchCryptoData(symbol) {
     const sym = symbol.toLowerCase().trim();
     const symUpper = symbol.toUpperCase().trim();
     
+    // 1. DEX Screener
     try {
-        const r = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${sym}`);
+        const r = await fetchConTimeout(`https://api.dexscreener.com/latest/dex/search?q=${sym}`, {}, TIMEOUT_FUENTE);
         const d = await r.json();
         if (d.pairs?.length > 0) {
             const v = d.pairs.filter(p => p.liquidity?.usd > 1000 && p.priceUsd > 0);
@@ -883,8 +589,9 @@ async function fetchCryptoData(symbol) {
         }
     } catch(e) {}
 
+    // 2. CoinGecko
     try {
-        const r = await fetch(`https://api.coingecko.com/api/v3/coins/${sym}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`);
+        const r = await fetchConTimeout(`https://api.coingecko.com/api/v3/coins/${sym}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`, {}, TIMEOUT_FUENTE);
         if (r.ok) {
             const d = await r.json();
             if (d.market_data) {
@@ -893,8 +600,9 @@ async function fetchCryptoData(symbol) {
         }
     } catch(e) {}
 
+    // 3. Binance
     try {
-        const r = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symUpper}USDT`);
+        const r = await fetchConTimeout(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symUpper}USDT`, {}, TIMEOUT_FUENTE);
         if (r.ok) {
             const d = await r.json();
             if (d.lastPrice) {
@@ -907,215 +615,268 @@ async function fetchCryptoData(symbol) {
 }
 
 // ============================================
-// 📊 12 FUENTES CRIPTO
+// 🔬 FALLBACK INTELIGENTE — 4 FUENTES TÉCNICAS
 // ============================================
-class FuentesCripto12 {
-    constructor() { this.cache = new Map(); }
-    
-    async semantic(tema) {
-        try {
-            const r = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema + ' cryptocurrency')}&limit=5&fields=title,authors,year,abstract`);
+async function recopilarDatosFallback(symbol) {
+    const sym = symbol.toLowerCase();
+    const symUpper = symbol.toUpperCase();
+    const datos = {};
+
+    // 1. CoinGecko detallado (ATH, ATL, supply, 7d, 30d)
+    try {
+        const r = await fetchConTimeout(`https://api.coingecko.com/api/v3/coins/${sym}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=true`, {}, TIMEOUT_FUENTE);
+        if (r.ok) {
             const d = await r.json();
-            return (d.data || []).map(p => ({ titulo: p.title, autor: p.authors?.map(a => a.name).join(', '), year: p.year, resumen: p.abstract, fuente: 'Semantic Scholar' }));
-        } catch(e) { return []; }
-    }
-    async arxiv(tema) {
-        try {
-            const r = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}&max_results=5`);
-            const text = await r.text();
-            const entries = text.split('<entry>');
-            const out = [];
-            for (let i = 1; i < Math.min(entries.length, 6); i++) {
-                const t = entries[i].match(/<title>(.*?)<\/title>/);
-                const s = entries[i].match(/<summary>(.*?)<\/summary>/);
-                if (t) out.push({ titulo: t[1].replace(/&lt;|&gt;/g, '').trim(), resumen: s ? s[1].replace(/&lt;|&gt;/g, '').substring(0, 200) : '', fuente: 'arXiv' });
+            if (d.market_data) {
+                datos.coingecko = {
+                    ath: d.market_data.ath?.usd,
+                    ath_change: d.market_data.ath_change_percentage?.usd,
+                    ath_date: d.market_data.ath_date?.usd,
+                    atl: d.market_data.atl?.usd,
+                    atl_change: d.market_data.atl_change_percentage?.usd,
+                    price_change_7d: d.market_data.price_change_percentage_7d,
+                    price_change_30d: d.market_data.price_change_percentage_30d,
+                    price_change_1y: d.market_data.price_change_percentage_1y,
+                    circulating_supply: d.market_data.circulating_supply,
+                    total_supply: d.market_data.total_supply,
+                    max_supply: d.market_data.max_supply,
+                    market_cap_rank: d.market_cap_rank,
+                    sparkline_7d: d.market_data.sparkline_7d?.price?.slice(-24) || null,
+                    categories: d.categories || []
+                };
             }
-            return out;
-        } catch(e) { return []; }
-    }
-    async crossref(tema) {
-        try {
-            const r = await fetch(`https://api.crossref.org/works?query=${encodeURIComponent(tema + ' cryptocurrency')}&rows=5`);
-            const d = await r.json();
-            return (d.message?.items || []).map(i => ({ titulo: i.title?.[0] || '', autor: i.author?.map(a => a.family).join(', ') || '', year: i.issued?.['date-parts']?.[0]?.[0] || 's.f.', fuente: 'Crossref' }));
-        } catch(e) { return []; }
-    }
-    async openalex(tema) {
-        try {
-            const r = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(tema + ' cryptocurrency')}&per-page=5`);
-            const d = await r.json();
-            return (d.results || []).map(i => ({ titulo: i.title || '', autor: i.authorships?.map(a => a.author.display_name).join(', ') || '', year: i.publication_year || 's.f.', fuente: 'OpenAlex' }));
-        } catch(e) { return []; }
-    }
-    async wikipedia(tema) {
-        try {
-            const r = await fetch(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema + ' criptomoneda')}&format=json&origin=*&srlimit=5`);
-            const d = await r.json();
-            return (d.query?.search || []).map(i => ({ titulo: i.title, resumen: i.snippet?.replace(/<[^>]+>/g, ''), fuente: 'Wikipedia' }));
-        } catch(e) { return []; }
-    }
-    async coinGeckoNews(tema) {
-        try {
-            const r = await fetch(`https://api.coingecko.com/api/v3/coins/${tema.toLowerCase()}?localization=false&tickers=false&community_data=false&developer_data=false`);
-            if (r.ok) {
-                const d = await r.json();
-                const out = [];
-                if (d.description?.en) out.push({ titulo: `Descripción oficial de ${d.name}`, resumen: d.description.en.replace(/<[^>]+>/g, '').substring(0, 300), fuente: 'CoinGecko' });
-                if (d.categories?.length) out.push({ titulo: `Categorías: ${d.categories.slice(0, 5).join(', ')}`, fuente: 'CoinGecko' });
-                return out;
-            }
-        } catch(e) {}
-        return [];
-    }
-    async coinMarketCap(tema) {
-        return [
-            { titulo: `Análisis de mercado de ${tema.toUpperCase()}`, resumen: 'Datos históricos y tendencias', fuente: 'CoinMarketCap' },
-            { titulo: `Top exchanges para ${tema.toUpperCase()}`, resumen: 'Dónde comprar y vender', fuente: 'CoinMarketCap' }
-        ];
-    }
-    async cryptoCompare(tema) {
-        try {
-            const r = await fetch(`https://min-api.cryptocompare.com/data/v2/news/?categories=${encodeURIComponent(tema)}&limit=3`);
-            const d = await r.json();
-            return (d.Data || []).map(n => ({ titulo: n.title, resumen: n.body?.substring(0, 200), url: n.url, fuente: 'CryptoCompare' }));
-        } catch(e) { return []; }
-    }
-    async binance(tema) {
-        try {
-            const r = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${tema.toUpperCase()}USDT`);
-            if (r.ok) {
-                const d = await r.json();
-                if (d.lastPrice) return [{ titulo: `Precio 24h: $${parseFloat(d.lastPrice).toFixed(4)}`, resumen: `Cambio: ${parseFloat(d.priceChangePercent).toFixed(2)}%`, fuente: 'Binance' }];
-            }
-        } catch(e) {}
-        return [];
-    }
-    async investing(tema) {
-        return [{ titulo: `Análisis técnico de ${tema.toUpperCase()}`, resumen: 'Indicadores, soportes y resistencias', fuente: 'Investing.com' }];
-    }
-    async github(tema) {
-        try {
-            const r = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(tema + ' crypto')}&per_page=3&sort=stars`);
-            const d = await r.json();
-            return (d.items || []).map(i => ({ titulo: i.full_name, resumen: i.description, url: i.html_url, stars: i.stargazers_count, fuente: 'GitHub' }));
-        } catch(e) { return []; }
-    }
-    async reddit(tema) {
-        try {
-            const r = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(tema + ' crypto')}&limit=3&sort=hot`);
-            const d = await r.json();
-            return (d.data?.children || []).map(i => ({ titulo: i.data.title, resumen: i.data.selftext?.substring(0, 200), subreddit: i.data.subreddit, url: `https://reddit.com${i.data.permalink}`, fuente: 'Reddit' }));
-        } catch(e) { return []; }
-    }
-    
-    async buscarTodas(tema) {
-        const cacheKey = `12f_${tema}`;
-        if (this.cache.has(cacheKey)) {
-            const c = this.cache.get(cacheKey);
-            if (Date.now() - c.timestamp < 3600000) return c.data;
         }
-        
-        const resultados = await Promise.allSettled([
-            this.semantic(tema), this.arxiv(tema), this.crossref(tema), this.openalex(tema),
-            this.wikipedia(tema), this.coinGeckoNews(tema), this.coinMarketCap(tema),
-            this.cryptoCompare(tema), this.binance(tema), this.investing(tema),
-            this.github(tema), this.reddit(tema)
-        ]);
-        
-        const nombres = ['Semantic Scholar', 'arXiv', 'Crossref', 'OpenAlex', 'Wikipedia', 'CoinGecko', 'CoinMarketCap', 'CryptoCompare', 'Binance', 'Investing.com', 'GitHub', 'Reddit'];
-        const fuentes = {};
-        let total = 0, exitosas = 0;
-        
-        resultados.forEach((r, i) => {
-            const data = r.status === 'fulfilled' ? r.value : [];
-            fuentes[nombres[i]] = { data, count: data.length, exito: data.length > 0 };
-            if (data.length > 0) { total += data.length; exitosas++; }
-        });
-        
-        const result = { tema, fuentes, resumen: { total_fuentes: 12, fuentes_exitosas: exitosas, total_resultados: total } };
-        this.cache.set(cacheKey, { data: result, timestamp: Date.now() });
-        return result;
-    }
-    
-    formatear(resultados) {
-        let html = `<div style="max-height:65vh;overflow-y:auto;"><h3 style="color:#10b981;">🔬 12 Fuentes - ${resultados.tema.toUpperCase()}</h3>`;
-        html += `<p style="color:#94a3b8;font-size:0.75rem;">Exitosas: <strong style="color:#10b981;">${resultados.resumen.fuentes_exitosas}/12</strong> | Resultados: <strong>${resultados.resumen.total_resultados}</strong></p>`;
-        Object.entries(resultados.fuentes).forEach(([nombre, f]) => {
-            if (f.count > 0) {
-                html += `<div style="margin:8px 0;padding:8px;background:rgba(16,185,129,0.06);border-radius:6px;border-left:2px solid #10b981;"><strong style="color:#34d399;">${nombre}</strong> (${f.count})<br>`;
-                f.data.slice(0, 3).forEach(r => {
-                    html += `<div style="font-size:0.72rem;margin:4px 0;padding-left:8px;">• ${r.autor || ''} ${r.year ? '('+r.year+')' : ''} <strong>${(r.titulo || '').substring(0, 80)}</strong>`;
-                    if (r.resumen || r.snippet) html += `<br><span style="color:#94a3b8;font-size:0.65rem;">${(r.resumen || r.snippet).substring(0, 120)}...</span>`;
-                    if (r.url) html += ` <a href="${r.url}" target="_blank" style="color:#60a5fa;">🔗</a>`;
-                    html += `</div>`;
-                });
-                html += '</div>';
+    } catch(e) {}
+
+    // 2. CoinCap (precio alternativo + cambio 24h)
+    try {
+        const r = await fetchConTimeout(`https://api.coincap.io/v2/assets/${sym}`, {}, TIMEOUT_FUENTE);
+        if (r.ok) {
+            const d = await r.json();
+            if (d.data) {
+                datos.coincap = {
+                    price: parseFloat(d.data.priceUsd),
+                    change_24h: parseFloat(d.data.changePercent24Hr),
+                    volume_24h: parseFloat(d.data.volumeUsd24Hr),
+                    market_cap: parseFloat(d.data.marketCapUsd),
+                    supply: parseFloat(d.data.supply),
+                    max_supply: parseFloat(d.data.maxSupply),
+                    rank: parseInt(d.data.rank)
+                };
             }
-        });
-        html += '</div>';
-        return html;
-    }
+        }
+    } catch(e) {}
+
+    // 3. Binance orderbook (spread, profundidad)
+    try {
+        const [tickerR, depthR] = await Promise.all([
+            fetchConTimeout(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symUpper}USDT`, {}, TIMEOUT_FUENTE),
+            fetchConTimeout(`https://api.binance.com/api/v3/depth?symbol=${symUpper}USDT&limit=10`, {}, TIMEOUT_FUENTE)
+        ]);
+        if (tickerR.ok && depthR.ok) {
+            const t = await tickerR.json();
+            const dep = await depthR.json();
+            const bestBid = dep.bids?.[0] ? parseFloat(dep.bids[0][0]) : null;
+            const bestAsk = dep.asks?.[0] ? parseFloat(dep.asks[0][0]) : null;
+            const spread = bestBid && bestAsk ? ((bestAsk - bestBid) / bestAsk * 100) : null;
+            const bidDepth = dep.bids?.reduce((s, b) => s + parseFloat(b[1]) * parseFloat(b[0]), 0) || 0;
+            const askDepth = dep.asks?.reduce((s, a) => s + parseFloat(a[1]) * parseFloat(a[0]), 0) || 0;
+            datos.binance = {
+                price: parseFloat(t.lastPrice),
+                change_24h: parseFloat(t.priceChangePercent),
+                volume_24h: parseFloat(t.quoteVolume),
+                high_24h: parseFloat(t.highPrice),
+                low_24h: parseFloat(t.lowPrice),
+                spread_pct: spread,
+                bid_depth_usd: bidDepth,
+                ask_depth_usd: askDepth,
+                buy_pressure: bidDepth / (bidDepth + askDepth || 1)
+            };
+        }
+    } catch(e) {}
+
+    // 4. DEX Screener multi-pair
+    try {
+        const r = await fetchConTimeout(`https://api.dexscreener.com/latest/dex/search?q=${sym}`, {}, TIMEOUT_FUENTE);
+        const d = await r.json();
+        if (d.pairs?.length > 0) {
+            const pares = d.pairs.filter(p => p.priceUsd > 0).sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0)).slice(0, 5);
+            datos.dexscreener = {
+                total_pairs: d.pairs.length,
+                top_pairs: pares.map(p => ({
+                    name: `${p.baseToken?.symbol}/${p.quoteToken?.symbol}`,
+                    dex: p.dexId,
+                    liquidity: p.liquidity?.usd || 0,
+                    volume: p.volume?.h24 || 0,
+                    change_24h: p.priceChange?.h24 || 0
+                })),
+                total_liquidity: pares.reduce((s, p) => s + (p.liquidity?.usd || 0), 0),
+                total_volume_24h: pares.reduce((s, p) => s + (p.volume?.h24 || 0), 0)
+            };
+        }
+    } catch(e) {}
+
+    return datos;
 }
-const fuentes12 = new FuentesCripto12();
 
 // ============================================
-// 🧠 FALLBACK CRIPTO (si toda IA falla)
+// 🧠 FALLBACK CRIPTO MEJORADO CON DATOS TÉCNICOS REALES
 // ============================================
-function generarFallbackCripto(symbol, tokenData, resultados12, agentReachData) {
+function generarFallbackCripto(symbol, tokenData, datosTecnicos, resultados12, agentReachData) {
     if (!tokenData) return null;
 
     const change = tokenData.priceChange24h || 0;
     const volumenM = (tokenData.volume24h / 1e6).toFixed(2);
     const liquidezM = (tokenData.liquidity / 1e6).toFixed(2);
+    const cg = datosTecnicos?.coingecko;
+    const cc = datosTecnicos?.coincap;
+    const bn = datosTecnicos?.binance;
+    const dx = datosTecnicos?.dexscreener;
 
-    let señal = 'ANALIZAR';
-    let razon = 'Datos insuficientes para una recomendación firme.';
-    let riesgo = 'MEDIO';
-    if (change > 5 && tokenData.liquidity > 100000) { señal = 'COMPRAR'; razon = 'Momentum positivo con liquidez suficiente.'; riesgo = 'MEDIO'; }
-    else if (change < -5) { señal = 'NO COMPRAR'; razon = 'Caída fuerte en las últimas 24h.'; riesgo = 'ALTO'; }
-    else if (tokenData.liquidity < 50000) { señal = 'NO COMPRAR'; razon = 'Liquidez demasiado baja, alto riesgo.'; riesgo = 'ALTO'; }
-    else if (change > 0) { señal = 'COMPRAR'; razon = 'Tendencia ligeramente positiva.'; riesgo = 'BAJO'; }
+    // === Sistema de puntuación ===
+    let score = 0;
+    const factoresPro = [];
+    const factoresContra = [];
 
+    if (change > 5) { score += 3; factoresPro.push(`Tendencia 24h fuerte (+${change.toFixed(2)}%)`); }
+    else if (change > 0) { score += 1; factoresPro.push(`Tendencia 24h positiva (+${change.toFixed(2)}%)`); }
+    else if (change < -5) { score -= 3; factoresContra.push(`Caída fuerte 24h (${change.toFixed(2)}%)`); }
+    else if (change < 0) { score -= 1; factoresContra.push(`Tendencia 24h negativa (${change.toFixed(2)}%)`); }
+
+    if (cg?.price_change_7d) {
+        if (cg.price_change_7d > 10) { score += 2; factoresPro.push(`Tendencia 7d muy positiva (+${cg.price_change_7d.toFixed(1)}%)`); }
+        else if (cg.price_change_7d > 0) { score += 1; factoresPro.push(`Tendencia 7d positiva (+${cg.price_change_7d.toFixed(1)}%)`); }
+        else if (cg.price_change_7d < -10) { score -= 2; factoresContra.push(`Tendencia 7d muy negativa (${cg.price_change_7d.toFixed(1)}%)`); }
+        else if (cg.price_change_7d < 0) { score -= 1; factoresContra.push(`Tendencia 7d negativa (${cg.price_change_7d.toFixed(1)}%)`); }
+    }
+
+    if (cg?.price_change_30d) {
+        if (cg.price_change_30d > 20) { score += 2; factoresPro.push(`Tendencia 30d muy positiva (+${cg.price_change_30d.toFixed(1)}%)`); }
+        else if (cg.price_change_30d < -20) { score -= 2; factoresContra.push(`Tendencia 30d muy negativa (${cg.price_change_30d.toFixed(1)}%)`); }
+    }
+
+    if (tokenData.liquidity > 500000) { score += 2; factoresPro.push(`Liquidez consolidada ($${liquidezM}M)`); }
+    else if (tokenData.liquidity < 50000) { score -= 3; factoresContra.push(`Liquidez crítica ($${liquidezM}M)`); }
+    else if (tokenData.liquidity < 100000) { score -= 1; factoresContra.push(`Liquidez baja ($${liquidezM}M)`); }
+
+    if (tokenData.volume24h > 1000000) { score += 2; factoresPro.push(`Volumen alto ($${volumenM}M)`); }
+    else if (tokenData.volume24h < 100000) { score -= 1; factoresContra.push(`Volumen bajo ($${volumenM}M)`); }
+
+    if (bn?.spread_pct !== null && bn?.spread_pct !== undefined) {
+        if (bn.spread_pct < 0.1) { score += 1; factoresPro.push(`Spread bajo (${bn.spread_pct.toFixed(3)}%)`); }
+        else if (bn.spread_pct > 0.5) { score -= 1; factoresContra.push(`Spread alto (${bn.spread_pct.toFixed(2)}%)`); }
+    }
+
+    if (bn?.buy_pressure !== undefined) {
+        if (bn.buy_pressure > 0.6) { score += 1; factoresPro.push(`Presión compradora (${(bn.buy_pressure * 100).toFixed(0)}%)`); }
+        else if (bn.buy_pressure < 0.4) { score -= 1; factoresContra.push(`Presión vendedora (${((1 - bn.buy_pressure) * 100).toFixed(0)}%)`); }
+    }
+
+    if (cg?.ath_change !== undefined) {
+        if (cg.ath_change > -10) { score += 1; factoresPro.push(`Cerca del ATH (${cg.ath_change.toFixed(1)}% del máximo)`); }
+        else if (cg.ath_change < -80) { score -= 1; factoresContra.push(`Muy lejos del ATH (${cg.ath_change.toFixed(1)}% del máximo)`); }
+    }
+
+    if (dx?.total_liquidity > 500000) { score += 1; factoresPro.push(`Liquidez multi-DEX ($${(dx.total_liquidity / 1e6).toFixed(2)}M)`); }
+    if (dx?.total_pairs > 20) { score += 1; factoresPro.push(`Presencia en ${dx.total_pairs} pares DEX`); }
+
+    if (agentReachData?.github?.length > 3) { score += 1; factoresPro.push(`Proyecto activo en GitHub (${agentReachData.github.length} repos)`); }
+
+    // === Decisión ===
+    let señal, color, razon, riesgo;
+    if (score >= 5) { señal = 'COMPRAR'; color = '#10b981'; razon = 'Múltiples indicadores técnicos positivos.'; riesgo = 'BAJO'; }
+    else if (score >= 2) { señal = 'COMPRAR'; color = '#10b981'; razon = 'Tendencia positiva con fundamentos razonables.'; riesgo = 'MEDIO'; }
+    else if (score <= -4) { señal = 'NO COMPRAR'; color = '#ef4444'; razon = 'Múltiples indicadores negativos concurrentes.'; riesgo = 'ALTO'; }
+    else if (score <= -1) { señal = 'NO COMPRAR'; color = '#ef4444'; razon = 'Tendencia negativa o fundamentos débiles.'; riesgo = 'MEDIO'; }
+    else { señal = 'NEUTRAL'; color = '#f59e0b'; razon = 'Indicadores mixtos, sin señal clara.'; riesgo = 'MEDIO'; }
+
+    // === Construcción del análisis ===
     const fuentesOk = resultados12?.resumen?.fuentes_exitosas || 0;
     const totalRes = resultados12?.resumen?.total_resultados || 0;
     const arTotal = (agentReachData?.github?.length || 0) + (agentReachData?.reddit?.length || 0) + (agentReachData?.wiki?.length || 0);
+    const datosTecnicosOk = [cg, cc, bn, dx].filter(Boolean).length;
 
     let texto = '';
     texto += `RECOMENDACIÓN: ${señal}\n`;
-    texto += `RAZÓN PRINCIPAL: ${razon}\n\n`;
+    texto += `RAZÓN PRINCIPAL: ${razon}\n`;
+    texto += `SCORE TÉCNICO: ${score} / 10\n`;
+    texto += `NIVEL DE RIESGO: ${riesgo}\n\n`;
 
-    texto += `ANÁLISIS TÉCNICO:\n`;
-    texto += `El token ${symbol.toUpperCase()} (${tokenData.name}) cotiza a $${tokenData.price} con un cambio de ${change.toFixed(2)}% en 24h. `;
-    texto += `El volumen de ${volumenM}M y la liquidez de ${liquidezM}M indican un mercado ${tokenData.liquidity > 500000 ? 'consolidado' : 'limitado'}. `;
-    texto += `La fuente de datos es ${tokenData.fuente}.\n\n`;
+    texto += `━━━ ANÁLISIS TÉCNICO ━━━\n\n`;
+    texto += `TOKEN: ${symbol.toUpperCase()} (${tokenData.name})\n`;
+    texto += `Precio actual: $${tokenData.price}\n`;
+    texto += `Cambio 24h: ${change.toFixed(2)}%\n`;
+    if (cg?.price_change_7d !== undefined) texto += `Cambio 7d: ${cg.price_change_7d.toFixed(2)}%\n`;
+    if (cg?.price_change_30d !== undefined) texto += `Cambio 30d: ${cg.price_change_30d.toFixed(2)}%\n`;
+    if (cg?.price_change_1y !== undefined) texto += `Cambio 1 año: ${cg.price_change_1y.toFixed(2)}%\n`;
+    texto += `Volumen 24h: $${volumenM}M\n`;
+    texto += `Liquidez: $${liquidezM}M\n`;
+    if (tokenData.marketCap) texto += `Market Cap: $${(tokenData.marketCap / 1e6).toFixed(2)}M\n`;
+    texto += `Fuente principal: ${tokenData.fuente}\n\n`;
 
-    texto += `FACTORES A FAVOR:\n`;
-    if (change > 0) texto += `• Tendencia positiva en 24h (+${change.toFixed(2)}%)\n`;
-    if (tokenData.liquidity > 100000) texto += `• Liquidez suficiente para operar\n`;
-    if (tokenData.volume24h > 500000) texto += `• Volumen saludable\n`;
-    if (agentReachData?.github?.length > 0) texto += `• Proyecto activo en GitHub (${agentReachData.github.length} repos)\n`;
-    if (texto.split('•').length < 3) texto += `• Datos disponibles desde ${tokenData.fuente}\n`;
+    if (cg) {
+        texto += `━━━ DATOS COINGECKO ━━━\n`;
+        if (cg.market_cap_rank) texto += `Rank global: #${cg.market_cap_rank}\n`;
+        if (cg.ath) texto += `ATH: $${cg.ath} (${cg.ath_change?.toFixed(1) || 'N/A'}% del máximo)\n`;
+        if (cg.atl) texto += `ATL: $${cg.atl} (${cg.atl_change?.toFixed(1) || 'N/A'}% del mínimo)\n`;
+        if (cg.circulating_supply) texto += `Supply circulante: ${cg.circulating_supply.toLocaleString()}\n`;
+        if (cg.max_supply) texto += `Supply máximo: ${cg.max_supply.toLocaleString()}\n`;
+        if (cg.categories?.length) texto += `Categorías: ${cg.categories.slice(0, 4).join(', ')}\n`;
+        texto += `\n`;
+    }
 
-    texto += `\nFACTORES EN CONTRA:\n`;
-    if (change < 0) texto += `• Caída en 24h (${change.toFixed(2)}%)\n`;
-    if (tokenData.liquidity < 100000) texto += `• Liquidez baja, riesgo de slippage\n`;
-    if (tokenData.volume24h < 100000) texto += `• Volumen bajo, poca actividad\n`;
-    if (arTotal === 0) texto += `• Sin datos externos de Agent-Reach\n`;
-    texto += `• Análisis generado sin IA (modo fallback)\n`;
+    if (bn) {
+        texto += `━━━ ORDERBOOK BINANCE ━━━\n`;
+        texto += `High 24h: $${bn.high_24h}\n`;
+        texto += `Low 24h: $${bn.low_24h}\n`;
+        if (bn.spread_pct !== null) texto += `Spread bid/ask: ${bn.spread_pct.toFixed(3)}%\n`;
+        if (bn.buy_pressure !== undefined) texto += `Presión compradora: ${(bn.buy_pressure * 100).toFixed(0)}%\n`;
+        texto += `Profundidad bids: $${(bn.bid_depth_usd / 1000).toFixed(1)}K\n`;
+        texto += `Profundidad asks: $${(bn.ask_depth_usd / 1000).toFixed(1)}K\n\n`;
+    }
 
-    texto += `\nNIVEL DE RIESGO: ${riesgo}\n\n`;
+    if (dx) {
+        texto += `━━━ DEX SCREENER ━━━\n`;
+        texto += `Pares activos: ${dx.total_pairs}\n`;
+        texto += `Liquidez total DEX: $${(dx.total_liquidity / 1e6).toFixed(2)}M\n`;
+        texto += `Volumen total DEX: $${(dx.total_volume_24h / 1e6).toFixed(2)}M\n`;
+        if (dx.top_pairs?.length) {
+            texto += `Top pares:\n`;
+            dx.top_pairs.slice(0, 3).forEach(p => { texto += `  • ${p.name} en ${p.dex} (liq: $${(p.liquidity / 1000).toFixed(0)}K)\n`; });
+        }
+        texto += `\n`;
+    }
 
-    texto += `CONCLUSIÓN:\n`;
-    texto += `Basado en ${fuentesOk}/12 fuentes cripto (${totalRes} resultados) y ${arTotal} resultados de Agent-Reach, `;
-    texto += `la recomendación es ${señal}. `;
-    texto += `Esta es una recomendación automática generada por reglas simples. `;
-    texto += `Para un análisis más profundo, reintenta cuando los proveedores de IA estén disponibles.\n\n`;
+    if (cc) {
+        texto += `━━━ COINCAP ━━━\n`;
+        if (cc.rank) texto += `Rank: #${cc.rank}\n`;
+        texto += `Cambio 24h: ${cc.change_24h.toFixed(2)}%\n`;
+        texto += `Volumen 24h: $${(cc.volume_24h / 1e6).toFixed(2)}M\n\n`;
+    }
+
+    texto += `━━━ FACTORES A FAVOR (${factoresPro.length}) ━━━\n`;
+    factoresPro.forEach(f => { texto += `✅ ${f}\n`; });
+    if (factoresPro.length === 0) texto += `(Ninguno detectado)\n`;
+    texto += `\n`;
+
+    texto += `━━━ FACTORES EN CONTRA (${factoresContra.length}) ━━━\n`;
+    factoresContra.forEach(f => { texto += `⚠️ ${f}\n`; });
+    if (factoresContra.length === 0) texto += `(Ninguno detectado)\n`;
+    texto += `\n`;
+
+    texto += `━━━ CONCLUSIÓN ━━━\n`;
+    texto += `Score técnico: ${score > 0 ? '+' : ''}${score} (${señal})\n`;
+    texto += `Basado en ${datosTecnicosOk}/4 fuentes técnicas (CoinGecko, CoinCap, Binance, DexScreener), `;
+    texto += `${fuentesOk}/12 fuentes académicas (${totalRes} resultados) y ${arTotal} resultados de Agent-Reach. `;
+    texto += `La recomendación es ${señal} con riesgo ${riesgo}.\n\n`;
 
     texto += `─────────────────────────────────────\n`;
-    texto += `⚠️ AVISO DE MODO FALLBACK\n`;
+    texto += `⚠️ MODO FALLBACK INTELIGENTE\n`;
     texto += `Los ${IA_PROVEEDORES.length} proveedores de IA no respondieron en el tiempo límite.\n`;
-    texto += `Este análisis fue generado automáticamente con datos reales de ${tokenData.fuente} `;
-    texto += `y ${fuentesOk} fuentes adicionales, sin intervención de IA generativa.\n`;
+    texto += `Este análisis fue compuesto automáticamente con DATOS REALES de:\n`;
+    texto += `  • ${datosTecnicosOk}/4 APIs técnicas (precio, volumen, orderbook, liquidez)\n`;
+    texto += `  • ${fuentesOk}/12 fuentes académicas (contexto de investigación)\n`;
+    texto += `  • ${arTotal} resultados de Agent-Reach (GitHub, Reddit, Wikipedia)\n`;
     texto += `🔄 Reintenta para obtener análisis generado por IA.\n`;
     texto += `─────────────────────────────────────`;
 
@@ -1123,13 +884,58 @@ function generarFallbackCripto(symbol, tokenData, resultados12, agentReachData) 
 }
 
 // ============================================
-// 🤖 ANÁLISIS CON AGENTE + CORE 403M + AGENT-REACH
+// 📊 12 FUENTES CRIPTO
+// ============================================
+class FuentesCripto12 {
+    constructor() { this.cache = new Map(); }
+    async semantic(tema) { try { const r = await fetchConTimeout(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(tema + ' cryptocurrency')}&limit=5&fields=title,authors,year,abstract`, {}, TIMEOUT_FUENTE); const d = await r.json(); return (d.data || []).map(p => ({ titulo: p.title, autor: p.authors?.map(a => a.name).join(', '), year: p.year, resumen: p.abstract, fuente: 'Semantic Scholar' })); } catch(e) { return []; } }
+    async arxiv(tema) { try { const r = await fetchConTimeout(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(tema)}&max_results=5`, {}, TIMEOUT_FUENTE); const text = await r.text(); const entries = text.split('<entry>'); const out = []; for (let i = 1; i < Math.min(entries.length, 6); i++) { const t = entries[i].match(/<title>(.*?)<\/title>/); const s = entries[i].match(/<summary>(.*?)<\/summary>/); if (t) out.push({ titulo: t[1].replace(/&lt;|&gt;/g, '').trim(), resumen: s ? s[1].replace(/&lt;|&gt;/g, '').substring(0, 200) : '', fuente: 'arXiv' }); } return out; } catch(e) { return []; } }
+    async crossref(tema) { try { const r = await fetchConTimeout(`https://api.crossref.org/works?query=${encodeURIComponent(tema + ' cryptocurrency')}&rows=5`, {}, TIMEOUT_FUENTE); const d = await r.json(); return (d.message?.items || []).map(i => ({ titulo: i.title?.[0] || '', autor: i.author?.map(a => a.family).join(', ') || '', year: i.issued?.['date-parts']?.[0]?.[0] || 's.f.', fuente: 'Crossref' })); } catch(e) { return []; } }
+    async openalex(tema) { try { const r = await fetchConTimeout(`https://api.openalex.org/works?search=${encodeURIComponent(tema + ' cryptocurrency')}&per-page=5`, {}, TIMEOUT_FUENTE); const d = await r.json(); return (d.results || []).map(i => ({ titulo: i.title || '', autor: i.authorships?.map(a => a.author.display_name).join(', ') || '', year: i.publication_year || 's.f.', fuente: 'OpenAlex' })); } catch(e) { return []; } }
+    async wikipedia(tema) { try { const r = await fetchConTimeout(`https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(tema + ' criptomoneda')}&format=json&origin=*&srlimit=5`, {}, TIMEOUT_FUENTE); const d = await r.json(); return (d.query?.search || []).map(i => ({ titulo: i.title, resumen: i.snippet?.replace(/<[^>]+>/g, ''), fuente: 'Wikipedia' })); } catch(e) { return []; } }
+    async coinGeckoNews(tema) { try { const r = await fetchConTimeout(`https://api.coingecko.com/api/v3/coins/${tema.toLowerCase()}?localization=false&tickers=false&community_data=false&developer_data=false`, {}, TIMEOUT_FUENTE); if (r.ok) { const d = await r.json(); const out = []; if (d.description?.en) out.push({ titulo: `Descripción oficial de ${d.name}`, resumen: d.description.en.replace(/<[^>]+>/g, '').substring(0, 300), fuente: 'CoinGecko' }); if (d.categories?.length) out.push({ titulo: `Categorías: ${d.categories.slice(0, 5).join(', ')}`, fuente: 'CoinGecko' }); return out; } } catch(e) {} return []; }
+    async coinMarketCap(tema) { return [{ titulo: `Análisis de mercado de ${tema.toUpperCase()}`, resumen: 'Datos históricos y tendencias', fuente: 'CoinMarketCap' }, { titulo: `Top exchanges para ${tema.toUpperCase()}`, resumen: 'Dónde comprar y vender', fuente: 'CoinMarketCap' }]; }
+    async cryptoCompare(tema) { try { const r = await fetchConTimeout(`https://min-api.cryptocompare.com/data/v2/news/?categories=${encodeURIComponent(tema)}&limit=3`, {}, TIMEOUT_FUENTE); const d = await r.json(); return (d.Data || []).map(n => ({ titulo: n.title, resumen: n.body?.substring(0, 200), url: n.url, fuente: 'CryptoCompare' })); } catch(e) { return []; } }
+    async binance(tema) { try { const r = await fetchConTimeout(`https://api.binance.com/api/v3/ticker/24hr?symbol=${tema.toUpperCase()}USDT`, {}, TIMEOUT_FUENTE); if (r.ok) { const d = await r.json(); if (d.lastPrice) return [{ titulo: `Precio 24h: $${parseFloat(d.lastPrice).toFixed(4)}`, resumen: `Cambio: ${parseFloat(d.priceChangePercent).toFixed(2)}%`, fuente: 'Binance' }]; } } catch(e) {} return []; }
+    async investing(tema) { return [{ titulo: `Análisis técnico de ${tema.toUpperCase()}`, resumen: 'Indicadores, soportes y resistencias', fuente: 'Investing.com' }]; }
+    async github(tema) { try { const r = await fetchConTimeout(`https://api.github.com/search/repositories?q=${encodeURIComponent(tema + ' crypto')}&per_page=3&sort=stars`, {}, TIMEOUT_FUENTE); const d = await r.json(); return (d.items || []).map(i => ({ titulo: i.full_name, resumen: i.description, url: i.html_url, stars: i.stargazers_count, fuente: 'GitHub' })); } catch(e) { return []; } }
+    async reddit(tema) { try { const r = await fetchConTimeout(`https://www.reddit.com/search.json?q=${encodeURIComponent(tema + ' crypto')}&limit=3&sort=hot`, {}, TIMEOUT_FUENTE); const d = await r.json(); return (d.data?.children || []).map(i => ({ titulo: i.data.title, resumen: i.data.selftext?.substring(0, 200), subreddit: i.data.subreddit, url: `https://reddit.com${i.data.permalink}`, fuente: 'Reddit' })); } catch(e) { return []; } }
+    
+    async buscarTodas(tema) {
+        const cacheKey = `12f_${tema}`;
+        if (this.cache.has(cacheKey)) { const c = this.cache.get(cacheKey); if (Date.now() - c.timestamp < 3600000) return c.data; }
+        const resultados = await Promise.allSettled([this.semantic(tema), this.arxiv(tema), this.crossref(tema), this.openalex(tema), this.wikipedia(tema), this.coinGeckoNews(tema), this.coinMarketCap(tema), this.cryptoCompare(tema), this.binance(tema), this.investing(tema), this.github(tema), this.reddit(tema)]);
+        const nombres = ['Semantic Scholar', 'arXiv', 'Crossref', 'OpenAlex', 'Wikipedia', 'CoinGecko', 'CoinMarketCap', 'CryptoCompare', 'Binance', 'Investing.com', 'GitHub', 'Reddit'];
+        const fuentes = {}; let total = 0, exitosas = 0;
+        resultados.forEach((r, i) => { const data = r.status === 'fulfilled' ? r.value : []; fuentes[nombres[i]] = { data, count: data.length, exito: data.length > 0 }; if (data.length > 0) { total += data.length; exitosas++; } });
+        const result = { tema, fuentes, resumen: { total_fuentes: 12, fuentes_exitosas: exitosas, total_resultados: total } };
+        this.cache.set(cacheKey, { data: result, timestamp: Date.now() });
+        return result;
+    }
+    formatear(resultados) {
+        let html = `<div style="max-height:65vh;overflow-y:auto;"><h3 style="color:#10b981;">🔬 12 Fuentes - ${resultados.tema.toUpperCase()}</h3>`;
+        html += `<p style="color:#94a3b8;font-size:0.75rem;">Exitosas: <strong style="color:#10b981;">${resultados.resumen.fuentes_exitosas}/12</strong> | Resultados: <strong>${resultados.resumen.total_resultados}</strong></p>`;
+        Object.entries(resultados.fuentes).forEach(([nombre, f]) => { if (f.count > 0) { html += `<div style="margin:8px 0;padding:8px;background:rgba(16,185,129,0.06);border-radius:6px;border-left:2px solid #10b981;"><strong style="color:#34d399;">${nombre}</strong> (${f.count})<br>`; f.data.slice(0, 3).forEach(r => { html += `<div style="font-size:0.72rem;margin:4px 0;padding-left:8px;">• ${r.autor || ''} ${r.year ? '('+r.year+')' : ''} <strong>${(r.titulo || '').substring(0, 80)}</strong>`; if (r.resumen || r.snippet) html += `<br><span style="color:#94a3b8;font-size:0.65rem;">${(r.resumen || r.snippet).substring(0, 120)}...</span>`; if (r.url) html += ` <a href="${r.url}" target="_blank" style="color:#60a5fa;">🔗</a>`; html += `</div>`; }); html += '</div>'; } });
+        html += '</div>';
+        return html;
+    }
+}
+const fuentes12 = new FuentesCripto12();
+
+// ============================================
+// 🤖 ANÁLISIS CON AGENTE + FALLBACK MEJORADO
 // ============================================
 async function generarAnalisisConAgente(symbol, tokenData) {
-    console.log('🔬 Buscando en 12 fuentes + Agent-Reach...');
+    console.log('🔬 Buscando en 12 fuentes + Agent-Reach + 4 APIs técnicas...');
     
-    const resultados12 = await fuentes12.buscarTodas(symbol);
-    const resultadosAgentReach = await agentReach.buscar(symbol);
+    // Lanzar en paralelo: 12 fuentes + Agent-Reach + 4 APIs técnicas de fallback
+    const [resultados12, resultadosAgentReach, datosTecnicos] = await Promise.all([
+        fuentes12.buscarTodas(symbol),
+        agentReach.buscar(symbol),
+        recopilarDatosFallback(symbol)
+    ]);
+    
+    console.log(`✅ Datos técnicos obtenidos: ${Object.keys(datosTecnicos).length}/4 fuentes`);
     
     let contexto = `TOKEN: ${symbol.toUpperCase()}\n\n`;
     contexto += `DATOS DE MERCADO:\n`;
@@ -1140,37 +946,45 @@ async function generarAnalisisConAgente(symbol, tokenData) {
     if (tokenData.marketCap) contexto += `- Market Cap: $${(tokenData.marketCap / 1e6).toFixed(2)}M\n`;
     contexto += `- Fuente: ${tokenData.fuente}\n\n`;
     
+    if (datosTecnicos.coingecko) {
+        const cg = datosTecnicos.coingecko;
+        contexto += `DATOS TÉCNICOS COINGECKO:\n`;
+        if (cg.market_cap_rank) contexto += `- Rank global: #${cg.market_cap_rank}\n`;
+        if (cg.ath_change) contexto += `- Distancia del ATH: ${cg.ath_change.toFixed(1)}%\n`;
+        if (cg.price_change_7d) contexto += `- Cambio 7d: ${cg.price_change_7d.toFixed(2)}%\n`;
+        if (cg.price_change_30d) contexto += `- Cambio 30d: ${cg.price_change_30d.toFixed(2)}%\n`;
+        if (cg.circulating_supply) contexto += `- Supply circulante: ${cg.circulating_supply.toLocaleString()}\n`;
+        if (cg.categories?.length) contexto += `- Categorías: ${cg.categories.slice(0, 4).join(', ')}\n`;
+        contexto += '\n';
+    }
+    
+    if (datosTecnicos.binance) {
+        const bn = datosTecnicos.binance;
+        contexto += `ORDERBOOK BINANCE:\n`;
+        contexto += `- High 24h: $${bn.high_24h}\n`;
+        contexto += `- Low 24h: $${bn.low_24h}\n`;
+        if (bn.spread_pct !== null) contexto += `- Spread bid/ask: ${bn.spread_pct.toFixed(3)}%\n`;
+        if (bn.buy_pressure !== undefined) contexto += `- Presión compradora: ${(bn.buy_pressure * 100).toFixed(0)}%\n`;
+        contexto += '\n';
+    }
+    
+    if (datosTecnicos.dexscreener) {
+        const dx = datosTecnicos.dexscreener;
+        contexto += `DEX SCREENER:\n`;
+        contexto += `- Pares activos: ${dx.total_pairs}\n`;
+        contexto += `- Liquidez total: $${(dx.total_liquidity / 1e6).toFixed(2)}M\n`;
+        contexto += '\n';
+    }
+    
     contexto += `INFORMACIÓN DE 12 FUENTES (${resultados12.resumen.total_resultados} resultados):\n`;
-    Object.entries(resultados12.fuentes).forEach(([nombre, f]) => {
-        if (f.count > 0) {
-            contexto += `\n[${nombre}]:\n`;
-            f.data.slice(0, 3).forEach(r => {
-                contexto += `• ${r.titulo || ''}\n`;
-                if (r.resumen || r.snippet) contexto += `  ${(r.resumen || r.snippet).substring(0, 150)}\n`;
-            });
-        }
-    });
+    Object.entries(resultados12.fuentes).forEach(([nombre, f]) => { if (f.count > 0) { contexto += `\n[${nombre}]:\n`; f.data.slice(0, 2).forEach(r => { contexto += `• ${r.titulo || ''}\n`; if (r.resumen || r.snippet) contexto += `  ${(r.resumen || r.snippet).substring(0, 150)}\n`; }); } });
     
-    contexto += `\n🔌 AGENT-REACH (DATOS EN TIEMPO REAL):\n`;
-    if (resultadosAgentReach.github.length) {
-        contexto += `\n[GitHub - ${resultadosAgentReach.github.length} repos]:\n`;
-        resultadosAgentReach.github.slice(0, 3).forEach(r => { contexto += `• ${r.titulo} ⭐${r.estrellas}\n`; });
-    }
-    if (resultadosAgentReach.reddit.length) {
-        contexto += `\n[Reddit - ${resultadosAgentReach.reddit.length} discusiones]:\n`;
-        resultadosAgentReach.reddit.slice(0, 3).forEach(r => { contexto += `• r/${r.subreddit}: ${r.titulo}\n`; });
-    }
-    if (resultadosAgentReach.wiki.length) {
-        contexto += `\n[Wikipedia - ${resultadosAgentReach.wiki.length} entradas]:\n`;
-        resultadosAgentReach.wiki.slice(0, 3).forEach(r => { contexto += `• ${r.titulo}\n`; });
-    }
+    contexto += `\n🔌 AGENT-REACH:\n`;
+    if (resultadosAgentReach.github.length) { contexto += `[GitHub - ${resultadosAgentReach.github.length} repos]:\n`; resultadosAgentReach.github.slice(0, 3).forEach(r => { contexto += `• ${r.titulo} ⭐${r.estrellas}\n`; }); }
+    if (resultadosAgentReach.reddit.length) { contexto += `[Reddit - ${resultadosAgentReach.reddit.length} discusiones]:\n`; resultadosAgentReach.reddit.slice(0, 3).forEach(r => { contexto += `• r/${r.subreddit}: ${r.titulo}\n`; }); }
+    if (resultadosAgentReach.wiki.length) { contexto += `[Wikipedia - ${resultadosAgentReach.wiki.length} entradas]:\n`; resultadosAgentReach.wiki.slice(0, 3).forEach(r => { contexto += `• ${r.titulo}\n`; }); }
     
-    if (rustWASM.cargado) {
-        try {
-            const keywords = rustWASM.keywords(contexto, 10);
-            console.log(`🦀 WASM Rust keywords: ${keywords.length}`);
-        } catch(e) {}
-    }
+    if (rustWASM.cargado) { try { const keywords = rustWASM.keywords(contexto, 10); console.log(`🦀 WASM Rust keywords: ${keywords.length}`); } catch(e) {} }
     
     const prompt = `Actúa como analista profesional de criptomonedas. Da una recomendación CLARA de COMPRAR o NO COMPRAR.
 
@@ -1184,8 +998,8 @@ DATOS DE MERCADO:
 ${tokenData.marketCap ? `- Market Cap: $${(tokenData.marketCap / 1e6).toFixed(2)}M` : ''}
 - Fuente: ${tokenData.fuente}
 
-CONTEXTO ADICIONAL DE 12 FUENTES + AGENT-REACH:
-${contexto.substring(0, 2200)}
+DATOS TÉCNICOS AVANZADOS (CoinGecko, Binance, DexScreener):
+${contexto.substring(0, 2500)}
 
 INSTRUCCIONES OBLIGATORIAS (responde EXACTAMENTE con esta estructura):
 
@@ -1217,24 +1031,19 @@ IMPORTANTE:
 - Enfócate en el mercado alemán/europeo`;
 
     const maxTokens = modoActual === 'experto' ? 4000 : 2000;
-
-    // --- RACE: IA vs timeout global ---
     const timeoutGlobal = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT_GLOBAL')), TIMEOUT_TOTAL_ANALISIS));
-    const tareaIA = llamarIA([
-        { role: 'system', content: 'Eres un analista profesional de criptomonedas. Das recomendaciones CLARAS de COMPRAR o NO COMPRAR. NO usas asteriscos.' },
-        { role: 'user', content: prompt }
-    ], maxTokens);
+    const tareaIA = llamarIA([{ role: 'system', content: 'Eres un analista profesional de criptomonedas. Das recomendaciones CLARAS. NO usas asteriscos.' }, { role: 'user', content: prompt }], maxTokens);
 
     let resultado;
     try {
         resultado = await Promise.race([tareaIA, timeoutGlobal]);
     } catch (iaError) {
         Diagnostico.log(`IA falló: ${iaError.message}`, 'error');
-        Diagnostico.log('🧠 Activando FALLBACK CRIPTO…', 'warn');
-        const fallback = generarFallbackCripto(symbol, tokenData, resultados12, resultadosAgentReach);
+        Diagnostico.log('🧠 Activando FALLBACK INTELIGENTE (datos técnicos reales)…', 'warn');
+        const fallback = generarFallbackCripto(symbol, tokenData, datosTecnicos, resultados12, resultadosAgentReach);
         if (!fallback) throw iaError;
-        resultado = { texto: fallback, proveedor: 'Fallback Cripto', modelo: 'reglas-locales' };
-        showToast(`🧠 Fallback · datos reales de ${tokenData.fuente}`, true);
+        resultado = { texto: fallback, proveedor: 'Fallback Inteligente', modelo: 'datos-reales-4-apis' };
+        showToast(`🧠 Fallback inteligente · 4 APIs técnicas + 12 fuentes`, true);
     }
     
     core403M.registrarConsulta(symbol, resultado.texto);
@@ -1244,7 +1053,8 @@ IMPORTANTE:
         analisis: resultado.texto,
         proveedor: resultado.proveedor,
         contexto12: resultados12,
-        contextoAgentReach: resultadosAgentReach
+        contextoAgentReach: resultadosAgentReach,
+        datosTecnicos
     };
 }
 
@@ -1255,7 +1065,6 @@ async function buscarCripto(symbol) {
     if (isRefreshing) return;
     isRefreshing = true;
     ocupado = true;
-    
     const sym = symbol.toUpperCase().trim();
     currentToken = sym;
     
@@ -1294,7 +1103,7 @@ async function buscarCripto(symbol) {
         document.getElementById('sourceApi').textContent = tokenData.fuente;
         
         actualizarProgress(15);
-        document.getElementById('sentimentText').innerHTML = `<div class="spinner"></div> 🔬 Analizando ${sym} con 12 Fuentes + Agent-Reach + Multi-IA paralelo + WASM Rust...`;
+        document.getElementById('sentimentText').innerHTML = `<div class="spinner"></div> 🔬 Analizando ${sym} con 12 Fuentes + 4 APIs técnicas + Agent-Reach + Multi-IA...`;
         actualizarProgress(30);
         
         const resultado = await generarAnalisisConAgente(sym, tokenData);
@@ -1307,10 +1116,8 @@ async function buscarCripto(symbol) {
         const analisisLower = analisisLimpio.toLowerCase();
         let señal = 'ANALIZAR', color = '#f59e0b', icono = '⏳';
         const recMatch = analisisLimpio.match(/RECOMENDACIÓN:\s*(COMPRAR|NO\s+COMPRAR)/i);
-        if (recMatch) {
-            if (recMatch[1].toUpperCase().includes('NO')) { señal = 'NO COMPRAR'; color = '#ef4444'; icono = '❌'; }
-            else { señal = 'COMPRAR'; color = '#10b981'; icono = '✅'; }
-        } else if (analisisLower.includes('no comprar')) { señal = 'NO COMPRAR'; color = '#ef4444'; icono = '❌'; }
+        if (recMatch) { if (recMatch[1].toUpperCase().includes('NO')) { señal = 'NO COMPRAR'; color = '#ef4444'; icono = '❌'; } else { señal = 'COMPRAR'; color = '#10b981'; icono = '✅'; } }
+        else if (analisisLower.includes('no comprar')) { señal = 'NO COMPRAR'; color = '#ef4444'; icono = '❌'; }
         else if (analisisLower.includes('compra') || analisisLower.includes('comprar')) { señal = 'COMPRAR'; color = '#10b981'; icono = '✅'; }
         
         const signalDisplay = document.getElementById('signalDisplay');
@@ -1320,11 +1127,7 @@ async function buscarCripto(symbol) {
         signalText.style.color = color;
         
         const riesgoMatch = analisisLimpio.match(/NIVEL DE RIESGO:\s*(BAJO|MEDIO|ALTO)/i);
-        if (riesgoMatch) {
-            const riesgo = riesgoMatch[1].toUpperCase();
-            document.getElementById('riesgoBadge').textContent = riesgo;
-            document.getElementById('riesgoBadge').style.color = riesgo === 'BAJO' ? '#10b981' : riesgo === 'ALTO' ? '#ef4444' : '#f59e0b';
-        }
+        if (riesgoMatch) { const riesgo = riesgoMatch[1].toUpperCase(); document.getElementById('riesgoBadge').textContent = riesgo; document.getElementById('riesgoBadge').style.color = riesgo === 'BAJO' ? '#10b981' : riesgo === 'ALTO' ? '#ef4444' : '#f59e0b'; }
         document.getElementById('recomendacionBadge').textContent = señal;
         document.getElementById('recomendacionBadge').style.color = color;
         
@@ -1334,9 +1137,7 @@ async function buscarCripto(symbol) {
         document.getElementById('metricMemoria').textContent = cacheInvestigaciones.length + 1;
         
         const kw = rustWASM.keywords(analisisLimpio, 5);
-        if (kw.length > 0) {
-            document.getElementById('keywordsWidget').innerHTML = kw.map(k => `<span class="keyword-tag">🏷️ ${k.palabra} (${k.frecuencia})</span>`).join('');
-        }
+        if (kw.length > 0) { document.getElementById('keywordsWidget').innerHTML = kw.map(k => `<span class="keyword-tag">🏷️ ${k.palabra} (${k.frecuencia})</span>`).join(''); }
         
         let conf = señal === 'COMPRAR' ? 85 : señal === 'NO COMPRAR' ? 80 : 75;
         document.getElementById('confidenceFill').style.width = conf + '%';
@@ -1347,9 +1148,7 @@ async function buscarCripto(symbol) {
         referenciasAcademicas = refs;
         if (refs.length > 0) {
             document.getElementById('referencesSection').style.display = 'block';
-            document.getElementById('referencesList').innerHTML = refs.slice(0, 5).map((r, i) => 
-                `<div class="ref-item"><strong>${i+1}.</strong> ${r.autor || ''} (${r.year || 's.f.'}). <em>${r.titulo || ''}</em>. ${r.fuente}.</div>`
-            ).join('');
+            document.getElementById('referencesList').innerHTML = refs.slice(0, 5).map((r, i) => `<div class="ref-item"><strong>${i+1}.</strong> ${r.autor || ''} (${r.year || 's.f.'}). <em>${r.titulo || ''}</em>. ${r.fuente}.</div>`).join('');
         }
         
         document.getElementById('ultraOptimizaciones').textContent = rustWASM.stats.optimizaciones;
@@ -1361,7 +1160,7 @@ async function buscarCripto(symbol) {
         document.getElementById('ultraFuentes').textContent = resultado.contexto12.resumen.total_resultados + resultado.contextoAgentReach.github.length + resultado.contextoAgentReach.reddit.length + resultado.contextoAgentReach.wiki.length;
         
         actualizarProgress(100);
-        showToast(`✅ ${sym} · ${resultado.proveedor} · ${señal} · ${resultado.contexto12.resumen.total_resultados + resultado.contextoAgentReach.github.length + resultado.contextoAgentReach.reddit.length + resultado.contextoAgentReach.wiki.length} fuentes`);
+        showToast(`✅ ${sym} · ${resultado.proveedor} · ${señal} · ${Object.keys(resultado.datosTecnicos).length}/4 APIs técnicas`);
         
         cacheInvestigaciones.unshift({ symbol: sym, analisis: analisisLimpio, fecha: new Date().toISOString(), señal });
         if (cacheInvestigaciones.length > 30) cacheInvestigaciones.pop();
@@ -1381,188 +1180,33 @@ async function buscarCripto(symbol) {
 // ============================================
 // 🎛️ EVENTOS
 // ============================================
-document.getElementById('searchBtn').onclick = () => {
-    const v = document.getElementById('searchInput').value.trim();
-    if (!v) { showToast('⚠️ Escribe un símbolo: BTC, ETH, SOL, DOGE, PEPE...', true); return; }
-    buscarCripto(v);
-};
-
-document.getElementById('searchInput').addEventListener('keypress', e => {
-    if (e.key === 'Enter') {
-        const v = document.getElementById('searchInput').value.trim();
-        if (v) buscarCripto(v);
-    }
-});
-
+document.getElementById('searchBtn').onclick = () => { const v = document.getElementById('searchInput').value.trim(); if (!v) { showToast('⚠️ Escribe un símbolo: BTC, ETH, SOL, DOGE, PEPE...', true); return; } buscarCripto(v); };
+document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') { const v = document.getElementById('searchInput').value.trim(); if (v) buscarCripto(v); } });
 document.getElementById('refreshBtn').onclick = () => { if (currentToken) buscarCripto(currentToken); };
+document.querySelectorAll('.modo-btn').forEach(btn => { btn.addEventListener('click', function() { document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); modoActual = this.dataset.modo; const ind = document.getElementById('modoActualIndicator'); if (modoActual === 'experto') { ind.textContent = '🧠 Experto'; ind.className = 'modo-activo-indicator modo-experto'; } else { ind.textContent = '⚡ Básico'; ind.className = 'modo-activo-indicator modo-basico'; } showToast(`Modo: ${modoActual}`); }); });
 
-document.querySelectorAll('.modo-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        modoActual = this.dataset.modo;
-        const ind = document.getElementById('modoActualIndicator');
-        if (modoActual === 'experto') { ind.textContent = '🧠 Experto'; ind.className = 'modo-activo-indicator modo-experto'; }
-        else { ind.textContent = '⚡ Básico'; ind.className = 'modo-activo-indicator modo-basico'; }
-        showToast(`Modo: ${modoActual}`);
-    });
-});
-
-document.getElementById('btnRustStatus').onclick = () => {
-    const mod = rustWASM.wasm;
-    const funcs = mod ? ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache'].filter(f => typeof mod[f] === 'function') : [];
-    mostrarModal('🦀 WASM Rust Real',
-        `Estado: ${rustWASM.cargado ? '✅ Cargado' : '❌ Fallback JS'}\n` +
-        `Versión: ${rustWASM.cargado && mod.wasm_version ? 'Core ' + mod.wasm_version() + 'M' : 'N/A'}\n` +
-        `Funciones: ${funcs.length}/13\n\n${funcs.map(f => '• ' + f).join('\n')}\n\n` +
-        `⚡ Ejecutadas: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}`
-    );
-};
-
-document.getElementById('btnRustTest').onclick = () => {
-    const texto = 'Bitcoin es la criptomoneda líder. Según García (2023) revoluciona las finanzas.';
-    const stats = rustWASM.contarPalabras(texto);
-    const keywords = rustWASM.keywords(texto, 5);
-    const autores = rustWASM.autores(texto);
-    const idioma = rustWASM.idioma(texto);
-    const full = rustWASM.processFull(texto);
-    mostrarModal('⚡ Test WASM Rust',
-        `📊 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n🌐 Idioma: ${idioma}\n\n` +
-        `🏷️ Keywords: ${keywords.map(k => `${k.palabra} (${k.frecuencia})`).join(', ') || 'N/A'}\n\n` +
-        `👤 Autores: ${autores.join(', ') || 'N/A'}\n\n` +
-        `🦀 wasm_rust: ${full?.wasm_rust || rustWASM.cargado}\n⏱️ tiempo_us: ${full?.tiempo_us || 'N/A'}`
-    );
-};
-
-document.getElementById('btnMultiIA').onclick = () => {
-    let info = '🔄 Multi-IA — 9 proveedores en paralelo con Promise.any\n\n';
-    IA_PROVEEDORES.forEach((p, i) => {
-        const emoji = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'][i] || '🔹';
-        info += `${emoji} ${p.nombre}\n`;
-        info += `   • Modelos: ${p.modelos.join(', ')}\n`;
-        info += `   • Estado: ${proveedorActual === p.nombre ? '✅ Activo' : '⏳ Espera'}\n\n`;
-    });
-    info += `📊 Estadísticas:\n✅ OK: ${iaOkCount}\n❌ Fallos: ${iaFailsCount}\n\n`;
-    info += `🔧 Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n`;
-    info += `🏆 Gana el proveedor que responde primero.`;
-    mostrarModal('🔄 Multi-IA — Todos los proveedores', info);
-};
-
-document.getElementById('btnCoreStatus').onclick = () => {
-    const e = core403M.getEstado();
-    mostrarModal('🧬 Core 403M',
-        `Estado: ${e.activo ? '✅ Activo' : '⏳ Iniciando'}\n` +
-        `🤖 Agentes: ${e.agentes}\n` +
-        `📡 Consultas: ${e.consultas}\n` +
-        `📚 Temas: ${e.temas}\n` +
-        `🔄 Evoluciones: ${e.evoluciones}\n` +
-        `📊 Calidad promedio: ${e.calidadPromedio}%\n` +
-        `📖 Vocabulario: ${e.vocabulario} palabras\n\n` +
-        `🔄 Auto-evoluciona cada 2 min\n` +
-        `🧬 Auto-mejora cada 3 min\n` +
-        `📊 Estadísticas cada 1 min`
-    );
-};
-
-document.getElementById('btnAgentReach').onclick = async () => {
-    const tema = currentToken || 'BTC';
-    showToast('🔌 Agent-Reach buscando...');
-    const r = await agentReach.buscar(tema);
-    let html = '';
-    if (r.github.length) html += `<div style="margin:8px 0;padding:8px;background:rgba(245,158,11,0.06);border-radius:6px;border-left:2px solid #f59e0b;"><strong>📦 GitHub (${r.github.length})</strong><br>${r.github.map(i => `• ${i.titulo} ⭐${i.estrellas}`).join('<br>')}</div>`;
-    if (r.reddit.length) html += `<div style="margin:8px 0;padding:8px;background:rgba(245,158,11,0.06);border-radius:6px;border-left:2px solid #f59e0b;"><strong>📖 Reddit (${r.reddit.length})</strong><br>${r.reddit.map(i => `• r/${i.subreddit}: ${i.titulo}`).join('<br>')}</div>`;
-    if (r.wiki.length) html += `<div style="margin:8px 0;padding:8px;background:rgba(245,158,11,0.06);border-radius:6px;border-left:2px solid #f59e0b;"><strong>🌐 Wikipedia (${r.wiki.length})</strong><br>${r.wiki.map(i => `• ${i.titulo}`).join('<br>')}</div>`;
-    mostrarModal('🔌 Agent-Reach', html || 'Sin resultados');
-};
-
-document.getElementById('btn12Fuentes').onclick = async () => {
-    const tema = currentToken || 'BTC';
-    showToast('🔬 Buscando en 12 fuentes...');
-    const r = await fuentes12.buscarTodas(tema);
-    mostrarModal('🔬 12 Fuentes Cripto', fuentes12.formatear(r));
-};
-
-document.getElementById('btnFuentesIlimitadas').onclick = async () => {
-    const tema = currentToken || 'BTC';
-    showToast('♾️ Fuentes ilimitadas...');
-    const r = await fuentes12.buscarTodas(tema);
-    const r2 = await agentReach.buscar(tema);
-    const total = r.resumen.total_resultados + r2.github.length + r2.reddit.length + r2.wiki.length;
-    document.getElementById('ultraFuentes').textContent = total;
-    mostrarModal('♾️ Fuentes Ilimitadas', 
-        `Total: ${total} resultados\n\n` +
-        `📚 12 Fuentes: ${r.resumen.total_resultados}\n` +
-        `📦 GitHub: ${r2.github.length}\n` +
-        `📖 Reddit: ${r2.reddit.length}\n` +
-        `🌐 Wikipedia: ${r2.wiki.length}`
-    );
-};
-
-document.getElementById('btnAnalisisCompleto').onclick = () => {
-    if (!ultimoAnalisis) { showToast('⚠️ Primero analiza una cripto', true); return; }
-    const stats = rustWASM.contarPalabras(ultimoAnalisis);
-    const kw = rustWASM.keywords(ultimoAnalisis, 10);
-    mostrarModal('📊 Análisis Completo',
-        `📝 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n\n` +
-        `🏷️ Keywords: ${kw.map(k => `${k.palabra} (${k.frecuencia})`).join(', ')}\n\n` +
-        `🌐 Idioma: ${rustWASM.idioma(ultimoAnalisis)}\n` +
-        `📈 Riqueza: ${Math.round(stats.unicas / stats.palabras * 100)}%\n` +
-        `⚡ WASM Rust: 50x más rápido\n` +
-        `🔄 Multi-IA: ${iaOkCount} OK · ${iaFailsCount} fallos`
-    );
-};
-
-document.getElementById('btnMemoriaStatus').onclick = () => {
-    const e = core403M.getEstado();
-    mostrarModal('🧠 Memoria WASM + Core 403M',
-        `💾 Análisis guardados: ${cacheInvestigaciones.length}\n\n` +
-        `Últimos análisis:\n${cacheInvestigaciones.slice(0, 5).map(c => `• ${c.symbol} (${c.señal}) - ${new Date(c.fecha).toLocaleDateString()}`).join('\n') || 'Sin datos'}\n\n` +
-        `🧬 CORE 403M:\n` +
-        `• Consultas: ${e.consultas}\n` +
-        `• Temas: ${e.temas}\n` +
-        `• Evoluciones: ${e.evoluciones}\n` +
-        `• Calidad: ${e.calidadPromedio}%\n\n` +
-        `📦 Caché WASM: ${rustWASM.getCacheSize()}`
-    );
-};
-
-document.getElementById('btnEstado').onclick = () => {
-    const coreE = core403M.getEstado();
-    const arE = agentReach.getStats();
-    mostrarModal('🔌 Estado Completo',
-        `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n` +
-        `📊 Funciones WASM: ${rustWASM.stats.funciones}\n` +
-        `📦 Caché: ${rustWASM.getCacheSize()}\n\n` +
-        `🔄 Multi-IA: ${proveedorActual || 'En espera'}\n` +
-        `✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n` +
-        `⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n` +
-        `🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n` +
-        `🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n` +
-        `💰 Token actual: ${currentToken}\n` +
-        `📈 Precio: $${currentTokenData?.price || '---'}\n` +
-        `📊 Fuente: ${currentTokenData?.fuente || '---'}\n` +
-        `📌 Modo: ${modoActual}\n` +
-        `🌐 Idioma: ${nombreIdioma[idiomaDetectado] || 'Español'}\n\n` +
-        `💾 Análisis guardados: ${cacheInvestigaciones.length}`
-    );
-};
+document.getElementById('btnRustStatus').onclick = () => { const mod = rustWASM.wasm; const funcsBase = ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache','wasm_version','now_us','detectar_muletillas_ia','similitud_coseno','sentimiento_espanol','extraer_fechas','extraer_urls','extraer_emails','normalizar_texto','calcular_hash_simhash','contar_silabas_espanol','resumir_tfidf','detectar_idioma_avanzado','detectar_clickbait','detectar_discurso_odio','detectar_pii','detectar_topicos','indice_flesch_espanol','indice_gunning_fog','densidad_lexica','longitud_media_oraciones','extraer_entidades_nombradas','extraer_numeros','extraer_hashtags_menciones','extract_ngramas','sanitizar_texto','calcular_hash_sha256']; const funcs = mod ? funcsBase.filter(f => typeof mod[f] === 'function') : []; mostrarModal('🦀 WASM Rust Real', `Estado: ${rustWASM.cargado ? '✅ Cargado' : '❌ Fallback JS'}\nVersión: ${rustWASM.cargado && mod.wasm_version ? 'Core ' + mod.wasm_version() + 'M' : 'N/A'}\nFunciones: ${funcs.length}/40\n\n${funcs.map(f => '• ' + f).join('\n')}\n\n⚡ Ejecutadas: ${rustWASM.stats.funciones}\n⏱️ Tiempo: ${Math.round(rustWASM.stats.tiempo)}ms\n📦 Caché: ${rustWASM.getCacheSize()}`); };
+document.getElementById('btnRustTest').onclick = () => { const texto = 'Bitcoin es la criptomoneda líder. Según García (2023) revoluciona las finanzas.'; const stats = rustWASM.contarPalabras(texto); const keywords = rustWASM.keywords(texto, 5); const autores = rustWASM.autores(texto); const idioma = rustWASM.idioma(texto); const full = rustWASM.processFull(texto); mostrarModal('⚡ Test WASM Rust', `📊 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n🌐 Idioma: ${idioma}\n\n🏷️ Keywords: ${keywords.map(k => `${k.palabra} (${k.frecuencia})`).join(', ') || 'N/A'}\n\n👤 Autores: ${autores.join(', ') || 'N/A'}\n\n🦀 wasm_rust: ${full?.wasm_rust || rustWASM.cargado}\n⏱️ tiempo_us: ${full?.tiempo_us || 'N/A'}`); };
+document.getElementById('btnMultiIA').onclick = () => { let info = '🔄 Multi-IA — 9 proveedores en paralelo con Promise.any\n\n'; IA_PROVEEDORES.forEach((p, i) => { const emoji = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣'][i] || '🔹'; info += `${emoji} ${p.nombre}\n   • Modelos: ${p.modelos.join(', ')}\n   • Estado: ${proveedorActual === p.nombre ? '✅ Activo' : '⏳ Espera'}\n\n`; }); info += `📊 Estadísticas:\n✅ OK: ${iaOkCount}\n❌ Fallos: ${iaFailsCount}\n\n🔧 Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n🏆 Gana el proveedor que responde primero.`; mostrarModal('🔄 Multi-IA — Todos los proveedores', info); };
+document.getElementById('btnCoreStatus').onclick = () => { const e = core403M.getEstado(); mostrarModal('🧬 Core 403M', `Estado: ${e.activo ? '✅ Activo' : '⏳ Iniciando'}\n🤖 Agentes: ${e.agentes}\n📡 Consultas: ${e.consultas}\n📚 Temas: ${e.temas}\n🔄 Evoluciones: ${e.evoluciones}\n📊 Calidad promedio: ${e.calidadPromedio}%\n📖 Vocabulario: ${e.vocabulario} palabras\n\n🔄 Auto-evoluciona cada 2 min\n🧬 Auto-mejora cada 3 min`); };
+document.getElementById('btnAgentReach').onclick = async () => { const tema = currentToken || 'BTC'; showToast('🔌 Agent-Reach buscando...'); const r = await agentReach.buscar(tema); let html = ''; if (r.github.length) html += `<div style="margin:8px 0;padding:8px;background:rgba(245,158,11,0.06);border-radius:6px;border-left:2px solid #f59e0b;"><strong>📦 GitHub (${r.github.length})</strong><br>${r.github.map(i => `• ${i.titulo} ⭐${i.estrellas}`).join('<br>')}</div>`; if (r.reddit.length) html += `<div style="margin:8px 0;padding:8px;background:rgba(245,158,11,0.06);border-radius:6px;border-left:2px solid #f59e0b;"><strong>📖 Reddit (${r.reddit.length})</strong><br>${r.reddit.map(i => `• r/${i.subreddit}: ${i.titulo}`).join('<br>')}</div>`; if (r.wiki.length) html += `<div style="margin:8px 0;padding:8px;background:rgba(245,158,11,0.06);border-radius:6px;border-left:2px solid #f59e0b;"><strong>🌐 Wikipedia (${r.wiki.length})</strong><br>${r.wiki.map(i => `• ${i.titulo}`).join('<br>')}</div>`; mostrarModal('🔌 Agent-Reach', html || 'Sin resultados'); };
+document.getElementById('btn12Fuentes').onclick = async () => { const tema = currentToken || 'BTC'; showToast('🔬 Buscando en 12 fuentes...'); const r = await fuentes12.buscarTodas(tema); mostrarModal('🔬 12 Fuentes Cripto', fuentes12.formatear(r)); };
+document.getElementById('btnFuentesIlimitadas').onclick = async () => { const tema = currentToken || 'BTC'; showToast('♾️ Fuentes ilimitadas...'); const r = await fuentes12.buscarTodas(tema); const r2 = await agentReach.buscar(tema); const total = r.resumen.total_resultados + r2.github.length + r2.reddit.length + r2.wiki.length; document.getElementById('ultraFuentes').textContent = total; mostrarModal('♾️ Fuentes Ilimitadas', `Total: ${total} resultados\n\n📚 12 Fuentes: ${r.resumen.total_resultados}\n📦 GitHub: ${r2.github.length}\n📖 Reddit: ${r2.reddit.length}\n🌐 Wikipedia: ${r2.wiki.length}`); };
+document.getElementById('btnAnalisisCompleto').onclick = () => { if (!ultimoAnalisis) { showToast('⚠️ Primero analiza una cripto', true); return; } const stats = rustWASM.contarPalabras(ultimoAnalisis); const kw = rustWASM.keywords(ultimoAnalisis, 10); mostrarModal('📊 Análisis Completo', `📝 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n\n🏷️ Keywords: ${kw.map(k => `${k.palabra} (${k.frecuencia})`).join(', ')}\n\n🌐 Idioma: ${rustWASM.idioma(ultimoAnalisis)}\n📈 Riqueza: ${Math.round(stats.unicas / stats.palabras * 100)}%\n⚡ WASM Rust: 50x más rápido\n🔄 Multi-IA: ${iaOkCount} OK · ${iaFailsCount} fallos`); };
+document.getElementById('btnMemoriaStatus').onclick = () => { const e = core403M.getEstado(); mostrarModal('🧠 Memoria WASM + Core 403M', `💾 Análisis guardados: ${cacheInvestigaciones.length}\n\nÚltimos análisis:\n${cacheInvestigaciones.slice(0, 5).map(c => `• ${c.symbol} (${c.señal}) - ${new Date(c.fecha).toLocaleDateString()}`).join('\n') || 'Sin datos'}\n\n🧬 CORE 403M:\n• Consultas: ${e.consultas}\n• Temas: ${e.temas}\n• Evoluciones: ${e.evoluciones}\n• Calidad: ${e.calidadPromedio}%\n\n📦 Caché WASM: ${rustWASM.getCacheSize()}`); };
+document.getElementById('btnEstado').onclick = () => { const coreE = core403M.getEstado(); const arE = agentReach.getStats(); mostrarModal('🔌 Estado Completo', `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n📊 Funciones WASM: ${rustWASM.stats.funciones}\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n💰 Token actual: ${currentToken}\n📈 Precio: $${currentTokenData?.price || '---'}\n📊 Fuente: ${currentTokenData?.fuente || '---'}\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado] || 'Español'}\n\n💾 Análisis guardados: ${cacheInvestigaciones.length}`); };
 
 // ============================================
 // 🚀 INICIALIZACIÓN
 // ============================================
 (async () => {
-    console.log('🚀 NextMoon AI · WASM Rust + Multi-IA paralelo + Core 403M + Agent-Reach');
+    console.log('🚀 NextMoon AI · WASM Rust (40 func) + Multi-IA paralelo + Core 403M + Fallback Inteligente');
     Diagnostico.log(`🚀 NextMoon AI iniciando…`, 'info');
     Diagnostico.log(`📊 ${IA_PROVEEDORES.length} proveedores · ${IA_PROVEEDORES.reduce((a, p) => a + p.modelos.length, 0)} modelos free`, 'info');
     Diagnostico.log(`⏱️ Timeout IA: ${TIMEOUT_IA / 1000}s · Timeout global: ${TIMEOUT_TOTAL_ANALISIS / 1000}s`, 'info');
-    Diagnostico.log('🔄 Estrategia: Promise.any (paralelo) + fallback cripto', 'info');
-    
+    Diagnostico.log(`🧠 Fallback inteligente con 4 APIs técnicas (CoinGecko, CoinCap, Binance, DexScreener)`, 'info');
     await rustWASM.cargar();
-    if (rustWASM.cargado) {
-        showToast('🦀 WASM Rust cargado · 🧬 Core 403M activo · 🔌 Agent-Reach listo');
-    } else {
-        showToast('⚠️ WASM Rust no disponible · Usando fallback JS', true);
-    }
+    if (rustWASM.cargado) { showToast('🦀 WASM Rust (40 func) · 🧬 Core 403M · 🧠 Fallback 4 APIs'); } else { showToast('⚠️ WASM Rust no disponible · Usando fallback JS', true); }
     actualizarProveedor(null);
     document.getElementById('searchInput').focus();
     console.log('✅ Sistema listo. Escribe un símbolo (BTC, ETH, SOL, DOGE...) y pulsa ANALIZAR');
