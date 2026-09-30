@@ -615,6 +615,231 @@ async function fetchCryptoData(symbol) {
 }
 
 // ============================================
+// 🔬 FALLBACK INTELIGENTE (dedup + filtro + relevancia)
+// ============================================
+async function fetchCryptoDataInteligente(symbol) {
+    const sym = symbol.toLowerCase().trim();
+    const symUpper = symbol.toUpperCase().trim();
+    const datos = {};
+    
+    // Consultar TODAS las fuentes en paralelo
+    const [dexR, cgR, binR] = await Promise.allSettled([
+        (async () => {
+            try {
+                const r = await fetchConTimeout(`https://api.dexscreener.com/latest/dex/search?q=${sym}`, {}, TIMEOUT_FUENTE);
+                const d = await r.json();
+                if (d.pairs?.length > 0) {
+                    const v = d.pairs.filter(p => p.liquidity?.usd > 1000 && p.priceUsd > 0);
+                    if (v.length > 0) {
+                        const b = v.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
+                        return { price: parseFloat(b.priceUsd), volume24h: b.volume?.h24 || 0, liquidity: b.liquidity?.usd || 0, priceChange24h: b.priceChange?.h24 || 0, marketCap: b.fdv || 0 };
+                    }
+                }
+            } catch(e) {}
+            return null;
+        })(),
+        (async () => {
+            try {
+                const r = await fetchConTimeout(`https://api.coingecko.com/api/v3/coins/${sym}?localization=false&tickers=false&community_data=false&developer_data=false&sparkline=false`, {}, TIMEOUT_FUENTE);
+                if (r.ok) {
+                    const d = await r.json();
+                    if (d.market_data) {
+                        return { price: d.market_data?.current_price?.usd || 0, volume24h: d.market_data?.total_volume?.usd || 0, liquidity: d.market_data?.total_volume?.usd || 0, priceChange24h: d.market_data?.price_change_percentage_24h || 0, marketCap: d.market_data?.market_cap?.usd || 0, ath: d.market_data?.ath?.usd, atl: d.market_data?.atl?.usd };
+                    }
+                }
+            } catch(e) {}
+            return null;
+        })(),
+        (async () => {
+            try {
+                const r = await fetchConTimeout(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symUpper}USDT`, {}, TIMEOUT_FUENTE);
+                if (r.ok) {
+                    const d = await r.json();
+                    if (d.lastPrice) {
+                        return { price: parseFloat(d.lastPrice), volume24h: parseFloat(d.quoteVolume), liquidity: parseFloat(d.quoteVolume), priceChange24h: parseFloat(d.priceChangePercent) };
+                    }
+                }
+            } catch(e) {}
+            return null;
+        })()
+    ]);
+    
+    // Recopilar resultados
+    if (dexR.status === 'fulfilled' && dexR.value) datos.dexscreener = { ...dexR.value, fuente: 'DexScreener' };
+    if (cgR.status === 'fulfilled' && cgR.value) datos.coingecko = { ...cgR.value, fuente: 'CoinGecko' };
+    if (binR.status === 'fulfilled' && binR.value) datos.binance = { ...binR.value, fuente: 'Binance' };
+    
+    // Si no hay datos, retornar null
+    if (Object.keys(datos).length === 0) return null;
+    
+    // Deduplicar y filtrar
+    const fusionado = deduplicarDatosCripto(datos);
+    const limpio = filtrarDatosBasura(fusionado);
+    
+    // Priorizar fuente
+    const fuentePrioritaria = limpio.price_fuente || Object.keys(datos)[0];
+    const fuenteData = datos[fuentePrioritaria] || Object.values(datos)[0];
+    
+    return {
+        symbol: symUpper,
+        name: fuenteData.name || symUpper,
+        price: limpio.price || 0,
+        volume24h: limpio.volume_24h || limpio.volume24h || 0,
+        liquidity: limpio.liquidity || 0,
+        priceChange24h: limpio.change_24h || limpio.priceChange24h || 0,
+        marketCap: limpio.market_cap || limpio.marketCap || 0,
+        ath: fuenteData.ath,
+        atl: fuenteData.atl,
+        fuente: fuenteData.fuente || 'Multi-fuente',
+        _datosOriginales: datos,
+        _relevancia: calcularRelevancia({ ...limpio, fuente: fuenteData.fuente })
+    };
+}
+
+
+// ============================================
+// 🧹 FALLBACK INTELIGENTE — Dedup + Filtro + Relevancia
+// ============================================
+
+// Deduplicar datos de múltiples fuentes (prioriza Binance > CoinGecko > CoinCap > DexScreener)
+function deduplicarDatosCripto(datos) {
+    const fuentes = ['binance', 'coingecko', 'coincap', 'dexscreener'];
+    const prioridad = { binance: 4, coingecko: 3, coincap: 2, dexscreener: 1 };
+    
+    const fusionado = {};
+    const campos = ['price', 'volume_24h', 'volume24h', 'liquidity', 'change_24h', 'priceChange24h', 'market_cap', 'marketCap'];
+    
+    for (const campo of campos) {
+        let mejorValor = null;
+        let mejorPrioridad = 0;
+        let mejorFuente = null;
+        
+        for (const fuente of fuentes) {
+            if (datos[fuente] && datos[fuente][campo] !== undefined && datos[fuente][campo] !== null && datos[fuente][campo] !== 0) {
+                const valor = datos[fuente][campo];
+                if (prioridad[fuente] > mejorPrioridad) {
+                    mejorValor = valor;
+                    mejorPrioridad = prioridad[fuente];
+                    mejorFuente = fuente;
+                }
+            }
+        }
+        
+        if (mejorValor !== null) {
+            fusionado[campo] = mejorValor;
+            fusionado[campo + '_fuente'] = mejorFuente;
+        }
+    }
+    
+    return fusionado;
+}
+
+// Filtrar datos basura
+function filtrarDatosBasura(datos) {
+    const limpio = { ...datos };
+    
+    // Descartar campos con valores inválidos
+    for (const key of Object.keys(limpio)) {
+        const val = limpio[key];
+        if (val === null || val === undefined) {
+            delete limpio[key];
+        } else if (typeof val === 'number' && (isNaN(val) || !isFinite(val))) {
+            delete limpio[key];
+        } else if (typeof val === 'string' && (val === '' || val === 'null' || val === 'undefined')) {
+            delete limpio[key];
+        }
+    }
+    
+    return limpio;
+}
+
+// Calcular relevancia del token (0-100)
+function calcularRelevancia(tokenData) {
+    let score = 0;
+    let maxScore = 0;
+    
+    // Precio > 0 (20 pts)
+    maxScore += 20;
+    if (tokenData.price > 0) score += 20;
+    
+    // Volumen > $1000 (25 pts)
+    maxScore += 25;
+    if (tokenData.volume24h > 1000) score += 25;
+    else if (tokenData.volume24h > 100) score += 15;
+    
+    // Liquidez > $100 (25 pts)
+    maxScore += 25;
+    if (tokenData.liquidity > 100) score += 25;
+    else if (tokenData.liquidity > 10) score += 15;
+    
+    // Fuente confiable (15 pts)
+    maxScore += 15;
+    if (tokenData.fuente === 'Binance') score += 15;
+    else if (tokenData.fuente === 'CoinGecko') score += 12;
+    else if (tokenData.fuente === 'CoinCap') score += 10;
+    else if (tokenData.fuente === 'DexScreener') score += 8;
+    
+    // Datos extendidos (15 pts)
+    maxScore += 15;
+    if (tokenData.ath || tokenData.atl || tokenData.marketCap) score += 15;
+    
+    return Math.round((score / maxScore) * 100);
+}
+
+// Resumen extendido del token
+function generarResumenExtendido(tokenData, symbol) {
+    let resumen = '';
+    
+    resumen += `📊 ANÁLISIS DE ${symbol}\n\n`;
+    
+    // Precio y tendencia
+    resumen += `PRECIO ACTUAL:\n`;
+    const fmt = (n) => n < 0.01 ? n.toFixed(8) : (n < 1 ? n.toFixed(6) : n.toFixed(2));
+    resumen += `  • Precio: $${fmt(tokenData.price)}\n`;
+    if (tokenData.priceChange24h !== undefined) {
+        const cambio = tokenData.priceChange24h;
+        const tendencia = cambio > 5 ? '🚀 Alcista fuerte' : cambio > 0 ? '📈 Alcista' : cambio > -5 ? '📉 Bajista' : '⚠️ Bajista fuerte';
+        resumen += `  • Cambio 24h: ${cambio >= 0 ? '+' : ''}${cambio.toFixed(2)}% (${tendencia})\n`;
+    }
+    
+    // Volumen y liquidez
+    resumen += `\nLIQUIDEZ Y VOLUMEN:\n`;
+    if (tokenData.volume24h) {
+        const volStr = tokenData.volume24h > 1e9 ? `$${(tokenData.volume24h / 1e9).toFixed(2)}B` : tokenData.volume24h > 1e6 ? `$${(tokenData.volume24h / 1e6).toFixed(2)}M` : `$${(tokenData.volume24h / 1e3).toFixed(2)}K`;
+        resumen += `  • Volumen 24h: ${volStr}\n`;
+    }
+    if (tokenData.liquidity) {
+        const liqStr = tokenData.liquidity > 1e9 ? `$${(tokenData.liquidity / 1e9).toFixed(2)}B` : tokenData.liquidity > 1e6 ? `$${(tokenData.liquidity / 1e6).toFixed(2)}M` : `$${(tokenData.liquidity / 1e3).toFixed(2)}K`;
+        resumen += `  • Liquidez: ${liqStr}\n`;
+    }
+    
+    // Market cap
+    if (tokenData.marketCap || tokenData.market_cap) {
+        const mc = tokenData.marketCap || tokenData.market_cap;
+        const mcStr = mc > 1e9 ? `$${(mc / 1e9).toFixed(2)}B` : `$${(mc / 1e6).toFixed(2)}M`;
+        resumen += `  • Market Cap: ${mcStr}\n`;
+    }
+    
+    // Datos técnicos
+    if (tokenData.ath || tokenData.atl || tokenData.spread_pct) {
+        resumen += `\nANÁLISIS TÉCNICO:\n`;
+        if (tokenData.ath) {
+            resumen += `  • ATH: $${fmt(tokenData.ath)}\n`;
+            if (tokenData.ath_change) resumen += `    Cambio desde ATH: ${tokenData.ath_change.toFixed(2)}%\n`;
+        }
+        if (tokenData.atl) resumen += `  • ATL: $${fmt(tokenData.atl)}\n`;
+        if (tokenData.spread_pct !== undefined) resumen += `  • Spread: ${tokenData.spread_pct.toFixed(3)}%\n`;
+        if (tokenData.buy_pressure) resumen += `  • Presión compradora: ${(tokenData.buy_pressure * 100).toFixed(1)}%\n`;
+    }
+    
+    // Fuente
+    resumen += `\nFUENTE DE DATOS:\n`;
+    resumen += `  • ${tokenData.fuente || 'Múltiples fuentes'}\n`;
+    
+    return resumen;
+}
+
+// ============================================
 // 🔬 FALLBACK INTELIGENTE — 4 FUENTES TÉCNICAS
 // ============================================
 async function recopilarDatosFallback(symbol) {
@@ -1080,7 +1305,7 @@ async function buscarCripto(symbol) {
     
     try {
         console.log(`💰 Obteniendo datos de ${sym}...`);
-        const tokenData = await fetchCryptoData(sym);
+        const tokenData = await fetchCryptoDataInteligente(sym);
         
         if (!tokenData) {
             document.getElementById('tokenSymbol').innerHTML = `⚠️ ${sym}`;
