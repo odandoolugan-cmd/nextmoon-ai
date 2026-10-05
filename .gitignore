@@ -1,0 +1,24 @@
+# Backups
+*.bak
+*.before-*
+*.v6-backup
+*.fix
+*.fix-llave
+
+# Tests
+test_*.mjs
+verificar_*.mjs
+
+# Build
+target/
+_wasm_test/
+tmp_wasm.wasm
+
+# Archivos temporales
+index_temp.html
+test_syntax.mjs
+sw_register.js
+
+# Sistema
+.DS_Store
+Thumbs.db
