@@ -130,4 +130,9 @@ function renderizarAnalisisTecnico(tec) {
     }
 
     content.innerHTML = html;
+    
+    // 🎯 Renderizar sistema de trading
+    if (typeof renderizarTradingSystem === 'function') {
+        renderizarTradingSystem(tec);
+    }
 }
