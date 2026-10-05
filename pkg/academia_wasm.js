@@ -1,6 +1,47 @@
 /* @ts-self-types="./academia_wasm.d.ts" */
 
 /**
+ * @param {string} prices_json
+ * @param {string} volumes_json
+ * @returns {string}
+ */
+export function analisis_tecnico_completo(prices_json, volumes_json) {
+    let deferred3_0;
+    let deferred3_1;
+    try {
+        const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(volumes_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len1 = WASM_VECTOR_LEN;
+        const ret = wasm.analisis_tecnico_completo(ptr0, len0, ptr1, len1);
+        deferred3_0 = ret[0];
+        deferred3_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred3_0, deferred3_1, 1);
+    }
+}
+
+/**
+ * @param {string} prices_json
+ * @returns {string}
+ */
+export function analizar_tendencia(prices_json) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.analizar_tendencia(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
  * @param {string} key
  * @param {string} value
  */
@@ -10,6 +51,56 @@ export function cache_response(key, value) {
     const ptr1 = passStringToWasm0(value, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
     const len1 = WASM_VECTOR_LEN;
     wasm.cache_response(ptr0, len0, ptr1, len1);
+}
+
+/**
+ * @param {string} highs_json
+ * @param {string} lows_json
+ * @param {string} closes_json
+ * @param {number} period
+ * @returns {number}
+ */
+export function calcular_atr(highs_json, lows_json, closes_json, period) {
+    const ptr0 = passStringToWasm0(highs_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ptr1 = passStringToWasm0(lows_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len1 = WASM_VECTOR_LEN;
+    const ptr2 = passStringToWasm0(closes_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len2 = WASM_VECTOR_LEN;
+    const ret = wasm.calcular_atr(ptr0, len0, ptr1, len1, ptr2, len2, period);
+    return ret;
+}
+
+/**
+ * @param {string} prices_json
+ * @param {number} period
+ * @returns {string}
+ */
+export function calcular_bollinger(prices_json, period) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.calcular_bollinger(ptr0, len0, period);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * @param {string} prices_json
+ * @param {number} period
+ * @returns {number}
+ */
+export function calcular_ema(prices_json, period) {
+    const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.calcular_ema(ptr0, len0, period);
+    return ret;
 }
 
 /**
@@ -48,6 +139,97 @@ export function calcular_hash_simhash(texto) {
     } finally {
         wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
     }
+}
+
+/**
+ * @param {string} prices_json
+ * @returns {string}
+ */
+export function calcular_macd(prices_json) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.calcular_macd(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * @param {string} prices_json
+ * @param {number} period
+ * @returns {number}
+ */
+export function calcular_rsi(prices_json, period) {
+    const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.calcular_rsi(ptr0, len0, period);
+    return ret;
+}
+
+/**
+ * @param {string} returns_json
+ * @returns {number}
+ */
+export function calcular_sharpe_ratio(returns_json) {
+    const ptr0 = passStringToWasm0(returns_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.calcular_sharpe_ratio(ptr0, len0);
+    return ret;
+}
+
+/**
+ * @param {string} prices_json
+ * @param {number} period
+ * @returns {number}
+ */
+export function calcular_sma(prices_json, period) {
+    const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.calcular_sma(ptr0, len0, period);
+    return ret;
+}
+
+/**
+ * @param {string} highs_json
+ * @param {string} lows_json
+ * @param {string} closes_json
+ * @param {number} period
+ * @returns {string}
+ */
+export function calcular_stochastic(highs_json, lows_json, closes_json, period) {
+    let deferred4_0;
+    let deferred4_1;
+    try {
+        const ptr0 = passStringToWasm0(highs_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ptr1 = passStringToWasm0(lows_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len1 = WASM_VECTOR_LEN;
+        const ptr2 = passStringToWasm0(closes_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len2 = WASM_VECTOR_LEN;
+        const ret = wasm.calcular_stochastic(ptr0, len0, ptr1, len1, ptr2, len2, period);
+        deferred4_0 = ret[0];
+        deferred4_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred4_0, deferred4_1, 1);
+    }
+}
+
+/**
+ * @param {string} prices_json
+ * @returns {number}
+ */
+export function calcular_volatilidad(prices_json) {
+    const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.calcular_volatilidad(ptr0, len0);
+    return ret;
 }
 
 export function clear_cache() {
@@ -215,6 +397,25 @@ export function detectar_pii(texto) {
         const ptr0 = passStringToWasm0(texto, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
         const ret = wasm.detectar_pii(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * @param {string} prices_json
+ * @returns {string}
+ */
+export function detectar_soporte_resistencia(prices_json) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(prices_json, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.detectar_soporte_resistencia(ptr0, len0);
         deferred2_0 = ret[0];
         deferred2_1 = ret[1];
         return getStringFromWasm0(ret[0], ret[1]);

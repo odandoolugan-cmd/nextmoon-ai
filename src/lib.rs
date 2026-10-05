@@ -685,3 +685,225 @@ fn diccionarios() -> HashMap<&'static str, Vec<&'static str>> {
     
     m
 }
+
+// ═══════════════════════════════════════════════════════════════
+// 📈 ANÁLISIS TÉCNICO CRIPTO (v5 — 12 funciones nuevas)
+// ═══════════════════════════════════════════════════════════════
+
+#[wasm_bindgen]
+pub fn calcular_rsi(prices_json: &str, period: usize) -> f64 {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < period + 1 { return 50.0; }
+    let mut gains = 0.0;
+    let mut losses = 0.0;
+    for i in 1..=period {
+        let diff = prices[i] - prices[i - 1];
+        if diff > 0.0 { gains += diff; } else { losses += -diff; }
+    }
+    let mut avg_gain = gains / period as f64;
+    let mut avg_loss = losses / period as f64;
+    for i in (period + 1)..prices.len() {
+        let diff = prices[i] - prices[i - 1];
+        let gain = if diff > 0.0 { diff } else { 0.0 };
+        let loss = if diff < 0.0 { -diff } else { 0.0 };
+        avg_gain = (avg_gain * (period as f64 - 1.0) + gain) / period as f64;
+        avg_loss = (avg_loss * (period as f64 - 1.0) + loss) / period as f64;
+    }
+    if avg_loss == 0.0 { return 100.0; }
+    let rs = avg_gain / avg_loss;
+    100.0 - (100.0 / (1.0 + rs))
+}
+
+#[wasm_bindgen]
+pub fn calcular_sma(prices_json: &str, period: usize) -> f64 {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < period { return 0.0; }
+    let sum: f64 = prices[prices.len() - period..].iter().sum();
+    sum / period as f64
+}
+
+#[wasm_bindgen]
+pub fn calcular_ema(prices_json: &str, period: usize) -> f64 {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < period { return 0.0; }
+    let k = 2.0 / (period as f64 + 1.0);
+    let mut ema = prices[0];
+    for &p in prices.iter().skip(1) {
+        ema = p * k + ema * (1.0 - k);
+    }
+    ema
+}
+
+#[wasm_bindgen]
+pub fn calcular_macd(prices_json: &str) -> String {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < 26 { return json!({"macd": 0.0, "signal": 0.0, "histogram": 0.0, "tendencia": "indefinida"}).to_string(); }
+    let ema12 = calcular_ema(prices_json, 12);
+    let ema26 = calcular_ema(prices_json, 26);
+    let macd = ema12 - ema26;
+    let signal = macd * 0.9;
+    let histogram = macd - signal;
+    json!({
+        "macd": (macd * 10000.0).round() / 10000.0,
+        "signal": (signal * 10000.0).round() / 10000.0,
+        "histogram": (histogram * 10000.0).round() / 10000.0,
+        "tendencia": if histogram > 0.0 { "alcista" } else { "bajista" }
+    }).to_string()
+}
+
+#[wasm_bindgen]
+pub fn calcular_bollinger(prices_json: &str, period: usize) -> String {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < period { return json!({"superior": 0.0, "media": 0.0, "inferior": 0.0, "posicion": "indefinida"}).to_string(); }
+    let slice = &prices[prices.len() - period..];
+    let sma: f64 = slice.iter().sum::<f64>() / period as f64;
+    let variance: f64 = slice.iter().map(|p| (p - sma).powi(2)).sum::<f64>() / period as f64;
+    let std = variance.sqrt();
+    let superior = sma + 2.0 * std;
+    let inferior = sma - 2.0 * std;
+    let ultimo = prices[prices.len() - 1];
+    let posicion = if ultimo > superior { "sobrecompra" } else if ultimo < inferior { "sobreventa" } else { "neutral" };
+    json!({
+        "superior": (superior * 10000.0).round() / 10000.0,
+        "media": (sma * 10000.0).round() / 10000.0,
+        "inferior": (inferior * 10000.0).round() / 10000.0,
+        "posicion": posicion
+    }).to_string()
+}
+
+#[wasm_bindgen]
+pub fn calcular_volatilidad(prices_json: &str) -> f64 {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < 2 { return 0.0; }
+    let media: f64 = prices.iter().sum::<f64>() / prices.len() as f64;
+    let varianza: f64 = prices.iter().map(|p| (p - media).powi(2)).sum::<f64>() / prices.len() as f64;
+    let std = varianza.sqrt();
+    if media == 0.0 { return 0.0; }
+    (std / media) * 100.0
+}
+
+#[wasm_bindgen]
+pub fn analizar_tendencia(prices_json: &str) -> String {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < 10 { return "indefinida".to_string(); }
+    let sma_corta = calcular_sma(prices_json, 5);
+    let sma_larga = calcular_sma(prices_json, 20.min(prices.len()));
+    let diff_pct = if sma_larga > 0.0 { (sma_corta - sma_larga) / sma_larga * 100.0 } else { 0.0 };
+    if diff_pct > 2.0 { "alcista_fuerte".to_string() }
+    else if diff_pct > 0.5 { "alcista".to_string() }
+    else if diff_pct < -2.0 { "bajista_fuerte".to_string() }
+    else if diff_pct < -0.5 { "bajista".to_string() }
+    else { "lateral".to_string() }
+}
+
+#[wasm_bindgen]
+pub fn detectar_soporte_resistencia(prices_json: &str) -> String {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < 20 { return json!({"soporte": 0.0, "resistencia": 0.0}).to_string(); }
+    let ventana = 5;
+    let mut soportes: Vec<f64> = Vec::new();
+    let mut resistencias: Vec<f64> = Vec::new();
+    for i in ventana..(prices.len() - ventana) {
+        let slice = &prices[i - ventana..=i + ventana];
+        if slice.iter().all(|&p| p >= prices[i]) { soportes.push(prices[i]); }
+        if slice.iter().all(|&p| p <= prices[i]) { resistencias.push(prices[i]); }
+    }
+    let soporte = if soportes.is_empty() { 0.0 } else { soportes.iter().sum::<f64>() / soportes.len() as f64 };
+    let resistencia = if resistencias.is_empty() { 0.0 } else { resistencias.iter().sum::<f64>() / resistencias.len() as f64 };
+    json!({
+        "soporte": (soporte * 10000.0).round() / 10000.0,
+        "resistencia": (resistencia * 10000.0).round() / 10000.0,
+        "niveles_soporte": soportes.len(),
+        "niveles_resistencia": resistencias.len()
+    }).to_string()
+}
+
+#[wasm_bindgen]
+pub fn calcular_sharpe_ratio(returns_json: &str) -> f64 {
+    let returns: Vec<f64> = serde_json::from_str(returns_json).unwrap_or_default();
+    if returns.len() < 2 { return 0.0; }
+    let media: f64 = returns.iter().sum::<f64>() / returns.len() as f64;
+    let varianza: f64 = returns.iter().map(|r| (r - media).powi(2)).sum::<f64>() / (returns.len() - 1) as f64;
+    let std = varianza.sqrt();
+    if std == 0.0 { return 0.0; }
+    media / std
+}
+
+#[wasm_bindgen]
+pub fn calcular_stochastic(highs_json: &str, lows_json: &str, closes_json: &str, period: usize) -> String {
+    let highs: Vec<f64> = serde_json::from_str(highs_json).unwrap_or_default();
+    let lows: Vec<f64> = serde_json::from_str(lows_json).unwrap_or_default();
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    if highs.len() < period || lows.len() < period || closes.len() < period {
+        return json!({"k": 50.0, "d": 50.0, "señal": "neutral"}).to_string();
+    }
+    let slice_high = &highs[highs.len() - period..];
+    let slice_low = &lows[lows.len() - period..];
+    let highest = slice_high.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+    let lowest = slice_low.iter().cloned().fold(f64::INFINITY, f64::min);
+    let close = closes[closes.len() - 1];
+    let k = if highest - lowest == 0.0 { 50.0 } else { (close - lowest) / (highest - lowest) * 100.0 };
+    let d = k * 0.9;
+    json!({
+        "k": (k * 100.0).round() / 100.0,
+        "d": (d * 100.0).round() / 100.0,
+        "señal": if k < 20.0 { "sobreventa" } else if k > 80.0 { "sobrecompra" } else { "neutral" }
+    }).to_string()
+}
+
+#[wasm_bindgen]
+pub fn calcular_atr(highs_json: &str, lows_json: &str, closes_json: &str, period: usize) -> f64 {
+    let highs: Vec<f64> = serde_json::from_str(highs_json).unwrap_or_default();
+    let lows: Vec<f64> = serde_json::from_str(lows_json).unwrap_or_default();
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    if highs.len() < 2 || lows.len() < 2 || closes.len() < 2 { return 0.0; }
+    let mut trs: Vec<f64> = Vec::new();
+    for i in 1..highs.len() {
+        let tr = (highs[i] - lows[i])
+            .max((highs[i] - closes[i - 1]).abs())
+            .max((lows[i] - closes[i - 1]).abs());
+        trs.push(tr);
+    }
+    if trs.len() < period { return 0.0; }
+    let slice = &trs[trs.len() - period..];
+    slice.iter().sum::<f64>() / period as f64
+}
+
+#[wasm_bindgen]
+pub fn analisis_tecnico_completo(prices_json: &str, volumes_json: &str) -> String {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    let _volumes: Vec<f64> = serde_json::from_str(volumes_json).unwrap_or_default();
+    if prices.len() < 30 {
+        return json!({"error": "Datos insuficientes (mínimo 30 puntos)"}).to_string();
+    }
+    let rsi = calcular_rsi(prices_json, 14);
+    let macd = calcular_macd(prices_json);
+    let bollinger = calcular_bollinger(prices_json, 20);
+    let volatilidad = calcular_volatilidad(prices_json);
+    let tendencia = analizar_tendencia(prices_json);
+    let sr = detectar_soporte_resistencia(prices_json);
+    let sma20 = calcular_sma(prices_json, 20);
+    let ema12 = calcular_ema(prices_json, 12);
+    let ultimo_precio = prices[prices.len() - 1];
+    let mut score = 0;
+    if rsi < 30.0 { score += 2; }
+    if rsi > 70.0 { score -= 2; }
+    if tendencia.contains("alcista") { score += 1; }
+    if tendencia.contains("bajista") { score -= 1; }
+    if ultimo_precio > sma20 { score += 1; } else { score -= 1; }
+    if ultimo_precio > ema12 { score += 1; } else { score -= 1; }
+    let señal = if score >= 3 { "COMPRAR" } else if score <= -3 { "NO COMPRAR" } else { "NEUTRAL" };
+    json!({
+        "precio_actual": ultimo_precio,
+        "rsi": (rsi * 100.0).round() / 100.0,
+        "macd": serde_json::from_str::<serde_json::Value>(&macd).unwrap_or(json!({})),
+        "bollinger": serde_json::from_str::<serde_json::Value>(&bollinger).unwrap_or(json!({})),
+        "volatilidad_pct": (volatilidad * 100.0).round() / 100.0,
+        "tendencia": tendencia,
+        "soporte_resistencia": serde_json::from_str::<serde_json::Value>(&sr).unwrap_or(json!({})),
+        "sma20": (sma20 * 10000.0).round() / 10000.0,
+        "ema12": (ema12 * 10000.0).round() / 10000.0,
+        "score": score,
+        "señal": señal
+    }).to_string()
+}
