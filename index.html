@@ -232,6 +232,7 @@
 </head>
 <body>
 
+<button id="forceUpdateBtn" style="display:none;position:fixed;top:10px;right:10px;z-index:9999;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;border:2px solid #fff;padding:10px 18px;border-radius:30px;font-weight:bold;font-size:0.75rem;cursor:pointer;box-shadow:0 4px 20px rgba(239,68,68,0.6);">🔄 Actualizar App</button>
 <div class="normal-mode" id="normalMode">
     <div class="container">
         <div class="header">
@@ -1739,6 +1740,41 @@ document.getElementById('btnEstado').onclick = () => { const coreE = core403M.ge
         console.log('✅ PWA instalada correctamente');
         showToast('✅ NextMoon AI instalada');
     });
+
+    // 🚨 Detector de error: mostrar botón si WASM no carga
+    setTimeout(() => {
+        const btn = document.getElementById('forceUpdateBtn');
+        if (!btn) return;
+        
+        if (!window.rustWASM || !window.rustWASM.cargado) {
+            console.warn('⚠️ WASM no cargó, mostrando botón de emergencia');
+            btn.style.display = 'block';
+            
+            btn.onclick = async () => {
+                btn.textContent = '🔄 Limpiando...';
+                btn.disabled = true;
+                
+                try {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    for (let r of regs) await r.unregister();
+                    console.log('✅ SW desregistrados:', regs.length);
+                    
+                    const keys = await caches.keys();
+                    for (let k of keys) await caches.delete(k);
+                    console.log('✅ Cachés borradas:', keys.length);
+                    
+                    location.reload(true);
+                } catch(e) {
+                    console.error('❌ Error:', e);
+                    btn.textContent = '❌ Reintentar';
+                    btn.disabled = false;
+                }
+            };
+        } else {
+            btn.style.display = 'none';
+        }
+    }, 5000);
+    
 })();
 </script>
 <!-- Botón flotante PWA -->

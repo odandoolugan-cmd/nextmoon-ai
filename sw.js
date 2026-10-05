@@ -2,7 +2,7 @@
 // 🦀 NextMoon AI · Service Worker v7 · Auto-actualización
 // ═══════════════════════════════════════════════════════════════
 
-const CACHE_VERSION = 'v7';
+const CACHE_VERSION = 'v8';
 const CACHE_STATIC = 'nextmoon-static-' + CACHE_VERSION;
 const CACHE_DYNAMIC = 'nextmoon-dynamic-' + CACHE_VERSION;
 
