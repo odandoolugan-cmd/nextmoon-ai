@@ -66,6 +66,8 @@
         .tool-btn.memoria:hover { background: #ec4899; color: white; }
         .tool-btn.ilimitado { border-color: #f59e0b; color: #fbbf24; }
         .tool-btn.ilimitado:hover { background: linear-gradient(90deg, #f59e0b, #d97706); color: white; }
+        .tool-btn.backtest { border-color: #8b5cf6; color: #a78bfa; background: rgba(139,92,246,0.15); }
+        .tool-btn.backtest:hover { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; border: 2px solid #ce422b; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
@@ -1664,7 +1666,20 @@ document.getElementById('btn12Fuentes').onclick = async () => { const tema = cur
 document.getElementById('btnFuentesIlimitadas').onclick = async () => { const tema = currentToken || 'BTC'; showToast('♾️ Fuentes ilimitadas...'); const r = await fuentes12.buscarTodas(tema); const r2 = await agentReach.buscar(tema); const total = r.resumen.total_resultados + r2.github.length + r2.reddit.length + r2.wiki.length; document.getElementById('ultraFuentes').textContent = total; mostrarModal('♾️ Fuentes Ilimitadas', `Total: ${total} resultados\n\n📚 12 Fuentes: ${r.resumen.total_resultados}\n📦 GitHub: ${r2.github.length}\n📖 Reddit: ${r2.reddit.length}\n🌐 Wikipedia: ${r2.wiki.length}`); };
 document.getElementById('btnAnalisisCompleto').onclick = () => { if (!ultimoAnalisis) { showToast('⚠️ Primero analiza una cripto', true); return; } const stats = rustWASM.contarPalabras(ultimoAnalisis); const kw = rustWASM.keywords(ultimoAnalisis, 10); mostrarModal('📊 Análisis Completo', `📝 Palabras: ${stats.palabras}\n🔄 Únicas: ${stats.unicas}\n📖 Oraciones: ${stats.oraciones}\n\n🏷️ Keywords: ${kw.map(k => `${k.palabra} (${k.frecuencia})`).join(', ')}\n\n🌐 Idioma: ${rustWASM.idioma(ultimoAnalisis)}\n📈 Riqueza: ${Math.round(stats.unicas / stats.palabras * 100)}%\n⚡ WASM Rust: 50x más rápido\n🔄 Multi-IA: ${iaOkCount} OK · ${iaFailsCount} fallos`); };
 document.getElementById('btnMemoriaStatus').onclick = () => { const e = core403M.getEstado(); mostrarModal('🧠 Memoria WASM + Core 403M', `💾 Análisis guardados: ${cacheInvestigaciones.length}\n\nÚltimos análisis:\n${cacheInvestigaciones.slice(0, 5).map(c => `• ${c.symbol} (${c.señal}) - ${new Date(c.fecha).toLocaleDateString()}`).join('\n') || 'Sin datos'}\n\n🧬 CORE 403M:\n• Consultas: ${e.consultas}\n• Temas: ${e.temas}\n• Evoluciones: ${e.evoluciones}\n• Calidad: ${e.calidadPromedio}%\n\n📦 Caché WASM: ${rustWASM.getCacheSize()}`); };
-document.getElementById('btnEstado').onclick = () => { const coreE = core403M.getEstado(); const arE = agentReach.getStats(); mostrarModal('🔌 Estado Completo', `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n📊 Funciones WASM: ${rustWASM.stats.funciones}\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n💰 Token actual: ${currentToken}\n📈 Precio: $${currentTokenData?.price || '---'}\n📊 Fuente: ${currentTokenData?.fuente || '---'}\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado] || 'Español'}\n\n💾 Análisis guardados: ${cacheInvestigaciones.length}`); };
+document.getElementById('btnEstado').onclick = () => { const coreE = core403M.getEstado();
+// 🎯 Backtest
+document.getElementById('btnBacktest').onclick = async () => {
+    showToast('🎯 Iniciando backtest...');
+    try {
+        const reporte = await ejecutarBacktest('BTC', 365);
+        mostrarBacktest(reporte);
+        showToast('✅ Backtest completado');
+    } catch(e) {
+        console.error('❌ Error backtest:', e);
+        showToast('❌ Error: ' + e.message, true);
+    }
+};
+ const arE = agentReach.getStats(); mostrarModal('🔌 Estado Completo', `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n📊 Funciones WASM: ${rustWASM.stats.funciones}\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n💰 Token actual: ${currentToken}\n📈 Precio: $${currentTokenData?.price || '---'}\n📊 Fuente: ${currentTokenData?.fuente || '---'}\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado] || 'Español'}\n\n💾 Análisis guardados: ${cacheInvestigaciones.length}`); };
 
 // ============================================
 // 🚀 INICIALIZACIÓN
@@ -1781,4 +1796,6 @@ document.getElementById('btnEstado').onclick = () => { const coreE = core403M.ge
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
 <script src="trading_system.js"></script>
+
+<script src="backtest.js"></script>
 </html>
