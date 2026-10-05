@@ -885,7 +885,7 @@ pub fn analisis_tecnico_completo(prices_json: &str, volumes_json: &str) -> Strin
     let sma20 = calcular_sma(prices_json, 20);
     let ema12 = calcular_ema(prices_json, 12);
     let ultimo_precio = prices[prices.len() - 1];
-    let mut score = 0;
+    let mut score: i32 = 0;
     if rsi < 30.0 { score += 2; }
     if rsi > 70.0 { score -= 2; }
     if tendencia.contains("alcista") { score += 1; }
@@ -905,5 +905,376 @@ pub fn analisis_tecnico_completo(prices_json: &str, volumes_json: &str) -> Strin
         "ema12": (ema12 * 10000.0).round() / 10000.0,
         "score": score,
         "señal": señal
+    }).to_string()
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📈 ANÁLISIS TÉCNICO AVANZADO (v6 — 8 funciones nuevas)
+// ═══════════════════════════════════════════════════════════════
+
+// ─────────────────────────────────────────────
+// 13. Ichimoku Cloud
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn calcular_ichimoku(highs_json: &str, lows_json: &str, closes_json: &str) -> String {
+    let highs: Vec<f64> = serde_json::from_str(highs_json).unwrap_or_default();
+    let lows: Vec<f64> = serde_json::from_str(lows_json).unwrap_or_default();
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    
+    if highs.len() < 52 || lows.len() < 52 || closes.len() < 52 {
+        return json!({"error": "Se necesitan al menos 52 puntos"}).to_string();
+    }
+    
+    let high_max = |p: usize| -> f64 { highs[highs.len() - p..].iter().cloned().fold(f64::NEG_INFINITY, f64::max) };
+    let low_min = |p: usize| -> f64 { lows[lows.len() - p..].iter().cloned().fold(f64::INFINITY, f64::min) };
+    
+    let tenkan = (high_max(9) + low_min(9)) / 2.0;
+    let kijun = (high_max(26) + low_min(26)) / 2.0;
+    let senkou_a = (tenkan + kijun) / 2.0;
+    let senkou_b = (high_max(52) + low_min(52)) / 2.0;
+    let chikou = closes[closes.len() - 1];
+    
+    let ultimo = closes[closes.len() - 1];
+    let posicion = if ultimo > senkou_a.max(senkou_b) { "arriba_nube" }
+                   else if ultimo < senkou_a.min(senkou_b) { "abajo_nube" }
+                   else { "dentro_nube" };
+    
+    json!({
+        "tenkan": (tenkan * 100.0).round() / 100.0,
+        "kijun": (kijun * 100.0).round() / 100.0,
+        "senkou_a": (senkou_a * 100.0).round() / 100.0,
+        "senkou_b": (senkou_b * 100.0).round() / 100.0,
+        "chikou": (chikou * 100.0).round() / 100.0,
+        "posicion": posicion
+    }).to_string()
+}
+
+// ─────────────────────────────────────────────
+// 14. Fibonacci Retracement
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn calcular_fibonacci(highs_json: &str, lows_json: &str) -> String {
+    let highs: Vec<f64> = serde_json::from_str(highs_json).unwrap_or_default();
+    let lows: Vec<f64> = serde_json::from_str(lows_json).unwrap_or_default();
+    
+    if highs.is_empty() || lows.is_empty() {
+        return json!({"error": "Datos vacíos"}).to_string();
+    }
+    
+    let max = highs.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+    let min = lows.iter().cloned().fold(f64::INFINITY, f64::min);
+    let diff = max - min;
+    
+    json!({
+        "nivel_0": (max * 100.0).round() / 100.0,
+        "nivel_236": ((max - diff * 0.236) * 100.0).round() / 100.0,
+        "nivel_382": ((max - diff * 0.382) * 100.0).round() / 100.0,
+        "nivel_500": ((max - diff * 0.500) * 100.0).round() / 100.0,
+        "nivel_618": ((max - diff * 0.618) * 100.0).round() / 100.0,
+        "nivel_786": ((max - diff * 0.786) * 100.0).round() / 100.0,
+        "nivel_1000": (min * 100.0).round() / 100.0,
+    }).to_string()
+}
+
+// ─────────────────────────────────────────────
+// 15. Detector de patrones de velas
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn detectar_patron_velas(opens_json: &str, highs_json: &str, lows_json: &str, closes_json: &str) -> String {
+    let opens: Vec<f64> = serde_json::from_str(opens_json).unwrap_or_default();
+    let highs: Vec<f64> = serde_json::from_str(highs_json).unwrap_or_default();
+    let lows: Vec<f64> = serde_json::from_str(lows_json).unwrap_or_default();
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    
+    if opens.len() < 3 || highs.len() < 3 || lows.len() < 3 || closes.len() < 3 {
+        return json!({"error": "Se necesitan al menos 3 velas"}).to_string();
+    }
+    
+    let mut patrones: Vec<&str> = Vec::new();
+    let n = closes.len();
+    
+    // Vela actual
+    let o = opens[n - 1];
+    let h = highs[n - 1];
+    let l = lows[n - 1];
+    let c = closes[n - 1];
+    
+    let cuerpo = (c - o).abs();
+    let rango = h - l;
+    let mecha_sup = h - o.max(c);
+    let mecha_inf = o.min(c) - l;
+    
+    // Doji
+    if cuerpo < rango * 0.1 && rango > 0.0 { patrones.push("doji"); }
+    
+    // Hammer (martillo)
+    if mecha_inf > cuerpo * 2.0 && mecha_sup < cuerpo * 0.5 { patrones.push("hammer"); }
+    
+    // Shooting Star (estrella fugaz)
+    if mecha_sup > cuerpo * 2.0 && mecha_inf < cuerpo * 0.5 { patrones.push("shooting_star"); }
+    
+    // Bullish Engulfing
+    let o_prev = opens[n - 2];
+    let c_prev = closes[n - 2];
+    if c_prev < o_prev && c > o && c > o_prev && o < c_prev { patrones.push("bullish_engulfing"); }
+    
+    // Bearish Engulfing
+    if c_prev > o_prev && c < o && c < o_prev && o > c_prev { patrones.push("bearish_engulfing"); }
+    
+    // Three White Soldiers
+    if n >= 3 {
+        let c1 = closes[n - 3]; let c2 = closes[n - 2]; let c3 = closes[n - 1];
+        let o1 = opens[n - 3]; let o2 = opens[n - 2]; let o3 = opens[n - 1];
+        if c1 > o1 && c2 > o2 && c3 > o3 && c2 > c1 && c3 > c2 { patrones.push("three_white_soldiers"); }
+    }
+    
+    // Three Black Crows
+    if n >= 3 {
+        let c1 = closes[n - 3]; let c2 = closes[n - 2]; let c3 = closes[n - 1];
+        let o1 = opens[n - 3]; let o2 = opens[n - 2]; let o3 = opens[n - 1];
+        if c1 < o1 && c2 < o2 && c3 < o3 && c2 < c1 && c3 < c2 { patrones.push("three_black_crows"); }
+    }
+    
+    json!({
+        "patrones": patrones,
+        "total": patrones.len(),
+        "es_alcista": patrones.iter().any(|p| p.contains("bullish") || p == &"hammer" || p == &"three_white_soldiers"),
+        "es_bajista": patrones.iter().any(|p| p.contains("bearish") || p == &"shooting_star" || p == &"three_black_crows")
+    }).to_string()
+}
+
+// ─────────────────────────────────────────────
+// 16. ADX (Average Directional Index)
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn calcular_adx(highs_json: &str, lows_json: &str, closes_json: &str, period: usize) -> f64 {
+    let highs: Vec<f64> = serde_json::from_str(highs_json).unwrap_or_default();
+    let lows: Vec<f64> = serde_json::from_str(lows_json).unwrap_or_default();
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    
+    if highs.len() < period + 1 || lows.len() < period + 1 || closes.len() < period + 1 {
+        return 0.0;
+    }
+    
+    let mut tr_sum = 0.0;
+    let mut plus_dm_sum = 0.0;
+    let mut minus_dm_sum = 0.0;
+    
+    for i in (highs.len() - period)..highs.len() {
+        if i == 0 { continue; }
+        let tr = (highs[i] - lows[i])
+            .max((highs[i] - closes[i - 1]).abs())
+            .max((lows[i] - closes[i - 1]).abs());
+        tr_sum += tr;
+        
+        let up = highs[i] - highs[i - 1];
+        let down = lows[i - 1] - lows[i];
+        if up > down && up > 0.0 { plus_dm_sum += up; }
+        if down > up && down > 0.0 { minus_dm_sum += down; }
+    }
+    
+    if tr_sum == 0.0 { return 0.0; }
+    let plus_di = 100.0 * plus_dm_sum / tr_sum;
+    let minus_di = 100.0 * minus_dm_sum / tr_sum;
+    let sum = plus_di + minus_di;
+    if sum == 0.0 { return 0.0; }
+    let dx = 100.0 * (plus_di - minus_di).abs() / sum;
+    dx
+}
+
+// ─────────────────────────────────────────────
+// 17. OBV (On-Balance Volume)
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn calcular_obv(closes_json: &str, volumes_json: &str) -> f64 {
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    let volumes: Vec<f64> = serde_json::from_str(volumes_json).unwrap_or_default();
+    
+    if closes.len() < 2 || volumes.len() < 2 { return 0.0; }
+    
+    let mut obv = 0.0;
+    for i in 1..closes.len().min(volumes.len()) {
+        if closes[i] > closes[i - 1] { obv += volumes[i]; }
+        else if closes[i] < closes[i - 1] { obv -= volumes[i]; }
+    }
+    obv
+}
+
+// ─────────────────────────────────────────────
+// 18. VWAP (Volume Weighted Average Price)
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn calcular_vwap(highs_json: &str, lows_json: &str, closes_json: &str, volumes_json: &str) -> f64 {
+    let highs: Vec<f64> = serde_json::from_str(highs_json).unwrap_or_default();
+    let lows: Vec<f64> = serde_json::from_str(lows_json).unwrap_or_default();
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    let volumes: Vec<f64> = serde_json::from_str(volumes_json).unwrap_or_default();
+    
+    let n = highs.len().min(lows.len()).min(closes.len()).min(volumes.len());
+    if n == 0 { return 0.0; }
+    
+    let mut pv_sum = 0.0;
+    let mut v_sum = 0.0;
+    
+    for i in 0..n {
+        let tp = (highs[i] + lows[i] + closes[i]) / 3.0;
+        pv_sum += tp * volumes[i];
+        v_sum += volumes[i];
+    }
+    
+    if v_sum == 0.0 { return 0.0; }
+    pv_sum / v_sum
+}
+
+// ─────────────────────────────────────────────
+// 19. Detector de divergencias (RSI vs Precio)
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn detectar_divergencia(closes_json: &str) -> String {
+    let closes: Vec<f64> = serde_json::from_str(closes_json).unwrap_or_default();
+    
+    if closes.len() < 30 {
+        return json!({"tipo": "indefinida", "fuerza": 0.0}).to_string();
+    }
+    
+    // Calcular RSI simple para cada punto
+    let period = 14;
+    let mut rsi_series: Vec<f64> = Vec::new();
+    for i in period..closes.len() {
+        let slice = &closes[i - period..i];
+        let mut gains = 0.0;
+        let mut losses = 0.0;
+        for j in 1..slice.len() {
+            let diff = slice[j] - slice[j - 1];
+            if diff > 0.0 { gains += diff; } else { losses -= diff; }
+        }
+        let rs = if losses == 0.0 { 100.0 } else { gains / losses };
+        rsi_series.push(100.0 - (100.0 / (1.0 + rs)));
+    }
+    
+    if rsi_series.len() < 10 { return json!({"tipo": "indefinida", "fuerza": 0.0}).to_string(); }
+    
+    // Comparar últimos movimientos de precio vs RSI
+    let precio_reciente = closes[closes.len() - 1];
+    let precio_anterior = closes[closes.len() - 10];
+    let rsi_reciente = rsi_series[rsi_series.len() - 1];
+    let rsi_anterior = rsi_series[rsi_series.len() - 10];
+    
+    let precio_sube = precio_reciente > precio_anterior;
+    let rsi_sube = rsi_reciente > rsi_anterior;
+    
+    let tipo = if precio_sube && !rsi_sube {
+        "divergencia_bajista"  // Precio sube, RSI baja = posible reversión
+    } else if !precio_sube && rsi_sube {
+        "divergencia_alcista"  // Precio baja, RSI sube = posible rebote
+    } else {
+        "sin_divergencia"
+    };
+    
+    let fuerza = ((rsi_reciente - rsi_anterior).abs() / 100.0 * 5.0).min(1.0);
+    
+    json!({
+        "tipo": tipo,
+        "fuerza": (fuerza * 100.0).round() / 100.0,
+        "precio_actual": precio_reciente,
+        "rsi_actual": (rsi_reciente * 100.0).round() / 100.0
+    }).to_string()
+}
+
+// ─────────────────────────────────────────────
+// 20. Generador de señal de compra global
+// ─────────────────────────────────────────────
+#[wasm_bindgen]
+pub fn generar_senal_compra(
+    prices_json: &str,
+    highs_json: &str,
+    lows_json: &str,
+    opens_json: &str,
+    closes_json: &str,
+    volumes_json: &str,
+) -> String {
+    let prices: Vec<f64> = serde_json::from_str(prices_json).unwrap_or_default();
+    if prices.len() < 30 {
+        return json!({"error": "Datos insuficientes"}).to_string();
+    }
+    
+    let rsi = calcular_rsi(prices_json, 14);
+    let macd = serde_json::from_str::<serde_json::Value>(&calcular_macd(prices_json)).unwrap_or(json!({}));
+    let tendencia = analizar_tendencia(prices_json);
+    let volatilidad = calcular_volatilidad(prices_json);
+    let bollinger = serde_json::from_str::<serde_json::Value>(&calcular_bollinger(prices_json, 20)).unwrap_or(json!({}));
+    let patrones = serde_json::from_str::<serde_json::Value>(&detectar_patron_velas(opens_json, highs_json, lows_json, closes_json)).unwrap_or(json!({}));
+    let divergencia = serde_json::from_str::<serde_json::Value>(&detectar_divergencia(prices_json)).unwrap_or(json!({}));
+    let adx = calcular_adx(highs_json, lows_json, closes_json, 14);
+    
+    // Sistema de puntuación
+    let mut score: i32 = 0;
+    let mut razones: Vec<String> = Vec::new();
+    
+    // RSI
+    if rsi < 30.0 { score += 2; razones.push(format!("RSI bajo ({:.1}) - sobreventa", rsi)); }
+    else if rsi > 70.0 { score -= 2; razones.push(format!("RSI alto ({:.1}) - sobrecompra", rsi)); }
+    
+    // MACD
+    if macd.get("tendencia").and_then(|t| t.as_str()) == Some("alcista") {
+        score += 1; razones.push("MACD alcista".to_string());
+    } else if macd.get("tendencia").and_then(|t| t.as_str()) == Some("bajista") {
+        score -= 1; razones.push("MACD bajista".to_string());
+    }
+    
+    // Tendencia
+    if tendencia.contains("alcista_fuerte") { score += 2; razones.push("Tendencia alcista fuerte".to_string()); }
+    else if tendencia.contains("alcista") { score += 1; razones.push("Tendencia alcista".to_string()); }
+    else if tendencia.contains("bajista_fuerte") { score -= 2; razones.push("Tendencia bajista fuerte".to_string()); }
+    else if tendencia.contains("bajista") { score -= 1; razones.push("Tendencia bajista".to_string()); }
+    
+    // Bollinger
+    if bollinger.get("posicion").and_then(|p| p.as_str()) == Some("sobreventa") {
+        score += 2; razones.push("Bollinger: sobreventa".to_string());
+    } else if bollinger.get("posicion").and_then(|p| p.as_str()) == Some("sobrecompra") {
+        score -= 2; razones.push("Bollinger: sobrecompra".to_string());
+    }
+    
+    // Patrones
+    if patrones.get("es_alcista").and_then(|b| b.as_bool()).unwrap_or(false) {
+        score += 2; razones.push("Patrón de velas alcista".to_string());
+    }
+    if patrones.get("es_bajista").and_then(|b| b.as_bool()).unwrap_or(false) {
+        score -= 2; razones.push("Patrón de velas bajista".to_string());
+    }
+    
+    // Divergencia
+    if divergencia.get("tipo").and_then(|t| t.as_str()) == Some("divergencia_alcista") {
+        score += 2; razones.push("Divergencia alcista".to_string());
+    } else if divergencia.get("tipo").and_then(|t| t.as_str()) == Some("divergencia_bajista") {
+        score -= 2; razones.push("Divergencia bajista".to_string());
+    }
+    
+    // ADX (fuerza de tendencia)
+    if adx > 25.0 { razones.push(format!("ADX fuerte ({:.1})", adx)); }
+    else if adx < 20.0 { razones.push(format!("ADX débil ({:.1}) - tendencia lateral", adx)); }
+    
+    // Volatilidad
+    if volatilidad > 15.0 { razones.push(format!("Alta volatilidad ({:.1}%)", volatilidad)); }
+    
+    // Decisión final
+    let señal = if score >= 4 { "COMPRAR_FUERTE" }
+                else if score >= 2 { "COMPRAR" }
+                else if score <= -4 { "VENDER_FUERTE" }
+                else if score <= -2 { "NO_COMPRAR" }
+                else { "NEUTRAL" };
+    
+    let confianza = (score.abs() as f64 / 8.0 * 100.0).min(100.0);
+    
+    json!({
+        "señal": señal,
+        "score": score,
+        "confianza_pct": (confianza * 10.0).round() / 10.0,
+        "rsi": (rsi * 100.0).round() / 100.0,
+        "adx": (adx * 100.0).round() / 100.0,
+        "tendencia": tendencia,
+        "volatilidad": (volatilidad * 100.0).round() / 100.0,
+        "razones": razones,
+        "total_razones": razones.len()
     }).to_string()
 }
