@@ -92,6 +92,64 @@ function renderizarAnalisisTecnico(tec) {
     html += '<div class="tecnico-item"><span class="tecnico-item-label">Ichimoku</span><span class="tecnico-item-value" style="color:#a78bfa;font-size:0.7rem;">' + (tec.ichimoku.posicion || 'N/A') + '</span></div>';
     html += '</div>';
 
+    // ═══ NUEVO: Grid 4 columnas con Bollinger, Soporte, Resistencia, Divergencia ═══
+    const colorBoll = tec.bollinger.posicion === 'sobreventa' ? '#10b981' : tec.bollinger.posicion === 'sobrecompra' ? '#ef4444' : '#60a5fa';
+    const bollLabel = tec.bollinger.posicion === 'sobreventa' ? '🟢 Sobreventa' : tec.bollinger.posicion === 'sobrecompra' ? '🔴 Sobrecompra' : '⚪ Neutral';
+    const divColor = tec.divergencia.tipo === 'divergencia_alcista' ? '#10b981' : tec.divergencia.tipo === 'divergencia_bajista' ? '#ef4444' : '#94a3b8';
+    const divLabel = tec.divergencia.tipo === 'divergencia_alcista' ? '🟢 Alcista' : tec.divergencia.tipo === 'divergencia_bajista' ? '🔴 Bajista' : '⚪ Sin divergencia';
+    const soporteFmt = tec.soporte.soporte > 0 ? '$' + tec.soporte.soporte.toFixed(2) : 'N/A';
+    const resistFmt = tec.soporte.resistencia > 0 ? '$' + tec.soporte.resistencia.toFixed(2) : 'N/A';
+
+    html += '<div class="tecnico-grid-4">';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Bollinger</span><span class="tecnico-item-value" style="color:' + colorBoll + ';font-size:0.75rem;">' + bollLabel + '</span><span class="tecnico-item-sub">S:' + tec.bollinger.superior.toFixed(0) + ' I:' + tec.bollinger.inferior.toFixed(0) + '</span></div>';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Soporte</span><span class="tecnico-item-value" style="color:#10b981;font-size:0.75rem;">' + soporteFmt + '</span><span class="tecnico-item-sub">' + (tec.soporte.niveles_soporte || 0) + ' niveles</span></div>';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Resistencia</span><span class="tecnico-item-value" style="color:#ef4444;font-size:0.75rem;">' + resistFmt + '</span><span class="tecnico-item-sub">' + (tec.soporte.niveles_resistencia || 0) + ' niveles</span></div>';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Divergencia</span><span class="tecnico-item-value" style="color:' + divColor + ';font-size:0.7rem;">' + divLabel + '</span><span class="tecnico-item-sub">Fuerza: ' + (tec.divergencia.fuerza * 100).toFixed(0) + '%</span></div>';
+    html += '</div>';
+
+    // ═══ NUEVO: Sección de patrones de velas ═══
+    if (tec.patrones && tec.patrones.patrones && tec.patrones.patrones.length > 0) {
+        const patronColor = tec.patrones.es_alcista ? '#10b981' : tec.patrones.es_bajista ? '#ef4444' : '#94a3b8';
+        html += '<div class="tecnico-patrones" style="border-color:' + patronColor + '40;">';
+        html += '<span class="tecnico-patrones-title" style="color:' + patronColor + ';">🕯️ Patrones de velas (' + tec.patrones.total + ')</span>';
+        for (let i = 0; i < tec.patrones.patrones.length; i++) {
+            const p = tec.patrones.patrones[i];
+            const esBajista = p.indexOf('bearish') >= 0 || p === 'shooting_star' || p === 'three_black_crows';
+            const clase = esBajista ? 'bajista' : '';
+            html += '<span class="tecnico-patron-item ' + clase + '">' + p.replace(/_/g, ' ') + '</span>';
+        }
+        html += '</div>';
+    }
+
+    // ═══ NUEVO: Grid 4 columnas con Bollinger, Soporte, Resistencia, Divergencia ═══
+    const colorBoll = tec.bollinger.posicion === 'sobreventa' ? '#10b981' : tec.bollinger.posicion === 'sobrecompra' ? '#ef4444' : '#60a5fa';
+    const bollLabel = tec.bollinger.posicion === 'sobreventa' ? '🟢 Sobreventa' : tec.bollinger.posicion === 'sobrecompra' ? '🔴 Sobrecompra' : '⚪ Neutral';
+    const divColor = tec.divergencia.tipo === 'divergencia_alcista' ? '#10b981' : tec.divergencia.tipo === 'divergencia_bajista' ? '#ef4444' : '#94a3b8';
+    const divLabel = tec.divergencia.tipo === 'divergencia_alcista' ? '🟢 Alcista' : tec.divergencia.tipo === 'divergencia_bajista' ? '🔴 Bajista' : '⚪ Sin divergencia';
+    const soporteFmt = tec.soporte.soporte > 0 ? '$' + tec.soporte.soporte.toFixed(2) : 'N/A';
+    const resistFmt = tec.soporte.resistencia > 0 ? '$' + tec.soporte.resistencia.toFixed(2) : 'N/A';
+
+    html += '<div class="tecnico-grid-4">';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Bollinger</span><span class="tecnico-item-value" style="color:' + colorBoll + ';font-size:0.75rem;">' + bollLabel + '</span><span class="tecnico-item-sub">S:' + tec.bollinger.superior.toFixed(0) + ' I:' + tec.bollinger.inferior.toFixed(0) + '</span></div>';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Soporte</span><span class="tecnico-item-value" style="color:#10b981;font-size:0.75rem;">' + soporteFmt + '</span><span class="tecnico-item-sub">' + (tec.soporte.niveles_soporte || 0) + ' niveles</span></div>';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Resistencia</span><span class="tecnico-item-value" style="color:#ef4444;font-size:0.75rem;">' + resistFmt + '</span><span class="tecnico-item-sub">' + (tec.soporte.niveles_resistencia || 0) + ' niveles</span></div>';
+    html += '<div class="tecnico-item"><span class="tecnico-item-label">Divergencia</span><span class="tecnico-item-value" style="color:' + divColor + ';font-size:0.7rem;">' + divLabel + '</span><span class="tecnico-item-sub">Fuerza: ' + (tec.divergencia.fuerza * 100).toFixed(0) + '%</span></div>';
+    html += '</div>';
+
+    // ═══ NUEVO: Sección de patrones de velas ═══
+    if (tec.patrones && tec.patrones.patrones && tec.patrones.patrones.length > 0) {
+        const patronColor = tec.patrones.es_alcista ? '#10b981' : tec.patrones.es_bajista ? '#ef4444' : '#94a3b8';
+        html += '<div class="tecnico-patrones" style="border-color:' + patronColor + '40;">';
+        html += '<span class="tecnico-patrones-title" style="color:' + patronColor + ';">🕯️ Patrones de velas (' + tec.patrones.total + ')</span>';
+        for (let i = 0; i < tec.patrones.patrones.length; i++) {
+            const p = tec.patrones.patrones[i];
+            const esBajista = p.indexOf('bearish') >= 0 || p === 'shooting_star' || p === 'three_black_crows';
+            const clase = esBajista ? 'bajista' : '';
+            html += '<span class="tecnico-patron-item ' + clase + '">' + p.replace(/_/g, ' ') + '</span>';
+        }
+        html += '</div>';
+    }
+
     if (señal.razones && señal.razones.length > 0) {
         html += '<div class="tecnico-razones"><span class="tecnico-razones-title">🎯 Razones (' + señal.razones.length + ')</span>';
         for (let i = 0; i < señal.razones.length; i++) {
