@@ -540,9 +540,9 @@ function fetchConTimeout(url, opciones = {}, timeoutMs = 8000) { const ctrl = ne
 function actualizarProveedor(nombre) {
     proveedorActual = nombre;
     const prov = document.getElementById('proveedorStatus');
-    if (prov) { prov.textContent = `✅ ${nombre}`; prov.style.color = '#10b981'; }
+    if (prov) { prov.textContent = `✅ ${nombre || 'Listo'}`; prov.style.color = '#10b981'; }
     const mw = document.getElementById('multiiaWidgetStatus');
-    if (mw) { mw.textContent = `✅ ${nombre}`; mw.style.color = '#10b981'; }
+    if (mw) { mw.textContent = `✅ ${nombre || 'Listo'}`; mw.style.color = '#10b981'; }
     const ultra = document.getElementById('ultraProveedor');
     if (ultra) ultra.textContent = nombre;
     const ok = document.getElementById('iaOkCount');
