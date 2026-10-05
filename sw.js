@@ -2,7 +2,7 @@
 // 🦀 NextMoon AI · Service Worker v9 · Auto-protección
 // ═══════════════════════════════════════════════════════════════
 
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 const CACHE_STATIC = 'nextmoon-static-' + CACHE_VERSION;
 const CACHE_DYNAMIC = 'nextmoon-dynamic-' + CACHE_VERSION;
 

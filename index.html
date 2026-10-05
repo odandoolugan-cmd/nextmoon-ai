@@ -471,7 +471,7 @@ class RustWASM {
             const version = mod.wasm_version ? mod.wasm_version() : 'unknown';
             const funcsBase = ['contar_palabras','contar_caracteres_sin_espacios','contar_oraciones','process_text_full','extract_keywords','extract_authors_fast','detectar_idioma','resumir_texto','process_agent_context','cache_response','get_cached_response','get_cache_size','clear_cache','wasm_version','now_us','detectar_muletillas_ia','similitud_coseno','sentimiento_espanol','extraer_fechas','extraer_urls','extraer_emails','normalizar_texto','calcular_hash_simhash','contar_silabas_espanol','resumir_tfidf','detectar_idioma_avanzado','detectar_clickbait','detectar_discurso_odio','detectar_pii','detectar_topicos','indice_flesch_espanol','indice_gunning_fog','densidad_lexica','longitud_media_oraciones','extraer_entidades_nombradas','extraer_numeros','extraer_hashtags_menciones','extract_ngramas','sanitizar_texto','calcular_hash_sha256'];
             const funcs = funcsBase.filter(f => typeof mod[f] === 'function');
-            console.log(`✅ WASM Rust cargado (Core ${version}M) · ${funcs.length}/40 funciones`);
+            console.log(`✅ WASM Rust cargado (Core ${version}M) · ${funcs.length}/60 funciones`);
             document.getElementById('wasmStatus').textContent = `✅ Rust real (${funcs.length} funcs)`;
             document.getElementById('wasmStatus').style.color = '#10b981';
             document.getElementById('wasmFuncsStatus').textContent = funcs.length;
