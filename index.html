@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, user-scalable=yes">
     <meta name="referrer" content="no-referrer-when-downgrade">
     <title>NextMoon AI · WASM Rust · Multi-IA · Core 403M · Agent-Reach · 12 Fuentes</title>
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8b5cf6">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NextMoon AI">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
         body { background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%); min-height: 100vh; padding: 1rem; color: #eef2ff; }
@@ -1605,7 +1616,45 @@ document.getElementById('btnEstado').onclick = () => { const coreE = core403M.ge
     actualizarProveedor(null);
     document.getElementById('searchInput').focus();
     console.log('✅ Sistema listo. Escribe un símbolo (BTC, ETH, SOL, DOGE...) y pulsa ANALIZAR');
+
+    // ═══════════════════════════════════════════════════════════════
+    // 📱 PWA: Registrar Service Worker
+    // ═══════════════════════════════════════════════════════════════
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('✅ SW registrado:', reg.scope))
+                .catch(err => console.warn('⚠️ SW error:', err));
+        });
+    }
+
+    // 📱 PWA: Detectar evento de instalación
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        console.log('📱 PWA lista para instalar');
+        // Mostrar botón de instalación si existe el elemento
+        const installBtn = document.getElementById('pwaInstallBtn');
+        if (installBtn) {
+            installBtn.style.display = 'block';
+            installBtn.onclick = () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    console.log('📱 Instalación:', choice.outcome);
+                    deferredPrompt = null;
+                });
+            };
+        }
+    });
+
+    // 📱 PWA: Detectar si se instaló
+    window.addEventListener('appinstalled', () => {
+        console.log('✅ PWA instalada correctamente');
+        showToast('✅ NextMoon AI instalada');
+    });
 })();
 </script>
-</body>
+<!-- Botón flotante PWA -->
+<button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 </html>
