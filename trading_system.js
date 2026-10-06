@@ -257,7 +257,13 @@ function renderizarTradingSystem(tec) {
     }
 
     container.innerHTML = html;
-    console.log('[Trading] ✅ Renderizado OK');
+    
+    // ⭐ MOSTRAR el widget
+    const widget = document.getElementById('widgetTrading');
+    if (widget) {
+        widget.style.display = 'block';
+        console.log('[Trading] ✅ Renderizado OK, widget display: block');
+    }
 }
 
 // Exponer al scope global
