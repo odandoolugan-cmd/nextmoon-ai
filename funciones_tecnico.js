@@ -51,6 +51,7 @@ async function analizarTecnico(symbol) {
             vwap:         wasm.calcular_vwap(hJson, lJson, cJson, vJson),
             divergencia:  JSON.parse(wasm.detectar_divergencia(cJson)),
             señal_global: JSON.parse(wasm.generar_senal_compra(cJson, hJson, lJson, oJson, cJson, vJson)),
+            _datos_k: k,
         };
     } catch(e) {
         console.error('❌ Error WASM análisis técnico:', e);
