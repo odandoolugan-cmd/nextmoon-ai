@@ -4,20 +4,20 @@
 // Cartera virtual · Aprende a operar sin arriesgar dinero real
 // ═══════════════════════════════════════════════════════════════
 
-const PAPER_TRADING_KEY = 'nextmoon_paper_trading';
-const CAPITAL_INICIAL = 1000;
-const RIESGO_PORCENTAJE = 1; // 1% del capital por operación
+const __PAPER_TRADING_KEY = 'nextmoon_paper_trading';
+const __CAPITAL_INICIAL = 1000;
+const __RIESGO_PORCENTAJE = 1; // 1% del capital por operación
 
 // ─────────────────────────────────────────────
 // 💾 PERSISTENCIA (localStorage)
 // ─────────────────────────────────────────────
 function getPaperTrading() {
     try {
-        const data = localStorage.getItem(PAPER_TRADING_KEY);
+        const data = localStorage.getItem(__PAPER_TRADING_KEY);
         if (data) {
             const cartera = JSON.parse(data);
             // Validar estructura
-            if (cartera.capitalActual === undefined) cartera.capitalActual = CAPITAL_INICIAL;
+            if (cartera.capitalActual === undefined) cartera.capitalActual = __CAPITAL_INICIAL;
             if (!cartera.operacionesAbiertas) cartera.operacionesAbiertas = [];
             if (!cartera.historial) cartera.historial = [];
             if (!cartera.metricas) cartera.metricas = { totalOps: 0, ganadoras: 0, perdedoras: 0 };
@@ -27,8 +27,8 @@ function getPaperTrading() {
         console.warn('⚠️ Error leyendo paper trading:', e);
     }
     return {
-        capitalInicial: CAPITAL_INICIAL,
-        capitalActual: CAPITAL_INICIAL,
+        capitalInicial: __CAPITAL_INICIAL,
+        capitalActual: __CAPITAL_INICIAL,
         operacionesAbiertas: [],
         historial: [],
         metricas: {
@@ -44,7 +44,7 @@ function getPaperTrading() {
 
 function guardarPaperTrading(cartera) {
     try {
-        localStorage.setItem(PAPER_TRADING_KEY, JSON.stringify(cartera));
+        localStorage.setItem(__PAPER_TRADING_KEY, JSON.stringify(cartera));
         console.log('💾 Cartera guardada:', cartera.capitalActual.toFixed(2));
     } catch(e) {
         console.warn('⚠️ Error guardando paper trading:', e);
@@ -54,8 +54,8 @@ function guardarPaperTrading(cartera) {
 function resetearPaperTrading() {
     if (!confirm('⚠️ ¿Resetear la cartera virtual a $1,000?\n\nSe perderá todo el historial.')) return;
     const nueva = {
-        capitalInicial: CAPITAL_INICIAL,
-        capitalActual: CAPITAL_INICIAL,
+        capitalInicial: __CAPITAL_INICIAL,
+        capitalActual: __CAPITAL_INICIAL,
         operacionesAbiertas: [],
         historial: [],
         metricas: { totalOps: 0, ganadoras: 0, perdedoras: 0, mejorOp: 0, peorOp: 0 },
@@ -80,7 +80,7 @@ function abrirOperacionVirtual(symbol, tipo, entrada, sl, tp1, tp2, tp3) {
     }
     
     // Calcular tamaño de posición (1% de riesgo)
-    const riesgoUSD = cartera.capitalActual * (RIESGO_PORCENTAJE / 100);
+    const riesgoUSD = cartera.capitalActual * (__RIESGO_PORCENTAJE / 100);
     const distanciaSL = Math.abs(entrada - sl);
     
     if (distanciaSL === 0) {
@@ -480,4 +480,34 @@ function mostrarConceptoTrading(conceptoKey) {
         </div>
     `;
     document.body.appendChild(modal);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 EXPONER FUNCIONES AL SCOPE GLOBAL (para el handler del módulo)
+// ═══════════════════════════════════════════════════════════════
+if (typeof window !== 'undefined') {
+    window.getPaperTrading = getPaperTrading;
+    window.guardarPaperTrading = guardarPaperTrading;
+    window.resetearPaperTrading = resetearPaperTrading;
+    window.abrirOperacionVirtual = abrirOperacionVirtual;
+    window.cerrarOperacionVirtual = cerrarOperacionVirtual;
+    window.actualizarOperacionesAbiertas = actualizarOperacionesAbiertas;
+    window.calcularMetricasPaperTrading = calcularMetricasPaperTrading;
+    window.renderizarPaperTrading = renderizarPaperTrading;
+    window.mostrarConceptoTrading = mostrarConceptoTrading;
+    console.log('✅ Paper Trading expuesto en window');
+}
+
+// 🌐 Exponer funciones al scope global
+if (typeof window !== 'undefined') {
+    window.getPaperTrading = getPaperTrading;
+    window.guardarPaperTrading = guardarPaperTrading;
+    window.resetearPaperTrading = resetearPaperTrading;
+    window.abrirOperacionVirtual = abrirOperacionVirtual;
+    window.cerrarOperacionVirtual = cerrarOperacionVirtual;
+    window.actualizarOperacionesAbiertas = actualizarOperacionesAbiertas;
+    window.calcularMetricasPaperTrading = calcularMetricasPaperTrading;
+    window.renderizarPaperTrading = renderizarPaperTrading;
+    window.mostrarConceptoTrading = mostrarConceptoTrading;
+    console.log('✅ Paper Trading expuesto en window');
 }

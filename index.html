@@ -1721,15 +1721,17 @@ document.getElementById('btnBacktest').onclick = async () => {
 
 // 🎮 Paper Trading
 document.getElementById('btnPaperTrading').onclick = () => {
-    alert('🎮 Click detectado!');
     const widget = document.getElementById('widgetPaper');
-    alert('Widget encontrado: ' + (widget ? 'SÍ' : 'NO'));
-    alert('Display actual: ' + (widget ? widget.style.display : 'N/A'));
     if (widget.style.display === 'none' || widget.style.display === '') {
         widget.style.display = 'block';
-        if (typeof renderizarPaperTrading === 'function') {
-            renderizarPaperTrading();
+        // ⭐ Acceder vía window porque paper_trading.js es script normal
+        if (typeof window.renderizarPaperTrading === 'function') {
+            window.renderizarPaperTrading();
+        } else {
+            console.warn('⚠️ renderizarPaperTrading no está en window');
+            console.log('typeof:', typeof window.renderizarPaperTrading);
         }
+        setTimeout(() => widget.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
         if (typeof showToast === 'function') showToast('🎮 Trading Virtual activado');
     } else {
         widget.style.display = 'none';
