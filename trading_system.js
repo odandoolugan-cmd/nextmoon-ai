@@ -261,3 +261,23 @@ function renderizarTradingSystem(tec) {
 
     container.innerHTML = html;
 }
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 EXPONER FUNCIONES AL SCOPE GLOBAL
+// ═══════════════════════════════════════════════════════════════
+if (typeof window !== 'undefined') {
+    window.calcularConfluencia = calcularConfluencia;
+    window.calcularSLTP = calcularSLTP;
+    window.calcularPositionSizing = calcularPositionSizing;
+    window.renderizarTradingSystem = renderizarTradingSystem;
+    console.log('✅ trading_system.js expuesto en window');
+}
+
+// 🌐 Exponer funciones al scope global
+if (typeof window !== 'undefined') {
+    window.calcularConfluencia = calcularConfluencia;
+    window.calcularSLTP = calcularSLTP;
+    window.calcularPositionSizing = calcularPositionSizing;
+    window.renderizarTradingSystem = renderizarTradingSystem;
+    console.log('✅ trading_system.js expuesto en window');
+}

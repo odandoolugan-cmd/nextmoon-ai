@@ -132,7 +132,14 @@ function renderizarAnalisisTecnico(tec) {
     content.innerHTML = html;
     
     // 🎯 Renderizar sistema de trading
-    if (typeof renderizarTradingSystem === 'function') {
-        renderizarTradingSystem(tec);
+    if (typeof window.renderizarTradingSystem === 'function') {
+        try {
+            window.renderizarTradingSystem(tec);
+            console.log('✅ Sistema de trading renderizado');
+        } catch(e) {
+            console.error('❌ Error renderizando sistema de trading:', e);
+        }
+    } else {
+        console.warn('⚠️ window.renderizarTradingSystem no está disponible');
     }
 }
