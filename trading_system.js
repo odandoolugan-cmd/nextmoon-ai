@@ -246,5 +246,18 @@ function renderizarTradingSystem(tec) {
     }
     html += '</div>';
 
+    // ═══ BOTONES COMPRAR/VENDER VIRTUAL ═══
+    if (sltp && (confluencia.decision.includes('COMPRAR') || confluencia.decision.includes('VENDER'))) {
+        const symbolActual = window.currentToken || 'BTC';
+        html += '<div class="tecnico-acciones">';
+        html += '<button onclick="window.abrirOperacionVirtual(\'' + symbolActual + '\', \'' + confluencia.decision + '\', ' + sltp.precioEntrada + ', ' + sltp.sl + ', ' + sltp.tp1 + ', ' + sltp.tp2 + ', ' + sltp.tp3 + ')" class="btn-virtual-comprar">';
+        html += '🎮 ' + confluencia.decision + ' VIRTUAL';
+        html += '</button>';
+        html += '<button onclick="this.closest(\'.tecnico-acciones\').style.display=\'none\'" class="btn-virtual-ignorar">';
+        html += '❌ Ignorar';
+        html += '</button>';
+        html += '</div>';
+    }
+
     container.innerHTML = html;
 }
