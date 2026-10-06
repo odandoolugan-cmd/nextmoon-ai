@@ -68,6 +68,8 @@
         .tool-btn.ilimitado:hover { background: linear-gradient(90deg, #f59e0b, #d97706); color: white; }
         .tool-btn.backtest { border-color: #8b5cf6; color: #a78bfa; background: rgba(139,92,246,0.15); }
         .tool-btn.backtest:hover { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; }
+        .tool-btn.paper { border-color: #ec4899; color: #f472b6; background: rgba(236,72,153,0.15); }
+        .tool-btn.paper:hover { background: linear-gradient(90deg, #ec4899, #8b5cf6); color: white; }
         
         .search-box { display: flex; gap: 0.5rem; background: #1e293b; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1rem; border: 2px solid #ce422b; }
         .search-input { flex: 1; background: transparent; border: none; padding: 0.7rem 1rem; color: white; outline: none; font-size: 0.9rem; }
@@ -229,7 +231,29 @@
         .tecnico-patrones-title { font-weight: bold; display: block; margin-bottom: 6px; }
         .tecnico-patron-item { display: inline-block; background: rgba(16, 185, 129, 0.2); padding: 3px 8px; border-radius: 12px; margin: 2px; color: #34d399; font-size: 0.65rem; }
         .tecnico-patron-item.bajista { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; } .connector-metrics { grid-template-columns: 1fr 1fr; } h1 { font-size: 1.3rem; } }
+        @media (max-width: 700px) { .widget-container { grid-template-columns: 1fr; }
+
+        /* 🎮 Paper Trading */
+        .widget-paper { background: rgba(236, 72, 153, 0.08); border: 2px solid #ec4899; border-radius: 1.5rem; padding: 1.2rem; margin: 15px 0; }
+        .pt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .pt-title { font-weight: 700; color: #f472b6; font-size: 0.85rem; }
+        .pt-badge { background: linear-gradient(90deg, #ec4899, #8b5cf6); color: white; padding: 3px 12px; border-radius: 12px; font-size: 0.6rem; font-weight: bold; }
+        .pt-loading { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; }
+        .pt-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .pt-metric { background: #0a0f1e; padding: 10px 8px; border-radius: 8px; text-align: center; }
+        .pt-label { font-size: 0.55rem; color: #94a3b8; margin-bottom: 4px; }
+        .pt-value { font-size: 1rem; font-weight: bold; color: #eef2ff; }
+        .pt-section { margin-top: 12px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .pt-section-title { color: #f472b6; font-weight: bold; font-size: 0.7rem; margin-bottom: 8px; text-transform: uppercase; }
+        .pt-op { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px; margin-bottom: 6px; font-size: 0.7rem; }
+        .pt-op-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-weight: bold; }
+        .pt-op-close { background: #ef4444; color: white; border: none; padding: 2px 8px; border-radius: 10px; font-size: 0.6rem; cursor: pointer; }
+        .pt-op-row { display: flex; justify-content: space-between; color: #94a3b8; }
+        .pt-hist-item { display: flex; align-items: center; gap: 6px; padding: 4px 0; border-bottom: 1px solid rgba(148,163,184,0.1); font-size: 0.65rem; }
+        .pt-hist-item:last-child { border-bottom: none; }
+        .pt-reset { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
+        .pt-reset:hover { background: #dc2626; }
+        @media (max-width: 700px) { .pt-metrics { grid-template-columns: 1fr 1fr; } } .connector-metrics { grid-template-columns: 1fr 1fr; } h1 { font-size: 1.3rem; } }
     </style>
 </head>
 <body>
@@ -323,6 +347,8 @@
             <button class="tool-btn decision" id="btnAnalisisCompleto">📊 Análisis</button>
             <button class="tool-btn memoria" id="btnMemoriaStatus">🧠 Memoria</button>
             <button class="tool-btn" id="btnEstado">🔌 Estado</button>
+            <button class="tool-btn backtest" id="btnBacktest">🎯 Backtest</button>
+            <button class="tool-btn paper" id="btnPaperTrading">🎮 Paper Trading</button>
         </div>
 
         <div class="progress-bar-container">
@@ -442,7 +468,18 @@
             </div>
         </div>
 
-        <div class="references-section" id="referencesSection" style="display:none;">
+                <!-- 🎮 PAPER TRADING -->
+        <div class="widget-paper" id="widgetPaper" style="display:none;">
+            <div class="pt-header">
+                <span class="pt-title">🎮 Trading Virtual</span>
+                <span class="pt-badge">🦀 Aprende sin arriesgar</span>
+            </div>
+            <div id="paperTradingContent">
+                <div class="pt-loading">Analiza una cripto para empezar a operar virtualmente</div>
+            </div>
+        </div>
+        
+<div class="references-section" id="referencesSection" style="display:none;">
     <strong style="color:#a78bfa;">📚 Referencias Académicas</strong>
             <div id="referencesList"></div>
         </div>
@@ -1679,6 +1716,21 @@ document.getElementById('btnBacktest').onclick = async () => {
         showToast('❌ Error: ' + e.message, true);
     }
 };
+
+// 🎮 Paper Trading
+document.getElementById('btnPaperTrading').onclick = () => {
+    const widget = document.getElementById('widgetPaper');
+    if (widget.style.display === 'none' || widget.style.display === '') {
+        widget.style.display = 'block';
+        if (typeof renderizarPaperTrading === 'function') {
+            renderizarPaperTrading();
+        }
+        if (typeof showToast === 'function') showToast('🎮 Trading Virtual activado');
+    } else {
+        widget.style.display = 'none';
+    }
+};
+
  const arE = agentReach.getStats(); mostrarModal('🔌 Estado Completo', `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n📊 Funciones WASM: ${rustWASM.stats.funciones}\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n💰 Token actual: ${currentToken}\n📈 Precio: $${currentTokenData?.price || '---'}\n📊 Fuente: ${currentTokenData?.fuente || '---'}\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado] || 'Español'}\n\n💾 Análisis guardados: ${cacheInvestigaciones.length}`); };
 
 // ============================================
@@ -1798,4 +1850,6 @@ document.getElementById('btnBacktest').onclick = async () => {
 <script src="trading_system.js"></script>
 
 <script src="backtest.js"></script>
+
+<script src="paper_trading.js"></script>
 </html>
