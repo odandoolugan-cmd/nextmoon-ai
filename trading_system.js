@@ -1,95 +1,102 @@
 // ═══════════════════════════════════════════════════════════════
 // 🎯 SISTEMA DE TRADING PROFESIONAL · NextMoon AI
 // ═══════════════════════════════════════════════════════════════
-// Sistema de confluencia con 12 señales + SL/TP + gestión de riesgo
-// ═══════════════════════════════════════════════════════════════
 
 function calcularConfluencia(tec) {
-    if (!tec || !tec._datos_k) return null;
+    if (!tec || !tec._datos_k) {
+        console.warn('[Trading] tec o _datos_k faltan');
+        return null;
+    }
     const k = tec._datos_k;
     const closes = k.closes || [];
     const volumes = k.volumes || [];
     const n = closes.length;
-    if (n < 30) return null;
+    if (n < 30) {
+        console.warn('[Trading] closes < 30');
+        return null;
+    }
 
     const precioActual = closes[n - 1];
     const señales = [];
 
-    // ═══ 1. RSI ═══
-    const rsi = tec.rsi;
+    // 1. RSI
+    const rsi = tec.rsi !== undefined ? tec.rsi : 50;
     if (rsi < 30)      señales.push({ id: 1, nombre: 'RSI sobreventa',       tipo: 'COMPRAR', fuerza: 3, valor: rsi.toFixed(1) });
     else if (rsi > 70) señales.push({ id: 1, nombre: 'RSI sobrecompra',      tipo: 'VENDER',  fuerza: 3, valor: rsi.toFixed(1) });
     else if (rsi < 40) señales.push({ id: 1, nombre: 'RSI bajo',             tipo: 'COMPRAR', fuerza: 1, valor: rsi.toFixed(1) });
     else if (rsi > 60) señales.push({ id: 1, nombre: 'RSI alto',             tipo: 'VENDER',  fuerza: 1, valor: rsi.toFixed(1) });
-    else                señales.push({ id: 1, nombre: 'RSI neutral',          tipo: 'NEUTRAL', fuerza: 0, valor: rsi.toFixed(1) });
+    else               señales.push({ id: 1, nombre: 'RSI neutral',          tipo: 'NEUTRAL', fuerza: 0, valor: rsi.toFixed(1) });
 
-    // ═══ 2. MACD ═══
-    const macd = tec.macd;
-    if (macd.tendencia === 'alcista' && macd.histogram > 0)      señales.push({ id: 2, nombre: 'MACD cruce alcista',  tipo: 'COMPRAR', fuerza: 2, valor: macd.histogram.toFixed(4) });
-    else if (macd.tendencia === 'bajista' && macd.histogram < 0) señales.push({ id: 2, nombre: 'MACD cruce bajista', tipo: 'VENDER',  fuerza: 2, valor: macd.histogram.toFixed(4) });
-    else                                                          señales.push({ id: 2, nombre: 'MACD neutral',       tipo: 'NEUTRAL', fuerza: 0, valor: macd.histogram.toFixed(4) });
+    // 2. MACD
+    const macd = tec.macd || { tendencia: 'neutral', histogram: 0 };
+    const hist = macd.histogram !== undefined ? macd.histogram : 0;
+    if (macd.tendencia === 'alcista' && hist > 0)      señales.push({ id: 2, nombre: 'MACD cruce alcista',  tipo: 'COMPRAR', fuerza: 2, valor: hist.toFixed(4) });
+    else if (macd.tendencia === 'bajista' && hist < 0) señales.push({ id: 2, nombre: 'MACD cruce bajista', tipo: 'VENDER',  fuerza: 2, valor: hist.toFixed(4) });
+    else                                                señales.push({ id: 2, nombre: 'MACD neutral',       tipo: 'NEUTRAL', fuerza: 0, valor: hist.toFixed(4) });
 
-    // ═══ 3. Bollinger ═══
-    const boll = tec.bollinger;
-    if (boll.posicion === 'sobreventa')       señales.push({ id: 3, nombre: 'Bollinger sobreventa',  tipo: 'COMPRAR', fuerza: 2, valor: `P $${precioActual.toFixed(2)} < I $${boll.inferior.toFixed(2)}` });
-    else if (boll.posicion === 'sobrecompra') señales.push({ id: 3, nombre: 'Bollinger sobrecompra', tipo: 'VENDER',  fuerza: 2, valor: `P $${precioActual.toFixed(2)} > S $${boll.superior.toFixed(2)}` });
+    // 3. Bollinger
+    const boll = tec.bollinger || { posicion: 'neutral', superior: 0, inferior: 0 };
+    if (boll.posicion === 'sobreventa')       señales.push({ id: 3, nombre: 'Bollinger sobreventa',  tipo: 'COMPRAR', fuerza: 2, valor: 'P < I' });
+    else if (boll.posicion === 'sobrecompra') señales.push({ id: 3, nombre: 'Bollinger sobrecompra', tipo: 'VENDER',  fuerza: 2, valor: 'P > S' });
     else                                       señales.push({ id: 3, nombre: 'Bollinger neutral',     tipo: 'NEUTRAL', fuerza: 0, valor: 'Dentro de bandas' });
 
-    // ═══ 4. Precio vs SMA20 ═══
-    const sma20 = tec.sma20;
-    if (precioActual > sma20) señales.push({ id: 4, nombre: 'Precio > SMA20', tipo: 'COMPRAR', fuerza: 1, valor: `$${precioActual.toFixed(2)} > $${sma20.toFixed(2)}` });
-    else                       señales.push({ id: 4, nombre: 'Precio < SMA20', tipo: 'VENDER',  fuerza: 1, valor: `$${precioActual.toFixed(2)} < $${sma20.toFixed(2)}` });
+    // 4. Precio vs SMA20
+    const sma20 = tec.sma20 !== undefined ? tec.sma20 : precioActual;
+    if (precioActual > sma20) señales.push({ id: 4, nombre: 'Precio > SMA20', tipo: 'COMPRAR', fuerza: 1, valor: '$' + precioActual.toFixed(2) });
+    else                       señales.push({ id: 4, nombre: 'Precio < SMA20', tipo: 'VENDER',  fuerza: 1, valor: '$' + precioActual.toFixed(2) });
 
-    // ═══ 5. Precio vs EMA12 ═══
-    const ema12 = tec.ema12;
-    if (precioActual > ema12) señales.push({ id: 5, nombre: 'Precio > EMA12', tipo: 'COMPRAR', fuerza: 1, valor: `$${precioActual.toFixed(2)} > $${ema12.toFixed(2)}` });
-    else                       señales.push({ id: 5, nombre: 'Precio < EMA12', tipo: 'VENDER',  fuerza: 1, valor: `$${precioActual.toFixed(2)} < $${ema12.toFixed(2)}` });
+    // 5. Precio vs EMA12
+    const ema12 = tec.ema12 !== undefined ? tec.ema12 : precioActual;
+    if (precioActual > ema12) señales.push({ id: 5, nombre: 'Precio > EMA12', tipo: 'COMPRAR', fuerza: 1, valor: '$' + precioActual.toFixed(2) });
+    else                       señales.push({ id: 5, nombre: 'Precio < EMA12', tipo: 'VENDER',  fuerza: 1, valor: '$' + precioActual.toFixed(2) });
 
-    // ═══ 6. Tendencia ═══
-    const tend = tec.tendencia;
+    // 6. Tendencia
+    const tend = tec.tendencia || 'lateral';
     if (tend.includes('alcista_fuerte'))     señales.push({ id: 6, nombre: 'Tendencia alcista fuerte',  tipo: 'COMPRAR', fuerza: 3, valor: tend });
     else if (tend.includes('alcista'))       señales.push({ id: 6, nombre: 'Tendencia alcista',         tipo: 'COMPRAR', fuerza: 2, valor: tend });
     else if (tend.includes('bajista_fuerte')) señales.push({ id: 6, nombre: 'Tendencia bajista fuerte', tipo: 'VENDER',  fuerza: 3, valor: tend });
     else if (tend.includes('bajista'))       señales.push({ id: 6, nombre: 'Tendencia bajista',         tipo: 'VENDER',  fuerza: 2, valor: tend });
     else                                      señales.push({ id: 6, nombre: 'Tendencia lateral',         tipo: 'NEUTRAL', fuerza: 0, valor: tend });
 
-    // ═══ 7. Divergencia ═══
-    const div = tec.divergencia;
-    if (div.tipo === 'divergencia_alcista')       señales.push({ id: 7, nombre: 'Divergencia alcista', tipo: 'COMPRAR', fuerza: 3, valor: `Fuerza ${(div.fuerza*100).toFixed(0)}%` });
-    else if (div.tipo === 'divergencia_bajista')  señales.push({ id: 7, nombre: 'Divergencia bajista', tipo: 'VENDER',  fuerza: 3, valor: `Fuerza ${(div.fuerza*100).toFixed(0)}%` });
+    // 7. Divergencia
+    const div = tec.divergencia || { tipo: 'sin_divergencia', fuerza: 0 };
+    if (div.tipo === 'divergencia_alcista')       señales.push({ id: 7, nombre: 'Divergencia alcista', tipo: 'COMPRAR', fuerza: 3, valor: 'Alcista' });
+    else if (div.tipo === 'divergencia_bajista')  señales.push({ id: 7, nombre: 'Divergencia bajista', tipo: 'VENDER',  fuerza: 3, valor: 'Bajista' });
     else                                           señales.push({ id: 7, nombre: 'Sin divergencia',    tipo: 'NEUTRAL', fuerza: 0, valor: 'Sin señal' });
 
-    // ═══ 8. Soporte/Resistencia ═══
-    const sr = tec.soporte;
-    if (sr.soporte > 0 && (precioActual - sr.soporte) / sr.soporte < 0.02)         señales.push({ id: 8, nombre: 'Cerca de soporte',     tipo: 'COMPRAR', fuerza: 2, valor: `Soporte $${sr.soporte.toFixed(2)}` });
-    else if (sr.resistencia > 0 && (sr.resistencia - precioActual) / sr.resistencia < 0.02) señales.push({ id: 8, nombre: 'Cerca de resistencia', tipo: 'VENDER', fuerza: 2, valor: `Resistencia $${sr.resistencia.toFixed(2)}` });
-    else                                                                             señales.push({ id: 8, nombre: 'S/R lejos',           tipo: 'NEUTRAL', fuerza: 0, valor: 'Sin confluencia' });
+    // 8. Soporte/Resistencia
+    const sr = tec.soporte || { soporte: 0, resistencia: 0 };
+    const soporteVal = sr.soporte || 0;
+    const resistVal = sr.resistencia || 0;
+    if (soporteVal > 0 && (precioActual - soporteVal) / soporteVal < 0.02)      señales.push({ id: 8, nombre: 'Cerca de soporte',     tipo: 'COMPRAR', fuerza: 2, valor: '$' + soporteVal.toFixed(2) });
+    else if (resistVal > 0 && (resistVal - precioActual) / resistVal < 0.02)    señales.push({ id: 8, nombre: 'Cerca de resistencia', tipo: 'VENDER',  fuerza: 2, valor: '$' + resistVal.toFixed(2) });
+    else                                                                          señales.push({ id: 8, nombre: 'S/R lejos',           tipo: 'NEUTRAL', fuerza: 0, valor: 'Sin confluencia' });
 
-    // ═══ 9. Patrones de velas ═══
-    const pat = tec.patrones;
-    if (pat.es_alcista)       señales.push({ id: 9, nombre: 'Patrón alcista',    tipo: 'COMPRAR', fuerza: 2, valor: pat.patrones.join(', ') });
-    else if (pat.es_bajista)  señales.push({ id: 9, nombre: 'Patrón bajista',    tipo: 'VENDER',  fuerza: 2, valor: pat.patrones.join(', ') });
-    else                       señales.push({ id: 9, nombre: 'Sin patrón claro',  tipo: 'NEUTRAL', fuerza: 0, valor: 'Sin patrón' });
+    // 9. Patrones
+    const pat = tec.patrones || { patrones: [], es_alcista: false, es_bajista: false };
+    if (pat.es_alcista)      señales.push({ id: 9, nombre: 'Patrón alcista',    tipo: 'COMPRAR', fuerza: 2, valor: (pat.patrones || []).join(', ') });
+    else if (pat.es_bajista) señales.push({ id: 9, nombre: 'Patrón bajista',    tipo: 'VENDER',  fuerza: 2, valor: (pat.patrones || []).join(', ') });
+    else                     señales.push({ id: 9, nombre: 'Sin patrón claro',  tipo: 'NEUTRAL', fuerza: 0, valor: 'Sin patrón' });
 
-    // ═══ 10. ADX ═══
-    const adx = tec.adx;
-    const esTend = tec.tendencia.includes('alcista') || tec.tendencia.includes('bajista');
-    const direccion = tec.tendencia.includes('alcista') ? 'COMPRAR' : 'VENDER';
-    if (adx > 25 && esTend)    señales.push({ id: 10, nombre: `ADX fuerte (${adx.toFixed(1)})`,    tipo: direccion, fuerza: 2, valor: adx.toFixed(1) });
-    else if (adx < 20)         señales.push({ id: 10, nombre: `ADX débil (${adx.toFixed(1)})`,     tipo: 'NEUTRAL', fuerza: 0, valor: adx.toFixed(1) });
-    else                        señales.push({ id: 10, nombre: `ADX moderado (${adx.toFixed(1)})`, tipo: esTend ? direccion : 'NEUTRAL', fuerza: 1, valor: adx.toFixed(1) });
+    // 10. ADX
+    const adx = tec.adx !== undefined ? tec.adx : 0;
+    const esTend = tend.includes('alcista') || tend.includes('bajista');
+    const direccion = tend.includes('alcista') ? 'COMPRAR' : 'VENDER';
+    if (adx > 25 && esTend) señales.push({ id: 10, nombre: 'ADX fuerte (' + adx.toFixed(1) + ')', tipo: direccion, fuerza: 2, valor: adx.toFixed(1) });
+    else if (adx < 20)      señales.push({ id: 10, nombre: 'ADX débil (' + adx.toFixed(1) + ')',  tipo: 'NEUTRAL', fuerza: 0, valor: adx.toFixed(1) });
+    else                    señales.push({ id: 10, nombre: 'ADX moderado (' + adx.toFixed(1) + ')', tipo: esTend ? direccion : 'NEUTRAL', fuerza: 1, valor: adx.toFixed(1) });
 
-    // ═══ 11. Volumen ═══
-    const volReciente = volumes.slice(-5).reduce((a, b) => a + b, 0) / 5;
-    const volPromedio = volumes.slice(-20).reduce((a, b) => a + b, 0) / 20;
-    if (volReciente > volPromedio * 1.2) señales.push({ id: 11, nombre: 'Volumen creciente', tipo: tec.tendencia.includes('alcista') ? 'COMPRAR' : 'VENDER', fuerza: 1, valor: `${(volReciente / volPromedio * 100).toFixed(0)}%` });
-    else                                  señales.push({ id: 11, nombre: 'Volumen normal',    tipo: 'NEUTRAL', fuerza: 0, valor: `${(volReciente / volPromedio * 100).toFixed(0)}%` });
+    // 11. Volumen
+    const volReciente = volumes.length >= 5 ? volumes.slice(-5).reduce((a, b) => a + b, 0) / 5 : 0;
+    const volPromedio = volumes.length >= 20 ? volumes.slice(-20).reduce((a, b) => a + b, 0) / 20 : 1;
+    if (volReciente > volPromedio * 1.2) señales.push({ id: 11, nombre: 'Volumen creciente', tipo: tend.includes('alcista') ? 'COMPRAR' : 'VENDER', fuerza: 1, valor: Math.round(volReciente / volPromedio * 100) + '%' });
+    else                                  señales.push({ id: 11, nombre: 'Volumen normal',    tipo: 'NEUTRAL', fuerza: 0, valor: Math.round(volReciente / volPromedio * 100) + '%' });
 
-    // ═══ 12. Volatilidad ═══
-    const vol = tec.volatilidad;
-    señales.push({ id: 12, nombre: vol > 5 ? 'Volatilidad alta' : vol < 1 ? 'Volatilidad baja' : 'Volatilidad normal', tipo: 'NEUTRAL', fuerza: 0, valor: `${vol.toFixed(2)}%` });
+    // 12. Volatilidad
+    const vol = tec.volatilidad !== undefined ? tec.volatilidad : 0;
+    señales.push({ id: 12, nombre: vol > 5 ? 'Volatilidad alta' : vol < 1 ? 'Volatilidad baja' : 'Volatilidad normal', tipo: 'NEUTRAL', fuerza: 0, valor: vol.toFixed(2) + '%' });
 
-    // ═══ SCORE ═══
+    // SCORE
     let scoreCompra = 0, scoreVenta = 0, scoreNeutral = 0;
     for (const s of señales) {
         if (s.tipo === 'COMPRAR') scoreCompra += s.fuerza;
@@ -109,9 +116,6 @@ function calcularConfluencia(tec) {
     return { señales, scoreCompra, scoreVenta, scoreNeutral, confianza, decision, decisionColor, decisionEmoji, totalSeñales: señales.length };
 }
 
-// ─────────────────────────────────────────────
-// 🎯 CALCULAR STOP LOSS Y TAKE PROFIT
-// ─────────────────────────────────────────────
 function calcularSLTP(tec, confluencia) {
     if (!tec || !confluencia || !tec._datos_k) return null;
     const closes = tec._datos_k.closes || [];
@@ -128,8 +132,8 @@ function calcularSLTP(tec, confluencia) {
     }
     const atr = atrSum / 14;
 
-    const esCompra = confluencia.decision.includes('COMPRAR');
-    const esVenta = confluencia.decision.includes('VENDER');
+    const esCompra = confluencia.decision.indexOf('COMPRAR') >= 0;
+    const esVenta = confluencia.decision.indexOf('VENDER') >= 0;
 
     let sl, tp1, tp2, tp3;
     if (esCompra) {
@@ -158,19 +162,14 @@ function calcularSLTP(tec, confluencia) {
     };
 }
 
-// ─────────────────────────────────────────────
-// 💰 GESTIÓN DE CAPITAL
-// ─────────────────────────────────────────────
 function calcularPositionSizing(precioEntrada, sl, capitalTotal, riesgoPorcentaje) {
     capitalTotal = capitalTotal || 1000;
     riesgoPorcentaje = riesgoPorcentaje || 1;
     const riesgoPorOperacion = capitalTotal * (riesgoPorcentaje / 100);
     const distanciaSL = Math.abs(precioEntrada - sl);
     if (distanciaSL === 0) return null;
-
     const tamañoPosicion = (riesgoPorOperacion / distanciaSL) * precioEntrada;
     const porcentajeCapital = (tamañoPosicion / capitalTotal) * 100;
-
     return {
         capitalTotal, riesgoPorcentaje, riesgoPorOperacion,
         tamañoPosicion: Math.min(tamañoPosicion, capitalTotal),
@@ -179,18 +178,20 @@ function calcularPositionSizing(precioEntrada, sl, capitalTotal, riesgoPorcentaj
     };
 }
 
-// ─────────────────────────────────────────────
-// 📊 RENDERIZAR EN EL HTML
-// ─────────────────────────────────────────────
 function renderizarTradingSystem(tec) {
-    if (!tec) return;
+    console.log('[Trading] renderizarTradingSystem llamado');
+    if (!tec) { console.warn('[Trading] tec null'); return; }
+    
     const confluencia = calcularConfluencia(tec);
-    if (!confluencia) return;
+    if (!confluencia) { console.warn('[Trading] confluencia null'); return; }
+    console.log('[Trading] confluencia OK:', confluencia.decision);
+    
     const sltp = calcularSLTP(tec, confluencia);
     const sizing = sltp ? calcularPositionSizing(sltp.precioEntrada, sltp.sl, 1000, 1) : null;
 
     const container = document.getElementById('tradingSystemContent');
-    if (!container) return;
+    if (!container) { console.warn('[Trading] container NO existe'); return; }
+    console.log('[Trading] container OK');
 
     const fmt = (p) => '$' + p.toFixed(2);
     let html = '';
@@ -233,7 +234,7 @@ function renderizarTradingSystem(tec) {
         html += '</div>';
     }
 
-    // Lista de señales
+    // Señales
     html += '<div class="trading-señales">';
     html += '<div class="señales-title">📊 Detalle de ' + confluencia.totalSeñales + ' señales</div>';
     for (const s of confluencia.señales) {
@@ -246,34 +247,20 @@ function renderizarTradingSystem(tec) {
     }
     html += '</div>';
 
-    // ═══ BOTONES COMPRAR/VENDER VIRTUAL ═══
-    if (sltp && (confluencia.decision.includes('COMPRAR') || confluencia.decision.includes('VENDER'))) {
+    // Botones virtuales
+    if (sltp && (confluencia.decision.indexOf('COMPRAR') >= 0 || confluencia.decision.indexOf('VENDER') >= 0)) {
         const symbolActual = window.currentToken || 'BTC';
         html += '<div class="tecnico-acciones">';
-        html += '<button onclick="window.abrirOperacionVirtual(\'' + symbolActual + '\', \'' + confluencia.decision + '\', ' + sltp.precioEntrada + ', ' + sltp.sl + ', ' + sltp.tp1 + ', ' + sltp.tp2 + ', ' + sltp.tp3 + ')" class="btn-virtual-comprar">';
-        html += '🎮 ' + confluencia.decision + ' VIRTUAL';
-        html += '</button>';
-        html += '<button onclick="this.closest(\'.tecnico-acciones\').style.display=\'none\'" class="btn-virtual-ignorar">';
-        html += '❌ Ignorar';
-        html += '</button>';
+        html += '<button onclick="window.abrirOperacionVirtual(\'' + symbolActual + '\', \'' + confluencia.decision + '\', ' + sltp.precioEntrada + ', ' + sltp.sl + ', ' + sltp.tp1 + ', ' + sltp.tp2 + ', ' + sltp.tp3 + ')" class="btn-virtual-comprar">🎮 ' + confluencia.decision + ' VIRTUAL</button>';
+        html += '<button onclick="this.parentElement.style.display=\'none\'" class="btn-virtual-ignorar">❌ Ignorar</button>';
         html += '</div>';
     }
 
     container.innerHTML = html;
+    console.log('[Trading] ✅ Renderizado OK');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🌐 EXPONER FUNCIONES AL SCOPE GLOBAL
-// ═══════════════════════════════════════════════════════════════
-if (typeof window !== 'undefined') {
-    window.calcularConfluencia = calcularConfluencia;
-    window.calcularSLTP = calcularSLTP;
-    window.calcularPositionSizing = calcularPositionSizing;
-    window.renderizarTradingSystem = renderizarTradingSystem;
-    console.log('✅ trading_system.js expuesto en window');
-}
-
-// 🌐 Exponer funciones al scope global
+// Exponer al scope global
 if (typeof window !== 'undefined') {
     window.calcularConfluencia = calcularConfluencia;
     window.calcularSLTP = calcularSLTP;
