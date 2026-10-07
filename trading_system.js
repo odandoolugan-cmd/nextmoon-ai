@@ -267,6 +267,24 @@ function renderizarTradingSystem(tec) {
     }
     html += '</div>';
 
+    // ═══ WARNINGS (calidad de la operación) ═══
+    const warnings = [];
+    if (sltp) {
+        if (parseFloat(sltp.rr1) < 2.0) warnings.push('⚠️ R/B del TP1 es ' + sltp.rr1 + ' (recomendado >= 2.0)');
+        if (confluencia.confianza < 20) warnings.push('⚠️ Confianza baja: ' + confluencia.confianza + '%');
+        if (confluencia.decision === 'ESPERAR') warnings.push('ℹ️ Señal ESPERAR: sin confluencia suficiente');
+    }
+    if (sizing && parseFloat(sizing.porcentajeCapital) > 20) warnings.push('⚠️ Posición ' + sizing.porcentajeCapital + '% del capital (riesgo alto)');
+    
+    if (warnings.length > 0) {
+        html += '<div class="trading-warnings">';
+        html += '<div class="warnings-title">⚡ Advertencias (' + warnings.length + ')</div>';
+        for (const w of warnings) {
+            html += '<div class="warning-item">' + w + '</div>';
+        }
+        html += '</div>';
+    }
+
     // Botones virtuales
     if (sltp && (confluencia.decision.indexOf('COMPRAR') >= 0 || confluencia.decision.indexOf('VENDER') >= 0)) {
         const symbolActual = window.currentToken || 'BTC';
