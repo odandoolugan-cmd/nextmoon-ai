@@ -326,16 +326,16 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
         const señal = calcularSeñales(klines, i);
         if (!señal) continue;
 
-        // ⭐ FILTRO 1: Confianza minima 30%
+        // ⭐ FILTRO 1: Confianza minima 15% (era 30% → muy estricto)
         const confianza = señal.confianza || 0;
-        if (confianza < 0.30) continue;
+        if (confianza < 0.15) continue;
         
-        // ⭐ FILTRO 2: Tendencia (SMA50 vs SMA200)
+        // ⭐ FILTRO 2: Tendencia (SMA20 vs SMA50 → mas reactivo que SMA50/200)
         const cierres = klines.slice(0, i + 1).map(k => k.close || k[4]);
-        if (cierres.length >= 200) {
+        if (cierres.length >= 50) {
+            const sma20 = cierres.slice(-20).reduce((a, b) => a + b, 0) / 20;
             const sma50 = cierres.slice(-50).reduce((a, b) => a + b, 0) / 50;
-            const sma200 = cierres.slice(-200).reduce((a, b) => a + b, 0) / 200;
-            const tendenciaAlcista = sma50 > sma200;
+            const tendenciaAlcista = sma20 > sma50;
             if (tendenciaAlcista && señal.decision === 'VENDER') continue;
             if (!tendenciaAlcista && señal.decision === 'COMPRAR') continue;
         }
@@ -344,18 +344,18 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
             const precio = señal.precio;
             const atr = señal.atr;
             
-            // Calcular SL/TP (SL 2.0 ATR → menos ruido)
+            // Calcular SL/TP (SL 1.5 ATR → equilibrio)
             let sl, tp1, tp2, tp3;
             if (señal.decision === 'COMPRAR') {
-                sl = precio - 2.0 * atr;
-                tp1 = precio + 3.0 * atr;  // R/B 1.50
-                tp2 = precio + 4.5 * atr;  // R/B 2.25
-                tp3 = precio + 6.0 * atr;  // R/B 3.00
+                sl = precio - 1.5 * atr;
+                tp1 = precio + 2.5 * atr;  // R/B 1.67
+                tp2 = precio + 3.5 * atr;  // R/B 2.33
+                tp3 = precio + 5.0 * atr;  // R/B 3.33
             } else {
-                sl = precio + 2.0 * atr;
-                tp1 = precio - 3.0 * atr;
-                tp2 = precio - 4.5 * atr;
-                tp3 = precio - 6.0 * atr;
+                sl = precio + 1.5 * atr;
+                tp1 = precio - 2.5 * atr;
+                tp2 = precio - 3.5 * atr;
+                tp3 = precio - 5.0 * atr;
             }
             
             // Calcular tamaño de posición
