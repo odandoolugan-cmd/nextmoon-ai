@@ -261,14 +261,7 @@
         .tecnico-acciones { display: flex; gap: 8px; margin-top: 12px; padding: 10px; background: rgba(236,72,153,0.1); border: 1px solid rgba(236,72,153,0.3); border-radius: 8px; }
         .btn-virtual-comprar { flex: 1; background: linear-gradient(90deg, #ec4899, #8b5cf6); color: white; border: none; padding: 10px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
         .btn-virtual-comprar:hover { transform: scale(1.02); }
-        .btn-virtual-ignorar { background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 10px 16px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; }
-        
-        @media (max-width: 700px) {
-            .widget-container { grid-template-columns: 1fr; }
-            .connector-metrics { grid-template-columns: 1fr 1fr; }
-            h1 { font-size: 1.3rem; }
-            .pt-metrics { grid-template-columns: 1fr 1fr; }
-        }
+        .btn-virtual-ignorar { background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 10px 16px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; } } .connector-metrics { grid-template-columns: 1fr 1fr; } h1 { font-size: 1.3rem; } }
     </style>
 </head>
 <body>
@@ -1499,8 +1492,6 @@ async function analizarTecnico(symbol) {
             vwap:         wasm.calcular_vwap(hJson, lJson, cJson, vJson),
             divergencia:  JSON.parse(wasm.detectar_divergencia(cJson)),
             señal_global: JSON.parse(wasm.generar_senal_compra(cJson, hJson, lJson, oJson, cJson, vJson)),
-            _datos_k: k,
-            _datos_k: k,
         };
     } catch(e) {
         console.error('❌ Error WASM análisis técnico:', e);
@@ -1735,7 +1726,7 @@ document.getElementById('btnMemoriaStatus').onclick = () => { const e = core403M
 document.getElementById('btnEstado').onclick = () => {
     const coreE = core403M.getEstado();
     const arE = agentReach.getStats();
-    mostrarModal('🔌 Estado Completo', `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n📊 Funciones WASM: ${rustWASM.stats.funciones}\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n\n🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'}\n🔌 Agent-Reach: ✅ (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n💰 Token: ${currentToken}\n📈 Precio: $${currentTokenData?.price || '---'}\n📌 Modo: ${modoActual}\n💾 Análisis: ${cacheInvestigaciones.length}`);
+    mostrarModal('🔌 Estado Completo', `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n📊 Funciones WASM: ${rustWASM.stats.funciones}\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n\n🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n💰 Token actual: ${currentToken}\n📈 Precio: $${currentTokenData?.price || '---'}\n📊 Fuente: ${currentTokenData?.fuente || '---'}\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado] || 'Español'}\n\n💾 Análisis guardados: ${cacheInvestigaciones.length}`);
 };
 
 // 🎯 Backtest
