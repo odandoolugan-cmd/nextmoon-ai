@@ -672,6 +672,9 @@ const PAIS_FIJO = 'Alemania';
 
 let ocupado = false, modoActual = 'experto', idiomaDetectado = 'es', proveedorActual = null, isRefreshing = false;
 let currentToken = 'BTC', currentTokenData = null, ultimoAnalisis = '', referenciasAcademicas = [], cacheInvestigaciones = [];
+// ⭐ Exponer en window para paper_trading.js
+window.currentToken = currentToken;
+window.currentTokenData = currentTokenData;
 let iaOkCount = 0, iaFailsCount = 0;
 
 try { const c = localStorage.getItem('nextmoon_cache'); if (c) cacheInvestigaciones = JSON.parse(c); } catch(e) {}
@@ -1586,6 +1589,7 @@ async function buscarCripto(symbol) {
     ocupado = true;
     const sym = symbol.toUpperCase().trim();
     currentToken = sym;
+    window.currentToken = sym;
     
     document.getElementById('tokenSymbol').innerHTML = '<div class="spinner"></div>';
     document.getElementById('sentimentText').innerHTML = `<div class="spinner"></div> Buscando datos de ${sym}...`;
@@ -1611,6 +1615,7 @@ async function buscarCripto(symbol) {
         }
         
         currentTokenData = tokenData;
+        window.currentTokenData = tokenData;
 
         // 📈 ANÁLISIS TÉCNICO con WASM v6 (async, no bloquea la UI)
         analizarTecnico(sym).then(tec => {
@@ -1728,6 +1733,11 @@ async function buscarCripto(symbol) {
     } finally {
         isRefreshing = false; ocupado = false;
         setTimeout(() => actualizarProgress(0), 2000);
+        
+        // 🎮 Re-renderizar Paper Trading con el token actual
+        if (typeof window.renderizarPaperTrading === 'function') {
+            try { window.renderizarPaperTrading(); } catch(e) {}
+        }
     }
 }
 
