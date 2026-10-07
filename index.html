@@ -1761,8 +1761,6 @@ document.getElementById('btnPaperTrading').onclick = () => {
     }
 };
 
- const arE = agentReach.getStats(); mostrarModal('🔌 Estado Completo', `🦀 WASM Rust: ${rustWASM.cargado ? '✅ Activo' : '⚠️ Fallback'}\n📊 Funciones WASM: ${rustWASM.stats.funciones}\n📦 Caché: ${rustWASM.getCacheSize()}\n\n🔄 Multi-IA: ${proveedorActual || 'En espera'}\n✅ OK: ${iaOkCount} · ❌ Fallos: ${iaFailsCount}\n⏱️ Timeout: ${TIMEOUT_IA / 1000}s por proveedor · ${TIMEOUT_TOTAL_ANALISIS / 1000}s global\n\n🧬 Core 403M: ${coreE.activo ? '✅ Activo' : '⏳'} (${coreE.consultas} consultas, ${coreE.evoluciones} evoluciones)\n🔌 Agent-Reach: ✅ Activo (G${arE.github} R${arE.reddit} W${arE.wiki})\n\n💰 Token actual: ${currentToken}\n📈 Precio: $${currentTokenData?.price || '---'}\n📊 Fuente: ${currentTokenData?.fuente || '---'}\n📌 Modo: ${modoActual}\n🌐 Idioma: ${nombreIdioma[idiomaDetectado] || 'Español'}\n\n💾 Análisis guardados: ${cacheInvestigaciones.length}`); };
-
 // ============================================
 // 🚀 INICIALIZACIÓN
 // ============================================
