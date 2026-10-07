@@ -135,22 +135,30 @@ function calcularSLTP(tec, confluencia) {
     const esCompra = confluencia.decision.indexOf('COMPRAR') >= 0;
     const esVenta = confluencia.decision.indexOf('VENDER') >= 0;
 
+    // ⭐ Multiplicadores ATR ajustados para R/B ≥ 2.0
+    // SL = 1.0 ATR  →  TP1 = 2.0 ATR (R/B 2.0) · TP2 = 3.5 ATR (R/B 3.5) · TP3 = 5.0 ATR (R/B 5.0)
+    const ATR_SL  = 1.0;
+    const ATR_TP1 = 2.0;
+    const ATR_TP2 = 3.5;
+    const ATR_TP3 = 5.0;
+    
     let sl, tp1, tp2, tp3;
     if (esCompra) {
-        sl = precioEntrada - 1.5 * atr;
-        tp1 = precioEntrada + 2.0 * atr;
-        tp2 = precioEntrada + 3.5 * atr;
-        tp3 = precioEntrada + 5.5 * atr;
+        sl  = precioEntrada - ATR_SL  * atr;
+        tp1 = precioEntrada + ATR_TP1 * atr;
+        tp2 = precioEntrada + ATR_TP2 * atr;
+        tp3 = precioEntrada + ATR_TP3 * atr;
     } else if (esVenta) {
-        sl = precioEntrada + 1.5 * atr;
-        tp1 = precioEntrada - 2.0 * atr;
-        tp2 = precioEntrada - 3.5 * atr;
-        tp3 = precioEntrada - 5.5 * atr;
+        sl  = precioEntrada + ATR_SL  * atr;
+        tp1 = precioEntrada - ATR_TP1 * atr;
+        tp2 = precioEntrada - ATR_TP2 * atr;
+        tp3 = precioEntrada - ATR_TP3 * atr;
     } else {
-        sl = precioEntrada - 1.5 * atr;
-        tp1 = precioEntrada + 2.0 * atr;
-        tp2 = precioEntrada + 3.5 * atr;
-        tp3 = precioEntrada + 5.5 * atr;
+        // ESPERAR: usar setup alcista por defecto (solo informativo)
+        sl  = precioEntrada - ATR_SL  * atr;
+        tp1 = precioEntrada + ATR_TP1 * atr;
+        tp2 = precioEntrada + ATR_TP2 * atr;
+        tp3 = precioEntrada + ATR_TP3 * atr;
     }
 
     const riesgo = Math.abs(precioEntrada - sl);
@@ -168,12 +176,24 @@ function calcularPositionSizing(precioEntrada, sl, capitalTotal, riesgoPorcentaj
     const riesgoPorOperacion = capitalTotal * (riesgoPorcentaje / 100);
     const distanciaSL = Math.abs(precioEntrada - sl);
     if (distanciaSL === 0) return null;
-    const tamañoPosicion = (riesgoPorOperacion / distanciaSL) * precioEntrada;
-    const porcentajeCapital = (tamañoPosicion / capitalTotal) * 100;
+    
+    // ⭐ FIX: unidades = riesgo / distanciaSL (NO multiplicar por precioEntrada al final)
+    // Antes: tamañoPosicion = (riesgo / distanciaSL) * precioEntrada  ← BUG
+    // Ahora: unidades = riesgo / distanciaSL ; valorPosicion = unidades * precioEntrada
+    const unidades = riesgoPorOperacion / distanciaSL;
+    const valorPosicion = unidades * precioEntrada;
+    
+    // ⭐ Cap al 100% del capital (no se puede invertir más de lo que tienes)
+    const valorPosicionFinal = Math.min(valorPosicion, capitalTotal);
+    const porcentajeCapital = (valorPosicionFinal / capitalTotal) * 100;
+    
     return {
-        capitalTotal, riesgoPorcentaje, riesgoPorOperacion,
-        tamañoPosicion: Math.min(tamañoPosicion, capitalTotal),
-        porcentajeCapital: Math.min(porcentajeCapital, 100).toFixed(2),
+        capitalTotal,
+        riesgoPorcentaje,
+        riesgoPorOperacion,
+        unidades: unidades.toFixed(6),
+        tamañoPosicion: valorPosicionFinal,
+        porcentajeCapital: porcentajeCapital.toFixed(2),
         distanciaSL: distanciaSL.toFixed(2)
     };
 }
