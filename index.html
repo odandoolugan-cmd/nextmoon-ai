@@ -268,7 +268,25 @@
         .btn-virtual-comprar { flex: 1; background: linear-gradient(90deg, #ec4899, #8b5cf6); color: white; border: none; padding: 10px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
         .btn-virtual-comprar:hover { transform: scale(1.02); }
         .btn-virtual-ignorar { background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 10px 16px; border-radius: 20px; font-size: 0.7rem; cursor: pointer; } } .connector-metrics { grid-template-columns: 1fr 1fr; } h1 { font-size: 1.3rem; } }
-    </style>
+    
+        /* 🎮 Paper Trading - Formulario y posiciones */
+        .pt-form { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+        .pt-form-title { color: #a78bfa; font-weight: bold; font-size: 0.8rem; margin-bottom: 8px; }
+        .pt-form-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .pt-input { flex: 1; background: #0a0f1e; border: 1px solid #334155; color: #eef2ff; padding: 10px; border-radius: 8px; font-size: 0.85rem; font-weight: bold; min-width: 0; }
+        .pt-input:focus { outline: none; border-color: #8b5cf6; }
+        .btn-pt-buy { background: linear-gradient(90deg, #10b981, #059669); color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; white-space: nowrap; }
+        .btn-pt-buy:hover { transform: scale(1.02); }
+        .btn-pt-sell { background: linear-gradient(90deg, #ef4444, #dc2626); color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; white-space: nowrap; }
+        .btn-pt-sell:hover { transform: scale(1.02); }
+        .pt-form-hint { font-size: 0.6rem; color: #94a3b8; text-align: center; }
+        .pt-pos { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; margin-bottom: 8px; border-left: 3px solid #8b5cf6; }
+        .pt-pos-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 0.75rem; }
+        .pt-pos-row { display: flex; justify-content: space-between; font-size: 0.68rem; color: #94a3b8; padding: 2px 0; }
+        .pt-pos-row span:last-child { color: #eef2ff; font-weight: bold; font-family: monospace; }
+        .pt-pos-close { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; padding: 6px 12px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; cursor: pointer; margin-top: 8px; width: 100%; }
+        .pt-pos-close:hover { background: #ef4444; color: white; }
+</style>
 </head>
 <body>
 

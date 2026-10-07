@@ -296,6 +296,9 @@ function renderizarTradingSystem(tec) {
 
     container.innerHTML = html;
     
+    // ⭐ Guardar para integración con Paper Trading
+    window._ultimoTrading = { confluencia, sltp, sizing, tec };
+    
     // ⭐ MOSTRAR el widget
     const widget = document.getElementById('widgetTrading');
     if (widget) {
