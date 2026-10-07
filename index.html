@@ -286,6 +286,27 @@
         .pt-pos-row span:last-child { color: #eef2ff; font-weight: bold; font-family: monospace; }
         .pt-pos-close { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; padding: 6px 12px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; cursor: pointer; margin-top: 8px; width: 100%; }
         .pt-pos-close:hover { background: #ef4444; color: white; }
+
+        /* 🎯 Backtest Histórico */
+        .widget-backtest { background: rgba(139, 92, 246, 0.08); border: 2px solid #8b5cf6; border-radius: 1.5rem; padding: 1.2rem; margin: 15px 0; }
+        .backtest-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .backtest-titulo { font-weight: 700; color: #a78bfa; font-size: 0.85rem; }
+        .backtest-badge { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 3px 12px; border-radius: 12px; font-size: 0.6rem; font-weight: bold; }
+        .backtest-loading { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; }
+        .backtest-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .backtest-metric { background: #0f172a; padding: 10px 8px; border-radius: 8px; text-align: center; }
+        .backtest-metric-label { font-size: 0.55rem; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase; }
+        .backtest-metric-value { font-size: 1rem; font-weight: bold; color: #eef2ff; }
+        .backtest-chart { width: 100%; height: 200px; background: #0a0f1e; border-radius: 8px; margin: 12px 0; }
+        .backtest-ops { margin-top: 12px; }
+        .backtest-ops-title { color: #a78bfa; font-weight: bold; font-size: 0.75rem; margin-bottom: 8px; }
+        .backtest-op { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 4px; font-size: 0.68rem; }
+        .backtest-op-long { border-left: 3px solid #10b981; }
+        .backtest-op-short { border-left: 3px solid #ef4444; }
+        .backtest-actions { display: flex; gap: 8px; margin-top: 12px; justify-content: center; }
+        .btn-backtest-run { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
+        .btn-backtest-run:hover { transform: scale(1.02); }
+        .btn-backtest-run:disabled { opacity: 0.5; cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -1766,10 +1787,15 @@ document.getElementById('btnEstado').onclick = () => {
 
 // 🎯 Backtest
 document.getElementById('btnBacktest').onclick = async () => {
-    showToast('🎯 Iniciando backtest...');
+    const widget = document.getElementById('widgetBacktest');
+    if (widget) {
+        widget.style.display = 'block';
+        setTimeout(() => widget.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+    showToast('🎯 Iniciando backtest de BTC (365 días)...');
     try {
-        const reporte = await ejecutarBacktest('BTC', 365);
-        mostrarBacktest(reporte);
+        const reporte = await window.ejecutarBacktest('BTC', 365);
+        window.mostrarBacktest(reporte);
         showToast('✅ Backtest completado');
     } catch(e) {
         console.error('❌ Error backtest:', e);

@@ -508,197 +508,6 @@ async function ejecutarBacktest(symbol = 'BTC', days = 365) {
 // ─────────────────────────────────────────────
 function mostrarBacktest(reporte) {
     const { symbol, days, klines, operaciones, metricas, equityCurve } = reporte;
-    
-    // Eliminar modal anterior si existe
-    const modalAnterior = document.getElementById('backtestModal');
-    if (modalAnterior) modalAnterior.remove();
-    
-    // Colores según calidad
-    const colorWinRate = metricas.winRate >= 60 ? '#10b981' : metricas.winRate >= 50 ? '#f59e0b' : '#ef4444';
-    const colorPF = metricas.profitFactor >= 1.5 ? '#10b981' : metricas.profitFactor >= 1.2 ? '#f59e0b' : '#ef4444';
-    const colorRetorno = metricas.retornoTotal > 0 ? '#10b981' : '#ef4444';
-    const colorDD = metricas.drawdownMax > -20 ? '#10b981' : metricas.drawdownMax > -35 ? '#f59e0b' : '#ef4444';
-    
-    // Veredicto
-    const esRentable = metricas.retornoTotal > 0 && metricas.profitFactor > 1;
-    const veredicto = esRentable ? '✅ SISTEMA RENTABLE' : '❌ SISTEMA NO RENTABLE';
-    const colorVeredicto = esRentable ? '#10b981' : '#ef4444';
-    const bgVeredicto = esRentable ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)';
-    
-    // Últimas 10 operaciones
-    const ultimasOps = operaciones.slice(-10).reverse();
-    let htmlOps = '';
-    for (const op of ultimasOps) {
-        const color = op.ganancia > 0 ? '#10b981' : '#ef4444';
-        const icon = op.ganancia > 0 ? '✅' : '❌';
-        const fecha = new Date(op.time).toLocaleDateString('es', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-        htmlOps += `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(148,163,184,0.1);font-size:0.7rem;">
-            <span style="color:${color};">${icon} ${fecha}</span>
-            <span>${op.tipo} $${op.entrada.toFixed(2)} → ${op.razon}</span>
-            <strong style="color:${color};">${op.ganancia >= 0 ? '+' : ''}$${op.ganancia.toFixed(2)}</strong>
-        </div>`;
-    }
-    
-    const modal = document.createElement('div');
-    modal.id = 'backtestModal';
-    modal.className = 'modal-overlay';
-    modal.style.display = 'flex';
-    modal.innerHTML = `
-        <div class="modal-content" style="max-width:800px;">
-            <h3 style="color:#a78bfa;margin-bottom:1rem;">🎯 BACKTESTING · ${symbol} · ${days} días</h3>
-            
-            <div style="background:${bgVeredicto};border:2px solid ${colorVeredicto};border-radius:12px;padding:14px;text-align:center;margin-bottom:16px;">
-                <div style="font-size:1.2rem;font-weight:bold;color:${colorVeredicto};">${veredicto}</div>
-                <div style="font-size:0.7rem;color:#94a3b8;margin-top:4px;">Basado en ${klines} velas (1h) · ${metricas.totalOps} operaciones</div>
-            </div>
-            
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.75rem;margin-bottom:16px;">
-                <div style="background:#0f172a;padding:10px;border-radius:8px;">
-                    <div style="color:#94a3b8;font-size:0.6rem;">WIN RATE</div>
-                    <div style="font-size:1.2rem;font-weight:bold;color:${colorWinRate};">${metricas.winRate.toFixed(1)}%</div>
-                    <div style="color:#94a3b8;font-size:0.6rem;">${metricas.ganadoras} ganadoras / ${metricas.perdedoras} perdedoras</div>
-                </div>
-                <div style="background:#0f172a;padding:10px;border-radius:8px;">
-                    <div style="color:#94a3b8;font-size:0.6rem;">PROFIT FACTOR</div>
-                    <div style="font-size:1.2rem;font-weight:bold;color:${colorPF};">${metricas.profitFactor === 999 ? '∞' : metricas.profitFactor.toFixed(2)}</div>
-                    <div style="color:#94a3b8;font-size:0.6rem;">ganancias / pérdidas</div>
-                </div>
-                <div style="background:#0f172a;padding:10px;border-radius:8px;">
-                    <div style="color:#94a3b8;font-size:0.6rem;">RETORNO TOTAL</div>
-                    <div style="font-size:1.2rem;font-weight:bold;color:${colorRetorno};">${metricas.retornoTotal >= 0 ? '+' : ''}${metricas.retornoTotal.toFixed(2)}%</div>
-                    <div style="color:#94a3b8;font-size:0.6rem;">$${1000} → $${metricas.capitalFinal.toFixed(2)}</div>
-                </div>
-                <div style="background:#0f172a;padding:10px;border-radius:8px;">
-                    <div style="color:#94a3b8;font-size:0.6rem;">DRAWDOWN MÁX</div>
-                    <div style="font-size:1.2rem;font-weight:bold;color:${colorDD};">${metricas.drawdownMax.toFixed(2)}%</div>
-                    <div style="color:#94a3b8;font-size:0.6rem;">peor caída</div>
-                </div>
-                <div style="background:#0f172a;padding:10px;border-radius:8px;">
-                    <div style="color:#94a3b8;font-size:0.6rem;">SHARPE RATIO</div>
-                    <div style="font-size:1.2rem;font-weight:bold;color:#60a5fa;">${metricas.sharpe.toFixed(2)}</div>
-                    <div style="color:#94a3b8;font-size:0.6rem;">retorno/riesgo</div>
-                </div>
-                <div style="background:#0f172a;padding:10px;border-radius:8px;">
-                    <div style="color:#94a3b8;font-size:0.6rem;">RACHA MÁX</div>
-                    <div style="font-size:1.2rem;font-weight:bold;color:#10b981;">${metricas.rachaMax} ✅</div>
-                    <div style="color:#94a3b8;font-size:0.6rem;">${metricas.rachaPerdedora} ❌ racha perdedora</div>
-                </div>
-            </div>
-            
-            <div style="margin-bottom:16px;">
-                <strong style="color:#a78bfa;font-size:0.75rem;">📈 EQUITY CURVE ($1,000 → $${metricas.capitalFinal.toFixed(2)})</strong>
-                <canvas id="backtestChart" width="800" height="200" style="width:100%;height:auto;background:#0f172a;border-radius:8px;margin-top:8px;"></canvas>
-            </div>
-            
-            <div style="margin-bottom:16px;">
-                <strong style="color:#a78bfa;font-size:0.75rem;">📋 ÚLTIMAS OPERACIONES</strong>
-                <div style="max-height:200px;overflow-y:auto;margin-top:8px;background:#0f172a;padding:8px;border-radius:8px;">
-                    ${htmlOps || '<div style="color:#94a3b8;font-size:0.7rem;">Sin operaciones</div>'}
-                </div>
-            </div>
-            
-            <div style="background:rgba(139,92,246,0.1);border-radius:8px;padding:10px;font-size:0.7rem;color:#a78bfa;margin-bottom:16px;">
-                <strong>📚 ¿Qué significa?</strong><br>
-                • <strong>Win Rate:</strong> % de operaciones ganadoras (${metricas.winRate.toFixed(1)}%)<br>
-                • <strong>Profit Factor:</strong> $ ganado / $ perdido (>1.5 excelente)<br>
-                • <strong>Drawdown:</strong> peor caída desde máximo (${metricas.drawdownMax.toFixed(2)}%)<br>
-                • <strong>Sharpe:</strong> retorno ajustado por riesgo (>1.5 excelente)
-            </div>
-            
-            <button class="modal-close" onclick="document.getElementById('backtestModal').remove()">✕ Cerrar</button>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // Dibujar equity curve
-    setTimeout(() => dibujarEquityCurve(equityCurve), 50);
-}
-
-// ─────────────────────────────────────────────
-// 📈 DIBUJAR EQUITY CURVE (Canvas)
-// ─────────────────────────────────────────────
-function dibujarEquityCurve(equityCurve) {
-    const canvas = document.getElementById('backtestChart');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
-    ctx.clearRect(0, 0, W, H);
-    
-    const n = equityCurve.length;
-    if (n < 2) return;
-    
-    const min = Math.min(...equityCurve);
-    const max = Math.max(...equityCurve);
-    const rango = max - min || 1;
-    const padding = rango * 0.1;
-    
-    const xStep = W / (n - 1);
-    const yScale = (v) => H - ((v - (min - padding)) / (rango + 2 * padding)) * H;
-    
-    // Fondo
-    ctx.fillStyle = '#0f172a';
-    ctx.fillRect(0, 0, W, H);
-    
-    // Grid
-    ctx.strokeStyle = 'rgba(96,165,250,0.1)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 4; i++) {
-        const y = (H / 4) * i;
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(W, y);
-        ctx.stroke();
-    }
-    
-    // Área bajo la curva
-    const gradient = ctx.createLinearGradient(0, 0, 0, H);
-    gradient.addColorStop(0, 'rgba(139,92,246,0.4)');
-    gradient.addColorStop(1, 'rgba(139,92,246,0.05)');
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.moveTo(0, H);
-    for (let i = 0; i < n; i++) {
-        ctx.lineTo(i * xStep, yScale(equityCurve[i]));
-    }
-    ctx.lineTo(W, H);
-    ctx.closePath();
-    ctx.fill();
-    
-    // Línea
-    ctx.strokeStyle = '#a78bfa';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    for (let i = 0; i < n; i++) {
-        const x = i * xStep;
-        const y = yScale(equityCurve[i]);
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-    
-    // Etiquetas
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '10px system-ui';
-    ctx.fillText('$' + max.toFixed(0), 4, 12);
-    ctx.fillText('$' + min.toFixed(0), 4, H - 4);
-    
-    // Último valor destacado
-    const ultimo = equityCurve[n - 1];
-    const colorFinal = ultimo >= equityCurve[0] ? '#10b981' : '#ef4444';
-    ctx.fillStyle = colorFinal;
-    ctx.beginPath();
-    ctx.arc((n - 1) * xStep, yScale(ultimo), 5, 0, Math.PI * 2);
-    ctx.fill();
-    
-    ctx.font = 'bold 12px system-ui';
-    ctx.fillText('$' + ultimo.toFixed(2), W - 90, 16);
-}
-
-// 🎨 MOSTRAR BACKTEST (Modal) - simplificado
-function mostrarBacktest(reporte) {
-    const { symbol, days, klines, operaciones, metricas, equityCurve } = reporte;
     const modalAnterior = document.getElementById('backtestModal');
     if (modalAnterior) modalAnterior.remove();
     
@@ -795,4 +604,15 @@ function dibujarEquityCurve(equityCurve) {
     ctx.font = '10px system-ui';
     ctx.fillText('$' + max.toFixed(0), 4, 12);
     ctx.fillText('$' + min.toFixed(0), 4, H - 4);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 EXPONER FUNCIONES AL SCOPE GLOBAL
+// ═══════════════════════════════════════════════════════════════
+if (typeof window !== 'undefined') {
+    window.fetchHistoricalData = fetchHistoricalData;
+    window.ejecutarBacktest = ejecutarBacktest;
+    window.mostrarBacktest = mostrarBacktest;
+    window.dibujarEquityCurve = dibujarEquityCurve;
+    console.log('✅ backtest.js expuesto en window');
 }
