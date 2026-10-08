@@ -307,6 +307,37 @@
         .btn-backtest-run { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.75rem; cursor: pointer; }
         .btn-backtest-run:hover { transform: scale(1.02); }
         .btn-backtest-run:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* 🔔 Alertas de Precio */
+        .widget-alertas { background: rgba(16, 185, 129, 0.08); border: 2px solid #10b981; border-radius: 1.5rem; padding: 1.2rem; margin: 15px 0; }
+        .alerta-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .alerta-titulo { font-weight: 700; color: #34d399; font-size: 0.85rem; }
+        .alerta-badge { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 3px 12px; border-radius: 12px; font-size: 0.6rem; font-weight: bold; }
+        .alerta-loading { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; }
+        .alerta-form { background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+        .alerta-form-title { color: #a78bfa; font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; }
+        .alerta-form-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .alerta-input { flex: 1; background: #0a0f1e; border: 1px solid #334155; color: #eef2ff; padding: 10px; border-radius: 8px; font-size: 0.9rem; font-weight: bold; min-width: 0; }
+        .alerta-input:focus { outline: none; border-color: #10b981; }
+        .btn-alerta-arriba { flex: 1; background: linear-gradient(90deg, #10b981, #059669); color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; white-space: nowrap; }
+        .btn-alerta-arriba:hover { transform: scale(1.02); }
+        .btn-alerta-abajo { flex: 1; background: linear-gradient(90deg, #ef4444, #dc2626); color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: bold; font-size: 0.7rem; cursor: pointer; white-space: nowrap; }
+        .btn-alerta-abajo:hover { transform: scale(1.02); }
+        .alerta-form-hint { font-size: 0.6rem; color: #94a3b8; text-align: center; }
+        .alerta-permiso { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 8px; padding: 10px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: #fbbf24; }
+        .btn-permiso { background: #f59e0b; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; cursor: pointer; }
+        .alerta-section { margin-top: 12px; }
+        .alerta-section-title { color: #34d399; font-weight: bold; font-size: 0.75rem; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; text-transform: uppercase; }
+        .alerta-item { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+        .alerta-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 0.75rem; }
+        .alerta-item-sub { color: #94a3b8; font-size: 0.65rem; margin-bottom: 6px; }
+        .btn-alerta-eliminar { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: bold; cursor: pointer; }
+        .btn-alerta-eliminar:hover { background: #ef4444; color: white; }
+        .btn-alerta-limpiar { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; padding: 3px 8px; border-radius: 6px; font-size: 0.6rem; cursor: pointer; }
+        .alerta-hist-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: rgba(0,0,0,0.15); border-radius: 6px; margin-bottom: 4px; font-size: 0.68rem; }
+        .alerta-vacio { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; }
+        .tool-btn.alertas { border-color: #10b981; color: #34d399; background: rgba(16,185,129,0.15); }
+        .tool-btn.alertas:hover { background: linear-gradient(90deg, #10b981, #059669); color: white; }
 </style>
 </head>
 <body>
@@ -402,6 +433,7 @@
             <button class="tool-btn" id="btnEstado">🔌 Estado</button>
             <button class="tool-btn backtest" id="btnBacktest">🎯 Backtest</button>
             <button class="tool-btn paper" id="btnPaperTrading">🎮 Paper Trading</button>
+            <button class="tool-btn alertas" id="btnAlertas">🔔 Alertas</button>
         </div>
 
         <div class="progress-bar-container">
@@ -529,6 +561,17 @@
             </div>
             <div id="paperTradingContent">
                 <div class="pt-loading">Analiza una cripto para empezar a operar virtualmente</div>
+            </div>
+        </div>
+
+        <!-- 🔔 ALERTAS DE PRECIO -->
+        <div class="widget-alertas" id="widgetAlertas" style="display:none;">
+            <div class="alerta-header">
+                <span class="alerta-titulo">🔔 Alertas de Precio</span>
+                <span class="alerta-badge">🦀 Notificaciones nativas</span>
+            </div>
+            <div id="alertasContent">
+                <div class="alerta-loading">Analiza una cripto para crear alertas</div>
             </div>
         </div>
         
@@ -1759,6 +1802,18 @@ async function buscarCripto(symbol) {
         if (typeof window.renderizarPaperTrading === 'function') {
             try { window.renderizarPaperTrading(); } catch(e) {}
         }
+        
+        // 🔔 Verificar alertas con el precio actual
+        if (typeof window.verificarAlertas === 'function' && window.currentTokenData) {
+            try { 
+                window.verificarAlertas(window.currentToken, window.currentTokenData.price);
+            } catch(e) { console.warn('Error verificando alertas:', e); }
+        }
+        
+        // 🔔 Re-renderizar Alertas
+        if (typeof window.renderizarAlertas === 'function') {
+            try { window.renderizarAlertas(); } catch(e) {}
+        }
     }
 }
 
@@ -1951,9 +2006,10 @@ document.getElementById('btnPaperTrading').onclick = () => {
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="trading_system.js?v=32"></script>
+<script src="trading_system.js?v=33"></script>
 
-<script src="backtest.js?v=32"></script>
+<script src="backtest.js?v=33"></script>
 
-<script src="paper_trading.js?v=32"></script>
+<script src="paper_trading.js?v=33"></script>
+<script src="alertas.js?v=1"></script>
 </html>
