@@ -337,10 +337,10 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
         
         // ⭐ FILTRO 2: Tendencia (SMA20 vs SMA50 → mas reactivo que SMA50/200)
         const cierres = klines.slice(0, i + 1).map(k => k.close || k[4]);
-        if (cierres.length >= 50) {
-            const sma20 = cierres.slice(-20).reduce((a, b) => a + b, 0) / 20;
+        if (cierres.length >= 200) {
             const sma50 = cierres.slice(-50).reduce((a, b) => a + b, 0) / 50;
-            const tendenciaAlcista = sma20 > sma50;
+            const sma200 = cierres.slice(-200).reduce((a, b) => a + b, 0) / 200;
+            const tendenciaAlcista = sma50 > sma200;
             if (tendenciaAlcista && señal.decision === 'VENDER') continue;
             if (!tendenciaAlcista && señal.decision === 'COMPRAR') continue;
         }
