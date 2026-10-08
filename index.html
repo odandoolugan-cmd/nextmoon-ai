@@ -1563,6 +1563,136 @@ async function fetchKlines(symbol, interval = '1h', limit = 100) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 INDICADORES TÉCNICOS EXTRA (JS puro)
+// ═══════════════════════════════════════════════════════════════
+
+// 1. ESTOCÁSTICO (K y D)
+function calcularEstocastico(highs, lows, closes, periodo = 14, suavizado = 3) {
+    if (closes.length < periodo + suavizado) return { k: 50, d: 50, señal: 'neutral' };
+    
+    const kValues = [];
+    for (let i = periodo - 1; i < closes.length; i++) {
+        const ventanaH = highs.slice(i - periodo + 1, i + 1);
+        const ventanaL = lows.slice(i - periodo + 1, i + 1);
+        const high = Math.max(...ventanaH);
+        const low = Math.min(...ventanaL);
+        const range = high - low;
+        const k = range > 0 ? ((closes[i] - low) / range) * 100 : 50;
+        kValues.push(k);
+    }
+    
+    const kActual = kValues[kValues.length - 1] || 50;
+    const ultimosK = kValues.slice(-suavizado);
+    const d = ultimosK.reduce((a, b) => a + b, 0) / ultimosK.length;
+    
+    let señal = 'neutral';
+    if (kActual < 20 && d < 20) señal = 'sobreventa';
+    else if (kActual > 80 && d > 80) señal = 'sobrecompra';
+    
+    return { k: kActual, d: d, señal };
+}
+
+// 2. CCI (Commodity Channel Index)
+function calcularCCI(highs, lows, closes, periodo = 20) {
+    if (closes.length < periodo) return { valor: 0, señal: 'neutral' };
+    
+    const tps = [];
+    for (let i = 0; i < closes.length; i++) {
+        tps.push((highs[i] + lows[i] + closes[i]) / 3);
+    }
+    
+    const ventanaTP = tps.slice(-periodo);
+    const smaTP = ventanaTP.reduce((a, b) => a + b, 0) / periodo;
+    const desviacionMedia = ventanaTP.reduce((s, tp) => s + Math.abs(tp - smaTP), 0) / periodo;
+    
+    const cci = desviacionMedia > 0 ? (tps[tps.length - 1] - smaTP) / (0.015 * desviacionMedia) : 0;
+    
+    let señal = 'neutral';
+    if (cci > 100) señal = 'sobrecompra';
+    else if (cci < -100) señal = 'sobreventa';
+    
+    return { valor: cci, señal };
+}
+
+// 3. WILLIAMS %R
+function calcularWilliamsR(highs, lows, closes, periodo = 14) {
+    if (closes.length < periodo) return { valor: -50, señal: 'neutral' };
+    
+    const ventanaH = highs.slice(-periodo);
+    const ventanaL = lows.slice(-periodo);
+    const high = Math.max(...ventanaH);
+    const low = Math.min(...ventanaL);
+    const range = high - low;
+    
+    const wr = range > 0 ? ((high - closes[closes.length - 1]) / range) * -100 : -50;
+    
+    let señal = 'neutral';
+    if (wr > -20) señal = 'sobrecompra';
+    else if (wr < -80) señal = 'sobreventa';
+    
+    return { valor: wr, señal };
+}
+
+// 4. MFI (Money Flow Index)
+function calcularMFI(highs, lows, closes, volumes, periodo = 14) {
+    if (closes.length < periodo + 1) return { valor: 50, señal: 'neutral' };
+    
+    let positiveFlow = 0;
+    let negativeFlow = 0;
+    
+    for (let i = closes.length - periodo; i < closes.length; i++) {
+        const tpActual = (highs[i] + lows[i] + closes[i]) / 3;
+        const tpAnterior = (highs[i-1] + lows[i-1] + closes[i-1]) / 3;
+        const rawMoneyFlow = tpActual * volumes[i];
+        
+        if (tpActual > tpAnterior) positiveFlow += rawMoneyFlow;
+        else if (tpActual < tpAnterior) negativeFlow += rawMoneyFlow;
+    }
+    
+    const moneyRatio = negativeFlow > 0 ? positiveFlow / negativeFlow : 100;
+    const mfi = 100 - (100 / (1 + moneyRatio));
+    
+    let señal = 'neutral';
+    if (mfi > 80) señal = 'sobrecompra';
+    else if (mfi < 20) señal = 'sobreventa';
+    
+    return { valor: mfi, señal };
+}
+
+// 5. VWAP BANDS
+function calcularVWAPBands(highs, lows, closes, volumes) {
+    if (closes.length < 20) return { vwap: 0, superior: 0, inferior: 0, señal: 'neutral' };
+    
+    // VWAP
+    let sumPV = 0, sumV = 0;
+    for (let i = 0; i < closes.length; i++) {
+        const tp = (highs[i] + lows[i] + closes[i]) / 3;
+        sumPV += tp * volumes[i];
+        sumV += volumes[i];
+    }
+    const vwap = sumV > 0 ? sumPV / sumV : closes[closes.length - 1];
+    
+    // Desviación estándar ponderada
+    let sumPV2 = 0;
+    for (let i = 0; i < closes.length; i++) {
+        const tp = (highs[i] + lows[i] + closes[i]) / 3;
+        sumPV2 += volumes[i] * Math.pow(tp - vwap, 2);
+    }
+    const desv = Math.sqrt(sumV > 0 ? sumPV2 / sumV : 0);
+    
+    const superior = vwap + 2 * desv;
+    const inferior = vwap - 2 * desv;
+    const precio = closes[closes.length - 1];
+    
+    let señal = 'neutral';
+    if (precio > superior) señal = 'sobrecompra';
+    else if (precio < inferior) señal = 'sobreventa';
+    else señal = 'dentro';
+    
+    return { vwap, superior, inferior, señal };
+}
+
 async function analizarTecnico(symbol) {
     if (!rustWASM.cargado) return null;
     const k = await fetchKlines(symbol, '1h', 100);
@@ -1591,6 +1721,14 @@ async function analizarTecnico(symbol) {
             vwap:         wasm.calcular_vwap(hJson, lJson, cJson, vJson),
             divergencia:  JSON.parse(wasm.detectar_divergencia(cJson)),
             señal_global: JSON.parse(wasm.generar_senal_compra(cJson, hJson, lJson, oJson, cJson, vJson)),
+            
+            // ⭐ INDICADORES EXTRA (JS puro)
+            estocastico:  calcularEstocastico(k.highs, k.lows, k.closes, 14),
+            cci:          calcularCCI(k.highs, k.lows, k.closes, 20),
+            williams_r:   calcularWilliamsR(k.highs, k.lows, k.closes, 14),
+            mfi:          calcularMFI(k.highs, k.lows, k.closes, k.volumes, 14),
+            vwap_bands:   calcularVWAPBands(k.highs, k.lows, k.closes, k.volumes),
+            
             _datos_k: k,
         };
     } catch(e) {
@@ -1631,6 +1769,36 @@ function renderizarAnalisisTecnico(tec) {
     html += '<div class="tecnico-item"><span class="tecnico-item-label">Tendencia</span><span class="tecnico-item-value" style="color:' + colorTend + ';">' + tec.tendencia.replace(/_/g, ' ') + '</span></div>';
     html += '<div class="tecnico-item"><span class="tecnico-item-label">Volatilidad</span><span class="tecnico-item-value" style="color:#60a5fa;">' + tec.volatilidad.toFixed(2) + '%</span></div>';
     html += '<div class="tecnico-item"><span class="tecnico-item-label">Ichimoku</span><span class="tecnico-item-value" style="color:#a78bfa;font-size:0.7rem;">' + (tec.ichimoku.posicion || 'N/A') + '</span></div>';
+    
+    // ⭐ NUEVOS INDICADORES (Estocástico, CCI, Williams %R, MFI)
+    if (tec.estocastico) {
+        const est = tec.estocastico;
+        const colorEst = est.señal === 'sobrecompra' ? '#ef4444' : est.señal === 'sobreventa' ? '#10b981' : '#60a5fa';
+        const emojiEst = est.señal === 'sobrecompra' ? '🔴' : est.señal === 'sobreventa' ? '🟢' : '⚪';
+        html += '<div class="tecnico-item"><span class="tecnico-item-label">Estocástico</span><span class="tecnico-item-value" style="color:' + colorEst + ';">K:' + est.k.toFixed(1) + ' D:' + est.d.toFixed(1) + '</span><span class="tecnico-item-sub">' + emojiEst + ' ' + est.señal + '</span></div>';
+    }
+    
+    if (tec.cci) {
+        const cci = tec.cci;
+        const colorCCI = cci.señal === 'sobrecompra' ? '#ef4444' : cci.señal === 'sobreventa' ? '#10b981' : '#60a5fa';
+        const emojiCCI = cci.señal === 'sobrecompra' ? '🔴' : cci.señal === 'sobreventa' ? '🟢' : '⚪';
+        html += '<div class="tecnico-item"><span class="tecnico-item-label">CCI(20)</span><span class="tecnico-item-value" style="color:' + colorCCI + ';">' + cci.valor.toFixed(1) + '</span><span class="tecnico-item-sub">' + emojiCCI + ' ' + cci.señal + '</span></div>';
+    }
+    
+    if (tec.williams_r) {
+        const wr = tec.williams_r;
+        const colorWR = wr.señal === 'sobrecompra' ? '#ef4444' : wr.señal === 'sobreventa' ? '#10b981' : '#60a5fa';
+        const emojiWR = wr.señal === 'sobrecompra' ? '🔴' : wr.señal === 'sobreventa' ? '🟢' : '⚪';
+        html += '<div class="tecnico-item"><span class="tecnico-item-label">Williams %R</span><span class="tecnico-item-value" style="color:' + colorWR + ';">' + wr.valor.toFixed(1) + '</span><span class="tecnico-item-sub">' + emojiWR + ' ' + wr.señal + '</span></div>';
+    }
+    
+    if (tec.mfi) {
+        const mfi = tec.mfi;
+        const colorMFI = mfi.señal === 'sobrecompra' ? '#ef4444' : mfi.señal === 'sobreventa' ? '#10b981' : '#60a5fa';
+        const emojiMFI = mfi.señal === 'sobrecompra' ? '🔴' : mfi.señal === 'sobreventa' ? '🟢' : '⚪';
+        html += '<div class="tecnico-item"><span class="tecnico-item-label">MFI(14)</span><span class="tecnico-item-value" style="color:' + colorMFI + ';">' + mfi.valor.toFixed(1) + '</span><span class="tecnico-item-sub">' + emojiMFI + ' ' + mfi.señal + '</span></div>';
+    }
+    
     html += '</div>';
 
     if (señal.razones && señal.razones.length > 0) {
@@ -2014,10 +2182,10 @@ document.getElementById('btnPaperTrading').onclick = () => {
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="trading_system.js?v=34"></script>
+<script src="trading_system.js?v=35"></script>
 
-<script src="backtest.js?v=34"></script>
+<script src="backtest.js?v=35"></script>
 
-<script src="paper_trading.js?v=34"></script>
-<script src="alertas.js?v=34"></script>
+<script src="paper_trading.js?v=35"></script>
+<script src="alertas.js?v=35"></script>
 </html>
