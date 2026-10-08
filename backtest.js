@@ -212,8 +212,13 @@ function calcularSeñales(klines, idx) {
     let decision = 'ESPERAR';
     if (scoreCompra >= 6 && scoreCompra > scoreVenta) decision = 'COMPRAR';
     else if (scoreVenta >= 6 && scoreVenta > scoreCompra) decision = 'VENDER';
+
+    // ⭐ CONFIanza (0-1)
+    const totalFuerza = scoreCompra + scoreVenta;
+    const confianza = totalFuerza > 0 ? Math.abs(scoreCompra - scoreVenta) / totalFuerza : 0;
     
     return {
+        confianza,
         decision,
         scoreCompra,
         scoreVenta,
