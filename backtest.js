@@ -248,6 +248,36 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
         // Si hay operación abierta, chequear SL/TP
         if (operacionAbierta) {
             const op = operacionAbierta;
+
+            // ⭐ TRAILING STOP: actualizar SL dinámicamente
+            if (op.atr) {
+                if (op.tipo === 'COMPRAR') {
+                    // Actualizar máximo alcanzado
+                    if (vela.high > op.highMax) op.highMax = vela.high;
+                    
+                    // +1 ATR: mover SL a breakeven
+                    if (op.highMax >= op.entrada + 1.0 * op.atr && !op.trailingActivado) {
+                        op.sl = Math.max(op.sl, op.entrada);
+                        op.trailingActivado = true;
+                    }
+                    
+                    // +2 ATR: trailing a 1.5 ATR del máximo
+                    if (op.highMax >= op.entrada + 2.0 * op.atr) {
+                        op.sl = Math.max(op.sl, op.highMax - 1.5 * op.atr);
+                    }
+                } else if (op.tipo === 'VENDER') {
+                    if (vela.low < op.lowMin) op.lowMin = vela.low;
+                    
+                    if (op.lowMin <= op.entrada - 1.0 * op.atr && !op.trailingActivado) {
+                        op.sl = Math.min(op.sl, op.entrada);
+                        op.trailingActivado = true;
+                    }
+                    
+                    if (op.lowMin <= op.entrada - 2.0 * op.atr) {
+                        op.sl = Math.min(op.sl, op.lowMin + 1.5 * op.atr);
+                    }
+                }
+            }
             
             // Chequear Stop Loss
             if (op.tipo === 'COMPRAR' && vela.low <= op.sl) {
@@ -380,7 +410,11 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
                     tp3,
                     tamaño,
                     capitalAntes: capital,
-                    ganancia: 0
+                    ganancia: 0,
+                    atr: atr,                  // ⭐ TRAILING: ATR para cálculo dinámico
+                    highMax: precio,           // ⭐ TRAILING: máximo alcanzado
+                    lowMin: precio,            // ⭐ TRAILING: mínimo alcanzado
+                    trailingActivado: false    // ⭐ TRAILING: flag
                 };
             }
         }
