@@ -346,6 +346,20 @@
         .pt-adv-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 6px 10px; border-radius: 6px; }
         .pt-adv-label { color: #94a3b8; }
         .pt-adv-value { font-weight: bold; font-family: monospace; color: #eef2ff; }
+
+        /* 📈 Gráfico Interactivo */
+        .widget-grafico { background: rgba(59, 130, 246, 0.08); border: 2px solid #3b82f6; border-radius: 1.5rem; padding: 1.2rem; margin: 15px 0; }
+        .grafico-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .grafico-titulo { font-weight: 700; color: #60a5fa; font-size: 0.85rem; }
+        .grafico-badge { background: linear-gradient(90deg, #3b82f6, #8b5cf6); color: white; padding: 3px 12px; border-radius: 12px; font-size: 0.6rem; font-weight: bold; }
+        .grafico-tf-bar { display: flex; gap: 6px; margin-bottom: 10px; justify-content: center; }
+        .grafico-tf-btn { background: rgba(30, 41, 59, 0.8); border: 1px solid #334155; color: #94a3b8; padding: 6px 16px; border-radius: 16px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .grafico-tf-btn:hover { background: #334155; color: white; }
+        .grafico-tf-btn.active { background: linear-gradient(90deg, #3b82f6, #8b5cf6); color: white; border-color: #3b82f6; }
+        .grafico-loading { text-align: center; padding: 30px; color: #94a3b8; font-size: 0.75rem; }
+        #graficoCanvas { width: 100%; height: auto; border-radius: 8px; display: block; }
+        .tool-btn.grafico { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.15); }
+        .tool-btn.grafico:hover { background: linear-gradient(90deg, #3b82f6, #8b5cf6); color: white; }
 </style>
 </head>
 <body>
@@ -442,6 +456,7 @@
             <button class="tool-btn backtest" id="btnBacktest">🎯 Backtest</button>
             <button class="tool-btn paper" id="btnPaperTrading">🎮 Paper Trading</button>
             <button class="tool-btn alertas" id="btnAlertas">🔔 Alertas</button>
+            <button class="tool-btn grafico" id="btnGrafico">📈 Gráfico</button>
         </div>
 
         <div class="progress-bar-container">
@@ -580,6 +595,22 @@
             </div>
             <div id="alertasContent">
                 <div class="alerta-loading">Analiza una cripto para crear alertas</div>
+            </div>
+        </div>
+
+        <!-- 📈 GRÁFICO INTERACTIVO -->
+        <div class="widget-grafico" id="widgetGrafico" style="display:none;">
+            <div class="grafico-header">
+                <span class="grafico-titulo">📈 Gráfico de Precio</span>
+                <span class="grafico-badge">🦀 Canvas 2D · 100 velas</span>
+            </div>
+            <div class="grafico-tf-bar">
+                <button class="grafico-tf-btn active" data-tf="1h" onclick="window.cambiarTimeframe('1h')">1h</button>
+                <button class="grafico-tf-btn" data-tf="4h" onclick="window.cambiarTimeframe('4h')">4h</button>
+                <button class="grafico-tf-btn" data-tf="1d" onclick="window.cambiarTimeframe('1d')">1d</button>
+            </div>
+            <div id="graficoContent">
+                <div class="grafico-loading">Analiza una cripto para ver el gráfico</div>
             </div>
         </div>
         
@@ -1990,6 +2021,14 @@ async function buscarCripto(symbol) {
         if (typeof window.renderizarAlertas === 'function') {
             try { window.renderizarAlertas(); } catch(e) {}
         }
+        
+        // 📈 Re-renderizar Gráfico si está visible
+        const widgetGrafico = document.getElementById('widgetGrafico');
+        if (widgetGrafico && widgetGrafico.style.display !== 'none') {
+            if (typeof window.renderizarGrafico === 'function') {
+                try { window.renderizarGrafico(); } catch(e) { console.warn('Error gráfico:', e); }
+            }
+        }
     }
 }
 
@@ -2182,10 +2221,11 @@ document.getElementById('btnPaperTrading').onclick = () => {
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="trading_system.js?v=35"></script>
+<script src="trading_system.js?v=36"></script>
 
-<script src="backtest.js?v=35"></script>
+<script src="backtest.js?v=36"></script>
 
-<script src="paper_trading.js?v=35"></script>
-<script src="alertas.js?v=35"></script>
+<script src="paper_trading.js?v=36"></script>
+<script src="alertas.js?v=36"></script>
+<script src="graficos.js?v=36"></script>
 </html>
