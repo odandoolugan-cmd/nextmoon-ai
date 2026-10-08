@@ -175,14 +175,80 @@ function getEstadisticas() {
     const c = getPaperTrading();
     const totalOpsCerradas = c.historial.length;
     const ganadoras = c.historial.filter(o => o.pnl > 0).length;
+    const perdedoras = c.historial.filter(o => o.pnl < 0).length;
     const winRate = totalOpsCerradas > 0 ? (ganadoras / totalOpsCerradas * 100) : 0;
     const pnlTotal = c.historial.reduce((s, o) => s + o.pnl, 0);
     const capitalEnPos = c.posiciones.reduce((s, p) => s + p.cantidadUSD, 0);
     const rendimiento = c.capitalInicial > 0 ? ((c.capitalActual + capitalEnPos - c.capitalInicial) / c.capitalInicial * 100) : 0;
     
+    // Profit factor
     const ganancias = c.historial.filter(o => o.pnl > 0).reduce((s, o) => s + o.pnl, 0);
     const perdidas = Math.abs(c.historial.filter(o => o.pnl < 0).reduce((s, o) => s + o.pnl, 0));
     const profitFactor = perdidas > 0 ? (ganancias / perdidas) : (ganancias > 0 ? 999 : 0);
+    
+    // ⭐ NUEVAS MÉTRICAS AVANZADAS ⭐
+    
+    // 1. Expectancy (ganancia media por op)
+    const expectancy = totalOpsCerradas > 0 ? pnlTotal / totalOpsCerradas : 0;
+    
+    // 2. Racha ganadora/perdedora máxima
+    let rachaGanadora = 0, rachaPerdedora = 0;
+    let rachaActualGan = 0, rachaActualPer = 0;
+    for (const op of c.historial.slice().reverse()) { // cronológico
+        if (op.pnl > 0) {
+            rachaActualGan++;
+            rachaActualPer = 0;
+            if (rachaActualGan > rachaGanadora) rachaGanadora = rachaActualGan;
+        } else if (op.pnl < 0) {
+            rachaActualPer++;
+            rachaActualGan = 0;
+            if (rachaActualPer > rachaPerdedora) rachaPerdedora = rachaActualPer;
+        }
+    }
+    
+    // 3. Max Drawdown en el historial
+    let equity = c.capitalInicial;
+    let maxEquity = c.capitalInicial;
+    let maxDD = 0;
+    for (const op of c.historial.slice().reverse()) { // cronológico
+        equity += op.pnl;
+        if (equity > maxEquity) maxEquity = equity;
+        const dd = (maxEquity - equity) / maxEquity * 100;
+        if (dd > maxDD) maxDD = dd;
+    }
+    
+    // 4. Sharpe Ratio (simplificado, asume tasa libre 0)
+    let sharpe = 0;
+    if (totalOpsCerradas > 1) {
+        const pnls = c.historial.map(o => o.pnl / 100); // normalizado
+        const media = pnls.reduce((a, b) => a + b, 0) / pnls.length;
+        const varianza = pnls.reduce((s, x) => s + Math.pow(x - media, 2), 0) / pnls.length;
+        const desv = Math.sqrt(varianza);
+        sharpe = desv > 0 ? (media / desv) * Math.sqrt(252) : 0; // anualizado
+    }
+    
+    // 5. Sortino Ratio (solo volatilidad negativa)
+    let sortino = 0;
+    if (totalOpsCerradas > 1) {
+        const pnls = c.historial.map(o => o.pnl / 100);
+        const media = pnls.reduce((a, b) => a + b, 0) / pnls.length;
+        const negativos = pnls.filter(p => p < 0);
+        if (negativos.length > 0) {
+            const varNeg = negativos.reduce((s, x) => s + x * x, 0) / negativos.length;
+            const desvNeg = Math.sqrt(varNeg);
+            sortino = desvNeg > 0 ? (media / desvNeg) * Math.sqrt(252) : 0;
+        }
+    }
+    
+    // 6. Kelly Criterion (% óptimo del capital a arriesgar)
+    let kelly = 0;
+    if (ganadoras > 0 && perdedoras > 0) {
+        const avgWin = ganancias / ganadoras;
+        const avgLoss = perdidas / perdedoras;
+        const W = ganadoras / totalOpsCerradas;
+        const R = avgWin / avgLoss; // ratio
+        if (R > 0) kelly = Math.max(0, Math.min(0.25, W - (1 - W) / R)); // cap al 25%
+    }
     
     return {
         capitalInicial: c.capitalInicial,
@@ -192,13 +258,21 @@ function getEstadisticas() {
         posicionesAbiertas: c.posiciones.length,
         totalOpsCerradas,
         ganadoras,
-        perdedoras: totalOpsCerradas - ganadoras,
+        perdedoras,
         winRate: winRate.toFixed(1),
         pnlTotal: pnlTotal.toFixed(2),
         rendimiento: rendimiento.toFixed(2),
         profitFactor: profitFactor.toFixed(2),
         mejorOp: c.metricas.mejorOp.toFixed(2),
-        peorOp: c.metricas.peorOp.toFixed(2)
+        peorOp: c.metricas.peorOp.toFixed(2),
+        // ⭐ AVANZADAS
+        expectancy: expectancy.toFixed(2),
+        rachaGanadora: rachaGanadora,
+        rachaPerdedora: rachaPerdedora,
+        maxDrawdown: maxDD.toFixed(2),
+        sharpe: sharpe.toFixed(2),
+        sortino: sortino.toFixed(2),
+        kelly: (kelly * 100).toFixed(1)
     };
 }
 
@@ -235,6 +309,28 @@ function renderizarPaperTrading() {
     html += '<div class="pt-metric"><div class="pt-label">📊 Profit Factor</div><div class="pt-value">' + stats.profitFactor + '</div></div>';
     html += '<div class="pt-metric"><div class="pt-label">📈 Ops</div><div class="pt-value">' + stats.totalOpsCerradas + '</div></div>';
     html += '</div>';
+    
+    // ⭐ MÉTRICAS AVANZADAS
+    if (stats.totalOpsCerradas > 0) {
+        const colorSharpe = parseFloat(stats.sharpe) > 1 ? '#10b981' : parseFloat(stats.sharpe) > 0 ? '#f59e0b' : '#ef4444';
+        const colorSortino = parseFloat(stats.sortino) > 1.5 ? '#10b981' : parseFloat(stats.sortino) > 0 ? '#f59e0b' : '#ef4444';
+        const colorDD = parseFloat(stats.maxDrawdown) < 20 ? '#10b981' : parseFloat(stats.maxDrawdown) < 40 ? '#f59e0b' : '#ef4444';
+        const colorExpect = parseFloat(stats.expectancy) > 0 ? '#10b981' : '#ef4444';
+        
+        html += '<div class="pt-metrics-advanced">';
+        html += '<div class="pt-advanced-title">📊 Métricas Avanzadas</div>';
+        html += '<div class="pt-advanced-grid">';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📈 Sharpe</span><span class="pt-adv-value" style="color:' + colorSharpe + ';">' + stats.sharpe + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📉 Sortino</span><span class="pt-adv-value" style="color:' + colorSortino + ';">' + stats.sortino + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📊 Max DD</span><span class="pt-adv-value" style="color:' + colorDD + ';">-' + stats.maxDrawdown + '%</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">💰 Expectancy</span><span class="pt-adv-value" style="color:' + colorExpect + ';">$' + stats.expectancy + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">🔥 Racha Ganadora</span><span class="pt-adv-value" style="color:#10b981;">' + stats.rachaGanadora + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">❄️ Racha Perdedora</span><span class="pt-adv-value" style="color:#ef4444;">' + stats.rachaPerdedora + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">💎 Kelly %</span><span class="pt-adv-value" style="color:#a78bfa;">' + stats.kelly + '%</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📊 Ops Totales</span><span class="pt-adv-value">' + stats.totalOpsCerradas + '</span></div>';
+        html += '</div>';
+        html += '</div>';
+    }
     
     // ═══ FORMULARIO DE OPERACIÓN ═══
     if (precioActual && symbolActual) {

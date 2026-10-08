@@ -338,6 +338,14 @@
         .alerta-vacio { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; }
         .tool-btn.alertas { border-color: #10b981; color: #34d399; background: rgba(16,185,129,0.15); }
         .tool-btn.alertas:hover { background: linear-gradient(90deg, #10b981, #059669); color: white; }
+
+        /* 📊 Métricas Avanzadas Paper Trading */
+        .pt-metrics-advanced { background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+        .pt-advanced-title { color: #a78bfa; font-weight: bold; font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; }
+        .pt-advanced-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.7rem; }
+        .pt-adv-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 6px 10px; border-radius: 6px; }
+        .pt-adv-label { color: #94a3b8; }
+        .pt-adv-value { font-weight: bold; font-family: monospace; color: #eef2ff; }
 </style>
 </head>
 <body>
@@ -2006,10 +2014,10 @@ document.getElementById('btnPaperTrading').onclick = () => {
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="trading_system.js?v=33"></script>
+<script src="trading_system.js?v=34"></script>
 
-<script src="backtest.js?v=33"></script>
+<script src="backtest.js?v=34"></script>
 
-<script src="paper_trading.js?v=33"></script>
-<script src="alertas.js?v=1"></script>
+<script src="paper_trading.js?v=34"></script>
+<script src="alertas.js?v=34"></script>
 </html>
