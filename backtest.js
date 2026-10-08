@@ -352,12 +352,12 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
             // Calcular SL/TP (SL 1.5 ATR → equilibrio)
             let sl, tp1, tp2, tp3;
             if (señal.decision === 'COMPRAR') {
-                sl = precio - 1.5 * atr;
+                sl = precio - 2.0 * atr;
                 tp1 = precio + 2.5 * atr;  // R/B 1.67
                 tp2 = precio + 3.5 * atr;  // R/B 2.33
                 tp3 = precio + 5.0 * atr;  // R/B 3.33
             } else {
-                sl = precio + 1.5 * atr;
+                sl = precio + 2.0 * atr;
                 tp1 = precio - 2.5 * atr;
                 tp2 = precio - 3.5 * atr;
                 tp3 = precio - 5.0 * atr;
