@@ -1,0 +1,7 @@
+*
+!.gitignore
+!*.wasm
+!*.js
+!*.d.ts
+!*.json
+!README.md
