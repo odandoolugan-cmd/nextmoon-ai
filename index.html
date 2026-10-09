@@ -360,6 +360,12 @@
         #graficoCanvas { width: 100%; height: auto; border-radius: 8px; display: block; }
         .tool-btn.grafico { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.15); }
         .tool-btn.grafico:hover { background: linear-gradient(90deg, #3b82f6, #8b5cf6); color: white; }
+
+        /* 🌍 Selector de idioma */
+        .lang-selector { display: flex; gap: 4px; align-items: center; justify-content: center; margin-bottom: 10px; padding: 6px 12px; background: rgba(30, 41, 59, 0.5); border-radius: 20px; width: fit-content; margin-left: auto; margin-right: auto; }
+        .lang-btn { background: transparent; border: 1px solid #334155; padding: 4px 10px; border-radius: 12px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+        .lang-btn:hover { background: #334155; transform: scale(1.05); }
+        .lang-btn.active { background: linear-gradient(90deg, #8b5cf6, #ec4899); border-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
 </style>
 </head>
 <body>
@@ -370,7 +376,13 @@
         <div class="header">
             <div class="badge">🚀 NextMoon AI <span class="badge-rustwasm">🦀 WASM RUST</span> <span class="badge-multiia">🔄 MULTI-IA</span> <span class="badge-core">🧬 CORE 403M</span> <span class="badge-agentreach">🔌 AGENT-REACH</span> <span class="badge-wasm">⚡ WASM EXTREMO</span> <span class="badge-decision">🧠 403M LECTOR</span> <span class="badge-12fuentes">🔬 12+ FUENTES</span> <span class="badge-analytics">📊 ANALYTICS</span> <span class="badge-100funciones">🚀 100+ FUNCIONES</span> <span class="badge-ilimitado">♾️ ILIMITADO</span> <span class="badge-1llamada">⚡ PARALELO</span> <span class="badge-fallback">🧠 FALLBACK INTELIGENTE</span> <span class="badge-alemania">🇩🇪 ENFOQUE ALEMÁN</span></div>
             <h1>🔮 NextMoon AI <span class="badge" style="background:#ce422b;">🦀 WASM RUST</span> <span class="badge" style="background:#10b981;">🔄 MULTI-IA</span> <span class="badge" style="background:#8b5cf6;">🧬 CORE 403M</span> <span class="badge" style="background:#f59e0b;">🔌 AGENT-REACH</span> <span class="badge" style="background:#ec4899;">♾️ ILIMITADO</span> <span class="badge" style="background:#000;color:#FFCC00;border:1px solid #FFCC00;">🇩🇪</span></h1>
-            <div style="font-size: 0.7rem;">WASM Rust real · Multi-IA paralelo (Promise.any) · Core 403M auto-evolutivo · Agent-Reach · 12+ Fuentes Cripto · Fallback Inteligente · 50x más rápido · 🇩🇪 Enfoque Alemania · ⚡ Parallel · ♾️ Sin Límites</div>
+            <div class="lang-selector">
+            <span style="font-size:0.7rem;color:#94a3b8;">🌍</span>
+            <button class="lang-btn" data-lang="es" onclick="window.cambiarIdioma('es')">🇪🇸</button>
+            <button class="lang-btn" data-lang="en" onclick="window.cambiarIdioma('en')">🇬🇧</button>
+            <button class="lang-btn" data-lang="de" onclick="window.cambiarIdioma('de')">🇩🇪</button>
+        </div>
+        <div style="font-size: 0.7rem;">WASM Rust real · Multi-IA paralelo (Promise.any) · Core 403M auto-evolutivo · Agent-Reach · 12+ Fuentes Cripto · Fallback Inteligente · 50x más rápido · 🇩🇪 Enfoque Alemania · ⚡ Parallel · ♾️ Sin Límites</div>
             <div class="daily-tip">🦀 <strong>WASM Rust REAL (60 funciones)</strong> · 🔄 Multi-IA paralelo · 🧬 <strong>Core 403M</strong> · 🔌 <strong>Agent-Reach</strong> · 🔬 12+ Fuentes · 💰 Cualquier cripto · 🧠 <strong>Fallback inteligente con datos reales de CoinGecko, CoinCap, Binance, DexScreener</strong></div>
         </div>
 
@@ -465,14 +477,14 @@
 
         <div class="search-box">
             <input type="text" class="search-input" id="searchInput" placeholder="🔍 Busca cualquier cripto: BTC, ETH, SOL, DOGE, PEPE, SHIB..." autocomplete="off">
-            <button class="search-btn" id="searchBtn">🚀 ANALIZAR</button>
+            <button class="search-btn" id="searchBtn" data-i18n="btn_analizar">🚀 ANALIZAR</button>
         </div>
 
         <div class="fase-info" id="faseInfo">💡 Listo para analizar</div>
 
         <div class="dashboard-grid">
             <div class="card">
-                <div class="card-title">🎯 DATOS DEL TOKEN</div>
+                <div class="card-title" data-i18n="widget_datos">🎯 DATOS DEL TOKEN</div>
                 <div class="token-symbol" id="tokenSymbol">---</div>
                 <div class="token-price" id="tokenPrice">---</div>
                 <div class="metrics-grid">
@@ -540,7 +552,7 @@
         <!-- ═══════════════════════════════════════════════════════════════ -->
         <div class="widget-tecnico" id="widgetTecnico" style="display:none;">
             <div class="tecnico-header">
-                <span class="tecnico-titulo">📈 Análisis Técnico</span>
+                <span class="tecnico-titulo" data-i18n="widget_tecnico">📈 Análisis Técnico</span>
                 <span class="tecnico-badge">🦀 WASM v6 · 60 funciones</span>
             </div>
             <div id="tecnicoContent">
@@ -568,7 +580,7 @@
         <!-- 🎯 SISTEMA DE TRADING -->
         <div class="widget-trading" id="widgetTrading" style="display:none;">
             <div class="trading-header">
-                <span class="trading-titulo">🎯 Sistema de Trading</span>
+                <span class="trading-titulo" data-i18n="widget_trading">🎯 Sistema de Trading</span>
                 <span class="trading-badge">🦀 WASM v6 · Confluencia 12 señales</span>
             </div>
             <div id="tradingSystemContent">
@@ -579,7 +591,7 @@
                 <!-- 🎮 PAPER TRADING -->
         <div class="widget-paper" id="widgetPaper" style="display:none;">
             <div class="pt-header">
-                <span class="pt-title">🎮 Trading Virtual</span>
+                <span class="pt-title" data-i18n="widget_paper">🎮 Trading Virtual</span>
                 <span class="pt-badge">🦀 Aprende sin arriesgar</span>
             </div>
             <div id="paperTradingContent">
@@ -590,7 +602,7 @@
         <!-- 🔔 ALERTAS DE PRECIO -->
         <div class="widget-alertas" id="widgetAlertas" style="display:none;">
             <div class="alerta-header">
-                <span class="alerta-titulo">🔔 Alertas de Precio</span>
+                <span class="alerta-titulo" data-i18n="widget_alertas">🔔 Alertas de Precio</span>
                 <span class="alerta-badge">🦀 Notificaciones nativas</span>
             </div>
             <div id="alertasContent">
@@ -601,7 +613,7 @@
         <!-- 📈 GRÁFICO INTERACTIVO -->
         <div class="widget-grafico" id="widgetGrafico" style="display:none;">
             <div class="grafico-header">
-                <span class="grafico-titulo">📈 Gráfico de Precio</span>
+                <span class="grafico-titulo" data-i18n="widget_grafico">📈 Gráfico de Precio</span>
                 <span class="grafico-badge">🦀 Canvas 2D · 100 velas</span>
             </div>
             <div class="grafico-tf-bar">
@@ -619,7 +631,7 @@
             <div id="referencesList"></div>
         </div>
 
-        <button id="refreshBtn" class="refresh-btn">🔄 RE-ANALIZAR TOKEN ACTUAL</button>
+        <button id="refreshBtn" class="refresh-btn" data-i18n="btn_reanalizar">🔄 RE-ANALIZAR TOKEN ACTUAL</button>
         <div class="auto-update">🦀 WASM Rust (60 func) · 🔄 Multi-IA paralelo · 🧬 Core 403M · 🔌 Agent-Reach · 🔬 12+ Fuentes · 🧠 Fallback inteligente · 🇩🇪 Enfoque Alemania · ♾️ Sin límites</div>
         <footer>⚡ NextMoon AI · WASM Rust + Multi-IA paralelo + Fallback inteligente (CoinGecko/CoinCap/Binance/DexScreener) · Recomendación COMPRAR/NO COMPRAR</footer>
     </div>
@@ -1538,6 +1550,12 @@ IMPORTANTE:
 - NO uses asteriscos
 - Enfócate en el mercado alemán/europeo`;
 
+    // ⭐ Añadir idioma al prompt
+    const idiomaActual = (typeof window.getIdiomaActual === 'function') ? window.getIdiomaActual() : 'es';
+    const idiomaNombre = { 'es': 'español', 'en': 'English', 'de': 'Deutsch' }[idiomaActual] || 'español';
+    
+    const promptConIdioma = prompt.replace('Responde en español', 'Responde en ' + idiomaNombre);
+    
     const maxTokens = modoActual === 'experto' ? 4000 : 2000;
     const timeoutGlobal = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT_GLOBAL')), TIMEOUT_TOTAL_ANALISIS));
     const tareaIA = llamarIA([{ role: 'system', content: 'Eres un analista profesional de criptomonedas. Das recomendaciones CLARAS. NO usas asteriscos.' }, { role: 'user', content: prompt }], maxTokens);
@@ -2221,11 +2239,12 @@ document.getElementById('btnPaperTrading').onclick = () => {
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="trading_system.js?v=36"></script>
+<script src="i18n.js?v=37"></script>
+<script src="trading_system.js?v=37"></script>
 
-<script src="backtest.js?v=36"></script>
+<script src="backtest.js?v=37"></script>
 
-<script src="paper_trading.js?v=36"></script>
-<script src="alertas.js?v=36"></script>
-<script src="graficos.js?v=36"></script>
+<script src="paper_trading.js?v=37"></script>
+<script src="alertas.js?v=37"></script>
+<script src="graficos.js?v=37"></script>
 </html>
