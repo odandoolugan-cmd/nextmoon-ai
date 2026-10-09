@@ -1,0 +1,17 @@
+{
+  "name": "academia-wasm",
+  "type": "module",
+  "description": "NextMoon AI · Core 403M · 40 funciones WASM Rust",
+  "version": "4.0.0",
+  "license": "MIT",
+  "files": [
+    "academia_wasm_bg.wasm",
+    "academia_wasm.js",
+    "academia_wasm.d.ts"
+  ],
+  "main": "academia_wasm.js",
+  "types": "academia_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
