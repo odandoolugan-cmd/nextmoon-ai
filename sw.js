@@ -2,7 +2,7 @@
 // 🦀 NextMoon AI · Service Worker v12 · HTML siempre de red
 // ═══════════════════════════════════════════════════════════════
 
-const CACHE_VERSION = 'v38';
+const CACHE_VERSION = 'v39';
 const CACHE_STATIC = 'nextmoon-static-' + CACHE_VERSION;
 const CACHE_DYNAMIC = 'nextmoon-dynamic-' + CACHE_VERSION;
 

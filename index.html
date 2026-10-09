@@ -366,6 +366,34 @@
         .lang-btn { background: transparent; border: 1px solid #334155; padding: 4px 10px; border-radius: 12px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
         .lang-btn:hover { background: #334155; transform: scale(1.05); }
         .lang-btn.active { background: linear-gradient(90deg, #8b5cf6, #ec4899); border-color: #8b5cf6; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+
+        /* 🧠 Auto-Evolución Bayesiana */
+        .widget-auto-evo { background: rgba(139, 92, 246, 0.08); border: 2px solid #8b5cf6; border-radius: 1.5rem; padding: 1.2rem; margin: 15px 0; }
+        .ae-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .ae-titulo { font-weight: 700; color: #a78bfa; font-size: 0.85rem; }
+        .ae-badge { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; padding: 3px 12px; border-radius: 12px; font-size: 0.6rem; font-weight: bold; }
+        .ae-loading { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; }
+        .ae-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .ae-metric { background: #0a0f1e; padding: 10px 8px; border-radius: 8px; text-align: center; }
+        .ae-metric-label { font-size: 0.55rem; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase; }
+        .ae-metric-value { font-size: 1rem; font-weight: bold; color: #eef2ff; }
+        .ae-params { margin-top: 12px; }
+        .ae-params-title { color: #a78bfa; font-weight: bold; font-size: 0.75rem; margin-bottom: 8px; text-transform: uppercase; }
+        .ae-param { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: rgba(0,0,0,0.2); border-radius: 6px; margin-bottom: 4px; font-size: 0.7rem; }
+        .ae-param-name { color: #94a3b8; }
+        .ae-param-value { font-weight: bold; font-family: monospace; color: #eef2ff; }
+        .ae-param-ci { font-size: 0.6rem; color: #64748b; margin-left: 8px; }
+        .ae-convergence { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .ae-conv-bar { flex: 1; height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; }
+        .ae-conv-fill { height: 100%; background: linear-gradient(90deg, #8b5cf6, #10b981); transition: width 0.5s; }
+        .ae-actions { display: flex; gap: 8px; margin-top: 12px; justify-content: center; }
+        .ae-btn { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.7rem; cursor: pointer; }
+        .ae-btn:hover { transform: scale(1.02); }
+        .ae-btn-danger { background: linear-gradient(90deg, #ef4444, #dc2626); }
+        .ae-hist { max-height: 150px; overflow-y: auto; margin-top: 8px; }
+        .ae-hist-item { display: flex; justify-content: space-between; padding: 4px 8px; background: rgba(0,0,0,0.15); border-radius: 4px; margin-bottom: 3px; font-size: 0.65rem; }
+        .tool-btn.auto-evo { border-color: #8b5cf6; color: #a78bfa; background: rgba(139,92,246,0.15); }
+        .tool-btn.auto-evo:hover { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; }
 </style>
 </head>
 <body>
@@ -469,6 +497,7 @@
             <button class="tool-btn paper" id="btnPaperTrading">🎮 Paper Trading</button>
             <button class="tool-btn alertas" id="btnAlertas">🔔 Alertas</button>
             <button class="tool-btn grafico" id="btnGrafico">📈 Gráfico</button>
+            <button class="tool-btn auto-evo" id="btnAutoEvo">🧠 Auto-Evolución</button>
         </div>
 
         <div class="progress-bar-container">
@@ -623,6 +652,28 @@
             </div>
             <div id="graficoContent">
                 <div class="grafico-loading">Analiza una cripto para ver el gráfico</div>
+            </div>
+        </div>
+
+        <!-- 🧠 AUTO-EVOLUCIÓN BAYESIANA -->
+        <div class="widget-auto-evo" id="widgetAutoEvo" style="display:none;">
+            <div class="ae-header">
+                <span class="ae-titulo">🧠 Auto-Evolución Bayesiana</span>
+                <span class="ae-badge">🦀 Thompson Sampling</span>
+            </div>
+            <div id="autoEvoContent">
+                <div class="ae-loading">Cargando estado del aprendizaje...</div>
+            </div>
+        </div>
+
+        <!-- 🧠 AUTO-EVOLUCIÓN BAYESIANA -->
+        <div class="widget-auto-evo" id="widgetAutoEvo" style="display:none;">
+            <div class="ae-header">
+                <span class="ae-titulo">🧠 Auto-Evolución Bayesiana</span>
+                <span class="ae-badge">🦀 Thompson Sampling</span>
+            </div>
+            <div id="autoEvoContent">
+                <div class="ae-loading">Cargando estado del aprendizaje...</div>
             </div>
         </div>
         
@@ -2201,6 +2252,107 @@ document.getElementById('btnPaperTrading').onclick = () => {
         showToast('✅ NextMoon AI instalada');
     });
 
+// ─────────────────────────────────────────────
+// 🧠 RENDERIZAR AUTO-EVOLUCIÓN
+// ─────────────────────────────────────────────
+function renderizarAutoEvolucion() {
+    const container = document.getElementById('autoEvoContent');
+    if (!container) return;
+    
+    if (typeof window.autoEvolucion === 'undefined') {
+        container.innerHTML = '<div class="ae-loading">Cargando motor bayesiano...</div>';
+        return;
+    }
+    
+    const estado = window.autoEvolucion.getEstado();
+    const stats = window.autoEvolucion.getEstadisticas();
+    
+    let html = '';
+    
+    const convergenciaMedia = Object.values(stats.convergencia).reduce((s, c) => s + c.convergencia, 0) / Object.keys(stats.convergencia).length;
+    const convPct = (convergenciaMedia * 100).toFixed(0);
+    
+    html += '<div class="ae-metrics">';
+    html += '<div class="ae-metric"><div class="ae-metric-label">Iteraciones</div><div class="ae-metric-value">' + estado.iteraciones + '</div></div>';
+    html += '<div class="ae-metric"><div class="ae-metric-label">Mejor PF</div><div class="ae-metric-value" style="color:#10b981;">' + (estado.mejorPF > 0 ? estado.mejorPF.toFixed(2) : '---') + '</div></div>';
+    html += '<div class="ae-metric"><div class="ae-metric-label">Convergencia</div><div class="ae-metric-value" style="color:#a78bfa;">' + convPct + '%</div></div>';
+    html += '</div>';
+    
+    html += '<div class="ae-params">';
+    html += '<div class="ae-params-title">📊 Parámetros aprendidos</div>';
+    
+    for (const [nombre, param] of Object.entries(estado.parametros)) {
+        let media;
+        if (param.tipo === 'beta') media = window.bayes.meanBeta(param);
+        else if (param.tipo === 'normal') media = param.mu;
+        else media = (param.min + param.max) / 2;
+        
+        const ci = window.bayes.credibleInterval({ tipo: param.tipo, ...param });
+        const conv = stats.convergencia[nombre]?.convergencia || 0;
+        
+        let valorMostrar;
+        if (param.tipo === 'beta') valorMostrar = (media * 100).toFixed(1) + '%';
+        else if (param.tipo === 'normal') valorMostrar = media.toFixed(2);
+        else valorMostrar = Math.round(media).toString();
+        
+        html += '<div class="ae-param">';
+        html += '<span class="ae-param-name">' + nombre.replace(/_/g, ' ') + '</span>';
+        html += '<span><span class="ae-param-value">' + valorMostrar + '</span><span class="ae-param-ci">[' + ci.lower.toFixed(2) + ', ' + ci.upper.toFixed(2) + ']</span></span>';
+        html += '</div>';
+        html += '<div class="ae-convergence"><div class="ae-conv-bar"><div class="ae-conv-fill" style="width:' + (conv * 100) + '%"></div></div></div>';
+    }
+    html += '</div>';
+    
+    if (estado.historial && estado.historial.length > 0) {
+        html += '<div class="ae-params" style="margin-top:12px;">';
+        html += '<div class="ae-params-title">📜 Últimas iteraciones</div>';
+        html += '<div class="ae-hist">';
+        for (const h of estado.historial.slice(-5).reverse()) {
+            const emoji = h.exito ? '✅' : '❌';
+            const pfColor = h.resultado.pf > 1.2 ? '#10b981' : h.resultado.pf > 1.0 ? '#f59e0b' : '#ef4444';
+            html += '<div class="ae-hist-item"><span>' + emoji + ' #' + h.iteracion + '</span><span style="color:' + pfColor + ';">PF: ' + h.resultado.pf.toFixed(2) + '</span><span style="color:#94a3b8;">' + new Date(h.ts).toLocaleTimeString() + '</span></div>';
+        }
+        html += '</div></div>';
+    }
+    
+    html += '<div class="ae-actions">';
+    html += '<button class="ae-btn" onclick="window.autoEvolucion.ejecutarIteracion().then(() => window.renderizarAutoEvolucion())">🚀 Iterar ahora</button>';
+    html += '<button class="ae-btn ae-btn-danger" onclick="window.autoEvolucion.resetAutoEvolucion()">🔄 Reset</button>';
+    html += '</div>';
+    
+    container.innerHTML = html;
+}
+
+window.renderizarAutoEvolucion = renderizarAutoEvolucion;
+
+// ─────────────────────────────────────────────
+// 🎯 HANDLER DEL BOTÓN "AUTO-EVOLUCIÓN"
+// ─────────────────────────────────────────────
+(function initAutoEvoHandler() {
+    const setup = () => {
+        const btn = document.getElementById('btnAutoEvo');
+        const widget = document.getElementById('widgetAutoEvo');
+        if (!btn || !widget) return;
+        
+        btn.onclick = () => {
+            if (widget.style.display === 'none' || widget.style.display === '') {
+                widget.style.display = 'block';
+                renderizarAutoEvolucion();
+                setTimeout(() => widget.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+                if (typeof showToast === 'function') showToast('🧠 Auto-Evolución activada');
+            } else {
+                widget.style.display = 'none';
+            }
+        };
+    };
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup);
+    } else {
+        setup();
+    }
+})();
+
     // 🚨 Detector de error: mostrar botón si WASM no carga
     setTimeout(() => {
         const btn = document.getElementById('forceUpdateBtn');
@@ -2240,12 +2392,14 @@ document.getElementById('btnPaperTrading').onclick = () => {
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="i18n.js?v=38"></script>
-<script src="trading_system.js?v=38"></script>
+<script src="i18n.js?v=39"></script>
+<script src="trading_system.js?v=39"></script>
 
-<script src="backtest.js?v=38"></script>
+<script src="backtest.js?v=39"></script>
 
-<script src="paper_trading.js?v=38"></script>
-<script src="alertas.js?v=38"></script>
-<script src="graficos.js?v=38"></script>
+<script src="paper_trading.js?v=39"></script>
+<script src="alertas.js?v=39"></script>
+<script src="graficos.js?v=39"></script>
+<script src="bayes.js?v=39"></script>
+<script src="auto_evolucion.js?v=39"></script>
 </html>
