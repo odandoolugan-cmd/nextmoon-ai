@@ -1772,11 +1772,12 @@ async function analizarTecnico(symbol) {
             señal_global: JSON.parse(wasm.generar_senal_compra(cJson, hJson, lJson, oJson, cJson, vJson)),
             
             // ⭐ INDICADORES EXTRA (JS puro)
-            estocastico:  calcularEstocastico(k.highs, k.lows, k.closes, 14),
-            cci:          calcularCCI(k.highs, k.lows, k.closes, 20),
-            williams_r:   calcularWilliamsR(k.highs, k.lows, k.closes, 14),
-            mfi:          calcularMFI(k.highs, k.lows, k.closes, k.volumes, 14),
-            vwap_bands:   calcularVWAPBands(k.highs, k.lows, k.closes, k.volumes),
+            // ⭐ USANDO WASM RUST (10-50x más rápido)
+            estocastico:  JSON.parse(wasm.calcular_stochastic(hJson, lJson, cJson, 14)),
+            cci:          (() => { const v = wasm.calcular_cci(hJson, lJson, cJson, 20); return { valor: v, señal: v > 100 ? 'sobrecompra' : v < -100 ? 'sobreventa' : 'neutral' }; })(),
+            williams_r:   (() => { const v = wasm.calcular_williams_r(hJson, lJson, cJson, 14); return { valor: v, señal: v > -20 ? 'sobrecompra' : v < -80 ? 'sobreventa' : 'neutral' }; })(),
+            mfi:          (() => { const v = wasm.calcular_mfi(hJson, lJson, cJson, vJson, 14); return { valor: v, señal: v > 80 ? 'sobrecompra' : v < 20 ? 'sobreventa' : 'neutral' }; })(),
+            vwap_bands:   JSON.parse(wasm.calcular_vwap_bands(hJson, lJson, cJson, vJson)),
             
             _datos_k: k,
         };
@@ -2239,12 +2240,12 @@ document.getElementById('btnPaperTrading').onclick = () => {
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="i18n.js?v=37"></script>
-<script src="trading_system.js?v=37"></script>
+<script src="i18n.js?v=38"></script>
+<script src="trading_system.js?v=38"></script>
 
-<script src="backtest.js?v=37"></script>
+<script src="backtest.js?v=38"></script>
 
-<script src="paper_trading.js?v=37"></script>
-<script src="alertas.js?v=37"></script>
-<script src="graficos.js?v=37"></script>
+<script src="paper_trading.js?v=38"></script>
+<script src="alertas.js?v=38"></script>
+<script src="graficos.js?v=38"></script>
 </html>
