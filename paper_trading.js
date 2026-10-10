@@ -11,6 +11,15 @@ function getPaperTrading() {
         const data = localStorage.getItem(__PT_KEY);
         if (data) {
             const cartera = JSON.parse(data);
+            
+            // ⭐ AUTO-REPARAR valores NaN
+            const num = (v, fb) => {
+                const n = parseFloat(v);
+                return isNaN(n) || !isFinite(n) ? fb : n;
+            };
+            cartera.capitalInicial = num(cartera.capitalInicial, 1000);
+            cartera.capitalActual = num(cartera.capitalActual, cartera.capitalInicial);
+            cartera.posiciones = (cartera.posiciones || []).filter(p => p && isFinite(num(p.cantidadUSD, 0)));
             if (!cartera.capitalInicial) cartera.capitalInicial = __PT_CAPITAL_INICIAL;
             if (cartera.capitalActual === undefined) cartera.capitalActual = __PT_CAPITAL_INICIAL;
             if (!cartera.posiciones) cartera.posiciones = [];
@@ -184,17 +193,22 @@ function calcularPnL(pos, precioActual) {
 
 function getEstadisticas() {
     const c = getPaperTrading();
+    // ⭐ Helper: número seguro (evita NaN)
+    const num = (v, fallback = 0) => {
+        const n = parseFloat(v);
+        return isNaN(n) || !isFinite(n) ? fallback : n;
+    };
     const totalOpsCerradas = c.historial.length;
-    const ganadoras = c.historial.filter(o => o.pnl > 0).length;
-    const perdedoras = c.historial.filter(o => o.pnl < 0).length;
+    const ganadoras = c.historial.filter(o => num(o.pnl) > 0).length;
+    const perdedoras = c.historial.filter(o => num(o.pnl) < 0).length;
     const winRate = totalOpsCerradas > 0 ? (ganadoras / totalOpsCerradas * 100) : 0;
-    const pnlTotal = c.historial.reduce((s, o) => s + o.pnl, 0);
-    const capitalEnPos = c.posiciones.reduce((s, p) => s + p.cantidadUSD, 0);
-    const rendimiento = c.capitalInicial > 0 ? ((c.capitalActual + capitalEnPos - c.capitalInicial) / c.capitalInicial * 100) : 0;
+    const pnlTotal = c.historial.reduce((s, o) => s + num(o.pnl), 0);
+    const capitalEnPos = c.posiciones.reduce((s, p) => s + num(p.cantidadUSD), 0);
+    const rendimiento = num(c.capitalInicial, 1000) > 0 ? ((num(num(c.capitalActual, 0), 0) + capitalEnPos - num(c.capitalInicial, 1000)) / num(c.capitalInicial, 1000) * 100) : 0;
     
     // Profit factor
-    const ganancias = c.historial.filter(o => o.pnl > 0).reduce((s, o) => s + o.pnl, 0);
-    const perdidas = Math.abs(c.historial.filter(o => o.pnl < 0).reduce((s, o) => s + o.pnl, 0));
+    const ganancias = c.historial.filter(o => num(o.pnl) > 0).reduce((s, o) => s + o.pnl, 0);
+    const perdidas = Math.abs(c.historial.filter(o => num(o.pnl) < 0).reduce((s, o) => s + o.pnl, 0));
     const profitFactor = perdidas > 0 ? (ganancias / perdidas) : (ganancias > 0 ? 999 : 0);
     
     // ⭐ NUEVAS MÉTRICAS AVANZADAS ⭐
@@ -206,11 +220,11 @@ function getEstadisticas() {
     let rachaGanadora = 0, rachaPerdedora = 0;
     let rachaActualGan = 0, rachaActualPer = 0;
     for (const op of c.historial.slice().reverse()) { // cronológico
-        if (op.pnl > 0) {
+        if (num(op.pnl) > 0) {
             rachaActualGan++;
             rachaActualPer = 0;
             if (rachaActualGan > rachaGanadora) rachaGanadora = rachaActualGan;
-        } else if (op.pnl < 0) {
+        } else if (num(op.pnl) < 0) {
             rachaActualPer++;
             rachaActualGan = 0;
             if (rachaActualPer > rachaPerdedora) rachaPerdedora = rachaActualPer;
@@ -231,7 +245,7 @@ function getEstadisticas() {
     // 4. Sharpe Ratio (simplificado, asume tasa libre 0)
     let sharpe = 0;
     if (totalOpsCerradas > 1) {
-        const pnls = c.historial.map(o => o.pnl / 100); // normalizado
+        const pnls = c.historial.map(o => num(o.pnl) / 100); // normalizado
         const media = pnls.reduce((a, b) => a + b, 0) / pnls.length;
         const varianza = pnls.reduce((s, x) => s + Math.pow(x - media, 2), 0) / pnls.length;
         const desv = Math.sqrt(varianza);
@@ -241,7 +255,7 @@ function getEstadisticas() {
     // 5. Sortino Ratio (solo volatilidad negativa)
     let sortino = 0;
     if (totalOpsCerradas > 1) {
-        const pnls = c.historial.map(o => o.pnl / 100);
+        const pnls = c.historial.map(o => num(o.pnl) / 100);
         const media = pnls.reduce((a, b) => a + b, 0) / pnls.length;
         const negativos = pnls.filter(p => p < 0);
         if (negativos.length > 0) {
