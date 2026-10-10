@@ -33,6 +33,17 @@ function getPaperTrading() {
 
 function savePaperTrading(cartera) {
     try {
+        // ⭐ Sanear antes de guardar
+        const num = (v, fb = 0) => {
+            const n = parseFloat(v);
+            return isNaN(n) || !isFinite(n) ? fb : n;
+        };
+        
+        cartera.capitalInicial = num(cartera.capitalInicial, 1000);
+        cartera.capitalActual = num(cartera.capitalActual, 1000);
+        cartera.posiciones = (cartera.posiciones || []).filter(p => p && isFinite(num(p.cantidadUSD)));
+        cartera.historial = (cartera.historial || []).filter(h => h && isFinite(num(h.pnl)));
+        
         localStorage.setItem(__PT_KEY, JSON.stringify(cartera));
         return true;
     } catch(e) {
@@ -251,20 +262,20 @@ function getEstadisticas() {
     }
     
     return {
-        capitalInicial: c.capitalInicial,
-        capitalActual: c.capitalActual,
+        capitalInicial: capitalInicial,
+        capitalActual: capitalActual,
         capitalEnPosiciones: capitalEnPos,
-        capitalTotal: c.capitalActual + capitalEnPos,
+        capitalTotal: capitalActual + capitalEnPos,
         posicionesAbiertas: c.posiciones.length,
         totalOpsCerradas,
         ganadoras,
         perdedoras,
-        winRate: winRate.toFixed(1),
-        pnlTotal: pnlTotal.toFixed(2),
-        rendimiento: rendimiento.toFixed(2),
-        profitFactor: profitFactor.toFixed(2),
-        mejorOp: c.metricas.mejorOp.toFixed(2),
-        peorOp: c.metricas.peorOp.toFixed(2),
+        winRate: num(winRate).toFixed(1),
+        pnlTotal: num(pnlTotal).toFixed(2),
+        rendimiento: num(rendimiento).toFixed(2),
+        profitFactor: num(profitFactor).toFixed(2),
+        mejorOp: num(c.metricas?.mejorOp).toFixed(2),
+        peorOp: num(c.metricas?.peorOp).toFixed(2),
         // ⭐ AVANZADAS
         expectancy: expectancy.toFixed(2),
         rachaGanadora: rachaGanadora,
@@ -451,6 +462,18 @@ if (typeof window !== 'undefined') {
     window.ptOperar = ptOperar;
     window.ptCerrar = ptCerrar;
     window.ptReset = ptReset;
+    window.resetPaperTrading = resetPaperTrading;
+    window.repararCartera = () => {
+        const c = getPaperTrading();
+        c.capitalActual = 1000;
+        c.capitalInicial = 1000;
+        c.posiciones = [];
+        c.historial = [];
+        savePaperTrading(c);
+        renderizarPaperTrading();
+        console.log('✅ Cartera reparada manualmente');
+        if (typeof showToast === 'function') showToast('🔧 Cartera reparada');
+    };
     console.log('✅ paper_trading.js v2 (funcional) expuesto en window');
 }
 
