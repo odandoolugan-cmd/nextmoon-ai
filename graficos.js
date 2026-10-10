@@ -52,8 +52,29 @@ const SYMBOL_MAP = {
 };
 
 function normalizarSymbol(symbol) {
-    const upper = symbol.toUpperCase().replace(/\$/g, '').trim();
-    return SYMBOL_MAP[upper] || upper;
+    if (!symbol) return 'BTC';
+    
+    // Limpiar: mayúsculas, quitar $, espacios, guiones, barras
+    let upper = String(symbol).toUpperCase().trim();
+    upper = upper.replace(/\$/g, '');          // Quitar $
+    upper = upper.replace(/[\-_\/\s]/g, ''); // Quitar -, _, /, espacio
+    upper = upper.replace(/USDT$/i, '');        // Quitar USDT final
+    upper = upper.replace(/USDC$/i, '');        // Quitar USDC final
+    upper = upper.replace(/BUSD$/i, '');        // Quitar BUSD final
+    
+    // Buscar en el mapeo
+    if (SYMBOL_MAP[upper]) return SYMBOL_MAP[upper];
+    
+    // Si tiene más de 4 letras, podría ser un nombre largo
+    // Buscar match parcial en el mapeo
+    for (const [key, val] of Object.entries(SYMBOL_MAP)) {
+        if (upper.includes(key) || key.includes(upper)) {
+            console.log('🔍 Match parcial:', upper, '→', key, '→', val);
+            return val;
+        }
+    }
+    
+    return upper;
 }
 
 // ─────────────────────────────────────────────

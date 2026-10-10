@@ -1007,6 +1007,25 @@ async function fetchCryptoDataInteligente(symbol) {
                 }
             } catch(e) {}
             return null;
+        })(),
+        (async () => {
+            try {
+                // 5. CoinPaprika (no requiere API key)
+                const r = await fetchConTimeout(`https://api.coinpaprika.com/v1/tickers/${sym}-${sym.toUpperCase()}`, {}, TIMEOUT_FUENTE);
+                if (r.ok) {
+                    const d = await r.json();
+                    if (d.quotes?.USD?.price) {
+                        return {
+                            price: d.quotes.USD.price,
+                            volume24h: d.quotes.USD.volume_24h || 0,
+                            liquidity: d.quotes.USD.volume_24h || 0,
+                            priceChange24h: d.quotes.USD.percent_change_24h || 0,
+                            marketCap: d.quotes.USD.market_cap || 0
+                        };
+                    }
+                }
+            } catch(e) {}
+            return null;
         })()
     ]);
     
@@ -2399,14 +2418,14 @@ window.renderizarAutoEvolucion = renderizarAutoEvolucion;
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="i18n.js?v=40"></script>
-<script src="trading_system.js?v=40"></script>
+<script src="i18n.js?v=41"></script>
+<script src="trading_system.js?v=41"></script>
 
-<script src="backtest.js?v=40"></script>
+<script src="backtest.js?v=41"></script>
 
-<script src="paper_trading.js?v=40"></script>
-<script src="alertas.js?v=40"></script>
-<script src="graficos.js?v=40"></script>
-<script src="bayes.js?v=40"></script>
-<script src="auto_evolucion.js?v=40"></script>
+<script src="paper_trading.js?v=41"></script>
+<script src="alertas.js?v=41"></script>
+<script src="graficos.js?v=41"></script>
+<script src="bayes.js?v=41"></script>
+<script src="auto_evolucion.js?v=41"></script>
 </html>
