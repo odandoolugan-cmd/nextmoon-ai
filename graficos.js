@@ -8,11 +8,62 @@ let __graficoData = null;
 let __graficoInterval = '1h';
 
 // ─────────────────────────────────────────────
+// 🗺️ MAPEO DE SÍMBOLOS (nombre largo → símbolo Binance)
+// ─────────────────────────────────────────────
+const SYMBOL_MAP = {
+    'BITCOIN': 'BTC',
+    'ETHEREUM': 'ETH',
+    'SOLANA': 'SOL',
+    'CARDANO': 'ADA',
+    'DOGECOIN': 'DOGE',
+    'DOGE': 'DOGE',
+    'RIPPLE': 'XRP',
+    'POLYGON': 'MATIC',
+    'CHAINLINK': 'LINK',
+    'AVALANCHE': 'AVAX',
+    'POLKADOT': 'DOT',
+    'SHIBAINU': 'SHIB',
+    'SHIB': 'SHIB',
+    'PEPECOIN': 'PEPE',
+    'PEPE': 'PEPE',
+    'LITECOIN': 'LTC',
+    'TRON': 'TRX',
+    'UNISWAP': 'UNI',
+    'COSMOS': 'ATOM',
+    'FILECOIN': 'FIL',
+    'APTOS': 'APT',
+    'ARBITRUM': 'ARB',
+    'OPTIMISM': 'OP',
+    'NEAR': 'NEAR',
+    'STELLAR': 'XLM',
+    'VECHAIN': 'VET',
+    'ALGORAND': 'ALGO',
+    'FANTOM': 'FTM',
+    'SAND': 'SAND',
+    'MANA': 'MANA',
+    'GALA': 'GALA',
+    'AXIE': 'AXS',
+    'CURVE': 'CRV',
+    'AAVE': 'AAVE',
+    'MAKER': 'MKR',
+    'COMPOUND': 'COMP',
+    'SUSHI': 'SUSHI',
+    'YEARNFINANCE': 'YFI'
+};
+
+function normalizarSymbol(symbol) {
+    const upper = symbol.toUpperCase().replace(/\$/g, '').trim();
+    return SYMBOL_MAP[upper] || upper;
+}
+
+// ─────────────────────────────────────────────
 // 📥 OBTENER DATOS (klines)
 // ─────────────────────────────────────────────
 async function cargarDatosGrafico(symbol, interval = '1h', limit = 100) {
+    const symNorm = normalizarSymbol(symbol);
+    console.log('📈 Gráfico: symbol original =', symbol, '→ normalizado =', symNorm);
     try {
-        const url = 'https://api.binance.com/api/v3/klines?symbol=' + symbol.toUpperCase() + 'USDT&interval=' + interval + '&limit=' + limit;
+        const url = 'https://api.binance.com/api/v3/klines?symbol=' + symNorm + 'USDT&interval=' + interval + '&limit=' + limit;
         const r = await fetch(url);
         if (!r.ok) throw new Error('HTTP ' + r.status);
         const data = await r.json();

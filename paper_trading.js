@@ -455,6 +455,23 @@ if (typeof window !== 'undefined') {
 }
 
 // ─────────────────────────────────────────────
+// 🔄 AUTO-RE-RENDER cuando cambia el token
+// ─────────────────────────────────────────────
+let __ultimoTokenPT = null;
+setInterval(() => {
+    if (typeof currentToken === 'undefined') return;
+    
+    // Si cambió el token y el widget está visible, re-renderizar
+    if (__ultimoTokenPT !== currentToken) {
+        __ultimoTokenPT = currentToken;
+        const widget = document.getElementById('widgetPaper');
+        if (widget && widget.style.display !== 'none') {
+            try { renderizarPaperTrading(); } catch(e) { console.warn('Error re-render PT:', e); }
+        }
+    }
+}, 1000); // Cada 1 segundo
+
+// ─────────────────────────────────────────────
 // 🎯 HANDLER DEL BOTÓN "PAPER TRADING"
 // ─────────────────────────────────────────────
 (function initPaperTradingHandler() {
