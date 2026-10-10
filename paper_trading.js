@@ -535,3 +535,79 @@ setInterval(() => {
         setup();
     }
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// 🔧 AUTO-REPARACIÓN AL CARGAR (fix NaN)
+// ═══════════════════════════════════════════════════════════════
+(function autoRepararCartera() {
+    try {
+        const KEY = 'nextmoon_paper_trading_v2';
+        const data = localStorage.getItem(KEY);
+        if (!data) return;
+        
+        let cartera = JSON.parse(data);
+        let reparada = false;
+        
+        const num = (v, fb) => {
+            const n = parseFloat(v);
+            return isNaN(n) || !isFinite(n) ? fb : n;
+        };
+        
+        // Reparar capital
+        if (!isFinite(num(cartera.capitalInicial, NaN))) {
+            cartera.capitalInicial = 1000;
+            reparada = true;
+        }
+        if (!isFinite(num(cartera.capitalActual, NaN)) || cartera.capitalActual < 0) {
+            cartera.capitalActual = cartera.capitalInicial;
+            reparada = true;
+        }
+        
+        // Reparar posiciones
+        const posicionesOriginales = (cartera.posiciones || []).length;
+        cartera.posiciones = (cartera.posiciones || []).filter(p => {
+            if (!p) return false;
+            const cantUSD = num(p.cantidadUSD, 0);
+            const cant = num(p.cantidad, 0);
+            if (cantUSD <= 0 || cant <= 0) {
+                reparada = true;
+                return false;
+            }
+            return true;
+        });
+        
+        // Reparar historial
+        cartera.historial = (cartera.historial || []).filter(h => {
+            if (!h) return false;
+            if (!isFinite(num(h.pnl, NaN))) {
+                reparada = true;
+                return false;
+            }
+            return true;
+        });
+        
+        // Si estaba corrupta, limpiar TODO y resetear
+        const totalEnPos = cartera.posiciones.reduce((s, p) => s + num(p.cantidadUSD, 0), 0);
+        if (cartera.capitalActual + totalEnPos > cartera.capitalInicial * 2) {
+            console.warn('🔧 Cartera muy corrupta, reseteando completamente...');
+            cartera = {
+                capitalInicial: 1000,
+                capitalActual: 1000,
+                posiciones: [],
+                historial: [],
+                metricas: { totalOps: 0, ganadoras: 0, perdedoras: 0, pnlTotal: 0, mejorOp: 0, peorOp: 0 },
+                creado: new Date().toISOString()
+            };
+            reparada = true;
+        }
+        
+        if (reparada) {
+            localStorage.setItem(KEY, JSON.stringify(cartera));
+            console.log('✅ Cartera auto-reparada al cargar');
+        }
+    } catch(e) {
+        console.warn('⚠️ Error auto-reparando cartera:', e);
+        // Fallback: borrar todo
+        try { localStorage.removeItem('nextmoon_paper_trading_v2'); } catch(e2) {}
+    }
+})();
