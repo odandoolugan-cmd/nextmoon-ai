@@ -2153,16 +2153,19 @@ document.getElementById('btnEstado').onclick = () => {
 
 // 🎯 Backtest
 document.getElementById('btnBacktest').onclick = async () => {
+    // ⭐ Usar el token actual (dinámico)
+    const symbol = (typeof currentToken !== 'undefined' && currentToken) ? currentToken : 'BTC';
+    
     const widget = document.getElementById('widgetBacktest');
     if (widget) {
         widget.style.display = 'block';
         setTimeout(() => widget.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
     }
-    showToast('🎯 Iniciando backtest de BTC (365 días)...');
+    showToast(`🎯 Iniciando backtest de ${symbol} (365 días)...`);
     try {
-        const reporte = await window.ejecutarBacktest('BTC', 365);
+        const reporte = await window.ejecutarBacktest(symbol, 365);
         window.mostrarBacktest(reporte);
-        showToast('✅ Backtest completado');
+        showToast(`✅ Backtest de ${symbol} completado`);
     } catch(e) {
         console.error('❌ Error backtest:', e);
         showToast('❌ Error: ' + e.message, true);
@@ -2418,14 +2421,14 @@ window.renderizarAutoEvolucion = renderizarAutoEvolucion;
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="i18n.js?v=44"></script>
-<script src="trading_system.js?v=44"></script>
+<script src="i18n.js?v=45"></script>
+<script src="trading_system.js?v=45"></script>
 
-<script src="backtest.js?v=44"></script>
+<script src="backtest.js?v=45"></script>
 
-<script src="paper_trading.js?v=44"></script>
-<script src="alertas.js?v=44"></script>
-<script src="graficos.js?v=44"></script>
-<script src="bayes.js?v=44"></script>
-<script src="auto_evolucion.js?v=44"></script>
+<script src="paper_trading.js?v=45"></script>
+<script src="alertas.js?v=45"></script>
+<script src="graficos.js?v=45"></script>
+<script src="bayes.js?v=45"></script>
+<script src="auto_evolucion.js?v=45"></script>
 </html>

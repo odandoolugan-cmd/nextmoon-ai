@@ -611,3 +611,32 @@ setInterval(() => {
         try { localStorage.removeItem('nextmoon_paper_trading_v2'); } catch(e2) {}
     }
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// 🚨 RESET FORZADO SI DETECTA NaN
+// ═══════════════════════════════════════════════════════════════
+(function resetForzadoSiNaN() {
+    try {
+        const KEY = 'nextmoon_paper_trading_v2';
+        const data = localStorage.getItem(KEY);
+        if (!data) return;
+        
+        const cartera = JSON.parse(data);
+        const num = (v) => {
+            const n = parseFloat(v);
+            return isNaN(n) || !isFinite(n) ? null : n;
+        };
+        
+        // Detectar NaN
+        const capIni = num(cartera.capitalInicial);
+        const capAct = num(cartera.capitalActual);
+        
+        if (capIni === null || capAct === null || capAct < 0) {
+            console.warn('🚨 Cartera con NaN detectada → RESET FORZADO');
+            localStorage.removeItem(KEY);
+        }
+    } catch(e) {
+        console.warn('⚠️ Error en reset forzado:', e);
+        try { localStorage.removeItem('nextmoon_paper_trading_v2'); } catch(e2) {}
+    }
+})();
