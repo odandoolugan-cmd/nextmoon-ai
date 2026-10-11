@@ -335,7 +335,7 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
 
         // ⭐ FILTRO 1: Confianza minima 15% (era 30% → muy estricto)
         const confianza = señal.confianza || 0;
-        if (!isFinite(confianza) || confianza < 0.20) continue;
+        if (!isFinite(confianza) || confianza < 0.15) continue;
         
         // ⭐ FILTRO 2: Tendencia (SMA20 vs SMA50) - REVERTIDO
         const cierres = klines.slice(0, i + 1).map(k => k.close || k[4]);
