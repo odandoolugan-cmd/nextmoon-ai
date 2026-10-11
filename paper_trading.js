@@ -576,12 +576,23 @@ setInterval(() => {
         };
         
         // Reparar capital
-        if (!isFinite(num(cartera.capitalInicial, NaN))) {
+        if (!isFinite(num(cartera.capitalInicial, NaN)) || cartera.capitalInicial <= 0) {
             cartera.capitalInicial = 1000;
             reparada = true;
         }
-        if (!isFinite(num(cartera.capitalActual, NaN)) || cartera.capitalActual < 0) {
-            cartera.capitalActual = cartera.capitalInicial;
+        // ⭐ Si capitalActual es NaN, 0, o negativo → reparar
+        const capActNum = num(cartera.capitalActual, NaN);
+        if (isNaN(capActNum) || capActNum === 0 || capActNum < 0) {
+            // Verificar si hay posiciones válidas
+            const totalEnPos = (cartera.posiciones || []).reduce((s, p) => s + num(p.cantidadUSD, 0), 0);
+            if (totalEnPos > 0 && totalEnPos <= cartera.capitalInicial) {
+                // Hay posiciones válidas: capital actual = capital inicial - invertido
+                cartera.capitalActual = cartera.capitalInicial - totalEnPos;
+                console.log('🔧 Capital reparado con posiciones:', cartera.capitalActual);
+            } else {
+                // Sin posiciones válidas: resetear
+                cartera.capitalActual = cartera.capitalInicial;
+            }
             reparada = true;
         }
         
