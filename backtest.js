@@ -8,13 +8,24 @@
 // 📥 DESCARGAR DATOS HISTÓRICOS DE BINANCE
 // ─────────────────────────────────────────────
 async function fetchHistoricalData(symbol, days = 365) {
-    const symUpper = symbol.toUpperCase().trim();
+    // ⭐ Normalizar símbolo
+    const SYMBOL_MAP = {
+        'BITCOIN': 'BTC', 'ETHEREUM': 'ETH', 'SOLANA': 'SOL',
+        'CARDANO': 'ADA', 'DOGECOIN': 'DOGE', 'RIPPLE': 'XRP',
+        'POLYGON': 'MATIC', 'CHAINLINK': 'LINK', 'AVALANCHE': 'AVAX',
+        'POLKADOT': 'DOT', 'SHIBAINU': 'SHIB', 'PEPECOIN': 'PEPE',
+        'LITECOIN': 'LTC', 'TRON': 'TRX', 'UNISWAP': 'UNI'
+    };
+    
+    let symUpper = symbol.toUpperCase().trim().replace(/\$/g, '');
+    symUpper = SYMBOL_MAP[symUpper] || symUpper;
+    
+    console.log(`📥 Descargando ${days} días de ${symUpper}...`);
+    
     const interval = '1h';
-    const limit = 1000; // máximo por request de Binance
+    const limit = 1000;
     const totalVelas = days * 24;
     const requests = Math.ceil(totalVelas / limit);
-    
-    console.log(`📥 Descargando ${totalVelas} velas de ${symUpper}...`);
     
     const todasLasVelas = [];
     let endTime = Date.now();
@@ -33,7 +44,6 @@ async function fetchHistoricalData(symbol, days = 365) {
             
             console.log(`📥 ${todasLasVelas.length}/${totalVelas} velas...`);
             
-            // Rate limiting: 200ms entre requests
             if (i < requests - 1) await new Promise(r => setTimeout(r, 200));
         } catch(e) {
             console.warn(`⚠️ Error en request ${i+1}:`, e.message);
@@ -41,16 +51,8 @@ async function fetchHistoricalData(symbol, days = 365) {
         }
     }
     
-    console.log(`✅ Descargadas ${todasLasVelas.length} velas`);
-    
-    return todasLasVelas.map(k => ({
-        time: k[0],
-        open: parseFloat(k[1]),
-        high: parseFloat(k[2]),
-        low: parseFloat(k[3]),
-        close: parseFloat(k[4]),
-        volume: parseFloat(k[5])
-    }));
+    console.log(`✅ ${todasLasVelas.length} velas descargadas de ${symUpper}`);
+    return todasLasVelas;
 }
 
 // ─────────────────────────────────────────────
@@ -349,18 +351,24 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
             const precio = señal.precio;
             const atr = señal.atr;
             
-            // Calcular SL/TP (SL 1.5 ATR → equilibrio)
+            // ⭐ Usar config si existe (auto-evolución)
+            const config = window._backtestConfig || {};
+            const slAtr = config.sl_atr || 1.5;
+            const tp1Atr = config.tp1_atr || 2.5;
+            const tp2Atr = config.tp2_atr || 3.5;
+            const tp3Atr = config.tp3_atr || 5.0;
+            
             let sl, tp1, tp2, tp3;
             if (señal.decision === 'COMPRAR') {
-                sl = precio - 1.5 * atr;
-                tp1 = precio + 2.5 * atr;  // R/B 1.67
-                tp2 = precio + 3.5 * atr;  // R/B 2.33
-                tp3 = precio + 5.0 * atr;  // R/B 3.33
+                sl = precio - slAtr * atr;
+                tp1 = precio + tp1Atr * atr;
+                tp2 = precio + tp2Atr * atr;
+                tp3 = precio + tp3Atr * atr;
             } else {
-                sl = precio + 1.5 * atr;
-                tp1 = precio - 2.5 * atr;
-                tp2 = precio - 3.5 * atr;
-                tp3 = precio - 5.0 * atr;
+                sl = precio + slAtr * atr;
+                tp1 = precio - tp1Atr * atr;
+                tp2 = precio - tp2Atr * atr;
+                tp3 = precio - tp3Atr * atr;
             }
             
             // Calcular tamaño de posición
@@ -626,6 +634,25 @@ function dibujarEquityCurve(equityCurve) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// 🧠 BACKTEST CON CONFIGURACIÓN CUSTOM (para auto-evolución)
+// ═══════════════════════════════════════════════════════════════
+async function ejecutarBacktestConConfig(symbol, days, config) {
+    // ⭐ Guardar config globalmente para que simularOperaciones la use
+    window._backtestConfig = config;
+    
+    try {
+        const reporte = await ejecutarBacktest(symbol, days);
+        if (reporte) {
+            reporte.config = config;
+        }
+        return reporte;
+    } finally {
+        // Limpiar después del backtest
+        window._backtestConfig = null;
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 🌐 EXPONER FUNCIONES AL SCOPE GLOBAL
 // ═══════════════════════════════════════════════════════════════
 if (typeof window !== 'undefined') {
@@ -633,5 +660,6 @@ if (typeof window !== 'undefined') {
     window.ejecutarBacktest = ejecutarBacktest;
     window.mostrarBacktest = mostrarBacktest;
     window.dibujarEquityCurve = dibujarEquityCurve;
+    window.ejecutarBacktestConConfig = ejecutarBacktestConConfig;
     console.log('✅ backtest.js expuesto en window');
 }

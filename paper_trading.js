@@ -311,7 +311,29 @@ function renderizarPaperTrading() {
         return;
     }
     
-    const c = getPaperTrading();
+    // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
+    let c = getPaperTrading();
+    const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
+    
+    if (isNaNValue(c.capitalInicial) || isNaNValue(c.capitalActual) || c.capitalActual < 0) {
+        console.warn('🚨 NaN detectado en render → RESET FORZADO');
+        c = {
+            capitalInicial: 1000,
+            capitalActual: 1000,
+            posiciones: [],
+            historial: [],
+            metricas: { totalOps: 0, ganadoras: 0, perdedoras: 0, pnlTotal: 0, mejorOp: 0, peorOp: 0 },
+            creado: new Date().toISOString()
+        };
+        savePaperTrading(c);
+    }
+    
+    // Filtrar posiciones corruptas
+    c.posiciones = (c.posiciones || []).filter(p => p && !isNaNValue(p.cantidadUSD) && parseFloat(p.cantidadUSD) > 0);
+    
+    // Filtrar historial corrupto
+    c.historial = (c.historial || []).filter(h => h && !isNaNValue(h.pnl));
+    
     const stats = getEstadisticas();
     const fmtUSD = (n) => '$' + parseFloat(n).toFixed(2);
     const fmtPct = (n) => (n >= 0 ? '+' : '') + parseFloat(n).toFixed(2) + '%';
