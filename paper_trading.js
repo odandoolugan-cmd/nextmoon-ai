@@ -673,3 +673,43 @@ setInterval(() => {
         try { localStorage.removeItem('nextmoon_paper_trading_v2'); } catch(e2) {}
     }
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// 🚨 RESET INMEDIATO SI DETECTA NaN (antes de renderizar)
+// ═══════════════════════════════════════════════════════════════
+(function resetInmediato() {
+    try {
+        const KEY = 'nextmoon_paper_trading_v2';
+        const data = localStorage.getItem(KEY);
+        if (!data) return;
+        
+        const cartera = JSON.parse(data);
+        const capAct = parseFloat(cartera.capitalActual);
+        
+        // Si capitalActual es NaN, null, undefined, o inválido
+        if (isNaN(capAct) || !isFinite(capAct)) {
+            console.warn('🚨 Capital NaN detectado → RESET COMPLETO');
+            
+            // Reconstruir capital basado en posiciones
+            const totalEnPos = (cartera.posiciones || []).reduce((s, p) => {
+                const cant = parseFloat(p.cantidadUSD);
+                return s + (isNaN(cant) ? 0 : cant);
+            }, 0);
+            
+            const capitalInicial = parseFloat(cartera.capitalInicial) || 1000;
+            cartera.capitalActual = capitalInicial - totalEnPos;
+            
+            // Si el resultado sigue siendo inválido, reset total
+            if (isNaN(cartera.capitalActual) || cartera.capitalActual < 0) {
+                cartera.capitalActual = capitalInicial;
+                cartera.posiciones = [];
+            }
+            
+            localStorage.setItem(KEY, JSON.stringify(cartera));
+            console.log('✅ Capital reconstruido:', cartera.capitalActual);
+        }
+    } catch(e) {
+        console.warn('⚠️ Error reset inmediato:', e);
+        try { localStorage.removeItem('nextmoon_paper_trading_v2'); } catch(e2) {}
+    }
+})();

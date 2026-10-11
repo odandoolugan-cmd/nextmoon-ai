@@ -331,7 +331,15 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
         
         // Si no hay operación, calcular señales
         const señal = calcularSeñales(klines, i);
-        if (!señal) continue;
+        if (!señal) {
+            if (i % 500 === 0) console.log(`⏭️ Vela ${i}: sin señal (null)`);
+            continue;
+        }
+        
+        // Log cada 500 velas
+        if (i % 500 === 0) {
+            console.log(`📊 Vela ${i}: decision=${señal.decision}, confianza=${(señal.confianza || 0).toFixed(3)}`);
+        }
 
         // ⭐ FILTRO 1: Confianza minima 15% (era 30% → muy estricto)
         const confianza = señal.confianza || 0;
