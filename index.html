@@ -2156,6 +2156,9 @@ document.getElementById('btnBacktest').onclick = async () => {
     // ⭐ Usar el token actual (dinámico)
     const symbol = (typeof currentToken !== 'undefined' && currentToken) ? currentToken : 'BTC';
     
+    // ⭐ Limpiar la config de auto-evolución para usar valores por defecto
+    window._backtestConfig = null;
+    
     const widget = document.getElementById('widgetBacktest');
     if (widget) {
         widget.style.display = 'block';
