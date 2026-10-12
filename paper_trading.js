@@ -276,7 +276,9 @@ function getEstadisticas() {
         return cantUSD > 0 && cant > 0;
     });
     const capitalEnPos = posicionesValidas.reduce((s, p) => s + num(p.cantidadUSD), 0);
-    const rendimiento = num(c.capitalInicial, 1000) > 0 ? ((num(num(c.capitalActual, 0), 0) + capitalEnPos - num(c.capitalInicial, 1000)) / num(c.capitalInicial, 1000) * 100) : 0;
+    const capitalInicial = num(c.capitalInicial, 1000);
+    const capitalActual = num(c.capitalActual, 0);
+    const rendimiento = capitalInicial > 0 ? ((capitalActual + capitalEnPos - capitalInicial) / capitalInicial * 100) : 0;
     
     // Profit factor
     const ganancias = c.historial.filter(o => num(o.pnl) > 0).reduce((s, o) => s + o.pnl, 0);
@@ -351,15 +353,15 @@ function getEstadisticas() {
         capitalInicial: capitalInicial,
         capitalActual: capitalActual,
         capitalEnPosiciones: capitalEnPos,
-        capitalTotal: safeNumber(capitalActual + capitalEnPos, capitalActual || 1000),
+        capitalTotal: capitalActual + capitalEnPos,
         posicionesAbiertas: c.posiciones.length,
         totalOpsCerradas,
         ganadoras,
         perdedoras,
-        winRate: num(winRate).toFixed(1),
-        pnlTotal: num(pnlTotal).toFixed(2),
-        rendimiento: num(rendimiento).toFixed(2),
-        profitFactor: num(profitFactor).toFixed(2),
+        winRate: num(winRate, 0).toFixed(1),
+        pnlTotal: num(pnlTotal, 0).toFixed(2),
+        rendimiento: num(rendimiento, 0).toFixed(2),
+        profitFactor: num(profitFactor, 0).toFixed(2),
         mejorOp: num(c.metricas?.mejorOp).toFixed(2),
         peorOp: num(c.metricas?.peorOp).toFixed(2),
         // ⭐ AVANZADAS
