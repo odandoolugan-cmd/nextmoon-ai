@@ -255,6 +255,9 @@ function calcularPnL(pos, precioActual) {
 
 function getEstadisticas() {
     const c = getPaperTrading();
+    
+    // ⭐ Log de diagnóstico
+    console.log('📊 getEstadisticas: capitalInicial=', c.capitalInicial, 'capitalActual=', c.capitalActual, 'posiciones=', c.posiciones.length);
     // ⭐ Helper: número seguro (evita NaN)
     const num = (v, fallback = 0) => {
         const n = parseFloat(v);
@@ -265,7 +268,14 @@ function getEstadisticas() {
     const perdedoras = c.historial.filter(o => num(o.pnl) < 0).length;
     const winRate = totalOpsCerradas > 0 ? (ganadoras / totalOpsCerradas * 100) : 0;
     const pnlTotal = c.historial.reduce((s, o) => s + num(o.pnl), 0);
-    const capitalEnPos = c.posiciones.reduce((s, p) => s + num(p.cantidadUSD), 0);
+    // ⭐ Filtrar posiciones corruptas ANTES de sumar
+    const posicionesValidas = c.posiciones.filter(p => {
+        if (!p) return false;
+        const cantUSD = num(p.cantidadUSD, 0);
+        const cant = num(p.cantidad, 0);
+        return cantUSD > 0 && cant > 0;
+    });
+    const capitalEnPos = posicionesValidas.reduce((s, p) => s + num(p.cantidadUSD), 0);
     const rendimiento = num(c.capitalInicial, 1000) > 0 ? ((num(num(c.capitalActual, 0), 0) + capitalEnPos - num(c.capitalInicial, 1000)) / num(c.capitalInicial, 1000) * 100) : 0;
     
     // Profit factor
