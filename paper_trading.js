@@ -351,7 +351,7 @@ function getEstadisticas() {
         capitalInicial: capitalInicial,
         capitalActual: capitalActual,
         capitalEnPosiciones: capitalEnPos,
-        capitalTotal: capitalActual + capitalEnPos,
+        capitalTotal: safeNumber(capitalActual + capitalEnPos, capitalActual || 1000),
         posicionesAbiertas: c.posiciones.length,
         totalOpsCerradas,
         ganadoras,
