@@ -503,6 +503,15 @@ function calcularMetricas(operaciones, capitalInicial, capitalFinal) {
 async function ejecutarBacktest(symbol = 'BTC', days = 365) {
     console.log(`🎯 BACKTEST ${symbol} · ${days} días`);
     
+    // ⭐ Verificar que los datos están disponibles
+    if (!window.currentTokenData || !window.currentTokenData._datos_k) {
+        console.warn('⚠️ currentTokenData._datos_k no disponible');
+        console.log('   currentTokenData:', window.currentTokenData);
+        console.log('   _datos_k:', window.currentTokenData?._datos_k);
+    } else {
+        console.log('✅ currentTokenData._datos_k disponible:', window.currentTokenData._datos_k.closes?.length, 'velas');
+    }
+    
     try {
         // 1. Descargar datos
         const klines = await fetchHistoricalData(symbol, days);
