@@ -393,6 +393,21 @@ function renderizarPaperTrading() {
         return;
     }
     
+    // ⭐ FIX DEFINITIVO: Recargar datos frescos del localStorage
+    let _freshData = null;
+    try {
+        _freshData = JSON.parse(localStorage.getItem('nextmoon_paper_trading_v2'));
+    } catch(e) {}
+    
+    // Si los datos frescos tienen capital válido, usarlos
+    if (_freshData && isFinite(parseFloat(_freshData.capitalActual))) {
+        // Actualizar el objeto en memoria
+        const c = getPaperTrading();
+        c.capitalInicial = parseFloat(_freshData.capitalInicial) || 1000;
+        c.capitalActual = parseFloat(_freshData.capitalActual) || 1000;
+        savePaperTrading(c);
+    }
+    
     // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
     let c = getPaperTrading();
     const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
@@ -417,6 +432,33 @@ function renderizarPaperTrading() {
     c.historial = (c.historial || []).filter(h => h && !isNaNValue(h.pnl));
     
     const stats = getEstadisticas();
+    
+    // ⭐ FIX DEFINITIVO: Si stats tiene NaN, resetear y recalcular
+    const isNaNStats = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
+    if (isNaNStats(stats.capitalTotal) || isNaNStats(stats.capitalActual) || isNaNStats(stats.rendimiento)) {
+        console.warn('🚨 Stats con NaN → RESET FORZADO');
+        const KEY = 'nextmoon_paper_trading_v2';
+        localStorage.removeItem(KEY);
+        // Resetear cartera en memoria
+        const fresh = getPaperTrading();
+        Object.assign(stats, {
+            capitalInicial: 1000,
+            capitalActual: 1000,
+            capitalEnPosiciones: 0,
+            capitalTotal: 1000,
+            posicionesAbiertas: 0,
+            totalOpsCerradas: 0,
+            ganadoras: 0,
+            perdedoras: 0,
+            winRate: '0.0',
+            pnlTotal: '0.00',
+            rendimiento: '+0.00',
+            profitFactor: '0.00',
+            mejorOp: '0.00',
+            peorOp: '0.00'
+        });
+        savePaperTrading(fresh);
+    }
     const fmtUSD = (n) => '$' + parseFloat(n).toFixed(2);
     const fmtPct = (n) => (n >= 0 ? '+' : '') + parseFloat(n).toFixed(2) + '%';
     const colorPnL = (n) => parseFloat(n) > 0 ? '#10b981' : parseFloat(n) < 0 ? '#ef4444' : '#94a3b8';
