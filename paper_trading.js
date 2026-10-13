@@ -275,7 +275,9 @@ function getEstadisticas() {
         const cant = num(p.cantidad, 0);
         return cantUSD > 0 && cant > 0;
     });
-    const capitalEnPos = posicionesValidas.reduce((s, p) => s + num(p.cantidadUSD), 0);
+    const capitalEnPos = posicionesValidas.length > 0 
+        ? posicionesValidas.reduce((s, p) => s + num(p.cantidadUSD), 0)
+        : 0;
     const capitalInicial = num(c.capitalInicial, 1000);
     const capitalActual = num(c.capitalActual, 0);
     const rendimiento = capitalInicial > 0 ? ((capitalActual + capitalEnPos - capitalInicial) / capitalInicial * 100) : 0;
@@ -349,15 +351,21 @@ function getEstadisticas() {
         if (R > 0) kelly = Math.max(0, Math.min(0.25, W - (1 - W) / R)); // cap al 25%
     }
     
+    // ⭐ PROTECCIÓN FINAL: safe() en TODOS los campos numéricos
+    const safeNum = (v, fb = 0) => {
+        const n = parseFloat(v);
+        return isNaN(n) || !isFinite(n) ? fb : n;
+    };
+    
     return {
-        capitalInicial: capitalInicial,
-        capitalActual: capitalActual,
-        capitalEnPosiciones: capitalEnPos,
-        capitalTotal: capitalActual + capitalEnPos,
-        posicionesAbiertas: c.posiciones.length,
-        totalOpsCerradas,
-        ganadoras,
-        perdedoras,
+        capitalInicial: safeNum(capitalInicial, 1000),
+        capitalActual: safeNum(capitalActual, 1000),
+        capitalEnPosiciones: safeNum(capitalEnPos, 0),
+        capitalTotal: safeNum(capitalActual, 1000) + safeNum(capitalEnPos, 0),
+        posicionesAbiertas: (c.posiciones || []).length,
+        totalOpsCerradas: safeNum(totalOpsCerradas, 0),
+        ganadoras: safeNum(ganadoras, 0),
+        perdedoras: safeNum(perdedoras, 0),
         winRate: num(winRate, 0).toFixed(1),
         pnlTotal: num(pnlTotal, 0).toFixed(2),
         rendimiento: num(rendimiento, 0).toFixed(2),
