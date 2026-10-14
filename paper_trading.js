@@ -585,6 +585,32 @@ function renderizarPaperTrading() {
     html += '</div>';
     
     container.innerHTML = html;
+    
+    // ⭐ Listeners para botones de cerrar posición
+    setTimeout(() => {
+        const botones = container.querySelectorAll('.pt-pos-close');
+        console.log('🔍 Botones cerrar encontrados:', botones.length);
+        botones.forEach(btn => {
+            if (!btn._listenerAdded) {
+                btn._listenerAdded = true;
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const posId = btn.getAttribute('data-pos-id');
+                    console.log('🖱️ Cerrar posición:', posId);
+                    
+                    if (!posId) return;
+                    
+                    const precio = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) 
+                        ? currentTokenData.price : 0;
+                    
+                    console.log('💰 Precio:', precio);
+                    const resultado = cerrarOperacion(posId, precio, 'manual');
+                    console.log('✅ Resultado:', resultado);
+                });
+            }
+        });
+    }, 100);
 }
 
 // ─────────────────────────────────────────────
