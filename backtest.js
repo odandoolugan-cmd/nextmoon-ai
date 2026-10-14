@@ -212,8 +212,8 @@ function calcularSeñales(klines, idx) {
     
     // ═══ DECISIÓN ═══
     let decision = 'ESPERAR';
-    if (scoreCompra >= 2 && scoreCompra > scoreVenta) decision = 'COMPRAR';
-    else if (scoreVenta >= 2 && scoreVenta > scoreCompra) decision = 'VENDER';
+    if (scoreCompra >= 1 && scoreCompra > scoreVenta) decision = 'COMPRAR';
+    else if (scoreVenta >= 1 && scoreVenta > scoreCompra) decision = 'VENDER';
 
     // ⭐ CONFIanza (0-1)
     const totalFuerza = scoreCompra + scoreVenta;
@@ -343,17 +343,17 @@ function simularOperaciones(klines, capitalInicial = 1000, riesgoPorcentaje = 1)
 
         // ⭐ FILTRO 1: Confianza minima 15% (era 30% → muy estricto)
         const confianza = señal.confianza || 0;
-        if (!isFinite(confianza) || confianza < 0.10) continue;
+        if (!isFinite(confianza) || confianza < 0.05) continue;
         
-        // ⭐ FILTRO 2: Tendencia (SMA20 vs SMA50) - REVERTIDO
-        const cierres = klines.slice(0, i + 1).map(k => k.close || k[4]);
-        if (cierres.length >= 50) {
-            const sma20 = cierres.slice(-20).reduce((a, b) => a + b, 0) / 20;
-            const sma50 = cierres.slice(-50).reduce((a, b) => a + b, 0) / 50;
-            const tendenciaAlcista = sma20 > sma50;
-            if (tendenciaAlcista && señal.decision === 'VENDER') continue;
-            if (!tendenciaAlcista && señal.decision === 'COMPRAR') continue;
-        }
+        // ⭐ FILTRO 2: Tendencia (DESACTIVADO temporalmente para backtest SOL)
+        // const cierres = klines.slice(0, i + 1).map(k => k.close || k[4]);
+        // if (cierres.length >= 50) {
+        //     const sma20 = cierres.slice(-20).reduce((a, b) => a + b, 0) / 20;
+        //     const sma50 = cierres.slice(-50).reduce((a, b) => a + b, 0) / 50;
+        //     const tendenciaAlcista = sma20 > sma50;
+        //     if (tendenciaAlcista && señal.decision === 'VENDER') continue;
+        //     if (!tendenciaAlcista && señal.decision === 'COMPRAR') continue;
+        // }
         
         if (señal.decision === 'COMPRAR' || señal.decision === 'VENDER') {
             const precio = señal.precio;
