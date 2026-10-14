@@ -554,7 +554,7 @@ function renderizarPaperTrading() {
             html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
             if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
             if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
-            html += '<button class="pt-pos-close" data-pos-id="' + pos.id + '">✕ Cerrar posición</button>';
+            html += '<button class="pt-pos-close" onclick="window.ptCerrarPosicion(\'' + pos.id + '\')">✕ Cerrar posición</button>';
             html += '</div>';
         }
         html += '</div>';
@@ -662,6 +662,37 @@ if (typeof window !== 'undefined') {
     window.renderizarPaperTrading = renderizarPaperTrading;
     window.ptOperar = ptOperar;
     window.ptCerrar = ptCerrar;
+    
+    // ⭐ Función global para cerrar desde el botón
+    window.ptCerrarPosicion = function(posId) {
+        console.log('🖱️ ptCerrarPosicion llamado con:', posId);
+        
+        if (!posId) {
+            console.warn('⚠️ posId vacío');
+            return;
+        }
+        
+        const precio = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) 
+            ? currentTokenData.price : 0;
+        
+        console.log('💰 Precio:', precio);
+        
+        try {
+            const resultado = cerrarOperacion(posId, precio, 'manual');
+            console.log('✅ Resultado:', resultado);
+            
+            if (resultado) {
+                renderizarPaperTrading();
+                if (typeof showToast === 'function') {
+                    const emoji = resultado.pnl > 0 ? '✅' : resultado.pnl < 0 ? '❌' : '⚪';
+                    showToast(emoji + ' ' + resultado.symbol + ' cerrada · P&L: ' + 
+                        (resultado.pnl >= 0 ? '+' : '') + '$' + resultado.pnl.toFixed(2));
+                }
+            }
+        } catch(e) {
+            console.error('❌ Error cerrando:', e);
+        }
+    };
     window.ptReset = ptReset;
     window.resetPaperTrading = resetPaperTrading;
     window.repararCartera = () => {
