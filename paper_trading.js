@@ -168,6 +168,7 @@ function abrirOperacionVirtual(symbol, tipo, precioEntrada, sl, tp1, tp2, tp3, c
     
     const posicion = {
         id: 'op_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+        _debug: true,
         symbol: symbol.toUpperCase(),
         tipo: tipo.toUpperCase().includes('COMPRAR') ? 'LONG' : 'SHORT',
         precioEntrada: precioEntrada,
@@ -195,10 +196,24 @@ function abrirOperacionVirtual(symbol, tipo, precioEntrada, sl, tp1, tp2, tp3, c
 }
 
 function cerrarOperacion(id, precioActual, motivo) {
+    console.log('🔴 cerrarOperacion llamado');
+    console.log('  ID buscado:', id);
+    
     const cartera = getPaperTrading();
+    console.log('  Posiciones actuales:', cartera.posiciones.map(p => ({ id: p.id, symbol: p.symbol })));
+    
     const idx = cartera.posiciones.findIndex(p => p.id === id);
     if (idx === -1) {
-        console.warn('⚠️ Posición no encontrada:', id);
+        console.warn('⚠️ Posición no encontrada');
+        console.log('  IDs disponibles:', cartera.posiciones.map(p => p.id));
+        
+        // ⭐ FALLBACK: Si no se encuentra por id, buscar la primera posición del mismo símbolo
+        const fallbackIdx = cartera.posiciones.findIndex(p => p.symbol === currentToken);
+        if (fallbackIdx !== -1) {
+            console.log('  ✅ Fallback: cerrando posición por símbolo');
+            return cerrarOperacion(cartera.posiciones[fallbackIdx].id, precioActual, motivo);
+        }
+        
         return null;
     }
     
@@ -539,7 +554,7 @@ function renderizarPaperTrading() {
             html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
             if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
             if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
-            html += '<button class="pt-pos-close" onclick="window.ptCerrar(\'' + pos.id + '\')">✕ Cerrar posición</button>';
+            html += '<button class="pt-pos-close" data-pos-id="' + pos.id + '">✕ Cerrar posición</button>';
             html += '</div>';
         }
         html += '</div>';
