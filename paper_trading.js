@@ -554,7 +554,7 @@ function renderizarPaperTrading() {
             html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
             if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
             if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
-            html += '<button onclick="alert('CLICK OK: ' + pos.symbol);if(confirm(\'¿Cerrar posición \' + pos.symbol + \'?\')){window.cerrarOperacion(\'' + pos.id + '\',' + (isFinite(precioMercado) ? precioMercado : 0) + ',\'manual\')}" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
+            html += '<button onclick="if(confirm(\'¿Cerrar posición \' + pos.symbol + \'?\')){window.cerrarOperacion(\'' + pos.id + '\',' + (isFinite(precioMercado) ? precioMercado : 0) + ',\'manual\')}" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
             html += '</div>';
         }
         html += '</div>';
