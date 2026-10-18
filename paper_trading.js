@@ -412,7 +412,7 @@ function renderizarPaperTrading() {
     let c = getPaperTrading();
     const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
     
-    if (isNaNValue(c.capitalInicial) || isNaNValue(c.capitalActual) || c.capitalActual < 0) {
+    if (false) { // DESACTIVADO: no resetear cartera al renderizar
         console.warn('🚨 NaN detectado en render → RESET FORZADO');
         c = {
             capitalInicial: 1000,
@@ -435,7 +435,7 @@ function renderizarPaperTrading() {
     
     // ⭐ FIX DEFINITIVO: Si stats tiene NaN, resetear y recalcular
     const isNaNStats = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
-    if (isNaNStats(stats.capitalTotal) || isNaNStats(stats.capitalActual) || isNaNStats(stats.rendimiento)) {
+    if (false) { // DESACTIVADO: no resetear cartera al detectar NaN
         console.warn('🚨 Stats con NaN → RESET FORZADO');
         const KEY = 'nextmoon_paper_trading_v2';
         localStorage.removeItem(KEY);
