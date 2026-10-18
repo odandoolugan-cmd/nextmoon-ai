@@ -2182,21 +2182,36 @@ document.getElementById('btnBacktest').onclick = async () => {
 
 // 🎮 Paper Trading
 document.getElementById('btnPaperTrading').onclick = () => {
+    console.log('🖱️ Click en Paper Trading');
     const widget = document.getElementById('widgetPaper');
-    if (widget.style.display === 'none' || widget.style.display === '') {
-        widget.style.display = 'block';
-        // ⭐ Acceder vía window porque paper_trading.js es script normal
-        if (typeof window.renderizarPaperTrading === 'function') {
-            window.renderizarPaperTrading();
-        } else {
-            console.warn('⚠️ renderizarPaperTrading no está en window');
-            console.log('typeof:', typeof window.renderizarPaperTrading);
-        }
-        setTimeout(() => widget.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-        if (typeof showToast === 'function') showToast('🎮 Trading Virtual activado');
-    } else {
-        widget.style.display = 'none';
+    
+    if (!widget) {
+        console.error('❌ widgetPaper no encontrado');
+        return;
     }
+    
+    // ⭐ SIEMPRE abrir y renderizar (sin toggle)
+    widget.style.display = 'block';
+    
+    console.log('📊 renderizarPaperTrading:', typeof window.renderizarPaperTrading);
+    
+    if (typeof window.renderizarPaperTrading === 'function') {
+        try {
+            window.renderizarPaperTrading();
+            console.log('✅ Paper Trading renderizado');
+        } catch(e) {
+            console.error('❌ Error renderizando:', e);
+        }
+    } else {
+        console.error('❌ renderizarPaperTrading no está definida');
+        const container = document.getElementById('paperTradingContent');
+        if (container) {
+            container.innerHTML = '<div style="padding:20px;text-align:center;color:#ef4444;">⚠️ Error: Recarga la página</div>';
+        }
+    }
+    
+    setTimeout(() => widget.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    if (typeof showToast === 'function') showToast('🎮 Trading Virtual activado');
 };
 
 // ============================================
@@ -2429,14 +2444,14 @@ window.renderizarAutoEvolucion = renderizarAutoEvolucion;
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="i18n.js?v=66"></script>
-<script src="trading_system.js?v=66"></script>
+<script src="i18n.js?v=67"></script>
+<script src="trading_system.js?v=67"></script>
 
-<script src="backtest.js?v=66"></script>
+<script src="backtest.js?v=67"></script>
 
-<script src="paper_trading.js?v=66"></script>
-<script src="alertas.js?v=66"></script>
-<script src="graficos.js?v=66"></script>
-<script src="bayes.js?v=66"></script>
-<script src="auto_evolucion.js?v=66"></script>
+<script src="paper_trading.js?v=67"></script>
+<script src="alertas.js?v=67"></script>
+<script src="graficos.js?v=67"></script>
+<script src="bayes.js?v=67"></script>
+<script src="auto_evolucion.js?v=67"></script>
 </html>
