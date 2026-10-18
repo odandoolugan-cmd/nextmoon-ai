@@ -554,8 +554,7 @@ function renderizarPaperTrading() {
             html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
             if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
             if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
-            html += '<button onclick="if(confirm(\'¿Cerrar posición \' + pos.symbol + \'?\')){window.cerrarOperacion(\'' + pos.id + '\',' + (isFinite(precioMercado) ? precioMercado : 0) + ',\'manual\')}" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
-            html += '</div>';
+            html += '<button class="pt-btn-cerrar" data-pos-id="' + pos.id + '" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
         }
         html += '</div>';
     }
@@ -585,6 +584,34 @@ function renderizarPaperTrading() {
     html += '</div>';
     
     container.innerHTML = html;
+    
+    // ⭐ Listener para botones de cerrar posición
+    setTimeout(() => {
+        const botones = document.querySelectorAll('.pt-btn-cerrar');
+        console.log('🔍 Botones cerrar:', botones.length);
+        
+        botones.forEach(btn => {
+            btn.onclick = function() {
+                const posId = this.getAttribute('data-pos-id');
+                console.log('🖱️ Cerrar:', posId);
+                
+                if (!confirm('¿Cerrar esta posición?')) return;
+                
+                if (window.cerrarOperacion) {
+                    const resultado = window.cerrarOperacion(posId, 0, 'manual');
+                    console.log('✅ Resultado:', resultado);
+                    
+                    setTimeout(() => {
+                        if (window.renderizarPaperTrading) {
+                            window.renderizarPaperTrading();
+                        }
+                    }, 200);
+                } else {
+                    console.error('❌ cerrarOperacion no está en window');
+                }
+            };
+        });
+    }, 100);
     
     // ⭐ Listeners para botones de cerrar posición
     setTimeout(() => {
