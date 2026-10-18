@@ -168,7 +168,6 @@ function abrirOperacionVirtual(symbol, tipo, precioEntrada, sl, tp1, tp2, tp3, c
     
     const posicion = {
         id: 'op_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
-        _debug: true,
         symbol: symbol.toUpperCase(),
         tipo: tipo.toUpperCase().includes('COMPRAR') ? 'LONG' : 'SHORT',
         precioEntrada: precioEntrada,
@@ -196,24 +195,10 @@ function abrirOperacionVirtual(symbol, tipo, precioEntrada, sl, tp1, tp2, tp3, c
 }
 
 function cerrarOperacion(id, precioActual, motivo) {
-    console.log('🔴 cerrarOperacion llamado');
-    console.log('  ID buscado:', id);
-    
     const cartera = getPaperTrading();
-    console.log('  Posiciones actuales:', cartera.posiciones.map(p => ({ id: p.id, symbol: p.symbol })));
-    
     const idx = cartera.posiciones.findIndex(p => p.id === id);
     if (idx === -1) {
-        console.warn('⚠️ Posición no encontrada');
-        console.log('  IDs disponibles:', cartera.posiciones.map(p => p.id));
-        
-        // ⭐ FALLBACK: Si no se encuentra por id, buscar la primera posición del mismo símbolo
-        const fallbackIdx = cartera.posiciones.findIndex(p => p.symbol === currentToken);
-        if (fallbackIdx !== -1) {
-            console.log('  ✅ Fallback: cerrando posición por símbolo');
-            return cerrarOperacion(cartera.posiciones[fallbackIdx].id, precioActual, motivo);
-        }
-        
+        console.warn('⚠️ Posición no encontrada:', id);
         return null;
     }
     
@@ -539,7 +524,7 @@ function renderizarPaperTrading() {
         html += '<div class="pt-section">';
         html += '<div class="pt-section-title">📊 Posiciones abiertas (' + c.posiciones.length + ')</div>';
         for (const pos of c.posiciones) {
-            const precioMercado = Number((pos.symbol === symbolActual && precioActual) ? precioActual : pos.precioEntrada) || 0;
+            const precioMercado = (pos.symbol === symbolActual && precioActual) ? precioActual : pos.precioEntrada;
             const pnl = calcularPnL(pos, precioMercado);
             const pnlPct = (pnl / pos.cantidadUSD) * 100;
             const emoji = pos.tipo === 'LONG' ? '🟢' : '🔴';
@@ -554,7 +539,8 @@ function renderizarPaperTrading() {
             html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
             if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
             if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
-            html += '<button class="pt-btn-cerrar" data-pos-id="' + pos.id + '" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
+            html += '<button class="pt-pos-close" onclick="window.ptCerrar(\'' + pos.id + '\')">✕ Cerrar posición</button>';
+            html += '</div>';
         }
         html += '</div>';
     }
@@ -584,60 +570,6 @@ function renderizarPaperTrading() {
     html += '</div>';
     
     container.innerHTML = html;
-    
-    // ⭐ Listener para botones de cerrar posición
-    setTimeout(() => {
-        const botones = document.querySelectorAll('.pt-btn-cerrar');
-        console.log('🔍 Botones cerrar:', botones.length);
-        
-        botones.forEach(btn => {
-            btn.onclick = function() {
-                const posId = this.getAttribute('data-pos-id');
-                console.log('🖱️ Cerrar:', posId);
-                
-                if (!confirm('¿Cerrar esta posición?')) return;
-                
-                if (window.cerrarOperacion) {
-                    const resultado = window.cerrarOperacion(posId, 0, 'manual');
-                    console.log('✅ Resultado:', resultado);
-                    
-                    setTimeout(() => {
-                        if (window.renderizarPaperTrading) {
-                            window.renderizarPaperTrading();
-                        }
-                    }, 200);
-                } else {
-                    console.error('❌ cerrarOperacion no está en window');
-                }
-            };
-        });
-    }, 100);
-    
-    // ⭐ Listeners para botones de cerrar posición
-    setTimeout(() => {
-        const botones = container.querySelectorAll('.pt-pos-close');
-        console.log('🔍 Botones cerrar encontrados:', botones.length);
-        botones.forEach(btn => {
-            if (!btn._listenerAdded) {
-                btn._listenerAdded = true;
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const posId = btn.getAttribute('data-pos-id');
-                    console.log('🖱️ Cerrar posición:', posId);
-                    
-                    if (!posId) return;
-                    
-                    const precio = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) 
-                        ? currentTokenData.price : 0;
-                    
-                    console.log('💰 Precio:', precio);
-                    const resultado = cerrarOperacion(posId, precio, 'manual');
-                    console.log('✅ Resultado:', resultado);
-                });
-            }
-        });
-    }, 100);
 }
 
 // ─────────────────────────────────────────────
@@ -672,8 +604,22 @@ function ptOperar(tipo) {
 }
 
 function ptCerrar(id) {
+    console.log('🔴 ptCerrar:', id);
     const precio = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) ? currentTokenData.price : 0;
-    cerrarOperacion(id, precio, 'manual');
+    console.log('💰 Precio:', precio);
+    
+    const resultado = cerrarOperacion(id, precio, 'manual');
+    console.log('✅ Resultado:', resultado);
+    
+    // ⭐ Re-renderizar después de cerrar
+    if (resultado) {
+        try {
+            renderizarPaperTrading();
+            console.log('✅ Paper Trading re-renderizado');
+        } catch(e) {
+            console.error('❌ Error re-renderizando:', e);
+        }
+    }
 }
 
 function ptReset() {
@@ -689,37 +635,6 @@ if (typeof window !== 'undefined') {
     window.renderizarPaperTrading = renderizarPaperTrading;
     window.ptOperar = ptOperar;
     window.ptCerrar = ptCerrar;
-    
-    // ⭐ Función global para cerrar desde el botón
-    window.ptCerrarPosicion = function(posId) {
-        console.log('🖱️ ptCerrarPosicion llamado con:', posId);
-        
-        if (!posId) {
-            console.warn('⚠️ posId vacío');
-            return;
-        }
-        
-        const precio = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) 
-            ? currentTokenData.price : 0;
-        
-        console.log('💰 Precio:', precio);
-        
-        try {
-            const resultado = cerrarOperacion(posId, precio, 'manual');
-            console.log('✅ Resultado:', resultado);
-            
-            if (resultado) {
-                renderizarPaperTrading();
-                if (typeof showToast === 'function') {
-                    const emoji = resultado.pnl > 0 ? '✅' : resultado.pnl < 0 ? '❌' : '⚪';
-                    showToast(emoji + ' ' + resultado.symbol + ' cerrada · P&L: ' + 
-                        (resultado.pnl >= 0 ? '+' : '') + '$' + resultado.pnl.toFixed(2));
-                }
-            }
-        } catch(e) {
-            console.error('❌ Error cerrando:', e);
-        }
-    };
     window.ptReset = ptReset;
     window.resetPaperTrading = resetPaperTrading;
     window.repararCartera = () => {
