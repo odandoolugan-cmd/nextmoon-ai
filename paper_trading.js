@@ -524,7 +524,14 @@ function renderizarPaperTrading() {
         html += '<div class="pt-section">';
         html += '<div class="pt-section-title">📊 Posiciones abiertas (' + c.posiciones.length + ')</div>';
         for (const pos of c.posiciones) {
-            const precioMercado = (pos.symbol === symbolActual && precioActual) ? precioActual : pos.precioEntrada;
+            const precioMercado = (pos.symbol === symbolActual && precioActual) ? precioActual : (pos.precioMercado || pos.precioEntrada);
+            
+            // ⭐ Guardar precioMercado en la posición para que persista al recargar
+            if (precioActual && pos.symbol === symbolActual) {
+                pos.precioMercado = precioActual;
+                if (!pos._savedMercado) pos._savedMercado = true;
+            }
+            
             const pnl = calcularPnL(pos, precioMercado);
             const pnlPct = (pnl / pos.cantidadUSD) * 100;
             const emoji = pos.tipo === 'LONG' ? '🟢' : '🔴';
@@ -539,7 +546,7 @@ function renderizarPaperTrading() {
             html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
             if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
             if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
-            html += '<button class="pt-pos-close" onclick="window.ptCerrar(\'' + pos.id + '\')">✕ Cerrar posición</button>';
+            html += '<button class="pt-pos-close" onclick="if(confirm(\'¿Cerrar ' + pos.symbol + '?\')){var c=JSON.parse(localStorage.getItem(\'nextmoon_paper_trading_v2\'));var i=c.posiciones.findIndex(function(p){return p.id===\'' + pos.id + '\'});if(i>=0){var p=c.posiciones[i];var precio=' + (isFinite(precioMercado) ? precioMercado : 0) + ';var pnl=(p.tipo===\'LONG\')?(precio-p.precioEntrada)*p.cantidad:(p.precioEntrada-precio)*p.cantidad;c.capitalActual+=p.cantidadUSD+pnl;c.historial.unshift(Object.assign({},p,{precioCierre:precio,fechaCierre:new Date().toISOString(),pnl:pnl,pnlPct:(pnl/p.cantidadUSD)*100}));c.posiciones.splice(i,1);localStorage.setItem(\'nextmoon_paper_trading_v2\',JSON.stringify(c));location.reload();}}" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
             html += '</div>';
         }
         html += '</div>';
