@@ -257,7 +257,15 @@ function getEstadisticas() {
     const c = getPaperTrading();
     
     // ⭐ Log de diagnóstico
-    console.log('📊 getEstadisticas: capitalInicial=', c.capitalInicial, 'capitalActual=', c.capitalActual, 'posiciones=', c.posiciones.length);
+    console.log('📊 getEstadisticas: return {
+    capitalInicial: c.capitalInicial,
+    capitalActual: c.capitalActual,
+    // ... otras cosas
+    winRate: winRate,               // <--- Asegúrate de que esté esta
+    profitFactor: profitFactor,     // <--- Y esta
+    ops: totalOpsSeguro,            // <--- Y que use la variable segura
+    // ... 
+};
     // ⭐ Helper: número seguro (evita NaN)
     const num = (v, fallback = 0) => {
         const n = parseFloat(v);
@@ -266,7 +274,9 @@ function getEstadisticas() {
     const totalOpsCerradas = c.historial.length;
     const ganadoras = c.historial.filter(o => num(o.pnl) > 0).length;
     const perdedoras = c.historial.filter(o => num(o.pnl) < 0).length;
-    const winRate = totalOpsCerradas > 0 ? (ganadoras / totalOpsCerradas * 100) : 0;
+    const totalOpsSeguro = totalOps || 0;
+    const ganadasSeguro = ganadas || 0;
+    const winRate = totalOpsSeguro > 0 ? (ganadasSeguro / totalOpsSeguro * 100) : 0;
     const pnlTotal = c.historial.reduce((s, o) => s + num(o.pnl), 0);
     // ⭐ Filtrar posiciones corruptas ANTES de sumar
     const posicionesValidas = c.posiciones.filter(p => {
@@ -285,7 +295,7 @@ function getEstadisticas() {
     // Profit factor
     const ganancias = c.historial.filter(o => num(o.pnl) > 0).reduce((s, o) => s + o.pnl, 0);
     const perdidas = Math.abs(c.historial.filter(o => num(o.pnl) < 0).reduce((s, o) => s + o.pnl, 0));
-    const profitFactor = perdidas > 0 ? (ganancias / perdidas) : (ganancias > 0 ? 999 : 0);
+    const profitFactor = (perdidaTotal > 0) ? (gananciaTotal / perdidaTotal) : (gananciaTotal > 0 ? 999 : 0);
     
     // ⭐ NUEVAS MÉTRICAS AVANZADAS ⭐
     
@@ -366,10 +376,10 @@ function getEstadisticas() {
         totalOpsCerradas: safeNum(totalOpsCerradas, 0),
         ganadoras: safeNum(ganadoras, 0),
         perdedoras: safeNum(perdedoras, 0),
-        winRate: num(winRate, 0).toFixed(1),
+        winRate: winRate, 0).toFixed(1),
         pnlTotal: num(pnlTotal, 0).toFixed(2),
         rendimiento: num(rendimiento, 0).toFixed(2),
-        profitFactor: num(profitFactor, 0).toFixed(2),
+        profitFactor: profitFactor, 0).toFixed(2),
         mejorOp: num(c.metricas?.mejorOp).toFixed(2),
         peorOp: num(c.metricas?.peorOp).toFixed(2),
         // ⭐ AVANZADAS
