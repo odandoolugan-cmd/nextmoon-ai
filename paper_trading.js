@@ -459,8 +459,15 @@ function renderizarPaperTrading() {
         });
         savePaperTrading(fresh);
     }
-    const fmtUSD = (n) => '$' + parseFloat(n).toFixed(2);
-    const fmtPct = (n) => (n >= 0 ? '+' : '') + parseFloat(n).toFixed(2) + '%';
+    const fmtUSD = (n) => {
+        const num = parseFloat(n);
+        return '$' + (isNaN(num) || !isFinite(num) ? '0.00' : num.toFixed(2));
+    };
+    const fmtPct = (n) => {
+        const num = parseFloat(n);
+        if (isNaN(num) || !isFinite(num)) return '0.00%';
+        return (num >= 0 ? '+' : '') + num.toFixed(2) + '%';
+    };
     const colorPnL = (n) => parseFloat(n) > 0 ? '#10b981' : parseFloat(n) < 0 ? '#ef4444' : '#94a3b8';
     
     const precioActual = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) ? currentTokenData.price : null;
@@ -621,8 +628,15 @@ function ptCerrar(id) {
     // ⭐ Re-renderizar después de cerrar
     if (resultado) {
         try {
+            // ⭐ Forzar re-render con datos frescos
+            const c = getPaperTrading();
+            // Asegurar que el capital está bien
+            if (!isFinite(parseFloat(c.capitalActual))) {
+                c.capitalActual = 1000;
+                savePaperTrading(c);
+            }
             renderizarPaperTrading();
-            console.log('✅ Paper Trading re-renderizado');
+            console.log('✅ Paper Trading re-renderizado con datos frescos');
         } catch(e) {
             console.error('❌ Error re-renderizando:', e);
         }
@@ -702,3 +716,87 @@ setInterval(() => {
         setup();
     }
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// 💰 PROYECCIÓN DE GANANCIAS
+// ═══════════════════════════════════════════════════════════════
+function calcularProyeccion(inversionUSD = 100) {
+    const symbol = (typeof currentToken !== 'undefined') ? currentToken : 'BTC';
+    const precio = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) 
+        ? currentTokenData.price : 0;
+    
+    if (!precio || !window._ultimoTrading?.sltp) {
+        return null;
+    }
+    
+    const sltp = window._ultimoTrading.sltp;
+    const { sl, tp1, tp2, tp3, precioEntrada } = sltp;
+    
+    // Calcular cantidad
+    const cantidad = inversionUSD / precioEntrada;
+    
+    // Calcular ganancia en cada TP
+    const gananciaTP1 = (tp1 - precioEntrada) * cantidad;
+    const gananciaTP2 = (tp2 - precioEntrada) * cantidad;
+    const gananciaTP3 = (tp3 - precioEntrada) * cantidad;
+    
+    // Calcular pérdida en SL
+    const perdidaSL = (precioEntrada - sl) * cantidad;
+    
+    return {
+        symbol,
+        precioEntrada,
+        inversion: inversionUSD,
+        cantidad,
+        sl,
+        tp1, tp2, tp3,
+        gananciaTP1, gananciaTP2, gananciaTP3,
+        perdidaSL,
+        gananciaTP1Pct: (gananciaTP1 / inversionUSD) * 100,
+        gananciaTP2Pct: (gananciaTP2 / inversionUSD) * 100,
+        gananciaTP3Pct: (gananciaTP3 / inversionUSD) * 100,
+        perdidaSLPct: (perdidaSL / inversionUSD) * 100
+    };
+}
+
+function renderizarProyeccion() {
+    const container = document.getElementById('proyeccionContent');
+    if (!container) return;
+    
+    const proyeccion = calcularProyeccion(100);
+    
+    if (!proyeccion) {
+        container.innerHTML = '<div class="proyeccion-loading">Analiza una cripto para ver proyección</div>';
+        return;
+    }
+    
+    const fmt = (n) => '$' + parseFloat(n).toFixed(2);
+    
+    let html = '';
+    
+    // Inversión y cantidad
+    html += '<div class="proyeccion-grid">';
+    html += '<div class="proyeccion-item"><div class="proyeccion-label">Inversión</div><div class="proyeccion-value">' + fmt(proyeccion.inversion) + '</div></div>';
+    html += '<div class="proyeccion-item"><div class="proyeccion-label">Cantidad</div><div class="proyeccion-value">' + proyeccion.cantidad.toFixed(6) + '</div></div>';
+    html += '</div>';
+    
+    // TPs
+    html += '<div class="proyeccion-tp"><span class="proyeccion-tp-label">🎯 TP1 (' + fmt(proyeccion.tp1) + ')</span><span class="proyeccion-tp-ganancia">+' + fmt(proyeccion.gananciaTP1) + ' (+' + proyeccion.gananciaTP1Pct.toFixed(1) + '%)</span></div>';
+    html += '<div class="proyeccion-tp"><span class="proyeccion-tp-label">🎯 TP2 (' + fmt(proyeccion.tp2) + ')</span><span class="proyeccion-tp-ganancia">+' + fmt(proyeccion.gananciaTP2) + ' (+' + proyeccion.gananciaTP2Pct.toFixed(1) + '%)</span></div>';
+    html += '<div class="proyeccion-tp"><span class="proyeccion-tp-label">🎯 TP3 (' + fmt(proyeccion.tp3) + ')</span><span class="proyeccion-tp-ganancia">+' + fmt(proyeccion.gananciaTP3) + ' (+' + proyeccion.gananciaTP3Pct.toFixed(1) + '%)</span></div>';
+    
+    // Pérdida
+    html += '<div class="proyeccion-tp" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);"><span class="proyeccion-tp-label">🛑 Stop Loss (' + fmt(proyeccion.sl) + ')</span><span class="proyeccion-tp-ganancia" style="color:#ef4444;">' + fmt(proyeccion.perdidaSL) + ' (' + proyeccion.perdidaSLPct.toFixed(1) + '%)</span></div>';
+    
+    // Warning
+    html += '<div class="proyeccion-warning">⚠️ Esta es una simulación. El mercado real puede variar. Usa esta información para tomar decisiones informadas.</div>';
+    
+    container.innerHTML = html;
+}
+
+// Exponer en window
+if (typeof window !== 'undefined') {
+    window.calcularProyeccion = calcularProyeccion;
+    window.renderizarProyeccion = renderizarProyeccion;
+    console.log('✅ Proyección expuesta en window');
+}

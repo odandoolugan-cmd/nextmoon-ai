@@ -394,6 +394,24 @@
         .ae-hist-item { display: flex; justify-content: space-between; padding: 4px 8px; background: rgba(0,0,0,0.15); border-radius: 4px; margin-bottom: 3px; font-size: 0.65rem; }
         .tool-btn.auto-evo { border-color: #8b5cf6; color: #a78bfa; background: rgba(139,92,246,0.15); }
         .tool-btn.auto-evo:hover { background: linear-gradient(90deg, #8b5cf6, #ec4899); color: white; }
+
+        /* 💰 Proyección de Ganancias */
+        .widget-proyeccion { background: rgba(16, 185, 129, 0.08); border: 2px solid #10b981; border-radius: 1.5rem; padding: 1.2rem; margin: 15px 0; }
+        .proyeccion-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .proyeccion-titulo { font-weight: 700; color: #34d399; font-size: 0.85rem; }
+        .proyeccion-badge { background: linear-gradient(90deg, #10b981, #059669); color: white; padding: 3px 12px; border-radius: 12px; font-size: 0.6rem; font-weight: bold; }
+        .proyeccion-loading { text-align: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; }
+        .proyeccion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+        .proyeccion-item { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; text-align: center; }
+        .proyeccion-label { font-size: 0.55rem; color: #94a3b8; margin-bottom: 4px; text-transform: uppercase; }
+        .proyeccion-value { font-size: 1rem; font-weight: bold; color: #eef2ff; }
+        .proyeccion-value.verde { color: #10b981; }
+        .proyeccion-value.rojo { color: #ef4444; }
+        .proyeccion-tp { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 10px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .proyeccion-tp-label { font-size: 0.65rem; color: #94a3b8; }
+        .proyeccion-tp-value { font-size: 0.85rem; font-weight: bold; color: #10b981; }
+        .proyeccion-tp-ganancia { font-size: 0.75rem; color: #34d399; font-weight: bold; }
+        .proyeccion-warning { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 8px; padding: 10px; margin-top: 10px; font-size: 0.7rem; color: #fbbf24; }
 </style>
 </head>
 <body>
@@ -2444,14 +2462,14 @@ window.renderizarAutoEvolucion = renderizarAutoEvolucion;
 <!-- Botón flotante PWA -->
 <button id="pwaInstallBtn" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:white;border:none;padding:12px 20px;border-radius:50px;font-weight:bold;font-size:0.85rem;box-shadow:0 8px 25px rgba(139,92,246,0.5);cursor:pointer;animation:pulse 2s infinite;">📱 Instalar App</button>
 
-<script src="i18n.js?v=71"></script>
-<script src="trading_system.js?v=71"></script>
+<script src="i18n.js?v=72"></script>
+<script src="trading_system.js?v=72"></script>
 
-<script src="backtest.js?v=71"></script>
+<script src="backtest.js?v=72"></script>
 
-<script src="paper_trading.js?v=71"></script>
-<script src="alertas.js?v=71"></script>
-<script src="graficos.js?v=71"></script>
-<script src="bayes.js?v=71"></script>
-<script src="auto_evolucion.js?v=71"></script>
+<script src="paper_trading.js?v=72"></script>
+<script src="alertas.js?v=72"></script>
+<script src="graficos.js?v=72"></script>
+<script src="bayes.js?v=72"></script>
+<script src="auto_evolucion.js?v=72"></script>
 </html>
