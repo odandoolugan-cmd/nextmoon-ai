@@ -393,6 +393,25 @@ function renderizarPaperTrading() {
         return;
     }
     
+    // ⭐ RECONSTRUIR capital si está corrupto
+    try {
+        const c = getPaperTrading();
+        const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
+            const cant = parseFloat(p.cantidadUSD);
+            return s + (isNaN(cant) ? 0 : cant);
+        }, 0);
+        
+        const capIni = parseFloat(c.capitalInicial) || 1000;
+        const capAct = parseFloat(c.capitalActual);
+        
+        if (!isFinite(capAct) || capAct < 0) {
+            c.capitalActual = capIni - capitalEnPos;
+            if (c.capitalActual < 0) c.capitalActual = capIni;
+            savePaperTrading(c);
+            console.log('🔧 Capital reconstruido al renderizar:', c.capitalActual);
+        }
+    } catch(e) {}
+    
     // ⭐ FIX DEFINITIVO: Recargar datos frescos del localStorage
     let _freshData = null;
     try {
