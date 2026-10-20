@@ -274,7 +274,7 @@ const winRate = totalOpsSeguro > 0 ? ((ganadoras / totalOpsSeguro) * 100) : 0;
 // Profit Factor seguro
 const gananciaTotal = c.historial.filter(o => num(o.pnl) > 0).reduce((s, o) => s + num(o.pnl), 0);
 const perdidaTotal = Math.abs(c.historial.filter(o => num(o.pnl) < 0).reduce((s, o) => s + num(o.pnl), 0));
-const profitFactor = perdidaTotal > 0 ? (gananciaTotal / perdidaTotal) : (gananciaTotal > 0 ? 999 : 0);
+
     // ⭐ Filtrar posiciones corruptas ANTES de sumar
     const posicionesValidas = c.posiciones.filter(p => {
         if (!p) return false;
@@ -288,17 +288,15 @@ const profitFactor = perdidaTotal > 0 ? (gananciaTotal / perdidaTotal) : (gananc
     const capitalInicial = num(c.capitalInicial, 1000);
     const capitalActual = num(c.capitalActual, 0);
     const rendimiento = capitalInicial > 0 ? ((capitalActual + capitalEnPos - capitalInicial) / capitalInicial * 100) : 0;
-      
     // Profit factor
     const ganancias = c.historial.filter(o => num(o.pnl) > 0).reduce((s, o) => s + o.pnl, 0);
     const perdidas = Math.abs(c.historial.filter(o => num(o.pnl) < 0).reduce((s, o) => s + o.pnl, 0));
     const profitFactor = perdidas > 0 ? (ganancias / perdidas) : (ganancias > 0 ? 999 : 0);
-    
     // ⭐ NUEVAS MÉTRICAS AVANZADAS ⭐
-    
+
     // 1. Expectancy (ganancia media por op)
     const expectancy = totalOpsCerradas > 0 ? pnlTotal / totalOpsCerradas : 0;
-    
+
     // 2. Racha ganadora/perdedora máxima
     let rachaGanadora = 0, rachaPerdedora = 0;
     let rachaActualGan = 0, rachaActualPer = 0;
