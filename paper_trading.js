@@ -507,8 +507,8 @@ function renderizarPaperTrading() {
     html += '</div>';
     
     html += '<div class="pt-metrics">';
-    html += '<div class="pt-metric"><div class="pt-label">🎯 Win Rate</div><div class="pt-value">' + stats.winRate + '%</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">📊 Profit Factor</div><div class="pt-value">' + stats.profitFactor + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">🎯 Win Rate</div><div class="pt-value">' + (stats.winRate !== undefined && !isNaN(stats.winRate) ? Number(stats.winRate).toFixed(2) : '0.00') + '%</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">📊 Profit Factor</div><div class="pt-value">' + (stats.profitFactor !== undefined && !isNaN(stats.profitFactor) ? Number(stats.profitFactor).toFixed(2) : '0.00') + '</div></div>';
     html += '<div class="pt-metric"><div class="pt-label">📈 Ops</div><div class="pt-value">' + stats.totalOpsCerradas + '</div></div>';
     html += '</div>';
     
