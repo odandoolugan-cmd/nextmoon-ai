@@ -509,7 +509,7 @@ function renderizarPaperTrading() {
     html += '<div class="pt-metrics">';
     html += '<div class="pt-metric"><div class="pt-label">🎯 Win Rate</div><div class="pt-value">' + (stats.winRate !== undefined && !isNaN(stats.winRate) ? Number(stats.winRate).toFixed(2) : '0.00') + '%</div></div>';
     html += '<div class="pt-metric"><div class="pt-label">📊 Profit Factor</div><div class="pt-value">' + (stats.profitFactor !== undefined && !isNaN(stats.profitFactor) ? Number(stats.profitFactor).toFixed(2) : '0.00') + '</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">📈 Ops</div><div class="pt-value">' + stats.totalOpsCerradas + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">📈 Ops</div><div class="pt-value">' + (stats.totalOpsCerradas !== undefined ? stats.totalOpsCerradas : 0) + '</div></div>';
     html += '</div>';
     
     // ⭐ MÉTRICAS AVANZADAS
@@ -529,7 +529,7 @@ function renderizarPaperTrading() {
         html += '<div class="pt-adv-item"><span class="pt-adv-label">🔥 Racha Ganadora</span><span class="pt-adv-value" style="color:#10b981;">' + stats.rachaGanadora + '</span></div>';
         html += '<div class="pt-adv-item"><span class="pt-adv-label">❄️ Racha Perdedora</span><span class="pt-adv-value" style="color:#ef4444;">' + stats.rachaPerdedora + '</span></div>';
         html += '<div class="pt-adv-item"><span class="pt-adv-label">💎 Kelly %</span><span class="pt-adv-value" style="color:#a78bfa;">' + stats.kelly + '%</span></div>';
-        html += '<div class="pt-adv-item"><span class="pt-adv-label">📊 Ops Totales</span><span class="pt-adv-value">' + stats.totalOpsCerradas + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📊 Ops Totales</span><span class="pt-adv-value">' + (stats.totalOpsCerradas !== undefined ? stats.totalOpsCerradas : 0) + '</span></div>';
         html += '</div>';
         html += '</div>';
     }
