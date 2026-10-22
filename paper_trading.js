@@ -512,6 +512,25 @@ function renderizarPaperTrading() {
     html += '<div class="pt-metric"><div class="pt-label">📊 Profit Factor</div><div class="pt-value">' + (stats.profitFactor !== undefined && !isNaN(stats.profitFactor) ? Number(stats.profitFactor).toFixed(2) : '0.00') + '</div></div>';
     html += '<div class="pt-metric"><div class="pt-label">📈 Ops</div><div class="pt-value">' + (stats.totalOpsCerradas !== undefined ? stats.totalOpsCerradas : 0) + '</div></div>';
     html += '</div>';
+
+    // ⭐ MÓDULO SETUN 1958 - LÓGICA TERNARIA
+    if (window.SetunCore) {
+        // Usamos los datos del análisis global si existen, o valores neutros
+        const datosAnalisis = (typeof ultimoAnalisis !== 'undefined' && ultimoAnalisis) ? ultimoAnalisis : {};
+        
+        const resultadoSetun = window.SetunCore.inferenciaBitNet({
+            rsi: datosAnalisis.rsi || 50,
+            macd: datosAnalisis.macd || 'neutral',
+            adx: datosAnalisis.adx || 0
+        });
+
+        html += '<div style="margin-top: 15px; padding: 15px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid ' + resultadoSetun.color + ';">';
+        html += '<div style="font-size: 12px; color: #aaa; margin-bottom: 5px;">🧬 Núcleo Setun 1958 (BitNet Ternario)</div>';
+        html += '<div style="font-size: 18px; font-weight: bold; color: ' + resultadoSetun.color + ';">' + resultadoSetun.decision + '</div>';
+        html += '<div style="font-size: 10px; color: #666;">Estado: ' + resultadoSetun.valorTernario + ' | Capa 1: [' + resultadoSetun.capa1.join(', ') + ']</div>';
+        html += '</div>';
+    }
+
     
     // ⭐ MÉTRICAS AVANZADAS
     if (stats.totalOpsCerradas > 0) {
