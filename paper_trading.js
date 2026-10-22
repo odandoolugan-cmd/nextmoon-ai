@@ -501,8 +501,8 @@ function renderizarPaperTrading() {
     
     // ═══ MÉTRICAS PRINCIPALES ═══
     html += '<div class="pt-metrics">';
-html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value">$' + ((c.capitalInicial || 1000) - (c.posiciones || []).reduce((s,p) => s + (parseFloat(p.cantidadUSD) || 0), 0) + (c.posiciones || []).reduce((s,p) => s + (parseFloat(p.cantidadUSD) || 0), 0)).toFixed(2) + '</div></div>';
-html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">$' + ((c.capitalInicial || 1000) - (c.posiciones || []).reduce((s,p) => s + (parseFloat(p.cantidadUSD) || 0), 0)).toFixed(2) + '</div></div>';
+html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value">$' + ((parseFloat(c.capitalActual || 0) + (c.posiciones || []).reduce((s,p) => s + (parseFloat(p.cantidadUSD) || 0), 0))).toFixed(2) + '</div></div>';
+html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">$' + (parseFloat(c.capitalActual || 0)).toFixed(2) + '</div></div>';
     html += '<div class="pt-metric"><div class="pt-label">📊 Rendimiento</div><div class="pt-value" style="color:' + colorPnL(stats.rendimiento) + ';">' + fmtPct(stats.rendimiento) + '</div></div>';
     html += '</div>';
     
