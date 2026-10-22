@@ -94,7 +94,7 @@ function getPaperTrading() {
     }
     return {
         capitalInicial: __PT_CAPITAL_INICIAL,
-        capitalActual: __PT_CAPITAL_INICIAL,
+        capitalActual: (parseFloat(c.capitalInicial || 1000) - (c.posiciones || []).reduce((s, p) => s + (parseFloat(p.cantidadUSD) || 0), 0)),
         posiciones: [],
         historial: [],
         metricas: { totalOps: 0, ganadoras: 0, perdedoras: 0, pnlTotal: 0, mejorOp: 0, peorOp: 0 },
