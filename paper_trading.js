@@ -398,9 +398,11 @@ function renderizarPaperTrading() {
         return;
     }
     
+    // ⭐ Obtener cartera antes del try para que esté disponible en todo el HTML
+    const c = getPaperTrading();
+
     // ⭐ RECONSTRUIR capital si está corrupto
     try {
-        const c = getPaperTrading();
         const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
             const cant = parseFloat(p.cantidadUSD);
             return s + (isNaN(cant) ? 0 : cant);
@@ -433,7 +435,6 @@ function renderizarPaperTrading() {
     }
     
     // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
-    let c = getPaperTrading();
     const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
     
     if (false) { // DESACTIVADO: no resetear cartera al renderizar
@@ -501,8 +502,8 @@ function renderizarPaperTrading() {
     
     // ═══ MÉTRICAS PRINCIPALES ═══
     html += '<div class="pt-metrics">';
-    html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value" style="color:#10b981;">' + fmtUSD(stats.capitalTotal) + '</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">' + fmtUSD(stats.capitalActual) + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value" style="color:#10b981;">' + fmtUSD((parseFloat(c.capitalActual) || 0) + (c.posiciones || []).reduce((s, p) => s + (parseFloat(p.cantidadUSD) || 0), 0)) + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">' + fmtUSD(parseFloat(c.capitalActual) || 0) + '</div></div>';
     html += '<div class="pt-metric"><div class="pt-label">📊 Rendimiento</div><div class="pt-value" style="color:' + colorPnL(stats.rendimiento) + ';">' + fmtPct(stats.rendimiento) + '</div></div>';
     html += '</div>';
     
