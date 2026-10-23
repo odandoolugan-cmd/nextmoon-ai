@@ -570,7 +570,26 @@ function renderizarPaperTrading() {
         html += '<div class="pt-form"><div class="pt-form-title">🎯 Analiza una cripto para operar</div><div class="pt-form-hint">Los botones COMPRAR/VENDER aparecerán aquí</div></div>';
     }
     
-    // ═══ POSICIONES ABIERTAS ═══
+    
+    // ═══ HISTORIAL DE OPERACIONES ═══
+    if (c.historial && c.historial.length > 0) {
+        html += '<div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">';
+        html += '<div style="font-size: 14px; font-weight: bold; color: #f59e0b; margin-bottom: 10px;">📜 Historial de Operaciones</div>';
+        
+        // Mostramos solo las últimas 5 para no saturar la pantalla
+        c.historial.slice(0, 5).forEach(op => {
+            const colorPnl = op.pnl >= 0 ? '#10b981' : '#ef4444';
+            const emoji = op.pnl >= 0 ? '✅' : '❌';
+            html += '<div style="display: flex; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 8px; margin-bottom: 5px; border-radius: 5px; font-size: 12px; border-left: 3px solid ' + colorPnl + ';">';
+            html += '<span>' + emoji + ' ' + op.symbol + ' (' + op.tipo + ')</span>';
+            html += '<span style="color: ' + colorPnl + ';">' + (op.pnl >= 0 ? '+' : '') + op.pnl.toFixed(2) + ' USD</span>';
+            html += '</div>';
+        });
+        
+        html += '</div>';
+    }
+
+// ═══ POSICIONES ABIERTAS ═══
     if (c.posiciones.length > 0) {
         html += '<div class="pt-section">';
         html += '<div class="pt-section-title">📊 Posiciones abiertas (' + c.posiciones.length + ')</div>';
