@@ -254,7 +254,11 @@ function calcularPnL(pos, precioActual) {
 }
 
 function getEstadisticas() {
-    const c = getPaperTrading();
+    // ⭐ FORZAR LECTURA FRESCA DEL LOCALSTORAGE
+    const c = JSON.parse(localStorage.getItem('nextmoon_paper_trading') || '{}');
+    if (!c.historial) c.historial = [];
+    if (!c.capitalActual) c.capitalActual = c.capitalInicial || 1000;
+    if (!c.posiciones) c.posiciones = [];
     
     // ⭐ Log de diagnóstico
     console.log('📊 getEstadisticas: capitalInicial=', c.capitalInicial, 'capitalActual=', c.capitalActual, 'posiciones=', c.posiciones.length);
