@@ -266,6 +266,7 @@ function getEstadisticas() {
         return isNaN(n) || !isFinite(n) ? fallback : n;
     };
 const totalOpsCerradas = c.historial.length;
+    console.log('🔍 DIAGNÓSTICO getEstadisticas: historial=', c.historial.length, 'ganadoras=', c.historial.filter(o => num(o.pnl) > 0).length);
 const ganadoras = c.historial.filter(o => num(o.pnl) > 0).length;
 const perdedoras = c.historial.filter(o => num(o.pnl) < 0).length;
 
