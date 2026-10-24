@@ -134,6 +134,14 @@ function resetPaperTrading() {
         creado: new Date().toISOString()
     };
     savePaperTrading(cartera);
+    
+    // ⭐ FORZAR ACTUALIZACIÓN DE MÉTRICAS CON UN PEQUEÑO RETRASO
+    // Esto asegura que el localStorage se haya sincronizado antes de renderizar
+    setTimeout(() => {
+        if (typeof renderizarPaperTrading === 'function') {
+            renderizarPaperTrading();
+        }
+    }, 100);
     renderizarPaperTrading();
     if (typeof showToast === 'function') showToast('🔄 Cartera reseteada');
 }
