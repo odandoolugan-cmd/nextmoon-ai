@@ -398,6 +398,9 @@ function renderizarPaperTrading() {
         return;
     }
     
+    // ⭐ DECLARAR 'c' AL PRINCIPIO PARA EVITAR ReferenceError
+    const c = getPaperTrading();
+    
     // ⭐ RECONSTRUIR capital si está corrupto
     try {
         const c = getPaperTrading();
