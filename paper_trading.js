@@ -392,18 +392,15 @@ const perdidaTotal = Math.abs(c.historial.filter(o => num(o.pnl) < 0).reduce((s,
 // 🎨 RENDERIZADO
 // ─────────────────────────────────────────────
 function renderizarPaperTrading() {
-    const c = getPaperTrading();
-    if (!c) { console.warn('⚠️ Cartera no disponible'); return; }
     const container = document.getElementById('paperTradingContent');
     if (!container) {
         console.warn('⚠️ paperTradingContent no encontrado');
         return;
     }
-    const c = getPaperTrading();
     
     // ⭐ RECONSTRUIR capital si está corrupto
     try {
-    // [DUPLICADO ELIMINADO]         const c = getPaperTrading();
+        const c = getPaperTrading();
         const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
             const cant = parseFloat(p.cantidadUSD);
             return s + (isNaN(cant) ? 0 : cant);
@@ -429,7 +426,7 @@ function renderizarPaperTrading() {
     // Si los datos frescos tienen capital válido, usarlos
     if (_freshData && isFinite(parseFloat(_freshData.capitalActual))) {
         // Actualizar el objeto en memoria
-    // [DUPLICADO ELIMINADO]         const c = getPaperTrading();
+        const c = getPaperTrading();
         c.capitalInicial = parseFloat(_freshData.capitalInicial) || 1000;
         c.capitalActual = parseFloat(_freshData.capitalActual) || 1000;
         savePaperTrading(c);
