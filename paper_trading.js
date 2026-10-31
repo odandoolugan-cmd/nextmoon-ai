@@ -399,6 +399,7 @@ function renderizarPaperTrading() {
         console.warn('⚠️ paperTradingContent no encontrado');
         return;
     }
+    const c = getPaperTrading();
     
     // ⭐ RECONSTRUIR capital si está corrupto
     try {
