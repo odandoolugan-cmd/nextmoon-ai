@@ -501,8 +501,12 @@ function renderizarPaperTrading() {
     
     // ═══ MÉTRICAS PRINCIPALES ═══
     html += '<div class="pt-metrics">';
-    html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value" style="color:#10b981;">' + fmtUSD(stats.capitalTotal) + '</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">' + fmtUSD(stats.capitalActual) + '</div></div>';
+    const _capData = JSON.parse(localStorage.getItem('nextmoon_paper_trading_v2') || '{}');
+    const _capActual = parseFloat(_capData.capitalActual) || 1000;
+    const _posiciones = _capData.posiciones || [];
+    const _capTotal = _capActual + _posiciones.reduce((s, p) => s + (parseFloat(p.cantidadUSD) || 0), 0);
+    html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value" style="color:#10b981;">' + fmtUSD(_capTotal) + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">' + fmtUSD(_capActual) + '</div></div>';
     html += '<div class="pt-metric"><div class="pt-label">📊 Rendimiento</div><div class="pt-value" style="color:' + colorPnL(stats.rendimiento) + ';">' + fmtPct(stats.rendimiento) + '</div></div>';
     html += '</div>';
     
