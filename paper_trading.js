@@ -397,6 +397,8 @@ function renderizarPaperTrading() {
         console.warn('⚠️ paperTradingContent no encontrado');
         return;
     }
+    const c = getPaperTrading();  // <--- AÑADIR AQUÍ
+    // ... resto del código
 // ⭐ DECLARAR 'c' AQUÍ (FUERA DEL TRY)
 // [DUPLICADO ELIMINADO]     const c = getPaperTrading();
     
