@@ -398,7 +398,7 @@ function renderizarPaperTrading() {
         return;
     }
 // ⭐ DECLARAR 'c' AQUÍ (FUERA DEL TRY)
-    const c = getPaperTrading();
+// [DUPLICADO ELIMINADO]     const c = getPaperTrading();
     
     // ⭐ RECONSTRUIR capital si está corrupto
     try {
@@ -407,7 +407,7 @@ function renderizarPaperTrading() {
         console.warn('⚠️ Error en renderizarPaperTrading:', e);
     }    // ⭐ RECONSTRUIR capital si está corrupto
     try {
-        const c = getPaperTrading();
+// [DUPLICADO ELIMINADO]         const c = getPaperTrading();
         const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
             const cant = parseFloat(p.cantidadUSD);
             return s + (isNaN(cant) ? 0 : cant);
@@ -433,14 +433,14 @@ function renderizarPaperTrading() {
     // Si los datos frescos tienen capital válido, usarlos
     if (_freshData && isFinite(parseFloat(_freshData.capitalActual))) {
         // Actualizar el objeto en memoria
-        const c = getPaperTrading();
+// [DUPLICADO ELIMINADO]         const c = getPaperTrading();
         c.capitalInicial = parseFloat(_freshData.capitalInicial) || 1000;
         c.capitalActual = parseFloat(_freshData.capitalActual) || 1000;
         savePaperTrading(c);
     }
     
     // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
-//    let c = getPaperTrading();
+// [DUPLICADO ELIMINADO] //    let c = getPaperTrading();
     const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
     
     if (false) { // DESACTIVADO: no resetear cartera al renderizar
@@ -660,7 +660,7 @@ function ptCerrar(id) {
     if (resultado) {
         try {
             // ⭐ Forzar re-render con datos frescos
-            const c = getPaperTrading();
+// [DUPLICADO ELIMINADO]             const c = getPaperTrading();
             // Asegurar que el capital está bien
             if (!isFinite(parseFloat(c.capitalActual))) {
                 c.capitalActual = 1000;
@@ -690,7 +690,7 @@ if (typeof window !== 'undefined') {
     window.ptReset = ptReset;
     window.resetPaperTrading = resetPaperTrading;
     window.repararCartera = () => {
-        const c = getPaperTrading();
+// [DUPLICADO ELIMINADO]         const c = getPaperTrading();
         c.capitalActual = 1000;
         c.capitalInicial = 1000;
         c.posiciones = [];
