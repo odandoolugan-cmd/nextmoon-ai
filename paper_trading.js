@@ -846,3 +846,18 @@ if (typeof window !== 'undefined') {
     window.renderizarProyeccion = renderizarProyeccion;
     console.log('✅ Proyección expuesta en window');
 }
+
+// ⭐ MÓDULO SETUN 1958 - LÓGICA TERNARIA
+if (window.SetunCore && typeof currentTokenData !== 'undefined') {
+    const resultadoSetun = window.SetunCore.inferenciaBitNet({
+        rsi: currentTokenData.rsi || 50, // Si no hay RSI, asume neutro
+        macd: currentTokenData.macd || 'neutral',
+        adx: currentTokenData.adx || 0
+    });
+
+    html += '<div style="margin-top: 15px; padding: 15px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid ' + resultadoSetun.color + ';">';
+    html += '<div style="font-size: 12px; color: #aaa; margin-bottom: 5px;">🧬 Núcleo Setun 1958 (BitNet Ternario)</div>';
+    html += '<div style="font-size: 18px; font-weight: bold; color: ' + resultadoSetun.color + ';">' + resultadoSetun.decision + '</div>';
+    html += '<div style="font-size: 10px; color: #666;">Estado Ternario: ' + resultadoSetun.valorTernario + ' | Capa 1: [' + resultadoSetun.capa1.join(', ') + ']</div>';
+    html += '</div>';
+}
