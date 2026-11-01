@@ -397,19 +397,10 @@ function renderizarPaperTrading() {
         console.warn('⚠️ paperTradingContent no encontrado');
         return;
     }
-    const c = getPaperTrading();  // <--- AÑADIR AQUÍ
-    // ... resto del código
-// ⭐ DECLARAR 'c' AQUÍ (FUERA DEL TRY)
-// [DUPLICADO ELIMINADO]     const c = getPaperTrading();
     
     // ⭐ RECONSTRUIR capital si está corrupto
     try {
-        // (el resto del código sigue aquí, pero SIN la línea const c = ...)
-    } catch(e) {
-        console.warn('⚠️ Error en renderizarPaperTrading:', e);
-    }    // ⭐ RECONSTRUIR capital si está corrupto
-    try {
-// [DUPLICADO ELIMINADO]         // [DUPLICADO ELIMINADO] const c = getPaperTrading();
+        const c = getPaperTrading();
         const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
             const cant = parseFloat(p.cantidadUSD);
             return s + (isNaN(cant) ? 0 : cant);
@@ -435,14 +426,14 @@ function renderizarPaperTrading() {
     // Si los datos frescos tienen capital válido, usarlos
     if (_freshData && isFinite(parseFloat(_freshData.capitalActual))) {
         // Actualizar el objeto en memoria
-// [DUPLICADO ELIMINADO]         // [DUPLICADO ELIMINADO] const c = getPaperTrading();
+        const c = getPaperTrading();
         c.capitalInicial = parseFloat(_freshData.capitalInicial) || 1000;
         c.capitalActual = parseFloat(_freshData.capitalActual) || 1000;
         savePaperTrading(c);
     }
     
     // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
-// [DUPLICADO ELIMINADO] //    // [DUPLICADO ELIMINADO] let c = getPaperTrading();
+    let c = getPaperTrading();
     const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
     
     if (false) { // DESACTIVADO: no resetear cartera al renderizar
@@ -662,7 +653,7 @@ function ptCerrar(id) {
     if (resultado) {
         try {
             // ⭐ Forzar re-render con datos frescos
-// [DUPLICADO ELIMINADO]             const c = getPaperTrading();
+            const c = getPaperTrading();
             // Asegurar que el capital está bien
             if (!isFinite(parseFloat(c.capitalActual))) {
                 c.capitalActual = 1000;
@@ -692,7 +683,7 @@ if (typeof window !== 'undefined') {
     window.ptReset = ptReset;
     window.resetPaperTrading = resetPaperTrading;
     window.repararCartera = () => {
-// [DUPLICADO ELIMINADO]         const c = getPaperTrading();
+        const c = getPaperTrading();
         c.capitalActual = 1000;
         c.capitalInicial = 1000;
         c.posiciones = [];
