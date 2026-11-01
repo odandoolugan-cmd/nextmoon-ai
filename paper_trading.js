@@ -407,7 +407,7 @@ function renderizarPaperTrading() {
         console.warn('⚠️ Error en renderizarPaperTrading:', e);
     }    // ⭐ RECONSTRUIR capital si está corrupto
     try {
-// [DUPLICADO ELIMINADO]         const c = getPaperTrading();
+// [DUPLICADO ELIMINADO]         // [DUPLICADO ELIMINADO] const c = getPaperTrading();
         const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
             const cant = parseFloat(p.cantidadUSD);
             return s + (isNaN(cant) ? 0 : cant);
@@ -433,14 +433,14 @@ function renderizarPaperTrading() {
     // Si los datos frescos tienen capital válido, usarlos
     if (_freshData && isFinite(parseFloat(_freshData.capitalActual))) {
         // Actualizar el objeto en memoria
-// [DUPLICADO ELIMINADO]         const c = getPaperTrading();
+// [DUPLICADO ELIMINADO]         // [DUPLICADO ELIMINADO] const c = getPaperTrading();
         c.capitalInicial = parseFloat(_freshData.capitalInicial) || 1000;
         c.capitalActual = parseFloat(_freshData.capitalActual) || 1000;
         savePaperTrading(c);
     }
     
     // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
-// [DUPLICADO ELIMINADO] //    let c = getPaperTrading();
+// [DUPLICADO ELIMINADO] //    // [DUPLICADO ELIMINADO] let c = getPaperTrading();
     const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
     
     if (false) { // DESACTIVADO: no resetear cartera al renderizar
