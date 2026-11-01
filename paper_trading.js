@@ -146,7 +146,7 @@ function abrirOperacionVirtual(symbol, tipo, precioEntrada, sl, tp1, tp2, tp3, c
         console.warn('⚠️ abrirOperacionVirtual: parámetros incompletos');
         return null;
     }
-
+    
     const cartera = getPaperTrading();
     
     if (!cantidadUSD) {
@@ -254,6 +254,7 @@ function calcularPnL(pos, precioActual) {
 }
 
 function getEstadisticas() {
+    const c = getPaperTrading();
     
     // ⭐ Log de diagnóstico
     console.log('📊 getEstadisticas: capitalInicial=', c.capitalInicial, 'capitalActual=', c.capitalActual, 'posiciones=', c.posiciones.length);
@@ -397,82 +398,216 @@ function renderizarPaperTrading() {
         return;
     }
     
-    // Declarar la cartera UNA SOLA VEZ al principio
-    const c = getPaperTrading();
-    if (!c) {
-        console.warn('⚠️ Cartera no disponible');
-        return;
+    // ⭐ RECONSTRUIR capital si está corrupto
+    try {
+        const c = getPaperTrading();
+        const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
+            const cant = parseFloat(p.cantidadUSD);
+            return s + (isNaN(cant) ? 0 : cant);
+        }, 0);
+        
+        const capIni = parseFloat(c.capitalInicial) || 1000;
+        const capAct = parseFloat(c.capitalActual);
+        
+        if (!isFinite(capAct) || capAct < 0) {
+            c.capitalActual = capIni - capitalEnPos;
+            if (c.capitalActual < 0) c.capitalActual = capIni;
+            savePaperTrading(c);
+            console.log('🔧 Capital reconstruido al renderizar:', c.capitalActual);
+        }
+    } catch(e) {}
+    
+    // ⭐ FIX DEFINITIVO: Recargar datos frescos del localStorage
+    let _freshData = null;
+    try {
+        _freshData = JSON.parse(localStorage.getItem('nextmoon_paper_trading_v2'));
+    } catch(e) {}
+    
+    // Si los datos frescos tienen capital válido, usarlos
+    if (_freshData && isFinite(parseFloat(_freshData.capitalActual))) {
+        // Actualizar el objeto en memoria
+        const c = getPaperTrading();
+        c.capitalInicial = parseFloat(_freshData.capitalInicial) || 1000;
+        c.capitalActual = parseFloat(_freshData.capitalActual) || 1000;
+        savePaperTrading(c);
     }
     
-    // Generar el HTML (sin try-catch que rompa la lógica)
+    // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
+    let c = getPaperTrading();
+    const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
+    
+    if (false) { // DESACTIVADO: no resetear cartera al renderizar
+        console.warn('🚨 NaN detectado en render → RESET FORZADO');
+        c = {
+            capitalInicial: 1000,
+            capitalActual: 1000,
+            posiciones: [],
+            historial: [],
+            metricas: { totalOps: 0, ganadoras: 0, perdedoras: 0, pnlTotal: 0, mejorOp: 0, peorOp: 0 },
+            creado: new Date().toISOString()
+        };
+        savePaperTrading(c);
+    }
+    
+    // Filtrar posiciones corruptas
+    c.posiciones = (c.posiciones || []).filter(p => p && !isNaNValue(p.cantidadUSD) && parseFloat(p.cantidadUSD) > 0);
+    
+    // Filtrar historial corrupto
+    c.historial = (c.historial || []).filter(h => h && !isNaNValue(h.pnl));
+    
+    const stats = getEstadisticas();
+    
+    // ⭐ FIX DEFINITIVO: Si stats tiene NaN, resetear y recalcular
+    const isNaNStats = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
+    if (false) { // DESACTIVADO: no resetear cartera al detectar NaN
+        console.warn('🚨 Stats con NaN → RESET FORZADO');
+        const KEY = 'nextmoon_paper_trading_v2';
+        localStorage.removeItem(KEY);
+        // Resetear cartera en memoria
+        const fresh = getPaperTrading();
+        Object.assign(stats, {
+            capitalInicial: 1000,
+            capitalActual: 1000,
+            capitalEnPosiciones: 0,
+            capitalTotal: 1000,
+            posicionesAbiertas: 0,
+            totalOpsCerradas: 0,
+            ganadoras: 0,
+            perdedoras: 0,
+            winRate: '0.0',
+            pnlTotal: '0.00',
+            rendimiento: '+0.00',
+            profitFactor: '0.00',
+            mejorOp: '0.00',
+            peorOp: '0.00'
+        });
+        savePaperTrading(fresh);
+    }
+    const fmtUSD = (n) => {
+        const num = parseFloat(n);
+        return '$' + (isNaN(num) || !isFinite(num) ? '0.00' : num.toFixed(2));
+    };
+    const fmtPct = (n) => {
+        const num = parseFloat(n);
+        if (isNaN(num) || !isFinite(num)) return '0.00%';
+        return (num >= 0 ? '+' : '') + num.toFixed(2) + '%';
+    };
+    const colorPnL = (n) => parseFloat(n) > 0 ? '#10b981' : parseFloat(n) < 0 ? '#ef4444' : '#94a3b8';
+    
+    const precioActual = (typeof currentTokenData !== 'undefined' && currentTokenData?.price) ? currentTokenData.price : null;
+    const symbolActual = (typeof currentToken !== 'undefined' && currentToken) ? currentToken : null;
+    
     let html = '';
     
     // ═══ MÉTRICAS PRINCIPALES ═══
     html += '<div class="pt-metrics">';
-    html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value" style="color:#10b981;">' + fmtUSD((parseFloat(c.capitalActual) || 0) + (c.posiciones || []).reduce((s, p) => s + (parseFloat(p.cantidadUSD) || 0), 0)) + '</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">' + fmtUSD(parseFloat(c.capitalActual) || 0) + '</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">📊 Rendimiento</div><div class="pt-value" style="color:' + colorPnL(0) + ';">' + fmtPct(0) + '</div></div>';
+html += '<div class="pt-metric"><div class="pt-label">💰 Capital total</div><div class="pt-value">$' + ((parseFloat(c.capitalActual || 0) + (c.posiciones || []).reduce((s,p) => s + (parseFloat(p.cantidadUSD) || 0), 0))).toFixed(2) + '</div></div>';
+html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div class="pt-value">$' + (parseFloat(c.capitalActual || 0)).toFixed(2) + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">📊 Rendimiento</div><div class="pt-value" style="color:' + colorPnL(stats.rendimiento) + ';">' + fmtPct(stats.rendimiento) + '</div></div>';
     html += '</div>';
-    
-    // ═══ MÉTRICAS DE OPERACIONES ═══
-    const totalOps = (c.historial || []).length;
-    const ganadoras = (c.historial || []).filter(o => parseFloat(o.pnl) > 0).length;
-    const winRate = totalOps > 0 ? ((ganadoras / totalOps) * 100) : 0;
-    const gananciasTotal = (c.historial || []).filter(o => parseFloat(o.pnl) > 0).reduce((s, o) => s + parseFloat(o.pnl), 0);
-    const perdidasTotal = Math.abs((c.historial || []).filter(o => parseFloat(o.pnl) < 0).reduce((s, o) => s + parseFloat(o.pnl), 0));
-    const profitFactor = perdidasTotal > 0 ? (gananciasTotal / perdidasTotal) : (gananciasTotal > 0 ? 999 : 0);
     
     html += '<div class="pt-metrics">';
-    html += '<div class="pt-metric"><div class="pt-label">🎯 Win Rate</div><div class="pt-value">' + winRate.toFixed(2) + '%</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">📊 Profit Factor</div><div class="pt-value">' + profitFactor.toFixed(2) + '</div></div>';
-    html += '<div class="pt-metric"><div class="pt-label">📈 Ops</div><div class="pt-value">' + totalOps + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">🎯 Win Rate</div><div class="pt-value">' + (stats.winRate !== undefined && !isNaN(stats.winRate) ? Number(stats.winRate).toFixed(2) : '0.00') + '%</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">📊 Profit Factor</div><div class="pt-value">' + (stats.profitFactor !== undefined && !isNaN(stats.profitFactor) ? Number(stats.profitFactor).toFixed(2) : '0.00') + '</div></div>';
+    html += '<div class="pt-metric"><div class="pt-label">📈 Ops</div><div class="pt-value">' + (stats.totalOpsCerradas !== undefined ? stats.totalOpsCerradas : 0) + '</div></div>';
     html += '</div>';
     
-    // ═══ FORMULARIO DE OPERAR ═══
-    html += '<div class="pt-operar">';
-    html += '<div class="pt-operar-title">🎯 Operar ' + (currentToken || 'SOLANA') + ' @ $' + (currentTokenData ? currentTokenData.price.toFixed(2) : '0.00') + '</div>';
-    html += '<div style="display:flex;gap:10px;align-items:center;">';
-    html += '<input type="number" id="ptCantidad" value="' + ((c.capitalActual * 0.1).toFixed(2)) + '" style="flex:1;padding:10px;border-radius:8px;border:1px solid #333;background:#1a1a2e;color:#fff;">';
-    html += '<button onclick="ptOperar(\'COMPRAR\')" style="background:#10b981;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">🟢 COMPRAR</button>';
-    html += '<button onclick="ptOperar(\'VENDER\')" style="background:#ef4444;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">🔴 VENDER</button>';
-    html += '</div>';
-    html += '<div class="pt-form-hint">💡 Usa 1-10% del capital. Disponible: ' + fmtUSD(c.capitalActual) + '</div>';
-    html += '</div>';
+    // ⭐ MÉTRICAS AVANZADAS
+    if (stats.totalOpsCerradas > 0) {
+        const colorSharpe = parseFloat(stats.sharpe) > 1 ? '#10b981' : parseFloat(stats.sharpe) > 0 ? '#f59e0b' : '#ef4444';
+        const colorSortino = parseFloat(stats.sortino) > 1.5 ? '#10b981' : parseFloat(stats.sortino) > 0 ? '#f59e0b' : '#ef4444';
+        const colorDD = parseFloat(stats.maxDrawdown) < 20 ? '#10b981' : parseFloat(stats.maxDrawdown) < 40 ? '#f59e0b' : '#ef4444';
+        const colorExpect = parseFloat(stats.expectancy) > 0 ? '#10b981' : '#ef4444';
+        
+        html += '<div class="pt-metrics-advanced">';
+        html += '<div class="pt-advanced-title">📊 Métricas Avanzadas</div>';
+        html += '<div class="pt-advanced-grid">';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📈 Sharpe</span><span class="pt-adv-value" style="color:' + colorSharpe + ';">' + stats.sharpe + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📉 Sortino</span><span class="pt-adv-value" style="color:' + colorSortino + ';">' + stats.sortino + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📊 Max DD</span><span class="pt-adv-value" style="color:' + colorDD + ';">-' + stats.maxDrawdown + '%</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">💰 Expectancy</span><span class="pt-adv-value" style="color:' + colorExpect + ';">$' + stats.expectancy + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">🔥 Racha Ganadora</span><span class="pt-adv-value" style="color:#10b981;">' + stats.rachaGanadora + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">❄️ Racha Perdedora</span><span class="pt-adv-value" style="color:#ef4444;">' + stats.rachaPerdedora + '</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">💎 Kelly %</span><span class="pt-adv-value" style="color:#a78bfa;">' + stats.kelly + '%</span></div>';
+        html += '<div class="pt-adv-item"><span class="pt-adv-label">📊 Ops Totales</span><span class="pt-adv-value">' + (stats.totalOpsCerradas !== undefined ? stats.totalOpsCerradas : 0) + '</span></div>';
+        html += '</div>';
+        html += '</div>';
+    }
+    
+    // ═══ FORMULARIO DE OPERACIÓN ═══
+    if (precioActual && symbolActual) {
+        const cantidadDefault = (c.capitalActual * 0.1).toFixed(2);
+        html += '<div class="pt-form">';
+        html += '<div class="pt-form-title">🎯 Operar ' + symbolActual + ' @ ' + fmtUSD(precioActual) + '</div>';
+        html += '<div class="pt-form-row">';
+        html += '<input type="number" id="ptCantidad" class="pt-input" placeholder="USD" value="' + cantidadDefault + '" min="1" step="1">';
+        html += '<button class="btn-pt-buy" onclick="window.ptOperar(\'COMPRAR\')">🟢 COMPRAR</button>';
+        html += '<button class="btn-pt-sell" onclick="window.ptOperar(\'VENDER\')">🔴 VENDER</button>';
+        html += '</div>';
+        html += '<div class="pt-form-hint">💡 Usa 1-10% del capital. Disponible: ' + fmtUSD(c.capitalActual) + '</div>';
+        html += '</div>';
+    } else {
+        html += '<div class="pt-form"><div class="pt-form-title">🎯 Analiza una cripto para operar</div><div class="pt-form-hint">Los botones COMPRAR/VENDER aparecerán aquí</div></div>';
+    }
     
     // ═══ POSICIONES ABIERTAS ═══
-    if (c.posiciones && c.posiciones.length > 0) {
+    if (c.posiciones.length > 0) {
+        html += '<div class="pt-section">';
         html += '<div class="pt-section-title">📊 Posiciones abiertas (' + c.posiciones.length + ')</div>';
         for (const pos of c.posiciones) {
-            html += '<div class="pt-posicion">';
-            html += '<div style="display:flex;justify-content:space-between;">';
-            html += '<span>' + (pos.tipo === 'LONG' ? '🟢' : '🔴') + ' ' + pos.symbol + ' · ' + pos.tipo + '</span>';
-            html += '<span style="color:' + (parseFloat(pos.pnl) >= 0 ? '#10b981' : '#ef4444') + ';">' + (parseFloat(pos.pnl) >= 0 ? '+' : '') + fmtUSD(pos.pnl) + '</span>';
+            const precioMercado = (pos.symbol === symbolActual && precioActual) ? precioActual : (pos.precioMercado || pos.precioEntrada);
+            
+            // ⭐ Guardar precioMercado en la posición para que persista al recargar
+            if (precioActual && pos.symbol === symbolActual) {
+                pos.precioMercado = precioActual;
+                if (!pos._savedMercado) pos._savedMercado = true;
+            }
+            
+            const pnl = calcularPnL(pos, precioMercado);
+            const pnlPct = (pnl / pos.cantidadUSD) * 100;
+            const emoji = pos.tipo === 'LONG' ? '🟢' : '🔴';
+            
+            html += '<div class="pt-pos">';
+            html += '<div class="pt-pos-header">';
+            html += '<span>' + emoji + ' <strong>' + pos.symbol + '</strong> · ' + pos.tipo + '</span>';
+            html += '<span style="color:' + colorPnL(pnl) + ';font-weight:bold;">' + (pnl >= 0 ? '+' : '') + fmtUSD(pnl) + ' (' + fmtPct(pnlPct) + ')</span>';
             html += '</div>';
-            html += '<div>Entrada: $' + pos.precioEntrada + ' | Mercado: $' + (currentTokenData ? currentTokenData.price.toFixed(2) : '0.00') + '</div>';
-            html += '<div>Cantidad: ' + pos.cantidad + ' ($' + pos.cantidadUSD + ')</div>';
-            html += '<button onclick="ptCerrar(\'' + pos.id + '\')" style="width:100%;padding:10px;background:#ef4444;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:5px;">✕ Cerrar posición</button>';
+            html += '<div class="pt-pos-row"><span>Entrada</span><span>' + fmtUSD(pos.precioEntrada) + '</span></div>';
+            html += '<div class="pt-pos-row"><span>Mercado</span><span>' + fmtUSD(precioMercado) + '</span></div>';
+            html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
+            if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
+            if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
+            html += '<button class="pt-pos-close" onclick="if(confirm(\'¿Cerrar ' + pos.symbol + '?\')){var c=JSON.parse(localStorage.getItem(\'nextmoon_paper_trading_v2\'));var i=c.posiciones.findIndex(function(p){return p.id===\'' + pos.id + '\'});if(i>=0){var p=c.posiciones[i];var precio=' + (isFinite(precioMercado) ? precioMercado : 0) + ';var pnl=(p.tipo===\'LONG\')?(precio-p.precioEntrada)*p.cantidad:(p.precioEntrada-precio)*p.cantidad;c.capitalActual+=p.cantidadUSD+pnl;c.historial.unshift(Object.assign({},p,{precioCierre:precio,fechaCierre:new Date().toISOString(),pnl:pnl,pnlPct:(pnl/p.cantidadUSD)*100}));c.posiciones.splice(i,1);localStorage.setItem(\'nextmoon_paper_trading_v2\',JSON.stringify(c));location.reload();}}" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
             html += '</div>';
         }
+        html += '</div>';
     }
     
     // ═══ HISTORIAL ═══
-    if (c.historial && c.historial.length > 0) {
+    if (c.historial.length > 0) {
+        html += '<div class="pt-section">';
         html += '<div class="pt-section-title">📜 Historial (' + c.historial.length + ')</div>';
-        for (const op of c.historial.slice(0, 5)) {
-            html += '<div style="display:flex;justify-content:space-between;padding:5px;border-bottom:1px solid #333;font-size:0.8rem;">';
-            html += '<span>' + (op.pnl >= 0 ? '✅' : '❌') + ' ' + op.symbol + ' · ' + op.tipo + '</span>';
-            html += '<span style="color:' + (op.pnl >= 0 ? '#10b981' : '#ef4444') + ';">' + (op.pnl >= 0 ? '+' : '') + fmtUSD(op.pnl) + '</span>';
+        for (const op of c.historial.slice(0, 10)) {
+            const emoji = op.pnl > 0 ? '✅' : op.pnl < 0 ? '❌' : '⚪';
+            const emojiTipo = op.tipo === 'LONG' ? '🟢' : '🔴';
+            html += '<div class="pt-hist-item">';
+            html += '<span>' + emoji + ' ' + emojiTipo + '</span>';
+            html += '<span style="flex:1;">' + op.symbol + ' · ' + op.cantidad.toFixed(4) + ' @ ' + fmtUSD(op.precioEntrada) + '</span>';
+            html += '<span style="color:' + colorPnL(op.pnl) + ';font-weight:bold;">' + (op.pnl >= 0 ? '+' : '') + fmtUSD(op.pnl) + '</span>';
             html += '</div>';
         }
+        if (c.historial.length > 10) {
+            html += '<div style="text-align:center;font-size:0.65rem;color:#94a3b8;margin-top:6px;">... y ' + (c.historial.length - 10) + ' más</div>';
+        }
+        html += '</div>';
     }
     
-    // Insertar el HTML en el contenedor
+    // ═══ BOTÓN RESET ═══
+    html += '<div style="display:flex;justify-content:center;margin-top:12px;">';
+    html += '<button class="pt-reset" onclick="window.ptReset()">🔄 Resetear cartera</button>';
+    html += '</div>';
+    
     container.innerHTML = html;
-}
-
-// Exponer en window
-if (typeof window !== 'undefined') {
-    window.renderizarPaperTrading = renderizarPaperTrading;
 }
 
 // ─────────────────────────────────────────────
@@ -518,6 +653,7 @@ function ptCerrar(id) {
     if (resultado) {
         try {
             // ⭐ Forzar re-render con datos frescos
+            const c = getPaperTrading();
             // Asegurar que el capital está bien
             if (!isFinite(parseFloat(c.capitalActual))) {
                 c.capitalActual = 1000;
@@ -547,6 +683,7 @@ if (typeof window !== 'undefined') {
     window.ptReset = ptReset;
     window.resetPaperTrading = resetPaperTrading;
     window.repararCartera = () => {
+        const c = getPaperTrading();
         c.capitalActual = 1000;
         c.capitalInicial = 1000;
         c.posiciones = [];
