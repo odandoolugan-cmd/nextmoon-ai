@@ -397,8 +397,15 @@ function renderizarPaperTrading() {
         console.warn('⚠️ paperTradingContent no encontrado');
         return;
     }
+// ⭐ DECLARAR 'c' AQUÍ (FUERA DEL TRY)
+    const c = getPaperTrading();
     
     // ⭐ RECONSTRUIR capital si está corrupto
+    try {
+        // (el resto del código sigue aquí, pero SIN la línea const c = ...)
+    } catch(e) {
+        console.warn('⚠️ Error en renderizarPaperTrading:', e);
+    }    // ⭐ RECONSTRUIR capital si está corrupto
     try {
         const c = getPaperTrading();
         const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
@@ -433,7 +440,7 @@ function renderizarPaperTrading() {
     }
     
     // ⭐ VERIFICAR NaN ANTES DE RENDERIZAR
-    let c = getPaperTrading();
+//    let c = getPaperTrading();
     const isNaNValue = (v) => isNaN(parseFloat(v)) || !isFinite(parseFloat(v));
     
     if (false) { // DESACTIVADO: no resetear cartera al renderizar
