@@ -391,6 +391,10 @@ const perdidaTotal = Math.abs(c.historial.filter(o => num(o.pnl) < 0).reduce((s,
 // 🎨 RENDERIZADO
 // ─────────────────────────────────────────────
 function renderizarPaperTrading() {
+    const c = getPaperTrading();
+    if (!c) { console.warn('⚠️ Cartera no disponible'); return; }
+    
+    if (!c) { console.warn('⚠️ Cartera no disponible'); return; }
     if (!c) { console.warn('⚠️ Cartera no disponible'); return; }
     
     if (!c) { console.warn('⚠️ Cartera no disponible'); return; }
@@ -403,7 +407,7 @@ function renderizarPaperTrading() {
     }
     
     // ⭐ RECONSTRUIR capital si está corrupto
-    try {
+    
         
         const capitalEnPos = (c.posiciones || []).reduce((s, p) => {
             const cant = parseFloat(p.cantidadUSD);
@@ -419,7 +423,7 @@ function renderizarPaperTrading() {
             savePaperTrading(c);
             console.log('🔧 Capital reconstruido al renderizar:', c.capitalActual);
         }
-    } catch(e) {}
+    
     
     // ⭐ FIX DEFINITIVO: Recargar datos frescos del localStorage
     let _freshData = null;
@@ -581,7 +585,7 @@ html += '<div class="pt-metric"><div class="pt-label">💵 Disponible</div><div 
             html += '<div class="pt-pos-row"><span>Cantidad</span><span>' + pos.cantidad.toFixed(6) + ' (' + fmtUSD(pos.cantidadUSD) + ')</span></div>';
             if (pos.sl) html += '<div class="pt-pos-row"><span>🛑 SL</span><span>' + fmtUSD(pos.sl) + '</span></div>';
             if (pos.tp1) html += '<div class="pt-pos-row"><span>🎯 TP1</span><span>' + fmtUSD(pos.tp1) + '</span></div>';
-            html += '<button class="pt-pos-close" onclick="if(confirm(\'¿Cerrar ' + pos.symbol + '?\')){var c=JSON.parse(localStorage.getItem(\'nextmoon_paper_trading_v2\'));var i=c.posiciones.findIndex(function(p){return p.id===\'' + pos.id + '\'});if(i>=0){var p=c.posiciones[i];var precio=' + (isFinite(precioMercado) ? precioMercado : 0) + ';var pnl=(p.tipo===\'LONG\')?(precio-p.precioEntrada)*p.cantidad:(p.precioEntrada-precio)*p.cantidad;c.capitalActual+=p.cantidadUSD+pnl;c.historial.unshift(Object.assign({},p,{precioCierre:precio,fechaCierre:new Date().toISOString(),pnl:pnl,pnlPct:(pnl/p.cantidadUSD)*100}));c.posiciones.splice(i,1);localStorage.setItem(\'nextmoon_paper_trading_v2\',JSON.stringify(c));location.reload();}}" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
+            html += '<button class="pt-pos-close" onclick="if(confirm(\'¿Cerrar ' + pos.symbol + '?\')){var i=c.posiciones.findIndex(function(p){return p.id===\'' + pos.id + '\'});if(i>=0){var p=c.posiciones[i];var precio=' + (isFinite(precioMercado) ? precioMercado : 0) + ';var pnl=(p.tipo===\'LONG\')?(precio-p.precioEntrada)*p.cantidad:(p.precioEntrada-precio)*p.cantidad;c.capitalActual+=p.cantidadUSD+pnl;c.historial.unshift(Object.assign({},p,{precioCierre:precio,fechaCierre:new Date().toISOString(),pnl:pnl,pnlPct:(pnl/p.cantidadUSD)*100}));c.posiciones.splice(i,1);localStorage.setItem(\'nextmoon_paper_trading_v2\',JSON.stringify(c));location.reload();}}" style="width:100%;padding:12px;background:linear-gradient(90deg,#ef4444,#dc2626);color:white;border:none;border-radius:8px;font-weight:bold;font-size:0.75rem;cursor:pointer;">✕ Cerrar posición</button>';
             html += '</div>';
         }
         html += '</div>';
