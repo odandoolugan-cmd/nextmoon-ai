@@ -146,7 +146,7 @@ function abrirOperacionVirtual(symbol, tipo, precioEntrada, sl, tp1, tp2, tp3, c
         console.warn('⚠️ abrirOperacionVirtual: parámetros incompletos');
         return null;
     }
-    
+
     const cartera = getPaperTrading();
     
     if (!cantidadUSD) {
@@ -254,7 +254,6 @@ function calcularPnL(pos, precioActual) {
 }
 
 function getEstadisticas() {
-    const c = getPaperTrading();
     
     // ⭐ Log de diagnóstico
     console.log('📊 getEstadisticas: capitalInicial=', c.capitalInicial, 'capitalActual=', c.capitalActual, 'posiciones=', c.posiciones.length);
@@ -392,7 +391,6 @@ const perdidaTotal = Math.abs(c.historial.filter(o => num(o.pnl) < 0).reduce((s,
 // 🎨 RENDERIZADO
 // ─────────────────────────────────────────────
 function renderizarPaperTrading() {
-    const c = getPaperTrading();
     if (!c) { console.warn('⚠️ Cartera no disponible'); return; }
     
     if (!c) { console.warn('⚠️ Cartera no disponible'); return; }
@@ -659,7 +657,6 @@ function ptCerrar(id) {
     if (resultado) {
         try {
             // ⭐ Forzar re-render con datos frescos
-            const c = getPaperTrading();
             // Asegurar que el capital está bien
             if (!isFinite(parseFloat(c.capitalActual))) {
                 c.capitalActual = 1000;
@@ -689,7 +686,6 @@ if (typeof window !== 'undefined') {
     window.ptReset = ptReset;
     window.resetPaperTrading = resetPaperTrading;
     window.repararCartera = () => {
-        const c = getPaperTrading();
         c.capitalActual = 1000;
         c.capitalInicial = 1000;
         c.posiciones = [];
